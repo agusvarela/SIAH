@@ -14,6 +14,8 @@ namespace SIAH.Context
         public SIAHContext() : base(ConfigurationManager.ConnectionStrings["SIAHConnection"].ConnectionString) { }
 
         public DbSet<Localidad> Localidades { get; set; }
+
+        public DbSet<TipoInsumo> TiposInsumo { get; set; }
     }
 
 }

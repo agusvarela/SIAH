@@ -150,6 +150,7 @@
     <Compile Include="Context\SIAHContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocalidadesController.cs" />
+    <Compile Include="Controllers\TiposInsumoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -157,8 +158,13 @@
     <Compile Include="Migrations\201705020155318_create_localidad_table.Designer.cs">
       <DependentUpon>201705020155318_create_localidad_table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705032035379_create_tipos_insumo_table.cs" />
+    <Compile Include="Migrations\201705032035379_create_tipos_insumo_table.Designer.cs">
+      <DependentUpon>201705032035379_create_tipos_insumo_table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Localidad.cs" />
+    <Compile Include="Models\TipoInsumo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +212,11 @@
     <Content Include="Views\Localidades\Details.cshtml" />
     <Content Include="Views\Localidades\Edit.cshtml" />
     <Content Include="Views\Localidades\Index.cshtml" />
+    <Content Include="Views\TiposInsumo\Create.cshtml" />
+    <Content Include="Views\TiposInsumo\Delete.cshtml" />
+    <Content Include="Views\TiposInsumo\Details.cshtml" />
+    <Content Include="Views\TiposInsumo\Edit.cshtml" />
+    <Content Include="Views\TiposInsumo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -228,6 +239,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201705020155318_create_localidad_table.resx">
       <DependentUpon>201705020155318_create_localidad_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705032035379_create_tipos_insumo_table.resx">
+      <DependentUpon>201705032035379_create_tipos_insumo_table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
