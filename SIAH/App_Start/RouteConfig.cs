@@ -16,7 +16,7 @@ namespace SIAH
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Localidades", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "TiposInsumo", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -149,16 +149,28 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Context\SIAHContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InsumosController.cs" />
     <Compile Include="Controllers\LocalidadesController.cs" />
+    <Compile Include="Controllers\TiposInsumoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201705020155318_create_localidad_table.cs" />
-    <Compile Include="Migrations\201705020155318_create_localidad_table.Designer.cs">
-      <DependentUpon>201705020155318_create_localidad_table.cs</DependentUpon>
+    <Compile Include="Migrations\201705082310534_create_localidades_table.cs" />
+    <Compile Include="Migrations\201705082310534_create_localidades_table.Designer.cs">
+      <DependentUpon>201705082310534_create_localidades_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705082328021_create_tipos_insumo_table.cs" />
+    <Compile Include="Migrations\201705082328021_create_tipos_insumo_table.Designer.cs">
+      <DependentUpon>201705082328021_create_tipos_insumo_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705082342495_create_insumos_table.cs" />
+    <Compile Include="Migrations\201705082342495_create_insumos_table.Designer.cs">
+      <DependentUpon>201705082342495_create_insumos_table.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Insumos\Insumo.cs" />
     <Compile Include="Models\Localidad.cs" />
+    <Compile Include="Models\Insumos\TipoInsumo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +218,16 @@
     <Content Include="Views\Localidades\Details.cshtml" />
     <Content Include="Views\Localidades\Edit.cshtml" />
     <Content Include="Views\Localidades\Index.cshtml" />
+    <Content Include="Views\TiposInsumo\Create.cshtml" />
+    <Content Include="Views\TiposInsumo\Delete.cshtml" />
+    <Content Include="Views\TiposInsumo\Details.cshtml" />
+    <Content Include="Views\TiposInsumo\Edit.cshtml" />
+    <Content Include="Views\TiposInsumo\Index.cshtml" />
+    <Content Include="Views\Insumos\Create.cshtml" />
+    <Content Include="Views\Insumos\Delete.cshtml" />
+    <Content Include="Views\Insumos\Details.cshtml" />
+    <Content Include="Views\Insumos\Edit.cshtml" />
+    <Content Include="Views\Insumos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -226,8 +248,14 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705020155318_create_localidad_table.resx">
-      <DependentUpon>201705020155318_create_localidad_table.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705082310534_create_localidades_table.resx">
+      <DependentUpon>201705082310534_create_localidades_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705082328021_create_tipos_insumo_table.resx">
+      <DependentUpon>201705082328021_create_tipos_insumo_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705082342495_create_insumos_table.resx">
+      <DependentUpon>201705082342495_create_insumos_table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

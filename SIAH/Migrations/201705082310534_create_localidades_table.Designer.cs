@@ -7,13 +7,13 @@ namespace SIAH.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class create_localidad_table : IMigrationMetadata
+    public sealed partial class create_localidades_table : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(create_localidad_table));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(create_localidades_table));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705020155318_create_localidad_table"; }
+            get { return "201705082310534_create_localidades_table"; }
         }
         
         string IMigrationMetadata.Source

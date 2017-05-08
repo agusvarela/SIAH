@@ -4,14 +4,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace SIAH.Models
+namespace SIAH.Models.Insumos
 {
-    public class Localidad
+    public class TipoInsumo
     {
         public int id { get; set; }
 
-        [StringLength(150)]
+        [StringLength(255)]
         [Required]
         public String nombre { get; set; }
+
+        public ICollection<Insumo> Insumos { get; set; }
     }
 }
