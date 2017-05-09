@@ -149,6 +149,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Context\SIAHContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HospitalesController.cs" />
     <Compile Include="Controllers\InsumosController.cs" />
     <Compile Include="Controllers\LocalidadesController.cs" />
     <Compile Include="Controllers\TiposInsumoController.cs" />
@@ -167,7 +168,12 @@
     <Compile Include="Migrations\201705082342495_create_insumos_table.Designer.cs">
       <DependentUpon>201705082342495_create_insumos_table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705090042292_create_hospitales_table.cs" />
+    <Compile Include="Migrations\201705090042292_create_hospitales_table.Designer.cs">
+      <DependentUpon>201705090042292_create_hospitales_table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />
     <Compile Include="Models\Localidad.cs" />
     <Compile Include="Models\Insumos\TipoInsumo.cs" />
@@ -228,6 +234,11 @@
     <Content Include="Views\Insumos\Details.cshtml" />
     <Content Include="Views\Insumos\Edit.cshtml" />
     <Content Include="Views\Insumos\Index.cshtml" />
+    <Content Include="Views\Hospitales\Create.cshtml" />
+    <Content Include="Views\Hospitales\Delete.cshtml" />
+    <Content Include="Views\Hospitales\Details.cshtml" />
+    <Content Include="Views\Hospitales\Edit.cshtml" />
+    <Content Include="Views\Hospitales\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -256,6 +267,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705082342495_create_insumos_table.resx">
       <DependentUpon>201705082342495_create_insumos_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705090042292_create_hospitales_table.resx">
+      <DependentUpon>201705090042292_create_hospitales_table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

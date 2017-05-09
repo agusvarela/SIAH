@@ -31,6 +31,8 @@ namespace SIAH.Context
         public DbSet<TipoInsumo> TiposInsumo { get; set; }
 
         public DbSet<Insumo> Insumos { get; set; }
+
+        public DbSet<Hospital> Hospitales { get; set; }
     }
 
 }
