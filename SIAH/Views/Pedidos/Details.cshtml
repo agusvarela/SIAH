@@ -1,0 +1,66 @@
+﻿@model SIAH.Models.Pedidos.Pedido
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Pedido</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.hospital.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hospital.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.periodo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.periodo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaGeneracion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaGeneracion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaEntrega)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaEntrega)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.esUrgente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.esUrgente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estaAutorizado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estaAutorizado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

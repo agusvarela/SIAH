@@ -1,5 +1,6 @@
 ﻿using SIAH.Models;
 using SIAH.Models.Insumos;
+using SIAH.Models.Pedidos;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -33,6 +34,11 @@ namespace SIAH.Context
         public DbSet<Insumo> Insumos { get; set; }
 
         public DbSet<Hospital> Hospitales { get; set; }
+
+        public DbSet<Pedido> Pedidos { get; set; }
+        
+        public DbSet<DetallePedido> DetallesPedido { get; set; }
+
     }
 
 }

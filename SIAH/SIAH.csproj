@@ -148,10 +148,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Context\SIAHContext.cs" />
+    <Compile Include="Controllers\DetallesPedidoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HospitalesController.cs" />
     <Compile Include="Controllers\InsumosController.cs" />
     <Compile Include="Controllers\LocalidadesController.cs" />
+    <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\TiposInsumoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -172,11 +174,17 @@
     <Compile Include="Migrations\201705090042292_create_hospitales_table.Designer.cs">
       <DependentUpon>201705090042292_create_hospitales_table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705101510403_create_pedidos_detalles_pedido.cs" />
+    <Compile Include="Migrations\201705101510403_create_pedidos_detalles_pedido.Designer.cs">
+      <DependentUpon>201705101510403_create_pedidos_detalles_pedido.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />
     <Compile Include="Models\Localidad.cs" />
     <Compile Include="Models\Insumos\TipoInsumo.cs" />
+    <Compile Include="Models\Pedidos\DetallePedido.cs" />
+    <Compile Include="Models\Pedidos\Pedido.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +247,16 @@
     <Content Include="Views\Hospitales\Details.cshtml" />
     <Content Include="Views\Hospitales\Edit.cshtml" />
     <Content Include="Views\Hospitales\Index.cshtml" />
+    <Content Include="Views\Pedidos\Create.cshtml" />
+    <Content Include="Views\Pedidos\Delete.cshtml" />
+    <Content Include="Views\Pedidos\Details.cshtml" />
+    <Content Include="Views\Pedidos\Edit.cshtml" />
+    <Content Include="Views\Pedidos\Index.cshtml" />
+    <Content Include="Views\DetallesPedido\Create.cshtml" />
+    <Content Include="Views\DetallesPedido\Delete.cshtml" />
+    <Content Include="Views\DetallesPedido\Details.cshtml" />
+    <Content Include="Views\DetallesPedido\Edit.cshtml" />
+    <Content Include="Views\DetallesPedido\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -270,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705090042292_create_hospitales_table.resx">
       <DependentUpon>201705090042292_create_hospitales_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705101510403_create_pedidos_detalles_pedido.resx">
+      <DependentUpon>201705101510403_create_pedidos_detalles_pedido.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

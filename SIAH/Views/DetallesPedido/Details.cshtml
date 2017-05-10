@@ -1,0 +1,42 @@
+﻿@model SIAH.Models.Pedidos.DetallePedido
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DetallePedido</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.insumo.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.insumo.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pedido.id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pedido.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cantidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cantidad)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
