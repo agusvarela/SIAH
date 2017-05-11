@@ -39,7 +39,8 @@ namespace SIAH.Controllers
 
         // GET: Pedidos/Create
         public ActionResult Create()
-        {
+        { 
+            ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
             return View();
         }

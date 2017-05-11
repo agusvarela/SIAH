@@ -129,5 +129,10 @@ namespace SIAH.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public IEnumerable<Insumo> BuscarInsumos(string searchText)
+        {
+            return db.Insumos.Where(m => m.nombre.Contains(searchText)).ToList();
+        }
     }
 }

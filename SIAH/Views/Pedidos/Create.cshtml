@@ -7,7 +7,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm(new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
     
@@ -16,23 +16,23 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.periodo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.periodo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.periodo, new { @class = "form-control datepicker", placeholder = "Ingrrese una fecha", @id = "datepicker" })
                 @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.fechaGeneracion, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.fechaGeneracion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                 @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.fechaEntrega, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.fechaEntrega, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
@@ -40,7 +40,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.esUrgente, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("hospitalId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.hospitalId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.esUrgente, "Urgente", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.esUrgente)
@@ -50,7 +58,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.estaAutorizado, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.estaAutorizado, "Autorizado", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.estaAutorizado)
@@ -58,12 +66,17 @@
                 </div>
             </div>
         </div>
+        <br />
 
         <div class="form-group">
-            @Html.LabelFor(model => model.hospitalId, "hospitalId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Tipo Insumo", null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("hospitalId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.hospitalId, "", new { @class = "text-danger" })
+                @Html.DropDownList("tipoInsumo", null , htmlAttributes: new { @class = "form-control" })
+            </div>
+            @Html.LabelFor(model => model.detallesPedido, "Insumo", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.detallesPedido, new { htmlAttributes = new { @class = "form-control", @id = "insumos" } })
+
             </div>
         </div>
 
@@ -81,4 +94,43 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        //$(function () { // will trigger when the document is ready
+        //    $('.datepicker').datepicker(); //Initialise any date pickers
+        //})
+        $(document).ready(function () {
+            $('#insumos').autocomplete({
+                source: function (request, response) {
+                    var autocompleteUrl = '/Insumos/BuscarInsumos' + '?searchText=' + request.term;
+                    $.ajax({
+                        url: autocompleteUrl,
+                        type: 'GET',
+                        cache: false,
+                        dataType: 'json',
+                        success: function (json) {
+                            response($.map(json, function (data, id) {
+                                return {
+                                    label: data.Name,
+                                    value: data.Name
+                                };
+                            }));
+                        },
+                        error: function (xmlHttpRequest, textStatus, errorThrown) {
+                            console.log('some error occured', textStatus, errorThrown);
+                        }
+                    });
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    lblMessage.innerText = "Your Selected Name :";
+                    lblSelectedVal.innerText = ui.item.label;
+                    $('#insumos').val(ui.item.label);
+                    return false;
+                }
+            });
+        });  
+
+    </script>
+
 }

@@ -11,6 +11,8 @@ namespace SIAH.Models.Pedidos
         [Key]
         public int id { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime periodo { get; set; }
         public DateTime fechaGeneracion { get; set; }
 
@@ -23,7 +25,7 @@ namespace SIAH.Models.Pedidos
         public int hospitalId { get; set; }
         public Hospital hospital { get; set; }
 
-        public ICollection<DetallePedido> DetallesPedido { get; set; }
+        public ICollection<DetallePedido> detallesPedido { get; set; }
 
 
     }
