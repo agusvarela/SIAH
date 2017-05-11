@@ -28,7 +28,7 @@
                 </button>
                 <div class="logo-container">
                     <div class="logo">
-                        <img src="Content/img/logo.png" alt="AH Logo">
+                        <img src="~/Content/img/logo.png" alt="AH Logo">
                     </div>
 
                     @Html.ActionLink(" Autorizaciones Hospitalarias", "Index", "Home", new { area = "" }, new { @class = " logo-container brand" })
@@ -38,8 +38,8 @@
             <div class="collapse navbar-collapse" id="navigation-index">
                 <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Pedido", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Pedido", "Index", "Pedidos")</li>
+                    <li>@Html.ActionLink("Insumos", "Index", "Insumos")</li>
                 </ul>
             </div>
         </div>
