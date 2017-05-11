@@ -41,6 +41,7 @@ namespace SIAH.Controllers
         public ActionResult Create()
         { 
             ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
+            ViewBag.insumo = new SelectList(db.Insumos, "id", "nombre", "precio");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
             return View();
         }
