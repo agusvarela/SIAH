@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Http;
 using SIAH.Context;
 using SIAH.Models.Insumos;
 
@@ -43,6 +45,14 @@ namespace SIAH.Controllers
             ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo, "id", "nombre");
             return View();
         }
+
+        // GET: Insumos/Search
+        public IEnumerable<Insumo> GetInsumos(string searchText)
+        {
+            return db.Insumos.Where(m => m.nombre.Contains(searchText)).ToList();
+        }
+
+
 
         // POST: Insumos/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 

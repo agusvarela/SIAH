@@ -46,6 +46,14 @@ namespace SIAH.Controllers
             return View();
         }
 
+       public JsonResult GetInsumos(String id)
+        {
+            int idTipo = int.Parse(id);
+            var insumosBD = new SelectList(db.Insumos.Where(m => m.tipoInsumoId == idTipo), "id", "nombre");
+                    
+            return Json(insumosBD);
+        }
+
         // POST: Pedidos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

@@ -21,5 +21,7 @@ namespace SIAH.Models.Insumos
         public TipoInsumo tiposInsumo { get; set; }
 
         public ICollection<Pedidos.DetallePedido> DetallesPedido { get; set; }
+
+      
     }
 }
