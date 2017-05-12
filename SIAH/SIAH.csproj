@@ -168,13 +168,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Context\SIAHContext.cs" />
     <Compile Include="Controllers\DetallesPedidoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HospitalesController.cs" />
     <Compile Include="Controllers\InsumosController.cs" />
-    <Compile Include="Controllers\InsumosControllerAPI.cs" />
     <Compile Include="Controllers\LocalidadesController.cs" />
     <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\TiposInsumoController.cs" />
