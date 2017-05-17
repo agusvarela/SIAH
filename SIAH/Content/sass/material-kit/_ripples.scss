@@ -12,6 +12,11 @@
     border-radius: inherit;
     pointer-events: none;
 }
+
+.main {
+    z-index: 0;
+}
+
 .ripple {
     position: absolute;
     width: 20px;

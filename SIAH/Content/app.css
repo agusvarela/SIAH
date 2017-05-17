@@ -1,0 +1,10 @@
+﻿body {
+}
+
+.check {
+    opacity: 5;
+    z-index: 10;
+    width: 25px;
+    height: 25px;
+
+}

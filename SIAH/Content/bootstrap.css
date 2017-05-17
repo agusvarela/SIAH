@@ -192,8 +192,10 @@ html input[disabled] {
 
 input[type="checkbox"],
 input[type="radio"] {
+    opacity:1;
   padding: 0;
   box-sizing: border-box;
+  visibility: visible !important;
 }
 
 input[type="search"] {
@@ -1778,6 +1780,7 @@ textarea.form-control {
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
+    opacity: 1;
   float: left;
   margin-left: -20px;
 }
@@ -2369,7 +2372,7 @@ input[type="button"].btn-block {
 }
 
 .fade {
-  opacity: 0;
+  opacity: 1;
   -webkit-transition: opacity 0.15s linear;
           transition: opacity 0.15s linear;
 }

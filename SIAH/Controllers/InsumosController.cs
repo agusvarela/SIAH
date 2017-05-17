@@ -46,10 +46,25 @@ namespace SIAH.Controllers
             return View();
         }
 
-        // GET: Insumos/Search
-        public IEnumerable<Insumo> GetInsumos(string searchText)
+        // GET: Insumos/Palabra/search
+        public JsonResult BuscarInsumos(string term, int? id)
         {
-            return db.Insumos.Where(m => m.nombre.Contains(searchText)).ToList();
+            String tipo = "";
+
+            if (id != null)
+            {
+                var results_id = db.Insumos.Join(db.TiposInsumo, s => s.tipoInsumoId, t => t.id, (s, t) => new { s, t })
+                    .Where(s => term == null || (s.s.nombre.ToLower().Contains(term.ToLower()) && s.s.tipoInsumoId == id))
+                    .Select(x => new { id = x.s.id, nombre = x.s.nombre, x.s.precioUnitario, tipo = x.t.nombre }).Take(5).ToList();
+
+                return Json(results_id, JsonRequestBehavior.AllowGet);
+            }
+
+            var results = db.Insumos.Join(db.TiposInsumo, s => s.tipoInsumoId, t => t.id, (s, t) => new { s, t })
+                .Where(s => term == null || (s.s.nombre.ToLower().Contains(term.ToLower())))
+                .Select(x => new { id = x.s.id, nombre = x.s.nombre, x.s.precioUnitario, tipo = x.t.nombre }).Take(5).ToList();
+
+            return Json(results, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -138,11 +153,6 @@ namespace SIAH.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        public IEnumerable<Insumo> BuscarInsumos(string searchText)
-        {
-            return db.Insumos.Where(m => m.nombre.Contains(searchText)).ToList();
         }
     }
 }

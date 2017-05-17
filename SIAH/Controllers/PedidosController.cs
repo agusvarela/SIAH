@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SIAH.Context;
 using SIAH.Models.Pedidos;
+using SIAH.Models.Insumos;
 
 namespace SIAH.Controllers
 {
@@ -59,7 +60,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,fechaEntrega,esUrgente,estaAutorizado,hospitalId")] Pedido pedido)
+        public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,fechaEntrega,esUrgente,estaAutorizado,hospitalId")] Pedido pedido, TipoInsumo tipo)
         {
             if (ModelState.IsValid)
             {

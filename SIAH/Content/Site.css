@@ -16,6 +16,15 @@
     white-space: normal;
 }
 
+.buscador {
+    width: 420px;
+    height: 26px;
+    padding-left: 5px;
+    color: #fff;
+    font-weight: bold;
+    border: 1px solid #333;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
