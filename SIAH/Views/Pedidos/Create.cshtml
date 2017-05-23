@@ -78,14 +78,11 @@
                     @Html.Label("Tipo Insumo", null, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-7">
                         @Html.DropDownList("tipoInsumo", ViewData["tipoInsumo"] as IEnumerable<SelectListItem>, "Selecciona un tipo", htmlAttributes: new { @class = "form-control col-md-3", @id = "tipo" })
+                        @Html.Label("Campo opcional", null, htmlAttributes: new { })
                     </div>
                 </div>
                 <br />
-                <div class="row">
-                    @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-7">
-                        @Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad" })
-                    </div>
+               
                 </div>
                 <br />
                 <div class="row">
@@ -94,6 +91,11 @@
                         @Html.TextBoxFor(m => m.detallesPedido, new { @class = "form-control buscador", @id = "q" })
                     </div>
                 </div>
+                 <div class="row">
+                 @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label col-md-2" })
+                  <div class="col-md-7">
+                      @Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad" })
+                  </div>
             </div>
             @*Campo auxiliar para guardar el ID del insumo a agregar*@
                 <div class="col-md-7">
