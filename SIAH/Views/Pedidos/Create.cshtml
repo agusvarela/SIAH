@@ -196,12 +196,7 @@
                                 select: function (event, p) {
                                     $('#q').val(p.item.nombre);
                                     $('#idInsumo').val(p.item.id);
-
-                                    /*if ($('#detallesPedido .empty').is(':visible')) {
-                                        $('#detallesPedido .empty').hide();
-                                    }*/
-
-                                   // console.log(p.item);
+                                 // Deprecated: antes se agregaba el insumo desde aca
                                 /*  var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').val(p.item.id);
                                   var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(p.item.nombre);
                                   var $tdInsumo = $('<td>').html(p.item.nombre).append($insumoId, $nombre);
@@ -231,7 +226,7 @@
                                     $('#detallesPedido .empty').show();
                                 }
                             });
-                        //Boton para agregar insumo a la lista (no funciona aun) (ya trae el insumo que fue seleccionado)
+                        //Boton para agregar insumo a la lista
                             $(document).on('click', '.btn_addInsumo', function () {
                                 var indice = $('#detallesPedido > tr').not('.empty').length;
                                 $.ajax({
