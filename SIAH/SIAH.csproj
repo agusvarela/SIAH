@@ -323,6 +323,7 @@
     <Content Include="Views\DetallesPedido\Details.cshtml" />
     <Content Include="Views\DetallesPedido\Edit.cshtml" />
     <Content Include="Views\DetallesPedido\Index.cshtml" />
+    <Content Include="Views\Pedidos\Listado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

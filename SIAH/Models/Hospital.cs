@@ -9,6 +9,7 @@ namespace SIAH.Models
     public class Hospital
     {
         public int id { get; set; }
+        [Display(Name = "Hospital")]
         [StringLength(255)]
         [Required]
         public String nombre { get; set; }

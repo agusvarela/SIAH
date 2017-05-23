@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using SIAH.Context;
 using SIAH.Models.Pedidos;
 using SIAH.Models.Insumos;
+using SIAH.Models;
 
 namespace SIAH.Controllers
 {
@@ -24,18 +25,26 @@ namespace SIAH.Controllers
         }
 
         // GET: Pedidos/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id )
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pedido pedido = db.Pedidos.Find(id);
+           
             if (pedido == null)
             {
                 return HttpNotFound();
             }
             return View(pedido);
+        }
+
+        //GET: Pedidos/GetHospital
+        public String GetHospital(int? hospitalId)
+        {
+            Hospital hospital = db.Hospitales.Find(hospitalId);
+            return hospital.nombre;
         }
 
         // GET: Pedidos/Create
@@ -45,6 +54,13 @@ namespace SIAH.Controllers
             ViewBag.insumo = new SelectList(db.Insumos, "id", "nombre", "precio");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
             return View();
+        }
+
+        // GET: Pedidos/Listado
+        public ActionResult Listado()
+        {
+            var pedidos = db.Pedidos.Include(p => p.hospital);
+            return View(pedidos.ToList());
         }
 
        public JsonResult GetInsumos(String id)

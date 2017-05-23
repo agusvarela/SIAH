@@ -1,21 +1,22 @@
 ﻿@model SIAH.Models.Pedidos.Pedido
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalle del pedido";
 }
 
-<h2>Details</h2>
+<h2>Detalle del pedido @Html.DisplayFor(model=> model.id)</h2>
 
 <div>
     <h4>Pedido</h4>
     <hr />
     <dl class="dl-horizontal">
+            
         <dt>
             @Html.DisplayNameFor(model => model.hospital.nombre)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.hospital.nombre)
+            @Html.TextBox("nombreHospital", "" , htmlAttributes: new { @readonly = "readonly"})
         </dd>
 
         <dt>
@@ -61,6 +62,23 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+  @*  @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |*@
+    @Html.ActionLink("Volver al Listado", "Listado")
 </p>
+@Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
+
+@section Scripts {
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var idHospital = $('#idHospital').val();
+        console.log(idHospital);
+        var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital; 
+        $.get(urlHospital, null, function (data) {
+            console.log(data);
+            $('#nombreHospital').val(data);
+        });
+    });
+
+    </script>
+}

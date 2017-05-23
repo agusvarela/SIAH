@@ -1,0 +1,37 @@
+﻿@model IEnumerable<SIAH.Models.Pedidos.Pedido>
+
+@{
+    ViewBag.Title = "Listado de Pedidos";
+}
+
+<h2>Listado de Pedidos</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hospital.nombre)
+        </th>
+       
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.hospital.nombre)
+            </td>
+            <td>
+                @Html.ActionLink("Ir a Autorizar", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Ver detalle", "Details", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>
