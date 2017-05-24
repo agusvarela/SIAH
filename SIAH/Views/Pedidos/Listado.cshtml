@@ -13,8 +13,12 @@
             @Html.DisplayNameFor(model => model.id)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.fechaGeneracion)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.hospital.nombre)
         </th>
+       
        
     </tr>
 
@@ -23,6 +27,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaGeneracion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.hospital.nombre)
