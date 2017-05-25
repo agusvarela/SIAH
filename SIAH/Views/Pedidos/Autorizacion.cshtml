@@ -50,8 +50,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.estaAutorizado, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div class="check">
-                    @Html.CheckBoxFor(model => model.estaAutorizado)
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.estaAutorizado)
                     @Html.ValidationMessageFor(model => model.estaAutorizado, "", new { @class = "text-danger" })
                 </div>
             </div>
