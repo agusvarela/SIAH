@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Autorizar Pedido @Html.DisplayFor(model => model.id)</h2>
 
 
 @using (Html.BeginForm())
@@ -20,7 +20,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.periodo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.periodo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.periodo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.fechaGeneracion, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.fechaGeneracion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.fechaGeneracion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.fechaEntrega, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.fechaEntrega, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.fechaEntrega, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -44,9 +44,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.esUrgente, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.esUrgente)
-                    @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
+                <div class="check">
+                    @Html.DisplayFor(model => model.esUrgente)
+                    @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger"})
                 </div>
             </div>
         </div>
@@ -54,17 +54,20 @@
         <div class="form-group">
             @Html.LabelFor(model => model.estaAutorizado, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.estaAutorizado)
+                <div class="check">
+                    @Html.CheckBoxFor(model => model.estaAutorizado)
                     @Html.ValidationMessageFor(model => model.estaAutorizado, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.hospitalId, "hospitalId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("hospitalId", null, htmlAttributes: new { @class = "form-control" })
+                @*@Html.DropDownList("hospitalId", null, htmlAttributes: new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.hospitalId, "", new { @class = "text-danger" })*@
+                @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+                @Html.TextBox("hospitalId", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
                 @Html.ValidationMessageFor(model => model.hospitalId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -78,9 +81,22 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Listado")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+        var idHospital = $('#hospitalId').val();
+        console.log(idHospital);
+        var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
+        $.get(urlHospital, null, function (data) {
+            console.log(data);
+            $('#nombreHospital').val(data);
+        });
+    });
+
+</script>
 }
