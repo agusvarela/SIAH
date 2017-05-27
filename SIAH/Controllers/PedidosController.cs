@@ -71,6 +71,14 @@ namespace SIAH.Controllers
             return Json(insumosBD);
         }
 
+        //GET: Pedidos/DetallesPedido
+        public JsonResult GetDetalles(int idPedido)
+        {
+            var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == idPedido)
+                                .Select(x => new { nombre = x.insumo.nombre, precio = x.insumo.precioUnitario, cantidad = x.cantidad });
+            return Json(detallesPedido, JsonRequestBehavior.AllowGet);
+        }
+
         // POST: Pedidos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

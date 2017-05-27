@@ -64,29 +64,72 @@
 
         </dl>
     </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Autorizar" id="Autorizacion" class="btn btn-default" />
-            </div>
-        </div>
+   @*Detalle del pedido*@
+    <table id="detalles" class="table">
+        <tr>
+            <th>
+               Insumo
+            </th>
+            <th>
+               Cantidad
+            </th>
+            <th>
+                Precio unitario
+            </th>
+        </tr>
+      
+        </table>
+
+                @*Boton para autorizar*@
+    <br/>
+<div class="form-group">
+     <div class="col-md-offset-10 col-md-0">
+           <input type="submit" value="Autorizar" id="Autorizacion" class="btn btn-default" />
+     </div>
+ </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Listado")
+     @Html.ActionLink("Volver al Listado", "Listado")
 </div>
-@Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
-@section Scripts {
-    <script type="text/javascript">
+                @Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
+                @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
+                @section Scripts {
+                    <script type="text/javascript">
 
-    $(document).ready(function () {
-        var idHospital = $('#idHospital').val();
-        console.log(idHospital);
-        var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
-        $.get(urlHospital, null, function (data) {
-            console.log(data);
-            $('#nombreHospital').val(data);
-        });
-    });
+                        $(document).ready(function () {
+                            var idHospital = $('#idHospital').val();
+                            //console.log(idHospital);
+                            var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
+                            $.get(urlHospital, null, function (data) {
+                                //console.log(data);
+                                $('#nombreHospital').val(data);
+                            });
+                        })
+                        $(document).ready(function () {
+                         
+                            var idPedido = $('#idPedido').val();
+                            console.log(idPedido);
+                            var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
+                            $.get(urlDetalle, null, function (lista) {
+                                for (var i = 0, len = lista.length; i < len; i++) {
+                                    var item = lista[i];
+                                    console.log(item);
+                                    //  var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(item.nombre);
+                                    var $tdInsumo = $('<td>').append(item.nombre);
 
-    </script>
-}
+                                    /*    var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tipoInsumo][nombre]').val($tipo);
+                                         var $tdTipo = $('<td>').html(item.tipo).append($tipo);*/
+
+                                    var $tdCantidad = $('<td>').append(item.cantidad);
+
+                                    var $tdPrecioUnitario = $('<td>').append(item.precio);
+
+                                    var $tr = $('<tr>').append($tdInsumo, $tdCantidad, $tdPrecioUnitario);
+                                    $('#detalles').append($tr);
+                                }
+                             });
+                        });
+
+                    </script>
+                }
