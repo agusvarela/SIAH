@@ -71,10 +71,16 @@
                Insumo
             </th>
             <th>
+                Tipo
+            </th>
+            <th>
                Cantidad
             </th>
             <th>
                 Precio unitario
+            </th>
+            <th>
+                Subtotal
             </th>
         </tr>
       
@@ -82,18 +88,23 @@
 
                 @*Boton para autorizar*@
     <br/>
+    <div class="col-md-offset-11 col-md-2">
+        @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
+        @Html.TextBox("total",0, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+    </div>
 <div class="form-group">
-     <div class="col-md-offset-10 col-md-0">
+     <div class="col-md-offset-10 col-md-2">
            <input type="submit" value="Autorizar" id="Autorizacion" class="btn btn-default" />
      </div>
  </div>
+@Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
+    @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
 }
 
 <div>
      @Html.ActionLink("Volver al Listado", "Listado")
 </div>
-                @Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
-                @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
+             
                 @section Scripts {
                     <script type="text/javascript">
 
@@ -112,22 +123,26 @@
                             console.log(idPedido);
                             var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
                             $.get(urlDetalle, null, function (lista) {
+                                var total = 0;
                                 for (var i = 0, len = lista.length; i < len; i++) {
                                     var item = lista[i];
                                     console.log(item);
-                                    //  var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(item.nombre);
                                     var $tdInsumo = $('<td>').append(item.nombre);
 
-                                    /*    var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tipoInsumo][nombre]').val($tipo);
-                                         var $tdTipo = $('<td>').html(item.tipo).append($tipo);*/
+                                     var $tdTipo = $('<td>').append(item.tipo);
 
                                     var $tdCantidad = $('<td>').append(item.cantidad);
 
                                     var $tdPrecioUnitario = $('<td>').append(item.precio);
 
-                                    var $tr = $('<tr>').append($tdInsumo, $tdCantidad, $tdPrecioUnitario);
+                                    var subtotal = item.precio * item.cantidad;
+                                    var $tdSubtotal = $('<td>').append(subtotal);
+
+                                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal);
+                                    total += subtotal;
                                     $('#detalles').append($tr);
                                 }
+                                $('#total').val(total);
                              });
                         });
 

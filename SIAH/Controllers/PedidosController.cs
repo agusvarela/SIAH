@@ -75,7 +75,7 @@ namespace SIAH.Controllers
         public JsonResult GetDetalles(int idPedido)
         {
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == idPedido)
-                                .Select(x => new { nombre = x.insumo.nombre, precio = x.insumo.precioUnitario, cantidad = x.cantidad });
+                                .Select(x => new { nombre = x.insumo.nombre, precio = x.insumo.precioUnitario, cantidad = x.cantidad, tipo = x.insumo.tiposInsumo.nombre });
             return Json(detallesPedido, JsonRequestBehavior.AllowGet);
         }
 
