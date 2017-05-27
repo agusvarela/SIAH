@@ -3117,7 +3117,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 }
 
 .section {
-  padding: 70px 0;
+  padding: 30px 0;
 }
 
 .section-navbars {
@@ -3590,7 +3590,7 @@ h2.title {
 }
 
 .features {
-  padding: 80px 0 0;
+  padding: 30px 0 0;
 }
 
 .team {
