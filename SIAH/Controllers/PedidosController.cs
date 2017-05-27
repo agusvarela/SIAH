@@ -25,14 +25,14 @@ namespace SIAH.Controllers
         }
 
         // GET: Pedidos/Details/5
-        public ActionResult Details(int? id )
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pedido pedido = db.Pedidos.Find(id);
-           
+
             if (pedido == null)
             {
                 return HttpNotFound();
@@ -49,7 +49,7 @@ namespace SIAH.Controllers
 
         // GET: Pedidos/Create
         public ActionResult Create()
-        { 
+        {
             ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
             ViewBag.insumo = new SelectList(db.Insumos, "id", "nombre", "precio");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
@@ -63,11 +63,11 @@ namespace SIAH.Controllers
             return View(pedidos.ToList());
         }
 
-       public JsonResult GetInsumos(String id)
+        public JsonResult GetInsumos(String id)
         {
             int idTipo = int.Parse(id);
             var insumosBD = new SelectList(db.Insumos.Where(m => m.tipoInsumoId == idTipo), "id", "nombre");
-                    
+
             return Json(insumosBD);
         }
 
@@ -121,7 +121,7 @@ namespace SIAH.Controllers
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", pedido.hospitalId);
             return View(pedido);
         }
-     
+
 
         // GET: Pedidos/Delete/5
         public ActionResult Delete(int? id)
@@ -155,11 +155,27 @@ namespace SIAH.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pedido pedido = db.Pedidos.Find(id);
+            Session["pedido"] = pedido;
             if (pedido == null)
             {
                 return HttpNotFound();
             }
             return View(pedido);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Autorizacion()
+        {
+            Pedido pedido = Session["pedido"] as Pedido;
+            pedido.estaAutorizado = true;
+            db.Entry(pedido).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Listado");
+           // if (pedido.estaAutorizado == true) pedido.estaAutorizado = false;
+          //  if (pedido.estaAutorizado == false) pedido.estaAutorizado = true;
+
+          //  return RedirectToAction("Listado");
         }
         protected override void Dispose(bool disposing)
         {
