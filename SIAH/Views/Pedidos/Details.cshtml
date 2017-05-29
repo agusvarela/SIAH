@@ -75,7 +75,7 @@
         console.log(idHospital);
         var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital; 
         $.get(urlHospital, null, function (data) {
-            console.log(data);
+           // console.log(data);
             $('#nombreHospital').val(data);
         });
     });

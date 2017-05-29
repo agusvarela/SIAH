@@ -16,10 +16,14 @@ namespace SIAH.Models.Pedidos
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime periodo { get; set; }
         [Display(Name = "Fecha de Generación")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaGeneracion { get; set; }
 
         [Display(Name = "Fecha de entrega")]
         [Required(AllowEmptyStrings = true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaEntrega { get; set; }
 
         [Display(Name = "¿Es Urgente?")]
