@@ -3,172 +3,67 @@
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
 
 }
-<<<<<<< HEAD
-=======
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>SIAH - Autorizaciones Hospitalarias</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-    <!-- CSS Files -->
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../assets/css/material-kit.css" rel="stylesheet" />
-    <!--   Core JS Files   -->
-    <script src="../assets/js/jquery.min.js" type="text/javascript"></script>
-    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="../assets/js/material.min.js"></script>
-    <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-    <script src="../assets/js/nouislider.min.js" type="text/javascript"></script>
-    <!--  Plugin for the Datepicker, full documentation here: http://www.eyecon.ro/bootstrap-datepicker/ -->
-    <script src="../assets/js/bootstrap-datepicker.js" type="text/javascript"></script>
-    <!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
-    <script src="../assets/js/material-kit.js" type="text/javascript"></script>
-    <!--     Fonts and icons     -->
-    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-    <script src="../../Scripts/jquery-1.12.4.js" type="text/javascript"></script>
-    <script src="../../Scripts/jquery-1.12.4.min.js" type="text/javascript"></script>
-    <script src="../../Scripts/jquery-ui-1.12.1.js" type="text/javascript"></script>
-    <!-- CSS Files -->
-    @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Content/css/bootstrap.min.css")
-    @Styles.Render("~/Content/css/material-kit.css")
-    @Styles.Render("~/Content/css/demo.css")
-</head>
-
-<body class="landing-page">
-    <nav class="navbar navbar-transparent navbar-absolute">
+<div class="wrapper">
+    <div class="header header-filter" style="background-image: url('http://www.prescriptionpad.in/images/banner2.jpg');">
         <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="logo-container">
-                    <div class="logo">
-                        <img src="~/Content/img/logo.png" alt="AH Logo">
-                    </div>
-
-                    @Html.ActionLink(" Autorizaciones Hospitalarias", "Index", "Home", new { area = "" }, new { @class = " logo-container brand" })
-
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="title">Oficina de Autorizaciones Hospitalarias</h1>
+                    <h4>
+                        SIAH, una plataforma web que le permite generar y gestionar sus pedidos, realizar un seguimiento de los mismos,
+                        incluyendo reclamos y extensiones de presupuesto.
+                    </h4>
+                    <br />
+                    <a class="btn btn-primary btn-raised btn-lg">
+                        Iniciar Sesión
+                    </a>
                 </div>
             </div>
-            <div class="collapse navbar-collapse" id="navigation-index">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Pedido", "Listado", "Pedidos")</li>
-                    <li>@Html.ActionLink("Insumos", "Index", "Insumos")</li>
-                </ul>
-            </div>
         </div>
-
-    </nav>
->>>>>>> Sprint_01
-    <div class="wrapper">
-        <div class="header header-filter" style="background-image: url('http://www.prescriptionpad.in/images/banner2.jpg');">
-            <div class="container">
+    </div>
+    <div class="main main-raised">
+        <div class="container">
+            <div class="section text-center section-landing">
                 <div class="row">
-                    <div class="col-md-8">
-                        <h1 class="title">Oficina de Autorizaciones Hospitalarias</h1>
-                        <h4>SIAH, una plataforma web que le permite generar y gestionar sus pedidos, realizar un seguimiento de los mismos,
-                        incluyendo reclamos y extensiones de presupuesto.</h4>
-                        <br />
-                        <a class="btn btn-primary btn-raised btn-lg"> Iniciar Sesión
-                        </a>
+                    <div class="col-md-8 col-md-offset-2">
+                        <h2 class="title">SIAH</h2>
+                        <h5 class="description">Las siguientes funcionalidades fueron desarrolladas por nuestros expertos para mejorar su experiencia con la oficina.</h5>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="main main-raised">
-            <div class="container">
-                <div class="section text-center section-landing">
+                <div class="features">
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
-                            <h2 class="title">SIAH</h2>
-                            <h5 class="description">Las siguientes funcionalidades fueron desarrolladas por nuestros expertos para mejorar su experiencia con la oficina.</h5>
+                        <div class="col-md-4">
+                            <div class="info">
+                                <div class="icon icon-primary">
+                                    ><i class="material-icons">send</i>
+                                </div>
+                                <h4 class="info-title">Pedidos</h4>
+                                <p>Genere pedidos mensuales para la farmacia de su hospital. Controle el estado de los mismos.</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="features">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="info">
-                                    <div class="icon icon-primary">
-                                        ><i class="material-icons">send</i>
-                                    </div>
-                                    <h4 class="info-title">Pedidos</h4>
-                                    <p>Genere pedidos mensuales para la farmacia de su hospital. Controle el estado de los mismos.</p>
+                        <div class="col-md-4">
+                            <div class="info">
+                                <div class="icon icon-success">
+                                    <i class="material-icons">verified_user</i>
                                 </div>
+                                <h4 class="info-title">Autorizaciones</h4>
+                                <p>Autorice los pedidos de los hospitales y realice la carga en el sistema de envios de Ocasa.</p>
                             </div>
-                            <div class="col-md-4">
-                                <div class="info">
-                                    <div class="icon icon-success">
-                                        <i class="material-icons">verified_user</i>
-                                    </div>
-                                    <h4 class="info-title">Autorizaciones</h4>
-                                    <p>Autorice los pedidos de los hospitales y realice la carga en el sistema de envios de Ocasa.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="material-icons">description</i>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="info">
-                                    <div class="icon icon-danger">
-                                        <i class="material-icons">description</i>
-                                    </div>
-                                    <h4 class="info-title">Reportes</h4>
-                                    <p>Genere reportes que lo ayudarán a la toma de decisiones, y mejorar su cronograma de envíos.</p>
-                                </div>
+                                <h4 class="info-title">Reportes</h4>
+                                <p>Genere reportes que lo ayudarán a la toma de decisiones, y mejorar su cronograma de envíos.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-           
             </div>
-        </div>
-<<<<<<< HEAD
-       
-    </div>
-=======
-        <footer class="footer">
-            <div class="container">
-                <nav class="pull-left">
-                    <ul>
-                        <li>
-                            <a href="http://www.creative-tim.com">
-                                Creative Tim
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://presentation.creative-tim.com">
-                                About Us
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                                Blog
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://www.creative-tim.com/license">
-                                Licenses
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright pull-right">
-                    &copy; 2016, made with <i class="fa fa-heart heart"></i> by Creative Tim
-                </div>
-            </div>
-        </footer>
-    </div>
-</body>
 
-</html>
->>>>>>> Sprint_01
+        </div>
+    </div>
+
+</div>
