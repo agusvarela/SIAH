@@ -49,8 +49,6 @@ namespace SIAH.Controllers
         // GET: Insumos/Palabra/search
         public JsonResult BuscarInsumos(string term, int? id)
         {
-            String tipo = "";
-
             if (id != null)
             {
                 var results_id = db.Insumos.Join(db.TiposInsumo, s => s.tipoInsumoId, t => t.id, (s, t) => new { s, t })
@@ -63,28 +61,6 @@ namespace SIAH.Controllers
             var results = db.Insumos.Join(db.TiposInsumo, s => s.tipoInsumoId, t => t.id, (s, t) => new { s, t })
                 .Where(s => term == null || (s.s.nombre.ToLower().Contains(term.ToLower())))
                 .Select(x => new { id = x.s.id, nombre = x.s.nombre, x.s.precioUnitario, tipo = x.t.nombre }).Take(5).ToList();
-
-            return Json(results, JsonRequestBehavior.AllowGet);
-        }
-
-        // GET: Insumos/Palabra/searchOne
-        //Nuevo metodo basado en el anterior, que solo trae un elemento en el array
-        //Puede mejorarse si solo trae un solo elemento fuera de un array, pero por ahora funciona
-        public JsonResult BuscarInsumoParaAgregar(int id, int? idTipo)
-        {
-
-            if (idTipo != null)
-            {
-                var results_id = db.Insumos.Join(db.TiposInsumo, s => s.tipoInsumoId, t => t.id, (s, t) => new { s, t })
-                    .Where(s => s.s.id == id && s.s.tipoInsumoId == idTipo)
-                    .Select(x => new { id = x.s.id, nombre = x.s.nombre, x.s.precioUnitario, tipo = x.t.nombre }).Take(1);
-
-                return Json(results_id, JsonRequestBehavior.AllowGet);
-            }
-
-            var results = db.Insumos.Join(db.TiposInsumo, s => s.tipoInsumoId, t => t.id, (s, t) => new { s, t })
-                .Where(s => s.s.id == id)
-                .Select(x => new { id = x.s.id, nombre = x.s.nombre, x.s.precioUnitario, tipo = x.t.nombre }).Take(1);
 
             return Json(results, JsonRequestBehavior.AllowGet);
         }

@@ -49,11 +49,10 @@ namespace SIAH.Controllers
 
         // GET: Pedidos/Create
         public ActionResult Create()
-        { 
+        {
             ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
-            ViewBag.insumo = new SelectList(db.Insumos, "id", "nombre", "precio");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
-            return View();
+            return View(new Pedido());
         }
 
         // GET: Pedidos/Listado
@@ -76,15 +75,18 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,fechaEntrega,esUrgente,estaAutorizado,hospitalId")] Pedido pedido, TipoInsumo tipo)
+        public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,fechaEntrega,esUrgente,estaAutorizado,hospitalId,detallesPedido")] Pedido pedido)
         {
+
             if (ModelState.IsValid)
             {
                 db.Pedidos.Add(pedido);
+                db.DetallesPedido.AddRange(pedido.detallesPedido);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
+            ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", pedido.hospitalId);
             return View(pedido);
         }
