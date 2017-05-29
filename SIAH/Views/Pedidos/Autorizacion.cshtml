@@ -12,71 +12,139 @@
     <div class="form-horizontal">
         <h4>Pedido</h4>
         <hr />
-     
-        <div class="form-group">
-            @Html.LabelFor(model => model.periodo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.periodo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        @*
-    <div class="form-group">
-        @Html.LabelFor(model => model.fechaGeneracion, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.fechaGeneracion, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        <dl class="dl-horizontal">
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.fechaEntrega, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.fechaEntrega, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
-        </div>
-    </div>
+            <dt>
+                @Html.DisplayNameFor(model => model.hospital.nombre)
+            </dt>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.esUrgente, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.esUrgente)
-                @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <dd>
+                @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.periodo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.periodo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fechaGeneracion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaGeneracion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fechaEntrega)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaEntrega)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.esUrgente)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.esUrgente)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.estaAutorizado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.estaAutorizado)
+            </dd>
+
+        </dl>
     </div>
-        *@
-        <div class="form-group">
-            @Html.LabelFor(model => model.estaAutorizado, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="check">
-                    @Html.CheckBoxFor(model => model.estaAutorizado)
-                    @Html.ValidationMessageFor(model => model.estaAutorizado, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        @*
-        <div class="form-group">
-            @Html.LabelFor(model => model.hospitalId, "hospitalId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("hospitalId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.hospitalId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-         *@
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Autorizar" class="btn btn-default" />
-            </div>
-        </div>
+   @*Detalle del pedido*@
+    <table id="detalles" class="table">
+        <tr>
+            <th>
+               Insumo
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+               Cantidad
+            </th>
+            <th>
+                Precio unitario
+            </th>
+            <th>
+                Subtotal
+            </th>
+        </tr>
+      
+        </table>
+
+                @*Boton para autorizar*@
+    <br/>
+    <div class="col-md-offset-11 col-md-2">
+        @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
+        @Html.TextBox("total",0, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
     </div>
+<div class="form-group">
+     <div class="col-md-offset-10 col-md-2">
+           <input type="submit" value="Autorizar" id="Autorizacion" class="btn btn-default" />
+     </div>
+ </div>
+@Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
+    @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+     @Html.ActionLink("Volver al Listado", "Listado")
 </div>
+             
+                @section Scripts {
+                    <script type="text/javascript">
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                        $(document).ready(function () {
+                            var idHospital = $('#idHospital').val();
+                            //console.log(idHospital);
+                            var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
+                            $.get(urlHospital, null, function (data) {
+                                //console.log(data);
+                                $('#nombreHospital').val(data);
+                            });
+                        })
+                        $(document).ready(function () {
+                         
+                            var idPedido = $('#idPedido').val();
+                            console.log(idPedido);
+                            var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
+                            $.get(urlDetalle, null, function (lista) {
+                                var total = 0;
+                                for (var i = 0, len = lista.length; i < len; i++) {
+                                    var item = lista[i];
+                                    console.log(item);
+                                    var $tdInsumo = $('<td>').append(item.nombre);
+
+                                     var $tdTipo = $('<td>').append(item.tipo);
+
+                                    var $tdCantidad = $('<td>').append(item.cantidad);
+
+                                    var $tdPrecioUnitario = $('<td>').append(item.precio);
+
+                                    var subtotal = item.precio * item.cantidad;
+                                    var $tdSubtotal = $('<td>').append(subtotal);
+
+                                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal);
+                                    total += subtotal;
+                                    $('#detalles').append($tr);
+                                }
+                                $('#total').val(total);
+                             });
+                        });
+
+                    </script>
+                }
