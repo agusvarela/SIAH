@@ -325,6 +325,7 @@
     <Content Include="Views\DetallesPedido\Index.cshtml" />
     <Content Include="Views\Pedidos\Listado.cshtml" />
     <Content Include="Views\Pedidos\Autorizacion.cshtml" />
+    <Content Include="Views\Shared\_LayoutHome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
