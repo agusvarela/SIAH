@@ -181,20 +181,19 @@ namespace SIAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Autorizacion(List<int> cantAutorizadas )
+        public ActionResult Autorizacion()
         {
             Pedido pedido = Session["pedido"] as Pedido;
-            int recorrido = 0;
-            foreach (var cantAut in cantAutorizadas)
-            {
-                pedido.detallesPedido.ElementAt(recorrido).cantidadAutorizada = cantAut;
-                recorrido++;
-            }
+            //for (int i = 0; i < cantAutorizadas.Length; i++)
+            //{
+            //    pedido.detallesPedido.ElementAt(i).cantidadAutorizada = cantAutorizadas.GetValue(i);
+            //}
             pedido.estaAutorizado = true;
                 db.Entry(pedido).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Listado");
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
