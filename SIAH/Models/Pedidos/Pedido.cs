@@ -21,10 +21,9 @@ namespace SIAH.Models.Pedidos
         public DateTime fechaGeneracion { get; set; }
 
         [Display(Name = "Fecha de entrega")]
-        [Required(AllowEmptyStrings = true)]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime fechaEntrega { get; set; }
+        public DateTime? fechaEntrega { get; set; }
 
         [Display(Name = "¿Es Urgente?")]
         public Boolean esUrgente { get; set; }

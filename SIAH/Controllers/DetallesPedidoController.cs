@@ -22,7 +22,7 @@ namespace SIAH.Controllers
             return View(detallesPedido.ToList());
         }
 
-     
+
 
         // GET: DetallesPedido/Details/5
         public ActionResult Details(int? id)

@@ -7,13 +7,13 @@ namespace SIAH.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class create_pedidos_detalles_pedido : IMigrationMetadata
+    public sealed partial class create_detalles_pedido_table : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(create_pedidos_detalles_pedido));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(create_detalles_pedido_table));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705101510403_create_pedidos_detalles_pedido"; }
+            get { return "201705302237228_create_detalles_pedido_table"; }
         }
         
         string IMigrationMetadata.Source

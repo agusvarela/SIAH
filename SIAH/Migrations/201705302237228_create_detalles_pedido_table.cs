@@ -3,7 +3,7 @@ namespace SIAH.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class create_pedidos_detalles_pedido : DbMigration
+    public partial class create_detalles_pedido_table : DbMigration
     {
         public override void Up()
         {
@@ -14,6 +14,7 @@ namespace SIAH.Migrations
                         pedidoId = c.Int(nullable: false),
                         insumoId = c.Int(nullable: false),
                         cantidad = c.Int(nullable: false),
+                        cantidadAutorizada = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.pedidoId, t.insumoId })
                 .ForeignKey("dbo.Insumo", t => t.insumoId, cascadeDelete: true)
@@ -21,33 +22,14 @@ namespace SIAH.Migrations
                 .Index(t => t.pedidoId)
                 .Index(t => t.insumoId);
             
-            CreateTable(
-                "dbo.Pedido",
-                c => new
-                    {
-                        id = c.Int(nullable: false, identity: true),
-                        periodo = c.DateTime(nullable: false),
-                        fechaGeneracion = c.DateTime(nullable: false),
-                        fechaEntrega = c.DateTime(nullable: false),
-                        esUrgente = c.Boolean(nullable: false),
-                        estaAutorizado = c.Boolean(nullable: false),
-                        hospitalId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.Hospital", t => t.hospitalId, cascadeDelete: true)
-                .Index(t => t.hospitalId);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Pedido", "hospitalId", "dbo.Hospital");
             DropForeignKey("dbo.DetallePedido", "pedidoId", "dbo.Pedido");
             DropForeignKey("dbo.DetallePedido", "insumoId", "dbo.Insumo");
-            DropIndex("dbo.Pedido", new[] { "hospitalId" });
             DropIndex("dbo.DetallePedido", new[] { "insumoId" });
             DropIndex("dbo.DetallePedido", new[] { "pedidoId" });
-            DropTable("dbo.Pedido");
             DropTable("dbo.DetallePedido");
         }
     }

@@ -16,13 +16,13 @@ namespace SIAH.Models.Insumos
 
         //[RegularExpression(@"^\d+\.\d{0,2}$")]
         //[Range(0, 9999999999999999.99)]
-        public decimal precioUnitario { get; set; }
+        public Decimal precioUnitario { get; set; }
         public int tipoInsumoId { get; set; }
 
         public TipoInsumo tiposInsumo { get; set; }
 
         public ICollection<Pedidos.DetallePedido> DetallesPedido { get; set; }
 
-      
+
     }
 }

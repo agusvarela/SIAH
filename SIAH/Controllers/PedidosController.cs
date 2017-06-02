@@ -10,6 +10,7 @@ using SIAH.Context;
 using SIAH.Models.Pedidos;
 using SIAH.Models.Insumos;
 using SIAH.Models;
+using System.Globalization;
 
 namespace SIAH.Controllers
 {
@@ -83,13 +84,18 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,fechaEntrega,esUrgente,estaAutorizado,hospitalId,detallesPedido")] Pedido pedido)
+        public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,esUrgente,hospitalId,detallesPedido")] Pedido pedido)
         {
+            pedido.fechaEntrega = null;
+
+            foreach (var detalle in pedido.detallesPedido)
+            {
+                detalle.insumo = null;
+            }
 
             if (ModelState.IsValid)
             {
                 db.Pedidos.Add(pedido);
-                db.DetallesPedido.AddRange(pedido.detallesPedido);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -172,7 +178,7 @@ namespace SIAH.Controllers
             }
             return View(pedido);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Autorizacion()
@@ -182,10 +188,10 @@ namespace SIAH.Controllers
             db.Entry(pedido).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Listado");
-           // if (pedido.estaAutorizado == true) pedido.estaAutorizado = false;
-          //  if (pedido.estaAutorizado == false) pedido.estaAutorizado = true;
+            // if (pedido.estaAutorizado == true) pedido.estaAutorizado = false;
+            //  if (pedido.estaAutorizado == false) pedido.estaAutorizado = true;
 
-          //  return RedirectToAction("Listado");
+            //  return RedirectToAction("Listado");
         }
         protected override void Dispose(bool disposing)
         {

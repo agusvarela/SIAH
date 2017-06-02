@@ -195,9 +195,13 @@
     <Compile Include="Migrations\201705090042292_create_hospitales_table.Designer.cs">
       <DependentUpon>201705090042292_create_hospitales_table.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201705101510403_create_pedidos_detalles_pedido.cs" />
-    <Compile Include="Migrations\201705101510403_create_pedidos_detalles_pedido.Designer.cs">
-      <DependentUpon>201705101510403_create_pedidos_detalles_pedido.cs</DependentUpon>
+    <Compile Include="Migrations\201705302232368_create_pedidos_table.cs" />
+    <Compile Include="Migrations\201705302232368_create_pedidos_table.Designer.cs">
+      <DependentUpon>201705302232368_create_pedidos_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705302237228_create_detalles_pedido_table.cs" />
+    <Compile Include="Migrations\201705302237228_create_detalles_pedido_table.Designer.cs">
+      <DependentUpon>201705302237228_create_detalles_pedido_table.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Hospital.cs" />
@@ -355,8 +359,11 @@
     <EmbeddedResource Include="Migrations\201705090042292_create_hospitales_table.resx">
       <DependentUpon>201705090042292_create_hospitales_table.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705101510403_create_pedidos_detalles_pedido.resx">
-      <DependentUpon>201705101510403_create_pedidos_detalles_pedido.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705302232368_create_pedidos_table.resx">
+      <DependentUpon>201705302232368_create_pedidos_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705302237228_create_detalles_pedido_table.resx">
+      <DependentUpon>201705302237228_create_detalles_pedido_table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
