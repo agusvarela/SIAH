@@ -187,7 +187,7 @@
                         return false;
                     }
                 }).autocomplete("instance")._renderItem = function (ul, item) {
-                    return $("<li class='col-md-7' style='background-color: white'>")
+                    return $("<li>")
                             .append("<div><strong>" + item.nombre + "</strong><br><em>" + item.tipo + "</em></div>")
                             .appendTo(ul);
                         }
