@@ -75,7 +75,7 @@ namespace SIAH.Controllers
         public JsonResult GetDetalles(int idPedido)
         {
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == idPedido)
-                                .Select(x => new { nombre = x.insumo.nombre, precio = x.insumo.precioUnitario, cantidad = x.cantidad, tipo = x.insumo.tiposInsumo.nombre });
+                                .Select(x => new { nombre = x.insumo.nombre, precio = x.insumo.precioUnitario, cantidad = x.cantidad, cantidadAutorizada = x.cantidadAutorizada, tipo = x.insumo.tiposInsumo.nombre });
             return Json(detallesPedido, JsonRequestBehavior.AllowGet);
         }
 
@@ -84,7 +84,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,esUrgente,hospitalId,detallesPedido")] Pedido pedido)
+        public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,esUrgente,estaAutorizado,hospitalId,detallesPedido")] Pedido pedido)
         {
             pedido.fechaEntrega = null;
 
@@ -184,16 +184,16 @@ namespace SIAH.Controllers
         public ActionResult Autorizacion()
         {
             Pedido pedido = Session["pedido"] as Pedido;
-            List<DetallePedido> detalles = pedido.detallesPedido.ToList();
+            //for (int i = 0; i < cantAutorizadas.Length; i++)
+            //{
+            //    pedido.detallesPedido.ElementAt(i).cantidadAutorizada = cantAutorizadas.GetValue(i);
+            //}
             pedido.estaAutorizado = true;
-            db.Entry(pedido).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Listado");
-            // if (pedido.estaAutorizado == true) pedido.estaAutorizado = false;
-            //  if (pedido.estaAutorizado == false) pedido.estaAutorizado = true;
-
-            //  return RedirectToAction("Listado");
+                db.Entry(pedido).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Listado");
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
