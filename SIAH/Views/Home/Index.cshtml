@@ -35,13 +35,14 @@
                         <div class="col-md-4">
                             <div class="info">
                                 <div class="icon icon-primary">
-                                    ><i class="material-icons">send</i>
+                                    <i class="material-icons">send</i>
                                 </div>
                                 <h4 class="info-title">
                                     <a href="../Pedidos/Create">Pedidos</a>
                                   
                                 </h4>
                                 <p>Genere pedidos mensuales para la farmacia de su hospital. Controle el estado de los mismos.</p>
+                                @Html.ActionLink("Generar Nuevo Pedido", "Create", "Pedidos")
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -53,6 +54,7 @@
                                     <a href="../Pedidos/Listado">Autorizaciones</a>   
                                 </h4>
                                 <p>Autorice los pedidos de los hospitales y realice la carga en el sistema de envios de Ocasa.</p>
+                                @Html.ActionLink("Ir al Listado de Pedidos", "Listado", "Pedidos")
                             </div>
                         </div>
                         <div class="col-md-4">
