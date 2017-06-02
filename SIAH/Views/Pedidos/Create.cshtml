@@ -6,7 +6,7 @@
 
     var detallesPedido = Model.detallesPedido;
 }
-
+<div class="container" style="background-color: white">
 
     @using (Html.BeginForm(new { enctype = "multipart/form-data" }))
     {
@@ -72,7 +72,7 @@
             <div class="row">
                 @Html.LabelFor(model => model.detallesPedido, "Insumo", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-7">
-                    <input class="form-control buscador ui-autocomplete-input" id="q" type="text" value="" autocomplete="on">
+                    <input class="form-control style='background-color: white' buscador ui-autocomplete-input" id="q" type="text" value="" autocomplete="on">
                 </div>
             </div>
             <div class="row">
@@ -186,8 +186,8 @@
                         $('#idInsumo').val(p.item.id);
                         return false;
                     }
-                    }).autocomplete("instance")._renderItem = function (ul, item) {
-                            return $("<li>")
+                }).autocomplete("instance")._renderItem = function (ul, item) {
+                    return $("<li class='col-md-7' style='background-color: white'>")
                             .append("<div><strong>" + item.nombre + "</strong><br><em>" + item.tipo + "</em></div>")
                             .appendTo(ul);
                         }
