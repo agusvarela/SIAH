@@ -74,7 +74,10 @@
                 Tipo
             </th>
             <th>
-               Cantidad
+               Cantidad Pedida
+            </th>
+            <th>
+                Cantidad Autorizada
             </th>
             <th>
                 Precio unitario
@@ -131,14 +134,16 @@
 
                                      var $tdTipo = $('<td>').append(item.tipo);
 
-                                    var $tdCantidad = $('<td>').append(item.cantidad);
+                                     var $tdCantidad = $('<td>').append(item.cantidad);
 
+                                     var $cantidadAutorizada = $('<td><input type="number" min="0" max="-1" value="-2">').html();
+                                     var $tdCantidadAutorizada = $cantidadAutorizada.replace("-1", item.cantidad).replace("-2", item.cantidad);
                                     var $tdPrecioUnitario = $('<td>').append(item.precio);
 
                                     var subtotal = item.precio * item.cantidad;
                                     var $tdSubtotal = $('<td>').append(subtotal);
 
-                                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal);
+                                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotal);
                                     total += subtotal;
                                     $('#detalles').append($tr);
                                 }
