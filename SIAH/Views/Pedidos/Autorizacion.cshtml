@@ -135,9 +135,9 @@
                                      var $tdTipo = $('<td>').append(item.tipo);
 
                                      var $tdCantidad = $('<td>').append(item.cantidad);
-
-                                     var $cantidadAutorizada = $('<td><input type="number" min="0" max="-1" value="-2">').html();
-                                     var $tdCantidadAutorizada = $cantidadAutorizada.replace("-1", item.cantidad).replace("-2", item.cantidad);
+                                    
+                                     var $cantidadAutorizada = $('<input>').attr('type', 'number').attr('min', '0').attr('max', item.cantidad).attr('value', item.cantidad);
+                                     var $tdCantidadAutorizada = $('<td>').append($cantidadAutorizada);
                                     var $tdPrecioUnitario = $('<td>').append(item.precio);
 
                                     var subtotal = item.precio * item.cantidad;

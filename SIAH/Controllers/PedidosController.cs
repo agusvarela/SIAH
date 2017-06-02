@@ -97,7 +97,7 @@ namespace SIAH.Controllers
             {
                 db.Pedidos.Add(pedido);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Listado");
             }
 
             ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
@@ -184,6 +184,7 @@ namespace SIAH.Controllers
         public ActionResult Autorizacion()
         {
             Pedido pedido = Session["pedido"] as Pedido;
+            List<DetallePedido> detalles = pedido.detallesPedido.ToList();
             pedido.estaAutorizado = true;
             db.Entry(pedido).State = EntityState.Modified;
             db.SaveChanges();
