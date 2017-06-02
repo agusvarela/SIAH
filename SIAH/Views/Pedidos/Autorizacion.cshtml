@@ -1,6 +1,7 @@
 ﻿@model SIAH.Models.Pedidos.Pedido
 @{
     ViewBag.Title = "Autorizacion";
+    var cantAutorizadas = new List<int>();
 }
 
 <h2>Autorizar</h2>
@@ -66,28 +67,27 @@
     </div>
    @*Detalle del pedido*@
     <table id="detalles" class="table">
-        <tr>
-            <th>
-               Insumo
-            </th>
-            <th>
-                Tipo
-            </th>
-            <th>
-               Cantidad Pedida
-            </th>
-            <th>
-                Cantidad Autorizada
-            </th>
-            <th>
-                Precio unitario
-            </th>
-            <th>
-                Subtotal
-            </th>
-        </tr>
-      
-        </table>
+        <thead>
+            <tr>
+                <th>
+                    Insumo
+                </th>
+                <th>
+                    Tipo
+                </th>
+                <th>
+                    Cantidad Pedida
+                </th>
+                <th>
+                    Cantidad Autorizada
+                </th>
+                <th>
+                    Precio unitario
+                </th>
+            </tr>
+        </thead>
+          
+</table>
 
                 @*Boton para autorizar*@
     <br/>
@@ -121,7 +121,7 @@
                             });
                         })
                         $(document).ready(function () {
-                         
+                            var indice = $('#detallesPedido > tr').not('.empty').length;
                             var idPedido = $('#idPedido').val();
                             console.log(idPedido);
                             var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
@@ -129,15 +129,20 @@
                                 var total = 0;
                                 for (var i = 0, len = lista.length; i < len; i++) {
                                     var item = lista[i];
-                                    console.log(item);
+                                   console.log(item);
                                     var $tdInsumo = $('<td>').append(item.nombre);
 
                                      var $tdTipo = $('<td>').append(item.tipo);
 
                                      var $tdCantidad = $('<td>').append(item.cantidad);
+
                                     
-                                     var $cantidadAutorizada = $('<input>').attr('type', 'number').attr('min', '0').attr('max', item.cantidad).attr('value', item.cantidad);
+                                     /*var $cantidadAutorizada = $('<input>').attr('type', 'number').attr('min', '0').attr('max', item.cantidad).attr('value', item.cantidad);
+                                     var $tdCantidadAutorizada = $('<td>').append($cantidadAutorizada);;*/
+                                     var $cantidadAutorizada = $('<input>').attr('type', 'number').attr('min', '0').attr('max', item.cantidad).attr('value', item.cantidad).attr('name', 'cantidadAutorizada[' + i + ']');
                                      var $tdCantidadAutorizada = $('<td>').append($cantidadAutorizada);
+
+
                                     var $tdPrecioUnitario = $('<td>').append(item.precio);
 
                                     var subtotal = item.precio * item.cantidad;
