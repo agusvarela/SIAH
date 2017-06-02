@@ -13,7 +13,7 @@ namespace SIAH.Migrations
                     {
                         id = c.Int(nullable: false, identity: true),
                         nombre = c.String(nullable: false, maxLength: 255),
-                        precioUnitario = c.Double(nullable: false),
+                        precioUnitario = c.Decimal(nullable: false, precision:15, scale:2),
                         tipoInsumoId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id)

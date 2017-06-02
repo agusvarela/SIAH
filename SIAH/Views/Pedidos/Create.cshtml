@@ -1,13 +1,15 @@
 ﻿@model SIAH.Models.Pedidos.Pedido
 
+
 @{
     ViewBag.Title = "Create";
+
+    var detallesPedido = Model.detallesPedido;
 }
-@*<div class="main ">*@
 <div class="container" style="background-color: white">
 
     @using (Html.BeginForm(new { enctype = "multipart/form-data" }))
-            {
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
@@ -17,7 +19,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-7">
-                    @Html.EditorFor(model => model.periodo, new { @class = "form-control datepicker", placeholder = "Ingrrese una fecha", @id = "datepicker" })
+                    @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value= DateTime.Today })
                     @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -25,16 +27,8 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-7">
-                    @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                    @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value= DateTime.Today })
                     @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    @Html.EditorFor(model => model.fechaEntrega, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -54,113 +48,102 @@
                     </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.estaAutorizado, "Autorizado", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <div class="check">
-                        @Html.CheckBoxFor(model => model.esUrgente)
-                        @Html.ValidationMessageFor(model => model.estaAutorizado, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
             <br />
 
             <div class="form-group">
                 <div class="row">
-                    @*<label class="control-label">Selecciona un tipo de insumo</label>
-                    <select class="form-control" id="tipo">
-                        @foreach (var item in ViewData["tipoInsumo"] as IEnumerable<TipoInsumo>)
-                        {
-                            <option value="@item.Value">@item.Selected</option>
-                        }
-                    </select>*@
-                    @Html.Label("Tipo Insumo", null, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-7">
-                        @Html.DropDownList("tipoInsumo", ViewData["tipoInsumo"] as IEnumerable<SelectListItem>, "Selecciona un tipo", htmlAttributes: new { @class = "form-control col-md-3", @id = "tipo" })
-                        @Html.Label("Campo opcional", null, htmlAttributes: new { })
+                    <div class="col-md-offset-2 col-md-10">
+                        <label class="control-label">Selecciona un tipo de insumo</label>
+                        <select class="form-control" id="tipo">
+                            <option value="">Selecciona un tipo</option>
+                            @{ var tipoInsumo = ViewBag.tipoInsumo;}
+                            @foreach (var item in tipoInsumo)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                        <div class="col-md-7">
+                            @Html.Label("Campo opcional", null, htmlAttributes: new { })
+                        </div>
                     </div>
                 </div>
-                <br />
-               
-                </div>
-                <br />
-                <div class="row">
-                    @Html.LabelFor(model => model.detallesPedido, "Insumo", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-7">
-                        @Html.TextBoxFor(m => m.detallesPedido, new { @class = "form-control buscador", @id = "q" })
-                    </div>
-                </div>
-                 <div class="row">
-                 @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label col-md-2" })
-                  <div class="col-md-7">
-                      @Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad" })
-                  </div>
             </div>
-            @*Campo auxiliar para guardar el ID del insumo a agregar*@
+            <br />
+            <div class="row">
+                @Html.LabelFor(model => model.detallesPedido, "Insumo", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-7">
-                    @Html.TextBox("idInsumo", 0, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                    <input class="form-control style='background-color: white' buscador ui-autocomplete-input" id="q" type="text" value="" autocomplete="on">
                 </div>
-           
-            <div class="col-md-offset-2 col-md-10">
-                <input id="btn_addInsumo"type="button" value="Agregar Insumo" class="btn btn_addInsumo" />
+            </div>
+            <div class="row">
+                @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
+                    <input type="number" id="cantidad" min="0" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-md-offset-8 col-md-4">
+                <input id="btn_addInsumo" type="button" value="Agregar Insumo" class="btn btn_addInsumo" />
             </div>
             <br>
             <div class="form-group">
                 <h4 class="col-md-offset-2 col-md-7">Listado de Insumos</h4>
-                <table class="col-md-offset-2 col-md-7">
+                <table class="col-md-offset-2 col-md-7 table-hover table-condensed">
                     <thead>
                         <tr>
                             <th>Nombre</th>
                             <th>Tipo</th>
                             <th>Cantidad</th>
                             <th>Precio Unitario</th>
+                            <th>Sub Total</th>
                             <th width="40px">Acciones</th>
                         </tr>
                     </thead>
-                    @using SIAH.Models.Pedidos;
-                    @{List<DetallePedido> detallesPedido = new List<DetallePedido>();}
+                    @{ var subtotal = "";}
                     <tbody name="detallesPedido" id="detallesPedido">
-                        @if (detallesPedido != null)
+                        @foreach (var item in detallesPedido)
                         {
-                            for (var i = 0; i < detallesPedido.Count; i++)
-                            {
-                                <tr>
-                                    <td>
-                                        <input type="hidden" name="@detallesPedido[i].insumo.id" value="@detallesPedido[i].insumo.id">
-                                        <input type="hidden" name="@detallesPedido[i].insumo.nombre" value="@detallesPedido[i].insumo.nombre">
-                                        @detallesPedido[i].insumo.nombre;
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="@detallesPedido[i].insumo.tiposInsumo.nombre" value="@detallesPedido[i].insumo.tiposInsumo.nombre">
-                                        @detallesPedido[i].insumo.tiposInsumo.nombre;
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="@detallesPedido[i].cantidad" value="@detallesPedido[i].cantidad">
-                                        @detallesPedido[i].cantidad;
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="@detallesPedido[i].insumo.precioUnitario" value="@detallesPedido[i].insumo.precioUnitario">
-                                        @detallesPedido[i].insumo.precioUnitario;
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-danger btn-eliminar-detallesPedido">
-                                            <i class="glyphicon glyphicon-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            }
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="@item.insumoId" value="@item.insumoId">
+                                    <input type="hidden" name="@item.insumo.id" value="@item.insumo.id">
+                                    <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
+                                    @item.insumo.nombre;
+                                </td>
+                                <td>
+                                    <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
+                                    @item.insumo.tiposInsumo.nombre;
+                                </td>
+                                <td>
+                                    <input type="hidden" name="@item.cantidad" value="@item.cantidad">
+                                    @item.cantidad;
+                                </td>
+                                <td>
+                                    <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
+                                    @item.insumo.precioUnitario;
+                                </td>
+                                <td>
+                                    <input type="hidden" name="subtotal" value="subtotal">
+                                    @subtotal;
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger btn-eliminar-detallesPedido">
+                                        <i class="material-icons">highlight_off</i>
+                                    </button>
+                                </td>
+                            </tr>
                         }
 
                         <tr class="empty well text-center" style="display: @(detallesPedido.Count > 0 ? "none" : "") ">
-                            <td colspan="5">Aun no se han agregado insumos</td>
+                            <td colspan="6">Aun no se han agregado insumos</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Enviar Pedido" class="btn btn-default" />
+                    <input type="submit" id="enviar" value="Enviar Pedido" class="btn btn-default" />
                 </div>
             </div>
         </div>
@@ -178,100 +161,82 @@
             //})
             $(document).ready(function () {
                 var indice = $('#detallesPedido > tr').not('.empty').length;
+                $('#enviar').hide();
+                var data = '';
                 $("#q").autocomplete({
                     minLength: 1,
                     source: function (request, response) {
                         $.ajax({
                             url: '@Url.Action("../Insumos/BuscarInsumos")',
-                                        dataType: "json",
-                                        type: "GET",
-                                        contentType: "application/json; charset=utf-8",
-                                        data: {
-                                            term: request.term,
-                                            id: $('#tipo').val()
-                                        },
-                                        success: function (data) {
-                                            response(data);
-                                        }
-                                    });
-                                },
-                                select: function (event, p) {
-                                    $('#q').val(p.item.nombre);
-                                    $('#idInsumo').val(p.item.id);
-                                 // Deprecated: antes se agregaba el insumo desde aca
-                                /*  var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').val(p.item.id);
-                                  var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(p.item.nombre);
-                                  var $tdInsumo = $('<td>').html(p.item.nombre).append($insumoId, $nombre);
-
-                                  var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tipoInsumo][nombre]').val($tipo);
-                                  var $tdTipo = $('<td>').html(p.item.tipo).append($tipo);
-                                  var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val(p.item.precioUnitario);
-                                  var $tdPrecioUnitario = $('<td>').html(p.item.precioUnitario).append($precioUnitario);
-                                  var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'cantidad').val($cantidad);
-                                  var $tdCantidad = $('<td>').html($('#cantidad').val()).append($cantidad);
-                                  var $boton = $('<button>').attr('type', 'button').addClass('btn btn-danger btn-eliminar-detallesPedido').append($('<i>').addClass('glyphicon glyphicon-trash'));
-                                  var $tdAccion = $('<td>').append($boton);
-                                  var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdAccion);
-                                   $('#detallesPedido').append($tr);
-                                   indice++;*/
-                                    return false;
-                                }
-                            }).autocomplete("instance")._renderItem = function (ul, item) {
-                                return $("<li>")
-                                    .append("<div><strong>" + item.nombre + "</strong><br><em>" + item.tipo + "</em></div>")
-                                    .appendTo(ul);
+                            dataType: "json",
+                            type: "GET",
+                            contentType: "application/json; charset=utf-8",
+                            data: {
+                                term: request.term,
+                                id: $('#tipo').val()
+                            },
+                            success: function (data) {
+                                response(data);
                             }
-                            $(document).on('click', '.btn-eliminar-detallesPedido', function () {
-                                $(this).parents('tr').remove();
-                                indice--;
-                                if ($('#detallesPedido > tr').not('.empty').length == 0) {
-                                    $('#detallesPedido .empty').show();
-                                }
-                            });
-                        //Boton para agregar insumo a la lista
-                            $(document).on('click', '.btn_addInsumo', function () {
-                                var indice = $('#detallesPedido > tr').not('.empty').length;
-                                $.ajax({
-                                    url: '@Url.Action("../Insumos/BuscarInsumoParaAgregar")',
-                                    dataType: "json",
-                                    type: "GET",
-                                    contentType: "application/json; charset=utf-8",
-                                    data: {
-                                        id: $('#idInsumo').val(),
-                                        idTipo: $('#tipo').val()
-                                    },
-                                    success: function (data) {
-                                        if ($('#detallesPedido .empty').is(':visible')) {
-                                            $('#detallesPedido .empty').hide();
-                                        }
-                                       // console.log(p);
-                                        var item = data[0];
-                                        var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').val(item.id);
-                                        var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(item.nombre);
-                                        var $tdInsumo = $('<td>').html(item.nombre).append($insumoId, $nombre);
+                        });
+                    },
+                    select: function (event, p) {
+                        data = p.item;
+                        $('#q').val(p.item.nombre);
+                        $('#idInsumo').val(p.item.id);
+                        return false;
+                    }
+                }).autocomplete("instance")._renderItem = function (ul, item) {
+                    return $("<li>")
+                            .append("<div><strong>" + item.nombre + "</strong><br><em>" + item.tipo + "</em></div>")
+                            .appendTo(ul);
+                        }
+                    $(document).on('click', '.btn-eliminar-detallesPedido', function () {
+                        $(this).parents('tr').remove();
+                        indice--;
+                        if ($('#detallesPedido > tr').not('.empty').length == 0) {
+                            $('#enviar').hide();
+                            $('#detallesPedido .empty').show();
+                        }
+                    });
+                    //Boton para agregar insumo a la lista
+                    $(document).on('click', '.btn_addInsumo', function () {
+                        if (data != '' && $('#cantidad').val() != "") {
+                            if ($('#detallesPedido .empty').is(':visible')) {
+                                $('#detallesPedido .empty').hide();
+                                $('#enviar').show();
+                            }
+                            //console.log(data);
+                            var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').val(data.id);
+                            var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').val(data.id);
+                            var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
+                            var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre);
 
-                                        var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tipoInsumo][nombre]').val($tipo);
-                                        var $tdTipo = $('<td>').html(item.tipo).append($tipo);
-                                        var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val(item.precioUnitario);
-                                        var $tdPrecioUnitario = $('<td>').html(item.precioUnitario).append($precioUnitario);
-                                        var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'cantidad').val($cantidad);
-                                        var $tdCantidad = $('<td>').html($('#cantidad').val()).append($cantidad);
-                                        var $boton = $('<button>').attr('type', 'button').addClass('btn btn-danger btn-eliminar-detallesPedido').append($('<i>').addClass('glyphicon glyphicon-trash'));
-                                        var $tdAccion = $('<td>').append($boton);
-                                        var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdAccion);
-                                        $('#detallesPedido').append($tr);
-                                        indice++;
-                                        $('#q').val('');
-                                        $('#cantidad').val('');
-                                    }
-                                });
+                            var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
+                            var $tdTipo = $('<td>').html(data.tipo).append($tipo);
+                            var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val(data.precioUnitario);
+                            var $tdPrecioUnitario = $('<td>').html(data.precioUnitario).append($precioUnitario);
+                            var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());
+                            var $tdCantidad = $('<td>').html($('#cantidad').val()).append($cantidad);
+                            var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
+                            var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalCalculado);
+                            var $tdSubtotal = $('<td>').html('$' + $subtotalCalculado).append($cantidad);
+                            var $boton = $('<button>').attr('type', 'button').addClass('btn btn-danger btn-eliminar-detallesPedido').append($('<i>').addClass('material-icons').html('highlight_off'));
+                            var $tdAccion = $('<td>').append($boton);
+                            var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
+                            $('#detallesPedido').append($tr);
+                            indice++;
+                            $('#q').val('');
+                            $('#cantidad').val('');
+                            $('#tipo').val('');
+                            data = '';
+                        }
+                    });
 
 
-                               
-                            });
-                            });
+
+                });
         </script>
     }
 
 </div>
-@*</div>*@

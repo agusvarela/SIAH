@@ -16,11 +16,14 @@ namespace SIAH.Models.Pedidos
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime periodo { get; set; }
         [Display(Name = "Fecha de Generación")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaGeneracion { get; set; }
 
         [Display(Name = "Fecha de entrega")]
-        [Required(AllowEmptyStrings = true)]
-        public DateTime fechaEntrega { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? fechaEntrega { get; set; }
 
         [Display(Name = "¿Es Urgente?")]
         public Boolean esUrgente { get; set; }
@@ -31,6 +34,11 @@ namespace SIAH.Models.Pedidos
         public Hospital hospital { get; set; }
 
         public ICollection<DetallePedido> detallesPedido { get; set; }
+
+        public Pedido()
+        {
+            this.detallesPedido = new HashSet<DetallePedido>();
+        }
 
 
     }
