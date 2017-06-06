@@ -75,7 +75,7 @@ namespace SIAH.Controllers
         public JsonResult GetDetalles(int idPedido)
         {
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == idPedido)
-                                .Select(x => new { nombre = x.insumo.nombre, precio = x.insumo.precioUnitario, cantidad = x.cantidad, cantidadAutorizada = x.cantidadAutorizada, tipo = x.insumo.tiposInsumo.nombre });
+                                .Select(x => new { pedidoId = x.pedidoId, insumoId = x.insumoId, nombre = x.insumo.nombre, precioUnitario = x.insumo.precioUnitario, cantidad = x.cantidad, cantidadAutorizada = x.cantidadAutorizada, tipo = x.insumo.tiposInsumo.nombre });
             return Json(detallesPedido, JsonRequestBehavior.AllowGet);
         }
 
@@ -181,17 +181,27 @@ namespace SIAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Autorizacion()
+        public ActionResult Autorizacion([Bind(Include = "id,periodo,fechaGeneracion,esUrgente,estaAutorizado,hospitalId,detallesPedido")] Pedido pedido)
         {
-            Pedido pedido = Session["pedido"] as Pedido;
-            //for (int i = 0; i < cantAutorizadas.Length; i++)
-            //{
-            //    pedido.detallesPedido.ElementAt(i).cantidadAutorizada = cantAutorizadas.GetValue(i);
-            //}
-            pedido.estaAutorizado = true;
+            if (ModelState.IsValid)
+            {
+                //A cada detalle se le modifican los atributos
+                foreach (var detalle in pedido.detallesPedido)
+            {
+                detalle.insumo = null;
+                db.Entry(detalle).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+                //Se modifica el estado del pedido en general
+                pedido.estaAutorizado = true;
+                
                 db.Entry(pedido).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Listado");
+            }
+            ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
+            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", pedido.hospitalId);
+            return View(pedido);
         }
 
         protected override void Dispose(bool disposing)

@@ -134,9 +134,9 @@
                                      var $tdCantidad = $('<td>').append(item.cantidad);
                                      var $tdCantidadAutorizada = $('<td>').append(item.cantidadAutorizada);
 
-                                    var $tdPrecioUnitario = $('<td>').append(item.precio);
+                                    var $tdPrecioUnitario = $('<td>').append(item.precioUnitario);
 
-                                    var subtotal = item.precio * item.cantidad;
+                                    var subtotal = item.precioUnitario * item.cantidad;
                                     var $tdSubtotal = $('<td>').append(subtotal);
 
                                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotal);
