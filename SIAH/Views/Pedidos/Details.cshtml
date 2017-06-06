@@ -28,7 +28,8 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.periodo)
+                @Html.TextBox("periodo", Model.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = Model.periodo })
+                @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
             </dd>
 
             <dt>
@@ -36,7 +37,8 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.fechaGeneracion)
+                @Html.TextBox("fechaGeneracion", Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = Model.fechaGeneracion })
+                @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
             </dd>
 
             <dt>
@@ -86,6 +88,9 @@
             <th>
                 Subtotal
             </th>
+            <th>
+                Subtotal Autorizado
+            </th>
         </tr>
 
     </table>
@@ -96,7 +101,11 @@
             @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
             @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
         </div>
-      
+        <div class="col-md-offset-11 col-md-2">
+            @Html.Label("Total Autorizado", null, htmlAttributes: new { @class = "control-label" })
+            @Html.TextBox("totalAutorizado", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+        </div>
+
         @Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
         @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
 }
@@ -124,6 +133,7 @@
                             var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
                             $.get(urlDetalle, null, function (lista) {
                                 var total = 0;
+                                var totalAutorizado = 0;
                                 for (var i = 0, len = lista.length; i < len; i++) {
                                     var item = lista[i];
                                     console.log(item);
@@ -139,11 +149,16 @@
                                     var subtotal = item.precioUnitario * item.cantidad;
                                     var $tdSubtotal = $('<td>').append(subtotal);
 
-                                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotal);
+                                    var subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
+                                    var $tdSubtotalAutorizado = $('<td>').append(subtotalAutorizado);
+
+                                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotal, $tdSubtotalAutorizado);
                                     total += subtotal;
+                                    totalAutorizado += subtotalAutorizado;
                                     $('#detalles').append($tr);
                                 }
                                 $('#total').val(total);
+                                $('#totalAutorizado').val(totalAutorizado);
                              });
                         });
 
