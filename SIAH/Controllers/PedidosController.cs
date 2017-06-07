@@ -57,12 +57,34 @@ namespace SIAH.Controllers
         }
 
         // GET: Pedidos/Listado
-        public ActionResult Listado()
+        //public ActionResult Listado()
+        //{
+        //    var pedidos = db.Pedidos.Include(p => p.hospital);
+        //    return View(pedidos.ToList());
+        //}
+        public ActionResult Listado(string param)
         {
-            var pedidos = db.Pedidos.Include(p => p.hospital);
-            return View(pedidos.ToList());
-        }
+            if (param != null)
+            {
+                if (param.CompareTo("Success") == 0)
+                {
+                    ViewBag.success = true;
+                }
+                else
+                {
+                    ViewBag.success = false;
+                    ViewBag.problem = param;
+                };
+                var pedidos = db.Pedidos.Include(p => p.hospital);
+                return View(pedidos.ToList());
+            }
+            else
+            {
+                var pedidos = db.Pedidos.Include(p => p.hospital);
+                return View(pedidos.ToList());
+            }
 
+        }
         public JsonResult GetInsumos(String id)
         {
             int idTipo = int.Parse(id);
@@ -96,8 +118,16 @@ namespace SIAH.Controllers
             if (ModelState.IsValid)
             {
                 db.Pedidos.Add(pedido);
-                db.SaveChanges();
-                return RedirectToAction("Listado");
+                try { 
+                if (db.SaveChanges() > 0)
+                {
+                    return RedirectToAction("Listado", new { param = "Success" });
+                }
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Listado", new { param = e.Message });
+                }
             }
 
             ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
@@ -187,14 +217,14 @@ namespace SIAH.Controllers
             {
                 //A cada detalle se le modifican los atributos
                 foreach (var detalle in pedido.detallesPedido)
-            {
-                detalle.insumo = null;
-                db.Entry(detalle).State = EntityState.Modified;
-                db.SaveChanges();
-            }
+                {
+                    detalle.insumo = null;
+                    db.Entry(detalle).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
                 //Se modifica el estado del pedido en general
                 pedido.estaAutorizado = true;
-                
+
                 db.Entry(pedido).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Listado");

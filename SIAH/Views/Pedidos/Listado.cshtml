@@ -3,46 +3,85 @@
 @{
     ViewBag.Title = "Listado de Pedidos";
 }
+<script type="text/javascript">
+    window.addEventListener("load", function () {
+        $('#myModal').modal({ show: true });
+    })
 
-<h2>Listado de Pedidos</h2>
+</script>
+    <h2>Listado de Pedidos</h2>
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaGeneracion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.hospital.nombre)
-        </th>
-       
-       
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fechaGeneracion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.hospital.nombre)
-            </td>
-            <td>
-                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                @if (item.estaAutorizado == false)
-                {
-                  @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
-                }
-                
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fechaGeneracion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.hospital.nombre)
+            </th>
+
+
         </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                </td>
+                <td>
+                    @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                    @if (item.estaAutorizado == false)
+                {
+                        @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
+                    }
+
+                </td>
+            </tr>
+        }
+
+    </table>
+    @if (ViewBag.success == true)
+    {
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="alert alert-success">
+                <div class="container-fluid">
+                    <div class="alert-icon">
+                        <i class="material-icons">check</i>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                    </button>
+                    <strong>EL PEDIDO FUE ENVIADO EXITOSAMENTE.</strong>
+                </div>
+            </div>
+        </div>
     }
 
-</table>
+    else
+if (ViewBag.success == false)
+    {
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="alert alert-danger">
+                <div class="container-fluid">
+                    <div class="alert-icon">
+                        <i class="material-icons">error_outline</i>
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                    </button>
+                    <strong>Ocurrió un Error inesperado: </strong> ViewBag.problem
+                </div>
+            </div>
+        </div>
+    }
