@@ -29,25 +29,45 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.hospital.nombre)
-                </td>
-                <td>
-                    @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                    @if (item.estaAutorizado == false)
-                {
-                        @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
-                    }
+            if (item.estaAutorizado == true)
+            {
+                <tr style="background-color:lawngreen">
+            
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
 
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr style="background-color:orange">
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
+                        
+                    </td>
+                </tr>
+            }
         }
 
     </table>
