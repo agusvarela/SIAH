@@ -79,7 +79,7 @@
                 @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-7">
                     @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
-                    <input type="number" id="cantidad" min="0" class="form-control" />
+                    <input type="number" id="cantidad" min="0" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
                 </div>
             </div>
 
@@ -216,7 +216,7 @@
                             var $tdTipo = $('<td>').html(data.tipo).append($tipo);
                             var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val(data.precioUnitario);
                             var $tdPrecioUnitario = $('<td>').html(data.precioUnitario).append($precioUnitario);
-                            var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());
+                            var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());                            
                             var $tdCantidad = $('<td>').html($('#cantidad').val()).append($cantidad);
                             var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
                             var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalCalculado);
