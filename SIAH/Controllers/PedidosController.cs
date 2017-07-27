@@ -234,6 +234,12 @@ namespace SIAH.Controllers
             return View(pedido);
         }
 
+        public ActionResult ReporteConsolidado()
+        {
+            var pedidos = db.Pedidos.Include(p => p.hospital);
+            return View(pedidos.ToList());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
