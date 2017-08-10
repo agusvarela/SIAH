@@ -67,6 +67,20 @@
                                 @Html.ActionLink("Ir a Reportes", "ReporteConsolidado", "Pedidos")
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="info">
+                                <div class="icon icon-primary">
+                                    <i class="material-icons">account_circle</i>
+                                </div>
+                                <h4 class="info-title">Usuarios</h4>
+                                <p>El sistema cuenta con gestión de usuarios y permisos</p>
+                                @Html.ActionLink("Listado de usuarios", "Index", "Account")
+                                <br/>
+                                @Html.ActionLink("Registrarse", "Register", "Account")
+                                <br />
+                                @Html.ActionLink("Ingresar", "Login", "Account")
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

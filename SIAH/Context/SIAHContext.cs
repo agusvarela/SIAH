@@ -39,6 +39,8 @@ namespace SIAH.Context
 
         public DbSet<DetallePedido> DetallesPedido { get; set; }
 
+        public DbSet<UserAccount> UserAccounts { get; set; }
+
     }
 
 }

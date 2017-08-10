@@ -169,6 +169,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Context\SIAHContext.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DetallesPedidoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HospitalesController.cs" />
@@ -203,6 +204,10 @@
     <Compile Include="Migrations\201705302237228_create_detalles_pedido_table.Designer.cs">
       <DependentUpon>201705302237228_create_detalles_pedido_table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708102119263_create_userAccounts_table.cs" />
+    <Compile Include="Migrations\201708102119263_create_userAccounts_table.Designer.cs">
+      <DependentUpon>201708102119263_create_userAccounts_table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />
@@ -210,6 +215,7 @@
     <Compile Include="Models\Insumos\TipoInsumo.cs" />
     <Compile Include="Models\Pedidos\DetallePedido.cs" />
     <Compile Include="Models\Pedidos\Pedido.cs" />
+    <Compile Include="Models\UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -336,6 +342,10 @@
     <Content Include="Views\Pedidos\Autorizacion.cshtml" />
     <Content Include="Views\Shared\_LayoutHome.cshtml" />
     <Content Include="Views\Pedidos\ReporteConsolidado.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\LoggedIn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -371,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705302237228_create_detalles_pedido_table.resx">
       <DependentUpon>201705302237228_create_detalles_pedido_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708102119263_create_userAccounts_table.resx">
+      <DependentUpon>201708102119263_create_userAccounts_table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
