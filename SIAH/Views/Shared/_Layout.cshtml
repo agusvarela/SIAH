@@ -51,6 +51,10 @@
             </div>
             <div class="collapse navbar-collapse" id="navigation-index">
                 <ul class="nav navbar-nav navbar-right">
+                    <li>@if (Session["userid"] != null)
+                    {
+                        <p style="font-size:large">Bienvenido @Session["nombre"].ToString()</p>
+                    }</li>
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
                     <li>@Html.ActionLink("Listado De Pedidos", "Listado", "Pedidos")</li>
                     <li class="dropdown">

@@ -46,19 +46,23 @@ namespace SIAH.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(UserAccount user)
         {
             using (Context.SIAHContext db = new Context.SIAHContext())
             {
-                var usr = db.UserAccounts.Single(u => u.email == user.email && u.password == user.password);
+                //var usr = db.UserAccounts.Single(u => u.email == user.email && u.password == user.password);
+                var usr = db.UserAccounts.Where(u => u.email == user.email && u.password == user.password).FirstOrDefault();
                 if (usr != null)
                 {
-                    Session["id"] = usr.id.ToString();
+                    Session["userid"] = usr.id.ToString();
                     Session["email"] = usr.email.ToString();
+                    Session["nombre"] = usr.nombre.ToString();
                     return RedirectToAction("LoggedIn");
                 } else
                 {
                     ModelState.AddModelError("", "Usuario y/o contraseña incorrecto");
+                    
                 }
             }
             return View();
@@ -66,7 +70,7 @@ namespace SIAH.Controllers
 
         public ActionResult LoggedIn()
         {
-            if(Session["userId"]!=null)
+            if(Session["userid"]!=null)
             {
                 return View();
             }
