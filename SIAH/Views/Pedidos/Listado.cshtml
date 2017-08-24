@@ -1,5 +1,23 @@
 ﻿@model IEnumerable<SIAH.Models.Pedidos.Pedido>
 
+<ul class="nav nav-pills nav-stacked pull-right left">
+    <li class="text-info">
+        <a href="#" style="background-color:orange">
+            <span class="badge pull-right"></span>
+            No Autorizado
+        </a>
+    </li>
+</ul>
+    <ul class="nav nav-pills nav-stacked pull-right right">
+        <li class="text-info">
+            <a href="#" style="background-color:lawngreen">
+                <span class="badge pull-right"></span>
+                Autorizado
+            </a>
+        </li>
+    
+</ul>
+
 @{
     ViewBag.Title = "Listado de Pedidos";
 }
@@ -12,16 +30,17 @@
     <h2>Listado de Pedidos</h2>
 
 
+
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                @Html.Name("Número de Pedido")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fechaGeneracion)
+                @Html.Name("Fecha de Generación")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.hospital.nombre)
+                @Html.Name("Nombre de Hospital")
             </th>
 
 
