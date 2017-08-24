@@ -31,10 +31,20 @@ namespace SIAH.Controllers
                 using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
                 {
                     db.UserAccounts.Add(account);
-                    db.SaveChanges();
+                    try
+                    {
+                        if (db.SaveChanges() > 0)
+                        {
+                            return RedirectToAction("Index", new { param = "Success" });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        return RedirectToAction("Index", new { param = e.Message });
+                    }
                 }
                 ModelState.Clear();
-                ViewBag.Message = account.nombre + " " + account.apellido + " Fue registrado correctamente";
+              //  ViewBag.Message = account.nombre + " " + account.apellido + " Fue registrado correctamente";
             }
             return View();
         }
