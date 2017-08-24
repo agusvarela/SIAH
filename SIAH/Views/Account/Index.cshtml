@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Usuario</h2>
 
 <p>
     @Html.ActionLink("Registrar nuevo usuario", "Register")
@@ -12,16 +12,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.nombre)
+            @Html.Name("Nombre de Usuario")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.apellido)
+            @Html.Name("Apellido")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.email)
+            @Html.Name("Email")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.password)
+            @Html.Name("Password")
         </th>
         @*<th></th>*@
     </tr>
