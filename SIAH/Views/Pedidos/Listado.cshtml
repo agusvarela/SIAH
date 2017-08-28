@@ -1,22 +1,6 @@
 ﻿@model IEnumerable<SIAH.Models.Pedidos.Pedido>
 
-<ul class="nav nav-pills nav-stacked pull-right left">
-    <li class="text-info">
-        <a href="#" style="background-color:orange">
-            <span class="badge pull-right"></span>
-            No Autorizado
-        </a>
-    </li>
-</ul>
-    <ul class="nav nav-pills nav-stacked pull-right right">
-        <li class="text-info">
-            <a href="#" style="background-color:lawngreen">
-                <span class="badge pull-right"></span>
-                Autorizado
-            </a>
-        </li>
-    
-</ul>
+
 
 @{
     ViewBag.Title = "Listado de Pedidos";
@@ -29,7 +13,23 @@
 </script>
     <h2>Listado de Pedidos</h2>
 
+<ul class="nav nav-pills nav-stacked pull-right left">
+    <li class="text-info">
+        <a href="#" style="background-color:orange">
+            <span class="badge pull-right"></span>
+            No Autorizado
+        </a>
+    </li>
+</ul>
+<ul class="nav nav-pills nav-stacked pull-right right">
+    <li class="text-info">
+        <a href="#" style="background-color:lawngreen">
+            <span class="badge pull-right"></span>
+            Autorizado
+        </a>
+    </li>
 
+</ul>
 
     <table class="table">
         <tr>
