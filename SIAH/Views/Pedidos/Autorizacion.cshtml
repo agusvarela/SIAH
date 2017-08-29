@@ -4,7 +4,7 @@
     var detallesPedido = Model.detallesPedido;
 }
 
-<h2>Autorizar</h2>
+<h2>Autorización de Pedido</h2>
 
 @using (Html.BeginForm())
 {
@@ -16,222 +16,238 @@
 
 
     <div class="form-horizontal">
-        <h4>Pedido</h4>
+        <h4>Detalles</h4>
         <hr />
-        <dl class="dl-horizontal">
+        <div class="form-group">
 
-            <dt>
-                @Html.DisplayNameFor(model => model.hospital.nombre)
-            </dt>
+            <div class="form-group">
+                @Html.LabelFor(model => model.hospital.nombre, "Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.hospital.nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-            <dd>
-                @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
-            </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.periodo)
-            </dt>
+            <div class="form-group">
+                @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                    @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-            <dd>
-               @*@Html.DisplayFor(model => model.periodo, null, "periodo")*@
-                @Html.TextBox("periodo", Model.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = Model.periodo })
-                @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
-            </dd>
+            <div class="form-group">
+                @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                    @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaGeneracion)
-            </dt>
-
-            <dd>
-                @*@Html.DisplayFor(model => model.fechaGeneracion, null, "fechaGeneracion")*@
-                @Html.TextBox("fechaGeneracion", Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = Model.fechaGeneracion })
-                @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaEntrega)
-            </dt>
-
-            <dd>
-                @*@Html.DisplayFor(model => model.fechaEntrega)*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-2" })
                 @{ DateTime fechaE = DateTime.Today.AddDays(3);
-                    if (fechaE.DayOfWeek == DayOfWeek.Saturday || fechaE.DayOfWeek == DayOfWeek.Sunday)
+                if (fechaE.DayOfWeek == DayOfWeek.Saturday || fechaE.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    fechaE = fechaE.AddDays(2);
+                }
+                }
+                <div class="col-md-7">
+                    @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE })
+                    @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.esUrgente, "Urgente", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", @onclick = "return false;" })
+                            @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
+
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.estaAutorizado, "¿Está Autorizado?", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(model => model.estaAutorizado, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", @onclick = "return false;" })
+                            @Html.ValidationMessageFor(model => model.estaAutorizado, "", new { @class = "text-danger" })
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+                    if (Model.estaAutorizado == false)
                     {
-                        fechaE = fechaE.AddDays(2);
-                    }
-                }
-                @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE })
-                @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
-            </dd>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <h3 class="col-md-offset-2 col-md-7"><strong>Listado de Insumos</strong></h3>
+                                <table class="col-md-offset-2 col-md-9 table  table-hover table-condensed">
+                                    <thead>
+                                        <tr>
+                                        <tr>
+                                            <th>
+                                                Insumo
+                                            </th>
+                                            <th>
+                                                Tipo
+                                            </th>
+                                            <th>
+                                                Cantidad Pedida
+                                            </th>
+                                            <th>
+                                                Cantidad Autorizada
+                                            </th>
+                                            <th>
+                                                Precio unitario
+                                            </th>
+                                            <th>
+                                                Subtotal
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    @{ var subtotal = "";}
+                                    <tbody name="detallesPedido" id="detallesPedido">
+                                        @foreach (var item in detallesPedido)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" name="@item.pedidoId" value="@item.pedidoId">
+                                                    @item.pedidoId;
+                                                    <input type="hidden" name="@item.insumoId" value="@item.insumoId">
+                                                    <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
+                                                    @item.insumo.nombre;
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
+                                                    @item.insumo.tiposInsumo.nombre;
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="@item.cantidad" value="@item.cantidad">
+                                                    @item.cantidad;
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="@item.cantidadAutorizada" min="0" max="@item.cantidad" value="@item.cantidad">
+                                                    @item.cantidadAutorizada;
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
+                                                    @item.insumo.precioUnitario;
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="subtotal" value="subtotal">
+                                                    @subtotal;
+                                                </td>
+                                            </tr>
+                                        }
 
-            <dt>
-                @Html.DisplayNameFor(model => model.esUrgente)
-            </dt>
+                                </table>
+                                <div class="form-group">
+                                    <div class="col-md-offset-10 col-md-2" style="width: 13%">
+                                        <div class="panel panel-DEFAULT text-center">
+                                            @*<div class="panel-heading">INSUMOS</div>*@
+                                            <div class="panel-body">
+                                                @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
+                                                <strong>
+                                                    @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
 
-            <dd>
-                @Html.DisplayFor(model => model.esUrgente, null, "esUrgente")
-            </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.estaAutorizado)
-            </dt>
+                                    <div class="col-md-offset-10 col-md-2">
+                                        <input type="submit" value="Autorizar" id="Autorizacion" class="btn btn-success" />
+                                    </div>
 
-            <dd>
-                @Html.DisplayFor(model => model.estaAutorizado, null, "estaAutorizado")
-            </dd>
+                                </div>
+                            </div>
+                        </div>
+                        @*Boton para autorizar*@
 
-        </dl>
-    </div>
-   if (Model.estaAutorizado==false){ 
-   @*Detalle del pedido*@
-    <table id="detalles" class="table">
-        <thead>
-            <tr>
-                <th>
-                    Insumo
-                </th>
-                <th>
-                    Tipo
-                </th>
-                <th>
-                    Cantidad Pedida
-                </th>
-                <th>
-                    Cantidad Autorizada
-                </th>
-                <th>
-                    Precio unitario
-                </th>
-                <th>
-                    Subtotal
-                </th>
-            </tr>
-        </thead>
-        @{ var subtotal = "";}
-        <tbody name="detallesPedido" id="detallesPedido">
-            @foreach (var item in detallesPedido)
-            {
-                <tr>
-                    <td>
-                        <input type="hidden" name="@item.pedidoId" value="@item.pedidoId">
-                        @item.pedidoId;
-                        <input type="hidden" name="@item.insumoId" value="@item.insumoId">
-                        <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
-                        @item.insumo.nombre;
-                    </td>
-                    <td>
-                        <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
-                        @item.insumo.tiposInsumo.nombre;
-                    </td>
-                    <td>
-                        <input type="hidden" name="@item.cantidad" value="@item.cantidad">
-                        @item.cantidad;
-                    </td>
-                    <td>
-                        <input type="number" name="@item.cantidadAutorizada" min="0" max="@item.cantidad" value="@item.cantidad">
-                        @item.cantidadAutorizada;
-                    </td>
-                    <td>
-                        <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
-                        @item.insumo.precioUnitario;
-                    </td>
-                    <td>
-                        <input type="hidden" name="subtotal" value="subtotal">
-                        @subtotal;
-                    </td>
-                </tr>
-            }
+                                        }
+                                        @Html.TextBox("hospitalId", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden", @name = "hospitalId" })
+                                        @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido", @name = "id" })
+                                        }
 
-</table>
-
-                @*Boton para autorizar*@
-    <br/>
-    <div class="col-md-offset-11 col-md-2">
-        @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
-        @Html.TextBox("total",0, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
-    </div>
-<div class="form-group">
-     <div class="col-md-offset-10 col-md-2">
-           <input type="submit" value="Autorizar" id="Autorizacion" class="btn btn-default" />
-     </div>
- </div>
-        }
-@Html.TextBox("hospitalId", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden", @name= "hospitalId" })
-    @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido", @name = "id"})
-                }
-            
-<div>
-     @Html.ActionLink("Volver al Listado", "Listado")
+<br />
+<div class="container">
+    @Html.ActionLink("Volver al Listado", "Listado")
 </div>
-             
-                @section Scripts {
-                    <script type="text/javascript">
 
-                        $(document).ready(function () {
-                            var idHospital = $('#hospitalId').val();
-                            //console.log(idHospital);
-                            var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
-                            $.get(urlHospital, null, function (data) {
-                                //console.log(data);
-                                $('#nombreHospital').val(data);
-                            });
-                        })
-                        $(document).ready(function () {
-                            var indice = $('#detallesPedido > tr').not('.empty').length;
-                            var idPedido = $('#idPedido').val();
-                            console.log(idPedido);
-                            var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
-                            $.get(urlDetalle, null, function (lista) {
-                                var total = 0;
-                                for (var i = 0, len = lista.length; i < len; i++) {
-                                    var data = lista[i];
-                                    /*Antiguo metodo de mostrar y editar los detalles
-                                    var $tdInsumo = $('<td>').append(item.nombre);
-                                     var $tdTipo = $('<td>').append(item.tipo);
-                                     var $tdCantidad = $('<td>').append(item.cantidad);
-                                     var $cantidadAutorizada = $('<input>').attr('type', 'number').attr('min', '0').attr('max', item.cantidad).attr('value', item.cantidad).attr('name', 'cantidadAutorizada[' + i + ']');
-                                     var $tdCantidadAutorizada = $('<td>').append($cantidadAutorizada);
-                                    var $tdPrecioUnitario = $('<td>').append(item.precio);
-                                    var subtotal = item.precio * item.cantidad;
-                                    var $tdSubtotal = $('<td>').append(subtotal);
-                                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotal);
-                                    total += subtotal;
-                                    $('#detalles').append($tr);*/
-                                    var $pedidoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][pedidoId]').val(data.pedidoId);
-                                    var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').val(data.insumoId);
-                                    var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
-                                    var $tdInsumo = $('<td>').html(data.nombre).append($pedidoId, $insumoId, $nombre);
+@section Scripts {
+    <script type="text/javascript">
 
-                                    var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
-                                    var $tdTipo = $('<td>').html(data.tipo).append($tipo);
+        $(document).ready(function () {
+            var idHospital = $('#hospitalId').val();
+            //console.log(idHospital);
+            var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
+            $.get(urlHospital, null, function (data) {
+                //console.log(data);
+                $('#nombreHospital').val(data);
+            });
+        })
+        $(document).ready(function () {
+            var indice = $('#detallesPedido > tr').not('.empty').length;
+            var idPedido = $('#idPedido').val();
+            console.log(idPedido);
+            var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
+            $.get(urlDetalle, null, function (lista) {
+                var total = 0;
+                for (var i = 0, len = lista.length; i < len; i++) {
+                    var data = lista[i];
+                    /*Antiguo metodo de mostrar y editar los detalles
+                    var $tdInsumo = $('<td>').append(item.nombre);
+                     var $tdTipo = $('<td>').append(item.tipo);
+                     var $tdCantidad = $('<td>').append(item.cantidad);
+                     var $cantidadAutorizada = $('<input>').attr('type', 'number').attr('min', '0').attr('max', item.cantidad).attr('value', item.cantidad).attr('name', 'cantidadAutorizada[' + i + ']');
+                     var $tdCantidadAutorizada = $('<td>').append($cantidadAutorizada);
+                    var $tdPrecioUnitario = $('<td>').append(item.precio);
+                    var subtotal = item.precio * item.cantidad;
+                    var $tdSubtotal = $('<td>').append(subtotal);
+                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotal);
+                    total += subtotal;
+                    $('#detalles').append($tr);*/
+                    var $pedidoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][pedidoId]').val(data.pedidoId);
+                    var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').val(data.insumoId);
+                    var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
+                    var $tdInsumo = $('<td>').html(data.nombre).append($pedidoId, $insumoId, $nombre);
 
-                                    var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val(data.precioUnitario);
-                                    var $tdPrecioUnitario = $('<td>').html(data.precioUnitario).append($precioUnitario);
+                    var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
+                    var $tdTipo = $('<td>').html(data.tipo).append($tipo);
 
-                                    var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val(data.cantidad);
-                                    var $tdCantidad = $('<td>').html(data.cantidad).append($cantidad);
+                    var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val(data.precioUnitario);
+                    var $tdPrecioUnitario = $('<td>').html(data.precioUnitario).append($precioUnitario);
 
-                                    var $cantidadAut = $('<input>').attr('type', 'number').attr('min', '0').attr('max',data.cantidad).attr('value',data.cantidad).attr('name', 'detallesPedido[' + indice + '][cantidadAutorizada]');
-                                    var $tdCantidadAut = $('<td>').append($cantidadAut);
+                    var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val(data.cantidad);
+                    var $tdCantidad = $('<td>').html(data.cantidad).append($cantidad);
 
-                                    var $subtotalCalculado = data.precioUnitario * data.cantidad;
-                                    total += $subtotalCalculado;
-                                    var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalCalculado);
-                                    var $tdSubtotal = $('<td>').html('$' + $subtotalCalculado).append($cantidad);
-                                    
-                                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdPrecioUnitario, $tdSubtotal);
-                                    $('#detallesPedido').append($tr);
-                                    indice++;
+                    var $cantidadAut = $('<input>').attr('type', 'number').attr('min', '0').attr('max', data.cantidad).attr('value', data.cantidad).attr('name', 'detallesPedido[' + indice + '][cantidadAutorizada]');
+                    var $tdCantidadAut = $('<td>').append($cantidadAut);
 
-                                }
-                                $('#total').val(total);
-                             });
-                        })
-                        $(document).on("submit", null, function ()
-                        {
-                            
-                        });
+                    var $subtotalCalculado = data.precioUnitario * data.cantidad;
+                    total += $subtotalCalculado;
+                    var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalCalculado);
+                    var $tdSubtotal = $('<td>').html('$' + $subtotalCalculado).append($cantidad);
 
-                    </script>
+                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdPrecioUnitario, $tdSubtotal);
+                    $('#detallesPedido').append($tr);
+                    indice++;
+
                 }
-           
+                $('#total').val(total);
+            });
+        })
+        $(document).on("submit", null, function () {
+
+        });
+
+    </script>
+}

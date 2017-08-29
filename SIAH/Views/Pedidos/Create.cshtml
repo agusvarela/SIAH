@@ -7,163 +7,163 @@
     var detallesPedido = Model.detallesPedido;
 }
 
-    @using (Html.BeginForm(new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
+@using (Html.BeginForm(new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h2>Formulario de Pedido</h2>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
-                    @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
-                </div>
+    <div class="form-horizontal">
+        <h2>Formulario de Pedido</h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-7">
+                @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
-                    @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-7">
+                @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    @Html.DropDownList("hospitalId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.hospitalId, "", new { @class = "text-danger" })
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-7">
+                @Html.DropDownList("hospitalId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.hospitalId, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.esUrgente, "Urgente", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    <div class="checkbox">
-                        <label>
-                            @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes" })
-                            @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.esUrgente, "Urgente", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-7">
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes" })
+                        @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
 
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <br />
-            <div class="panel panel-DEFAULT">
-                @*<div class="panel-heading">INSUMOS</div>*@
-                <div class="panel-body">
-                    <div class="text-center">
-                        <h3><strong>Agregue insumos a su pedido</strong></h3>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Seleccione un tipo</label>
-                        <div class="col-md-7">
-                            <select class="form-control" id="tipo">
-                                <option value="">Tipos de Insumo</option>
-                                @{ var tipoInsumo = ViewBag.tipoInsumo;}
-                                @foreach (var item in tipoInsumo)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                        </div>
-                        @*<div class="col-md-7">
-                                @Html.Label("Campo opcional", null, htmlAttributes: new { })
-                            </div>*@
-                    </div>
-
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.detallesPedido, "Insumo", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-7">
-                            <input class="form-control style='background-color: white' buscador ui-autocomplete-input" id="q" type="text" value="" autocomplete="on" placeholder="Ingrese un Insumo">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-7">
-                            @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
-                            <input type="number" id="cantidad" min="0" class="form-control" placeholder="Ingrese la cantidad" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
-                        </div>
-                    </div>
-
-                    <div class="col-md-offset-8 col-md-4">
-                        <input id="btn_addInsumo" type="button" value="Agregar Insumo" class="btn btn-success" />
-                    </div>
-                    <br>
-                </div>
-            </div>
-            <div class="form-group">
-                <h3 class="col-md-offset-2 col-md-7"><strong>Listado de Insumos</strong></h3>
-                <table class="col-md-offset-2 col-md-9 table  table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Cantidad</th>
-                            <th>Precio Unitario</th>
-                            <th>Sub Total</th>
-                            <th width="40px">Acciones</th>
-                        </tr>
-                    </thead>
-                    @{ var subtotal = "";}
-                    <tbody name="detallesPedido" id="detallesPedido">
-                        @foreach (var item in detallesPedido)
-                        {
-                            <tr>
-                                <td>
-                                    <input type="hidden" name="@item.insumoId" value="@item.insumoId">
-                                    <input type="hidden" name="@item.insumo.id" value="@item.insumo.id">
-                                    <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
-                                    @item.insumo.nombre;
-                                </td>
-                                <td>
-                                    <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
-                                    @item.insumo.tiposInsumo.nombre;
-                                </td>
-                                <td>
-                                    <input type="hidden" name="@item.cantidad" value="@item.cantidad">
-                                    @item.cantidad;
-                                </td>
-                                <td>
-                                    <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
-                                    @item.insumo.precioUnitario;
-                                </td>
-                                <td>
-                                    <input type="hidden" name="subtotal" value="subtotal">
-                                    @subtotal;
-                                </td>
-                                <td>
-                                    <button type="button" rel="tooltip" title="Eliminar" class="btn btn-danger btn-simple btn-xs">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        }
-
-                        <tr class="empty well text-center" style="display: @(detallesPedido.Count > 0 ? "none" : "") ">
-                            <td colspan="6">Aun no se han agregado insumos</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" id="enviar" value="Enviar Pedido" class="btn btn-primary" />
+                    </label>
                 </div>
             </div>
         </div>
-                        }
+        <br />
+        <div class="panel panel-DEFAULT">
+            @*<div class="panel-heading">INSUMOS</div>*@
+            <div class="panel-body">
+                <div class="text-center">
+                    <h3><strong>Agregue insumos a su pedido</strong></h3>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Seleccione un tipo</label>
+                    <div class="col-md-7">
+                        <select class="form-control" id="tipo">
+                            <option value="">Tipos de Insumo</option>
+                            @{ var tipoInsumo = ViewBag.tipoInsumo;}
+                            @foreach (var item in tipoInsumo)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                    @*<div class="col-md-7">
+                            @Html.Label("Campo opcional", null, htmlAttributes: new { })
+                        </div>*@
+                </div>
 
-    <div>
-        @Html.ActionLink("Volver al Inicio", "Index", "Home")
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.detallesPedido, "Insumo", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-7">
+                        <input class="form-control style='background-color: white' buscador ui-autocomplete-input" id="q" type="text" value="" autocomplete="on" placeholder="Ingrese un Insumo">
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-7">
+                        @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
+                        <input type="number" id="cantidad" min="0" class="form-control" placeholder="Ingrese la cantidad" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                    </div>
+                </div>
+
+                <div class="col-md-offset-8 col-md-4">
+                    <input id="btn_addInsumo" type="button" value="Agregar Insumo" class="btn btn-success" />
+                </div>
+                <br>
+            </div>
+        </div>
+        <div class="form-group">
+            <h3 class="col-md-offset-2 col-md-7"><strong>Listado de Insumos</strong></h3>
+            <table class="col-md-offset-2 col-md-9 table  table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Sub Total</th>
+                        <th width="40px">Acciones</th>
+                    </tr>
+                </thead>
+                @{ var subtotal = "";}
+                <tbody name="detallesPedido" id="detallesPedido">
+                    @foreach (var item in detallesPedido)
+                    {
+                        <tr>
+                            <td>
+                                <input type="hidden" name="@item.insumoId" value="@item.insumoId">
+                                <input type="hidden" name="@item.insumo.id" value="@item.insumo.id">
+                                <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
+                                @item.insumo.nombre;
+                            </td>
+                            <td>
+                                <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
+                                @item.insumo.tiposInsumo.nombre;
+                            </td>
+                            <td>
+                                <input type="hidden" name="@item.cantidad" value="@item.cantidad">
+                                @item.cantidad;
+                            </td>
+                            <td>
+                                <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
+                                @item.insumo.precioUnitario;
+                            </td>
+                            <td>
+                                <input type="hidden" name="subtotal" value="subtotal">
+                                @subtotal;
+                            </td>
+                            <td>
+                                <button type="button" rel="tooltip" title="Eliminar" class="btn btn-danger btn-simple btn-xs">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+
+                    <tr class="empty well text-center" style="display: @(detallesPedido.Count > 0 ? "none" : "") ">
+                        <td colspan="6">Aun no se han agregado insumos</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="enviar" value="Enviar Pedido" class="btn btn-primary" />
+            </div>
+        </div>
     </div>
+                    }
 
-    @section Scripts {
+<div>
+    @Html.ActionLink("Volver al Inicio", "Index", "Home")
+</div>
 
-        <script type="text/javascript">
+@section Scripts {
+
+    <script type="text/javascript">
             //$(function () { // will trigger when the document is ready
             //    $('.datepicker').datepicker(); //Initialise any date pickers
             //})
@@ -224,7 +224,7 @@
                             var $tdTipo = $('<td>').html(data.tipo).append($tipo);
                             var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val(data.precioUnitario);
                             var $tdPrecioUnitario = $('<td>').html(data.precioUnitario).append($precioUnitario);
-                            var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());                            
+                            var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());
                             var $tdCantidad = $('<td>').html($('#cantidad').val()).append($cantidad);
                             var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
                             var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalCalculado);
@@ -244,7 +244,7 @@
 
 
                 });
-        </script>
-    }
+    </script>
+}
 
 </div>
