@@ -153,6 +153,15 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" id="enviar" value="Enviar Pedido" class="btn btn-primary" />
             </div>
+            <div class="col-md-offset-10 col-md-2">
+                @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" id="enviar" value="Enviar Pedido" class="btn btn-primary" />
+                </div>
+            </div>
         </div>
     </div>
                     }
@@ -168,6 +177,7 @@
             //    $('.datepicker').datepicker(); //Initialise any date pickers
             //})
             $(document).ready(function () {
+                var total = 0;
                 var indice = $('#detallesPedido > tr').not('.empty').length;
                 $('#enviar').hide();
                 var data = '';
@@ -199,9 +209,13 @@
                             .append("<div><strong>" + item.nombre + "</strong><br><em>" + item.tipo + "</em></div>")
                             .appendTo(ul);
                         }
-                    $(document).on('click', '.btn-eliminar-detallesPedido', function () {
+                $(document).on('click', '.btn-eliminar-detallesPedido', function () {
+                    //var aRestar = parseFloat($(this).parents('tr').get(3).textContent) * parseFloat($(this).parents('tr').get(4).textContent);
+                    //total -= aRestar;
+                    //aRestar = 0;
                         $(this).parents('tr').remove();
                         indice--;
+                        $('#total').val("$" +total);
                         if ($('#detallesPedido > tr').not('.empty').length == 0) {
                             $('#enviar').hide();
                             $('#detallesPedido .empty').show();
@@ -229,15 +243,17 @@
                             var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
                             var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalCalculado);
                             var $tdSubtotal = $('<td>').html('$' + $subtotalCalculado).append($cantidad);
-                            var $boton = $('<button>').attr('type', 'button').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs').append($('<i>').addClass('fa fa-times'));
+                            var $boton = $('<button>').attr('type', 'button').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs btn-eliminar-detallesPedido').append($('<i>').addClass('fa fa-times'));
                             var $tdAccion = $('<td>').addClass('td-actions text-right').append($boton);
                             var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
                             $('#detallesPedido').append($tr);
                             indice++;
+                            total += $subtotalCalculado;
                             $('#q').val('');
                             $('#cantidad').val('');
                             $('#tipo').val('');
                             data = '';
+                            $('#total').val("$"+total);
                         }
                     });
 
