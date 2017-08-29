@@ -100,7 +100,7 @@ a .material-icons, a:hover .material-icons, a:focus .material-icons {
   border-radius: 3px;
   position: relative;
   padding: 12px 30px;
-  margin: 10px 1px;
+  margin: 00px 0px;
   font-size: 12px;
   font-weight: 400;
   text-transform: uppercase;
@@ -1585,11 +1585,11 @@ label.control-label {
   font-weight: 400;
 }
 .form-group label.control-label {
-  font-size: 11px;
+  font-size: 18px;
   line-height: 1.07143;
-  color: #AAAAAA;
+  color:black;
   font-weight: 400;
-  margin: 16px 0 0 0;
+  margin: 3px 0 0 0;
 }
 .form-group .help-block {
   margin-top: 0;
@@ -1651,7 +1651,7 @@ label.control-label {
   line-height: 1.125;
   color: #AAAAAA;
   font-weight: 400;
-  margin: 16px 0 0 0;
+  margin: 3px 0 0 0;
 }
 .form-group.form-group-sm .help-block {
   margin-top: 0;
@@ -1713,7 +1713,7 @@ label.control-label {
   line-height: 1.0;
   color: #AAAAAA;
   font-weight: 400;
-  margin: 16px 0 0 0;
+  margin: 3px 0 0 0;
 }
 .form-group.form-group-lg .help-block {
   margin-top: 0;
@@ -2995,7 +2995,10 @@ h2.title {
 .modal-backdrop {
   background: rgba(0, 0, 0, 0.3);
 }
-
+.col-md-offset-2 {
+    margin-left: 16.66666667%;
+    width: 75%
+}
 .modal .modal-dialog {
   margin-top: 100px;
 }
@@ -3010,7 +3013,7 @@ h2.title {
 .panel {
   border-radius: 2px;
   border: 0;
-  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 6px 0 rgba(0, 0, 0, 0.2);
 }
 .panel > .panel-heading, .panel.panel-default > .panel-heading {
   background-color: #eeeeee;
@@ -3739,5 +3742,7 @@ h2.title {
     margin-right: 10px;
   }
 }
-
-/*# sourceMappingURL=material-kit.css.map */
+.col-md-offset-2 {
+    margin-left: 16.66666667%;
+    width: 75%
+}

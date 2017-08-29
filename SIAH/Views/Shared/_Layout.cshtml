@@ -5,11 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <title>@ViewBag.Title - SIAH</title>
     <!--     Fonts and icons     -->
-    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    @*<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>*@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     @*<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />*@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
@@ -26,8 +27,10 @@
     <!-- CSS Files -->
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css/bootstrap.min.css")
-    @Styles.Render("~/Content/css/material-kit.css")
+    @Styles.Render("~/Content/css/SIAHStyle.css")
     @Styles.Render("~/Content/css/demo.css")
+    <script src="~/Content/js/material.min.js"></script>
+    <script src="~/Content/js/material-kit.js"></script>
     
 
 </head>
@@ -81,8 +84,8 @@
         <footer>
             <p>&copy; @DateTime.Now.Year - SIAH ASP.NET</p>
         </footer>
-    </div>
 
-    
+
+
 </body>
 </html>
