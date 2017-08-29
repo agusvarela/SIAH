@@ -4,165 +4,190 @@
     ViewBag.Title = "Detalle del pedido";
 }
 
-<h2>Detalle del pedido @Html.DisplayFor(model=> model.id)</h2>
+<h2>Detalle del pedido @Html.DisplayFor(model => model.id)</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Pedido</h4>
+        <h4>Detalle del pedido @Html.DisplayFor(model => model.id)</h4>
         <hr />
-        <dl class="dl-horizontal">
+        <div class="form-group">
 
-            <dt>
-                @Html.DisplayNameFor(model => model.hospital.nombre)
-            </dt>
+            <div class="form-group">
+                @Html.LabelFor(model => model.hospital.nombre, "Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.hospital.nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-            <dd>
-                @Html.TextBox("nombreHospital",null, htmlAttributes: new {@class = "form-control",@readonly = "readonly" })
-            </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.periodo)
-            </dt>
+            <div class="form-group">
+                @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                    @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-            <dd>
-                @Html.TextBox("periodo", Model.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = Model.periodo })
-                @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
-            </dd>
+            <div class="form-group">
+                @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                    @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaGeneracion)
-            </dt>
+            <div class="form-group">
+                @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-2" })
+                @{ DateTime fechaE = DateTime.Today.AddDays(3);
+                if (fechaE.DayOfWeek == DayOfWeek.Saturday || fechaE.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    fechaE = fechaE.AddDays(2);
+                }
+                }
+                <div class="col-md-7">
+                    @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE })
+                    @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.esUrgente, "Urgente", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", @onclick = "return false;" })
+                            @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
 
-            <dd>
-                @Html.TextBox("fechaGeneracion", Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = Model.fechaGeneracion })
-                @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
-            </dd>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.estaAutorizado, "¿Está Autorizado?", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(model => model.estaAutorizado, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", @onclick = "return false;" })
+                            @Html.ValidationMessageFor(model => model.estaAutorizado, "", new { @class = "text-danger" })
+                        </label>
+                    </div>
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaEntrega)
-            </dt>
-
-            <dd>
-                @{ DateTime fechaE = Model.fechaEntrega.Value;}
-                @Html.TextBox("fechaGeneracion", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = Model.fechaEntrega })
-                @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.esUrgente)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.esUrgente)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.estaAutorizado)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.estaAutorizado)
-            </dd>
-
-        </dl>
+        </div>
     </div>
     @*Detalle del pedido*@
-    <table id="detalles" class="table">
-        <tr>
-            <th>
-                Insumo
-            </th>
-            <th>
-                Tipo
-            </th>
-            <th>
-                Cantidad
-            </th>
-            <th>
-                Cantidad Autorizada
-            </th>
-            <th>
-                Precio unitario
-            </th>
-            <th>
-                Subtotal
-            </th>
-            <th>
-                Subtotal Autorizado
-            </th>
-        </tr>
+                    <table id="detalles" class="table">
+                        <tr>
+                            <th>
+                                Insumo
+                            </th>
+                            <th>
+                                Tipo
+                            </th>
+                            <th>
+                                Cantidad
+                            </th>
+                            <th>
+                                Cantidad Autorizada
+                            </th>
+                            <th>
+                                Precio unitario
+                            </th>
+                            <th>
+                                Subtotal
+                            </th>
+                            <th>
+                                Subtotal Autorizado
+                            </th>
+                        </tr>
 
-    </table>
+                    </table>
 
-        @*Boton para autorizar*@
-        <br />
-        <div class="col-md-offset-11 col-md-2">
-            @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
-            @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
-        </div>
-        <div class="col-md-offset-11 col-md-2">
-            @Html.Label("Total Autorizado", null, htmlAttributes: new { @class = "control-label" })
-            @Html.TextBox("totalAutorizado", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
-        </div>
+                    @*Boton para autorizar*@
+                    <div class="form-group " >
+                        <div class="pull-right" id="cuadritos1" style="width: 13%; height:116px">
+                            <div class="panel panel-DEFAULT text-center">
+                                @*<div class="panel-heading">INSUMOS</div>*@
+                                <div class="panel-body">
+                                    @Html.Label(" Total Autorizado", null, htmlAttributes: new { @class = "control-label" })
+                                    <strong>
+                                        @Html.TextBox("totalAutorizado", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
+                                    </strong>
+                                </div>
+                                 </div>
+                            </div>
+                            <div class="pull-rigth" id="cuadritos1" style="width: 13%">
+                                <div class="panel panel-DEFAULT text-center">
+                                    @*<div class="panel-heading">INSUMOS</div>*@
+                                    <div class="panel-body">
+                                        @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
+                                        <strong>
+                                            @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
 
-        @Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
-        @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
-}
+                    @Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
+                    @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
+                    }
 
-<div>
+<div class="container">
     @Html.ActionLink("Volver al Listado", "Listado")
 </div>
 
 @section Scripts {
     <script type="text/javascript">
 
-                        $(document).ready(function () {
-                            var idHospital = $('#idHospital').val();
-                            //console.log(idHospital);
-                            var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
-                            $.get(urlHospital, null, function (data) {
-                                //console.log(data);
-                                $('#nombreHospital').val(data);
-                            });
-                        })
-                        $(document).ready(function () {
+        $(document).ready(function () {
+            var idHospital = $('#idHospital').val();
+            //console.log(idHospital);
+            var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
+            $.get(urlHospital, null, function (data) {
+                //console.log(data);
+                $('#nombreHospital').val(data);
+            });
+        })
+        $(document).ready(function () {
 
-                            var idPedido = $('#idPedido').val();
-                            console.log(idPedido);
-                            var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
-                            $.get(urlDetalle, null, function (lista) {
-                                var total = 0;
-                                var totalAutorizado = 0;
-                                for (var i = 0, len = lista.length; i < len; i++) {
-                                    var item = lista[i];
-                                    console.log(item);
-                                    var $tdInsumo = $('<td>').append(item.nombre);
+            var idPedido = $('#idPedido').val();
+            console.log(idPedido);
+            var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
+            $.get(urlDetalle, null, function (lista) {
+                var total = 0;
+                var totalAutorizado = 0;
+                for (var i = 0, len = lista.length; i < len; i++) {
+                    var item = lista[i];
+                    console.log(item);
+                    var $tdInsumo = $('<td>').append(item.nombre);
 
-                                     var $tdTipo = $('<td>').append(item.tipo);
+                    var $tdTipo = $('<td>').append(item.tipo);
 
-                                     var $tdCantidad = $('<td>').append(item.cantidad);
-                                     var $tdCantidadAutorizada = $('<td>').append(item.cantidadAutorizada);
+                    var $tdCantidad = $('<td>').append(item.cantidad);
+                    var $tdCantidadAutorizada = $('<td>').append(item.cantidadAutorizada);
 
-                                    var $tdPrecioUnitario = $('<td>').append(item.precioUnitario);
+                    var $tdPrecioUnitario = $('<td>').append(item.precioUnitario);
 
-                                    var subtotal = item.precioUnitario * item.cantidad;
-                                    var $tdSubtotal = $('<td>').append(subtotal);
+                    var subtotal = item.precioUnitario * item.cantidad;
+                    var $tdSubtotal = $('<td>').append(subtotal);
 
-                                    var subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
-                                    var $tdSubtotalAutorizado = $('<td>').append(subtotalAutorizado);
+                    var subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
+                    var $tdSubtotalAutorizado = $('<td>').append(subtotalAutorizado);
 
-                                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotal, $tdSubtotalAutorizado);
-                                    total += subtotal;
-                                    totalAutorizado += subtotalAutorizado;
-                                    $('#detalles').append($tr);
-                                }
-                                $('#total').val(total);
-                                $('#totalAutorizado').val(totalAutorizado);
-                             });
-                        });
+                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotal, $tdSubtotalAutorizado);
+                    total += subtotal;
+                    totalAutorizado += subtotalAutorizado;
+                    $('#detalles').append($tr);
+                }
+                $('#total').val(total);
+                $('#totalAutorizado').val(totalAutorizado);
+            });
+        });
 
     </script>
 }
