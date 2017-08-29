@@ -3746,3 +3746,14 @@ h2.title {
     margin-left: 16.66666667%;
     width: 75%
 }
+.escondido {
+    visibility: hidden
+}
+#titlis {
+    overflow: auto;
+}
+
+#cuadritos {
+    float: right;
+
+}

@@ -231,7 +231,7 @@
     <Content Include="Content\css\demo.css" />
     <Content Include="Content\css\SIAHStyle.css" />
     <Content Include="Content\img\back.jpg" />
-    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\logo.jpg" />
     <Content Include="Content\js\bootstrap-datepicker.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\jquery.min.js" />

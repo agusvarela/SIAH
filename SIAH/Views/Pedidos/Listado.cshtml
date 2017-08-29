@@ -11,36 +11,42 @@
     })
 
 </script>
-    <h2>Listado de Pedidos</h2>
+<div class="container">
+    <h2 id="titlis">Listado de Pedidos</h2>
+    <div id="cuadritos" class="container">
+        <ul class="nav nav-pills nav-stacked pull-right left">
+            <li class="text-info">
+                <a href="#" style="background-color:#fbc53c">
+                    <span class="badge pull-right"></span>
+                    No Autorizado
+                </a>
+            </li>
+        </ul>
+        <ul class="nav nav-pills nav-stacked pull-right right">
+            <li class="text-info">
+                <a href="#" style="background-color:#5cb85c">
+                    <span class="badge pull-right"></span>
+                    Autorizado
+                </a>
+            </li>
 
-<ul class="nav nav-pills nav-stacked pull-right left">
-    <li class="text-info">
-        <a href="#" style="background-color:orange">
-            <span class="badge pull-right"></span>
-            No Autorizado
-        </a>
-    </li>
-</ul>
-<ul class="nav nav-pills nav-stacked pull-right right">
-    <li class="text-info">
-        <a href="#" style="background-color:lawngreen">
-            <span class="badge pull-right"></span>
-            Autorizado
-        </a>
-    </li>
-
-</ul>
-
+        </ul>
+    </div>
+    </div>
+<br>
     <table class="table">
         <tr>
-            <th>
-                @Html.Name("Número de Pedido")
+            <th class="text-center">
+                @Html.Name("Nº Pedido")
             </th>
-            <th>
+            <th class="text-center">
                 @Html.Name("Fecha de Generación")
             </th>
-            <th>
+            <th class="text-center">
                 @Html.Name("Nombre de Hospital")
+            </th>
+            <th class="text-center">
+                @Html.Name("Acciones")
             </th>
 
 
@@ -50,37 +56,38 @@
         {
             if (item.estaAutorizado == true)
             {
-                <tr style="background-color:lawngreen">
+                <tr style="background-color:#5cb85c">
             
-                    <td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.id)
                     </td>
-                    <td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.fechaGeneracion)
                     </td>
-                    <td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.hospital.nombre)
                     </td>
-                    <td>
+                    <td class="text-center">
                         @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                        @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id },htmlAttributes: new { @class="escondido"})
 
                     </td>
                 </tr>
             }
             else
             {
-                <tr style="background-color:orange">
+                <tr style="background-color:#fbc53c">
 
-                    <td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.id)
                     </td>
-                    <td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.fechaGeneracion)
                     </td>
-                    <td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.hospital.nombre)
                     </td>
-                    <td>
+                    <td class="text-center">
                         @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
                         @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
                         
