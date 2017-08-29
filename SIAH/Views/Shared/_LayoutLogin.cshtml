@@ -39,7 +39,7 @@
     <script src="~/Content/js/material.min.js"></script>
     <script src="~/Content/js/material-kit.js"></script>
 </head>
-<body class="landing-page">
+<body class="signup-page">
     <nav class="navbar navbar-transparent navbar-absolute" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -62,37 +62,28 @@
 
             <div class="collapse navbar-collapse" id="navigation-index">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
+                    <li class="">
                         @if (Session["userid"] != null)
                         {
-
-                            <a>Ha iniciado sesion como @Session["nombre"].ToString()</a>
-
-
-
+                            <a>Ha iniciado sesion como @Session["nombre"].ToString()!</a>
                         }
                     </li>
-                    <li>@Html.ActionLink("Listado De Pedidos", "Listado", "Pedidos")</li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrar<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../Insumos/Index">Insumo</a></li>
-                            <li><a href="../Hospitales/Index">Hospital</a></li>
-                            <li><a href="../Localidades/Index">Localidad</a></li>
-                            <li><a href="../TiposInsumo/Index">Tipo Insumo</a></li>
-                            @*<li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                                 <li class="divider"></li>
-                                  <li><a href="#">One more separated link</a></li>*@
-                        </ul>
-                    </li>
+                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Nuevo Usuario", "Register", "Account")</li>
                     @if (Session["userid"] != null)
                     {
                         <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
                     }
+                    @*<li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>*@
                 </ul>
+
             </div>
+
         </div>
+
 
     </nav>      @RenderBody()
     <hr />

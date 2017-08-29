@@ -231,6 +231,7 @@
     <Content Include="Content\css\demo.css" />
     <Content Include="Content\css\SIAHStyle.css" />
     <Content Include="Content\img\back.jpg" />
+    <Content Include="Content\img\hospital.jpg" />
     <Content Include="Content\img\logo.jpg" />
     <Content Include="Content\js\bootstrap-datepicker.js" />
     <Content Include="Content\js\bootstrap.min.js" />
@@ -364,6 +365,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\LoggedIn.cshtml" />
     <Content Include="Views\Account\Logout.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
