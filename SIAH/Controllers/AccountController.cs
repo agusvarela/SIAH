@@ -89,5 +89,12 @@ namespace SIAH.Controllers
                 return RedirectToAction("Login");
             }
         }
+
+        //Logout
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

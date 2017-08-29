@@ -62,9 +62,13 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         @if (Session["userid"] != null)
-                    {
-                        <a>Ha iniciado sesion como @Session["nombre"].ToString()</a>
-                    }
+                        {
+                            <a>
+                                Ha iniciado sesion como @Session["nombre"].ToString()
+                            </a>
+                                @Html.ActionLink("(Cerrar Sesion)", "Logout", "Account" );
+                           
+                        }
                     </li>
                     <li>@Html.ActionLink("Listado De Pedidos", "Listado", "Pedidos")</li>
                     <li class="dropdown">
