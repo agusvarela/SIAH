@@ -20,7 +20,7 @@
             </dt>
 
             <dd>
-                @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+                @Html.TextBox("nombreHospital",null, htmlAttributes: new {@class = "form-control",@readonly = "readonly" })
             </dd>
 
             <dt>
@@ -46,7 +46,9 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.fechaEntrega)
+                @{ DateTime fechaE = Model.fechaEntrega.Value;}
+                @Html.TextBox("fechaGeneracion", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = Model.fechaEntrega })
+                @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
             </dd>
 
             <dt>
