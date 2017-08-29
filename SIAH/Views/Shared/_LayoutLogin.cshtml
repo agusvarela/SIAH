@@ -65,7 +65,7 @@
                     <li class="">
                         @if (Session["userid"] != null)
                         {
-                            <a>Ha iniciado sesion como @Session["nombre"].ToString()!</a>
+                            <a>Ha iniciado sesion como @Session["nombre"].ToString()</a>
                         }
                     </li>
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
