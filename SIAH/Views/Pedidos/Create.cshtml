@@ -207,9 +207,12 @@
                             .appendTo(ul);
                         }
                 $(document).on('click', '.btn-eliminar-detallesPedido', function () {
-                    //var aRestar = parseFloat($(this).parents('tr').get(3).textContent) * parseFloat($(this).parents('tr').get(4).textContent);
-                    //total -= aRestar;
-                    //aRestar = 0;
+                    //Funcion que calcula el subtotal de la fila y lo resta al total al eliminar un elemento
+                    //Luego elimina la fila entera del detalle y verifica si la lista esta vacia para ocultar el boton enviar
+                    var $aRestar = 0
+                    $aRestar = parseFloat($(this).parents('tr').get(0).children.item(2).innerHTML) * parseFloat($(this).parents('tr').get(0).children.item(3).innerHTML);
+                    //console.log($aRestar);
+                    total -= $aRestar;
                         $(this).parents('tr').remove();
                         indice--;
                         $('#total').val("$" +total);
