@@ -108,9 +108,9 @@
                         <th width="40px">Acciones</th>
                     </tr>
                 </thead>
-                @{ var subtotal = "";}
+                @*@{var subtotal =""; }*@
                 <tbody name="detallesPedido" id="detallesPedido">
-                    @foreach (var item in detallesPedido)
+                    @*@foreach (var item in detallesPedido)
                     {
                         <tr>
                             <td>
@@ -141,9 +141,9 @@
                                 </button>
                             </td>
                         </tr>
-                    }
+                    }*@
 
-                    <tr class="empty well text-center" style="display: @(detallesPedido.Count > 0 ? "none" : "") ">
+                    <tr class="empty well text-center" @*style="display: @(detallesPedido.Count > 0 ? "none" : "") "*@>
                         <td colspan="6">Aun no se han agregado insumos</td>
                     </tr>
                 </tbody>
