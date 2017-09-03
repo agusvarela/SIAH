@@ -24,10 +24,12 @@ namespace SIAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(UserAccount account)
+        public ActionResult Register([Bind(Include = "nombre, apellido, email, password, confirmPassword")]UserAccount account)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                account.rol = null;
+                account.rolID = null;
                 using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
                 {
                     db.UserAccounts.Add(account);
@@ -44,7 +46,7 @@ namespace SIAH.Controllers
                     }
                 }
                 ModelState.Clear();
-              //  ViewBag.Message = account.nombre + " " + account.apellido + " Fue registrado correctamente";
+                //  ViewBag.Message = account.nombre + " " + account.apellido + " Fue registrado correctamente";
             }
             return View();
         }
@@ -57,7 +59,7 @@ namespace SIAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(UserAccount user)
+        public ActionResult Login( UserAccount user)
         {
             using (Context.SIAHContext db = new Context.SIAHContext())
             {

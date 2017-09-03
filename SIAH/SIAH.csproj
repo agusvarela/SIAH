@@ -213,6 +213,14 @@
     <Compile Include="Migrations\201708242136220_comparePassword.Designer.cs">
       <DependentUpon>201708242136220_comparePassword.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709031938537_create_table_roles_alter_table_useraccounts.cs" />
+    <Compile Include="Migrations\201709031938537_create_table_roles_alter_table_useraccounts.Designer.cs">
+      <DependentUpon>201709031938537_create_table_roles_alter_table_useraccounts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709031952137_alter_useraccount.cs" />
+    <Compile Include="Migrations\201709031952137_alter_useraccount.Designer.cs">
+      <DependentUpon>201709031952137_alter_useraccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />
@@ -220,6 +228,7 @@
     <Compile Include="Models\Insumos\TipoInsumo.cs" />
     <Compile Include="Models\Pedidos\DetallePedido.cs" />
     <Compile Include="Models\Pedidos\Pedido.cs" />
+    <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -407,6 +416,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708242136220_comparePassword.resx">
       <DependentUpon>201708242136220_comparePassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709031938537_create_table_roles_alter_table_useraccounts.resx">
+      <DependentUpon>201709031938537_create_table_roles_alter_table_useraccounts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709031952137_alter_useraccount.resx">
+      <DependentUpon>201709031952137_alter_useraccount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

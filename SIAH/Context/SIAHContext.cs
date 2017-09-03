@@ -41,6 +41,8 @@ namespace SIAH.Context
 
         public DbSet<UserAccount> UserAccounts { get; set; }
 
+        public DbSet<Rol> Roles { get; set; }
+
     }
 
 }

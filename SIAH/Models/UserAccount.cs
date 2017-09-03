@@ -27,5 +27,8 @@ namespace SIAH.Models
        [Compare("password", ErrorMessage = "Debe confirmar su contraseña")]
        [DataType(DataType.Password)]
         public string confirmPassword { get; set; }
+
+        public int? rolID { get; set; }
+        public Rol rol { get; set; }
     }
 }
