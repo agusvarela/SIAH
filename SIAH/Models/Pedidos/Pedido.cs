@@ -35,10 +35,10 @@ namespace SIAH.Models.Pedidos
 
         public ICollection<DetallePedido> detallesPedido { get; set; }
 
-        //public Pedido()
-        //{
-        //    this.detallesPedido = new HashSet<DetallePedido>();
-        //}
+        public Pedido()
+        {
+            this.detallesPedido = new HashSet<DetallePedido>();
+        }
 
 
     }
