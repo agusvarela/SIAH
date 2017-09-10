@@ -65,11 +65,14 @@ namespace SIAH.Controllers
             {
                 //var usr = db.UserAccounts.Single(u => u.email == user.email && u.password == user.password);
                 var usr = db.UserAccounts.Where(u => u.email == user.email && u.password == user.password).FirstOrDefault();
+                string rol = "";
                 if (usr != null)
                 {
                     Session["userid"] = usr.id.ToString();
                     Session["email"] = usr.email.ToString();
                     Session["nombre"] = usr.nombre.ToString();
+                    rol = db.Roles.Find(usr.rolID).nombre;
+                    Session["rol"] = rol;
                     return RedirectToAction("LoggedIn");
                 } else
                 {
