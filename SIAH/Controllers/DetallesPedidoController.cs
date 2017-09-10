@@ -22,7 +22,28 @@ namespace SIAH.Controllers
             return View(detallesPedido.ToList());
         }
 
+        // GET: DetallesPedido/ReporteConsolidado
+        public ActionResult ReporteConsolidado()
+        {
+            var datos = this.GenerarReporte();
+            return View(datos);
+        }
 
+        // GET: DetallesPedido/GenerarReporte
+        [AllowAnonymousAttribute]
+        public IEnumerable<Object> GenerarReporte()
+        {
+            var result = db.DetallesPedido.Join(db.Insumos, d => d.insumoId, s => s.id, (d, s) => new { d, s }).
+                Join(db.Pedidos, x => x.d.pedidoId, p => p.id, (x, p) => new { x, p }).
+                Join(db.Hospitales, t => t.p.hospitalId, h => h.id, (t, h) => new { t, h }).
+               // Para mostrar el total
+               //GroupBy(x => x.t.x.s.nombre, x => x.t.x.d.cantidad, (key, g) => new { Insumo = key, Total = g.Sum() }).
+               GroupBy(x => new { hospital = x.h.nombre, insumo = x.t.x.s.nombre }, x => x.t.x.d.cantidad, (key, g) => new { Hospital = key.hospital, Insumo = key.insumo, Cantidad = g.Sum() }).
+               ToList();
+
+            //return Json(result, JsonRequestBehavior.AllowGet);
+            return result;
+        }
 
         // GET: DetallesPedido/Details/5
         public ActionResult Details(int? id)
@@ -135,6 +156,6 @@ namespace SIAH.Controllers
             }
             base.Dispose(disposing);
         }
-
+        
     }
 }
