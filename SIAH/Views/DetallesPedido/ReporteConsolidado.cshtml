@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Object>
+
+@{
+    ViewBag.Title = "ReporteConsolidado";
+
+    /*List<String> columnas = new List<String>();
+    columnas.Add("ID");
+    columnas.Add("Insumo");
+    columnas.Add("Cantidad Pedida");*/
+    WebGrid grid = new WebGrid(source: Model, columnNames: new[]
+    { "Hospital", "Insumo", "Cantidad" });
+    WebGrid definitiveGrid = new WebGrid();
+}
+
+
+
+
+<h2>ReporteConsolidado</h2>
+
+@using (Html.BeginForm())
+{
+    <div>
+        @grid.GetHtml(tableStyle: "webgrid-table",
+    headerStyle: "webgrid-header",
+    footerStyle: "webgrid-footer",
+    alternatingRowStyle: "webgrid-alternating-row",
+    selectedRowStyle: "webgrid-selected-row",
+    rowStyle: "webgrid-row-style")
+    </div>
+
+ 
+           @*<div>
+    <table id="tableReporte" class="col-md-offset-2 col-md-9 table  table-hover table-condensed">
+        <thead>
+            <tr id="encabezado", name="encabezado">
+                <th>
+                    ID Insumo
+                </th>
+                <th>
+                    Insumo
+                </th>
+                <th>
+                    Cantidad Pedida
+                </th>
+            </tr>
+        </thead>
+        <tbody id="cuerpo", name="cuerpo">
+
+        </tbody>
+    </table>
+</div>*@
+           }
+<div>
+    @Html.ActionLink("Volver al Inicio", "Home/Index")
+</div>
+@section Scripts{
+<script type="text/javascript">
+
+    $(document).ready(function () {
+       /* var urlReporte = '/DetallesPedido/GenerarReporte';
+        $.get(urlReporte, null, function (lista) {
+
+            for (var i = 0, len = lista.length; i < len; i++) {
+                var data = lista[i];
+                //Encabezado
+                var $hospital = $('<th>').append(data.hospital).append('</th>');
+                $('#encabezado').append($hospital);
+                //Cuerpo
+                var $tdIdInsumo = $('<td>').append(data.idInsumo).append('</td>');
+                var $tdInsumo = $('<td>').append(data.insumo).append('</td>');
+                var $tdCantidad = $('<td>').append(data.cantidad).append('</td>');
+                $('#cuerpo').append('<tr>').append($tdIdInsumo, $tdInsumo, $tdCantidad);
+            }
+
+        })*/
+    })
+
+</script>
+}
