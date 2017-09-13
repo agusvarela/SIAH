@@ -11,7 +11,8 @@ namespace SIAH.Models
         public int id { get; set; }
         [Display(Name = "Hospital")]
         [StringLength(255)]
-        [Required]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [RegularExpression(@"[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+", ErrorMessage = "No se permiten números o símbolos en el nombre del Hospital")]
         public String nombre { get; set; }
         
         public int localidadId { get; set; }

@@ -9,24 +9,26 @@
 <p>
     @Html.ActionLink("Crear Nuevo Hospital", "Create")
 </p>
-<table class="table">
+<table class="table table-hover table-condensed">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.localidad.nombre)
-        </th>
+        
         <th>
             @Html.DisplayNameFor(model => model.nombre)
         </th>
-        <th></th>
+        <th>
+            Localidad
+        </th>
+        <th>Acciones</th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.localidad.nombre)
-        </td>
+        
         <td>
             @Html.DisplayFor(modelItem => item.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.localidad.nombre)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |

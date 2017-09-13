@@ -11,7 +11,8 @@ namespace SIAH.Models.Insumos
         public int id { get; set; }
 
         [StringLength(255)]
-        [Required]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [RegularExpression(@"[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+", ErrorMessage = "No se permiten números o símbolos en el nombre del Tipo Insumo")]
         public String nombre { get; set; }
 
         public ICollection<Insumo> Insumos { get; set; }

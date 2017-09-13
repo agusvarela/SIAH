@@ -11,7 +11,7 @@ namespace SIAH.Models.Insumos
         public int id { get; set; }
 
         [StringLength(255)]
-        [Required]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
         public String nombre { get; set; }
 
         //[RegularExpression(@"^\d+\.\d{0,2}$")]
