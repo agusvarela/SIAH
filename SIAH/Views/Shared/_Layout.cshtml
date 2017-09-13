@@ -33,7 +33,11 @@
     @Styles.Render("~/Content/css/demo.css")
     <script src="~/Content/js/material.min.js"></script>
     <script src="~/Content/js/material-kit.js"></script>
-    
+    <script>
+        $(function () {
+            $("[data-toggle='tooltip']").tooltip();
+        });
+    </script>
 
 </head>
 <body>
