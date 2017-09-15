@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SIAH.Context;
 using SIAH.Models.Pedidos;
+using System.Collections;
 
 namespace SIAH.Controllers
 {
@@ -27,11 +28,12 @@ namespace SIAH.Controllers
         {
             var datos = this.GenerarReporte();
             return View(datos);
+            //return View();
         }
 
         // GET: DetallesPedido/GenerarReporte
         [AllowAnonymousAttribute]
-        public IEnumerable<Object> GenerarReporte()
+        public IEnumerable<String[]> GenerarReporte()
         {
             var result = db.DetallesPedido.Join(db.Insumos, d => d.insumoId, s => s.id, (d, s) => new { d, s }).
                 Join(db.Pedidos, x => x.d.pedidoId, p => p.id, (x, p) => new { x, p }).
@@ -41,8 +43,71 @@ namespace SIAH.Controllers
                GroupBy(x => new { hospital = x.h.nombre, insumo = x.t.x.s.nombre }, x => x.t.x.d.cantidad, (key, g) => new { Hospital = key.hospital, Insumo = key.insumo, Cantidad = g.Sum() }).
                ToList();
 
+       
+            String[,] report = new String[9, 5];
+            report[0, 0] = "Insumo";
+           /* var hospitales = db.Hospitales.Select(x => new { x.nombre }).ToList();
+            var p = 1;
+            foreach( var h in hospitales) { report[0, p] = h.nombre; p++; }*/
+
+            var insumos = db.Insumos.Select(x => new { x.nombre }).ToList();
+            var q = 1;
+            foreach (var s in insumos){report[q, 0] = s.nombre; q++;}
+            
+            var j = 0;
+            foreach (var r in result)
+            {
+                if(j < 5)
+                { 
+                if (report[0, j] != r.Hospital)
+                {
+                    j++;
+                    report[0, j] = r.Hospital;
+                    for (var i = 1; i < 9; i++)
+                    {
+                        if (report[i, 0] == r.Insumo)
+                        {
+                            report[i, j] = r.Cantidad.ToString();
+                        }
+                            else {
+                                if (report[i, j] == null) { report[i, j] = "0"; }
+                            }
+
+                        }
+                }
+                else
+                {
+                    for (var i = 1; i < 9; i++)
+                    {
+                            
+                        if (report[i, 0] == r.Insumo)
+                        {
+                            report[i, j] = r.Cantidad.ToString();
+                        }
+                            else
+                            {
+                                if (report[i, j] == null) { report[i, j] = "0"; }
+                            }
+                        }
+                }
+            }
+                
+            }
             //return Json(result, JsonRequestBehavior.AllowGet);
-            return result;
+            String[][] jagged = new String[report.GetLength(0)][];
+
+            for (int i = 0; i < report.GetLength(0); i++)
+            {
+                jagged[i] = new String[report.GetLength(1)];
+                for (int t = 0; t < report.GetLength(1); t++)
+                {
+                    jagged[i][t] = report[i,t];
+                }
+            }
+
+            List<String[]> list = jagged.ToList();
+           // List<Object> final = repor.Cast<Object>().ToList();
+            return list;
         }
 
         // GET: DetallesPedido/Details/5

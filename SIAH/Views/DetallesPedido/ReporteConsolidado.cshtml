@@ -1,79 +1,79 @@
-﻿@model IEnumerable<Object>
+﻿@model IEnumerable<String[]>
 
 @{
     ViewBag.Title = "ReporteConsolidado";
 
-    /*List<String> columnas = new List<String>();
-    columnas.Add("ID");
-    columnas.Add("Insumo");
-    columnas.Add("Cantidad Pedida");*/
-    WebGrid grid = new WebGrid(source: Model, columnNames: new[]
-    { "Hospital", "Insumo", "Cantidad" });
-    WebGrid definitiveGrid = new WebGrid();
+    bool isFirst = true;
+    //WebGrid grid = new WebGrid(source: Model.GetEnumerator().Current);
 }
-
-
-
 
 <h2>ReporteConsolidado</h2>
 
 @using (Html.BeginForm())
 {
-    <div>
+    @*<div>
         @grid.GetHtml(tableStyle: "webgrid-table",
     headerStyle: "webgrid-header",
     footerStyle: "webgrid-footer",
     alternatingRowStyle: "webgrid-alternating-row",
     selectedRowStyle: "webgrid-selected-row",
     rowStyle: "webgrid-row-style")
+    </div>*@
+    
+    <div id="table_wrapper">
+        <table class="table">
+
+            @foreach (var i in Model)
+            {
+                <tr class="webgrid-row-style">
+                    @if (isFirst == false)
+                    {
+                        foreach (var e in i)
+                        {
+                            <td>@e</td>
+                        }
+                    }
+                    else
+                    {
+                        isFirst = false;
+                        foreach (var e in i)
+                        {
+                            <th class="webgrid-header">@e</th>
+                        }
+                    }
+                </tr>
+
+            }
+        </table>
+        
     </div>
-
- 
-           @*<div>
-    <table id="tableReporte" class="col-md-offset-2 col-md-9 table  table-hover table-condensed">
-        <thead>
-            <tr id="encabezado", name="encabezado">
-                <th>
-                    ID Insumo
-                </th>
-                <th>
-                    Insumo
-                </th>
-                <th>
-                    Cantidad Pedida
-                </th>
-            </tr>
-        </thead>
-        <tbody id="cuerpo", name="cuerpo">
-
-        </tbody>
-    </table>
-</div>*@
-           }
+}
+<div>
+    <button id="btnExport">Export to xls</button>
+</div>
 <div>
     @Html.ActionLink("Volver al Inicio", "Home/Index")
 </div>
+
+
 @section Scripts{
 <script type="text/javascript">
 
     $(document).ready(function () {
-       /* var urlReporte = '/DetallesPedido/GenerarReporte';
-        $.get(urlReporte, null, function (lista) {
+        $("#btnExport").click(function (e) {
+            e.preventDefault();
 
-            for (var i = 0, len = lista.length; i < len; i++) {
-                var data = lista[i];
-                //Encabezado
-                var $hospital = $('<th>').append(data.hospital).append('</th>');
-                $('#encabezado').append($hospital);
-                //Cuerpo
-                var $tdIdInsumo = $('<td>').append(data.idInsumo).append('</td>');
-                var $tdInsumo = $('<td>').append(data.insumo).append('</td>');
-                var $tdCantidad = $('<td>').append(data.cantidad).append('</td>');
-                $('#cuerpo').append('<tr>').append($tdIdInsumo, $tdInsumo, $tdCantidad);
-            }
+            //getting data from our table
+            var data_type = 'data:application/vnd.ms-excel';
+            var table_div = document.getElementById('table_wrapper');
+            var table_html = table_div.outerHTML.replace(/ /g, '%20');
 
-        })*/
-    })
+            var a = document.createElement('a');
+            a.href = data_type + ', ' + table_html;
+            a.download = 'exported_table_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+            a.click();
+        });
+    });
 
 </script>
 }
