@@ -58,7 +58,7 @@
                             @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label" })
 
                             @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
-                            <input type="number" maxlength="7" id="cantidad" min="0" class="form-control" required onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                            <input type="number"  min="1" max="999999" id="cantidad" class="form-control" required onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
                         </div>
                     </div>
 
