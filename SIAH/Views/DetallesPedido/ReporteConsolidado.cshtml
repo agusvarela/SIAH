@@ -30,16 +30,17 @@
                     {
                         foreach (var e in i)
                         {
-                            <td>@e</td>
+                            <td class="webgrid-row-style webgrid-alternating-row" >@e</td>
                         }
                     }
                     else
                     {
-                        isFirst = false;
                         foreach (var e in i)
                         {
+                            isFirst = false;
                             <th class="webgrid-header">@e</th>
                         }
+
                     }
                 </tr>
 
@@ -50,25 +51,20 @@
 }
 <div>
     @*<a href="#" onClick="$('#tablaReporte').tableExport({type:'excel',escape:'false'});">Exportar a Excel (XLS)</a>*@
-    <button>Export</button>
+    <input id="btn_export" type="button" value="Exportar a XLS" class="btn btn-success btn-round btn_export" />
 
 </div>
 <div>
-    @Html.ActionLink("Volver al Inicio", "Home/Index")
+    @Html.ActionLink("Volver al Inicio", "/Home/Index")
 </div>
 
 
 @section Scripts{
-   <script>
-       $("button").click(function () {
-
-           $("#tablaReporte").table2excel({
-               // exclude CSS class
-               exclude: ".noExl",
-               name: "Worksheet Name",
-               filename: "SomeFile" //do not include extension
-           })
-       });
-</script>
-
+<script type="text/javascript" src="~/Scripts/tableExport.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
+    <script type="text/javascript">
+        $(document).on('click', '.btn_export', function (event) {
+            $('#tablaReporte').tableExport({ type: 'excel', escape: 'false' });
+        });
+    </script>
 }
