@@ -43,8 +43,10 @@ namespace SIAH.Controllers
                GroupBy(x => new { hospital = x.h.nombre, insumo = x.t.x.s.nombre }, x => x.t.x.d.cantidad, (key, g) => new { Hospital = key.hospital, Insumo = key.insumo, Cantidad = g.Sum() }).
                ToList();
 
-       
-            String[,] report = new String[9, 5];
+            var rows = db.Insumos.ToList().Count() + 1;
+            var columns = db.Hospitales.Where(h => h.Pedidos.Count > 0).Count() + 1;
+
+            String[,] report = new String[rows,columns];
             report[0, 0] = "Insumo";
            /* var hospitales = db.Hospitales.Select(x => new { x.nombre }).ToList();
             var p = 1;
@@ -57,13 +59,13 @@ namespace SIAH.Controllers
             var j = 0;
             foreach (var r in result)
             {
-                if(j < 5)
+                if(j < columns)
                 { 
                 if (report[0, j] != r.Hospital)
                 {
                     j++;
                     report[0, j] = r.Hospital;
-                    for (var i = 1; i < 9; i++)
+                    for (var i = 1; i < rows; i++)
                     {
                         if (report[i, 0] == r.Insumo)
                         {
@@ -77,7 +79,7 @@ namespace SIAH.Controllers
                 }
                 else
                 {
-                    for (var i = 1; i < 9; i++)
+                    for (var i = 1; i < rows; i++)
                     {
                             
                         if (report[i, 0] == r.Insumo)

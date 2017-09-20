@@ -21,7 +21,7 @@
     </div>*@
     
     <div id="table_wrapper">
-        <table class="table">
+        <table id="tablaReporte" class="table">
 
             @foreach (var i in Model)
             {
@@ -49,7 +49,9 @@
     </div>
 }
 <div>
-    <button id="btnExport">Export to xls</button>
+    @*<a href="#" onClick="$('#tablaReporte').tableExport({type:'excel',escape:'false'});">Exportar a Excel (XLS)</a>*@
+    <button>Export</button>
+
 </div>
 <div>
     @Html.ActionLink("Volver al Inicio", "Home/Index")
@@ -57,23 +59,16 @@
 
 
 @section Scripts{
-<script type="text/javascript">
+   <script>
+       $("button").click(function () {
 
-    $(document).ready(function () {
-        $("#btnExport").click(function (e) {
-            e.preventDefault();
-
-            //getting data from our table
-            var data_type = 'data:application/vnd.ms-excel';
-            var table_div = document.getElementById('table_wrapper');
-            var table_html = table_div.outerHTML.replace(/ /g, '%20');
-
-            var a = document.createElement('a');
-            a.href = data_type + ', ' + table_html;
-            a.download = 'exported_table_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
-            a.click();
-        });
-    });
-
+           $("#tablaReporte").table2excel({
+               // exclude CSS class
+               exclude: ".noExl",
+               name: "Worksheet Name",
+               filename: "SomeFile" //do not include extension
+           })
+       });
 </script>
+
 }

@@ -47,8 +47,8 @@
                             @Html.LabelFor(model => model.detallesPedido, "Insumo", htmlAttributes: new { @class = "control-label " })
 
 
-                            <input class="form-control style='background-color: white' buscador ui-autocomplete-input" id="q" type="text" value="" autocomplete="on" required>
-
+                            <input  id="q" class="form-control style='background-color: white' buscador ui-autocomplete-input" type="text" value="" autocomplete="on" required>
+                            
                         </div>
 
                     </div>
@@ -58,12 +58,12 @@
                             @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label" })
 
                             @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
-                            <input type="number"  min="1" max="999999" id="cantidad" class="form-control" required onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                            <input type="number" maxlength="7" id="cantidad" class="form-control" min="0" required onkeypress='return event.charcode >= 48 && event.charcode <= 57' />
                         </div>
                     </div>
 
                     <div class="col-md-offset-7 col-md-5 margen-arriba">
-                        <input id="btn_addInsumo" type="submit" value="Agregar Insumo" class="btn btn-success btn-round" />
+                        <input id="btn_addInsumo"  type="submit" value="Agregar Insumo" class="btn btn-success btn-round btn_addInsumo" />
                     </div>
                     <br>
                 </div>
@@ -161,7 +161,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            //Este método borra los campos requeridos de insumo y cantidad para 
+            //Este método borra los campos requeridos de insumo y cantidad para
             //que se pueda submitear el form sin que los pida, ya que no son necesarios.
             $(document).on('click', '#enviar', function () {
                 document.getElementById("q").removeAttribute('required');
@@ -213,15 +213,17 @@
                     indice--;
                     //console.log($('#detallesPedido > tr').get(i));
 
+                    var $totalAMostrar = new Intl.NumberFormat('de-DE').format(total);
 
-                    $('#total').val("$" +total);
+                    $('#total').val("$" + $totalAMostrar);
                         if ($('#detallesPedido > tr').not('.empty').length == 0) {
                             $('#enviar').hide();
                             $('#detallesPedido .empty').show();
                         }
                     });
                     //Boton para agregar insumo a la lista
-                $(document).on('click', '.btn-success', function (event) {
+                $(document).on('click', '.btn_addInsumo', function (event) {
+                        event.preventDefault();
 
                         if (data != '' && $('#cantidad').val() != "") {
                             if ($('#detallesPedido .empty').is(':visible')) {
@@ -237,15 +239,19 @@
                             var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
                             var $tdTipo = $('<td>').html(data.tipo).append($tipo);
 
-                            var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val(data.precioUnitario);
-                            var $tdPrecioUnitario = $('<td>').html(data.precioUnitario).append($precioUnitario);
+                            var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
+
+                            var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
+                            var $tdPrecioUnitario = $('<td>').html($precioAMostrar).append($precioUnitario);
 
                             var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());
                             var $tdCantidad = $('<td>').html($('#cantidad').val()).append($cantidad);
 
                             var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
-                            var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalCalculado);
-                            var $tdSubtotal = $('<td>').html('$' + $subtotalCalculado).append($cantidad);
+                            var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
+
+                            var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalAMostrar);
+                            var $tdSubtotal = $('<td>').html('$' + $subtotalAMostrar).append($cantidad);
 
                             var $boton = $('<button>').attr('type', 'button').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs btn-eliminar-detallesPedido').append($('<i>').addClass('fa fa-times'));
                             var $tdAccion = $('<td>').addClass('td-actions text-right').append($boton);
@@ -256,7 +262,7 @@
                             total += $subtotalCalculado;
 
                             //Previene que se submitee el Form con este botón. Solo valide los campos vacios.
-                            event.preventDefault();
+                           
 
                             //Vacia los text box
                             $('#q').val("");
@@ -266,7 +272,7 @@
                             //Agrega un atributo a la clase, para que se reinicien los inputs
                             $('#insu').attr('class', 'form-group label-floating is-empty');
                             $('#canti').attr('class', 'form-group label-floating is-empty');
-                            
+
                             data = '';
                             $('#total').val("$"+total);
                         }
@@ -277,5 +283,3 @@
                 });
     </script>
 }
-
-    </div>
