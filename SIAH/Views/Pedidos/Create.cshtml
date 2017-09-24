@@ -58,7 +58,7 @@
                             @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label" })
 
                             @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
-                            <input type="number" maxlength="7" id="cantidad" class="form-control" min="0" required onkeypress="return event.charCode >= 8 && event.charCode <= 57" />
+                            <input type="number" maxlength="7" id="cantidad" class="form-control" min="0" required onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
                         </div>
                     </div>
 
@@ -223,6 +223,7 @@
                     });
                     //Boton para agregar insumo a la lista
                 $(document).on('click', '.btn_addInsumo', function (event) {
+                         //Previene que se submitee el Form con este botón. Solo valide los campos vacios.
                         event.preventDefault();
 
                         if (data != '' && $('#cantidad').val() != "") {
@@ -261,7 +262,7 @@
                             indice++;
                             total += $subtotalCalculado;
 
-                            //Previene que se submitee el Form con este botón. Solo valide los campos vacios.
+                           
                            
 
                             //Vacia los text box
