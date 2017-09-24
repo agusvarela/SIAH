@@ -4,10 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SIAH.Models;
+using SIAH.Context;
+
 namespace SIAH.Controllers
 {
     public class AccountController : Controller
     {
+        private SIAHContext db = new SIAHContext();
         // GET: Account
         public ActionResult Index()
         {
@@ -19,17 +22,18 @@ namespace SIAH.Controllers
 
         public ActionResult Register()
         {
+            ViewBag.rolID = new SelectList(db.Roles, "id", "nombre");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register([Bind(Include = "nombre, apellido, email, password, confirmPassword")]UserAccount account)
+        public ActionResult Register([Bind(Include = "nombre, apellido, email, rolID, password, confirmPassword")]UserAccount account)
         {
             if (ModelState.IsValid)
             {
-                account.rol = null;
-                account.rolID = null;
+                //account.rol = null;
+                //account.rolID = null;
                 using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
                 {
                     db.UserAccounts.Add(account);
