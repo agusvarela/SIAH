@@ -14,9 +14,12 @@
                         incluyendo reclamos y extensiones de presupuesto.
                     </h4>
                     <br />
+                    @if (Session["userid"] == null)
+                    {
                     <a class="btn btn-primary btn-raised btn-lg" href="~/Account/Login">
                         Iniciar Sesión
                     </a>
+                    }
                 </div>
             </div>
         </div>

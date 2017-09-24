@@ -7,7 +7,7 @@
     //WebGrid grid = new WebGrid(source: Model.GetEnumerator().Current);
 }
 
-<h2>ReporteConsolidado</h2>
+<h2>Reporte de Consolidado</h2>
 
 @using (Html.BeginForm())
 {
@@ -49,13 +49,10 @@
         
     </div>
 }
-<div>
+<div class="col-md-offset-10 col-md-2" style="width: 13%">
     @*<a href="#" onClick="$('#tablaReporte').tableExport({type:'excel',escape:'false'});">Exportar a Excel (XLS)</a>*@
-    <input id="btn_export" type="button" value="Exportar a XLS" class="btn btn-success btn-round btn_export" />
+    <input id="btn_export" type="button" value="Exportar Excel" class="btn btn-success btn-round btn_export" />
 
-</div>
-<div>
-    @Html.ActionLink("Volver al Inicio", "/Home/Index")
 </div>
 
 
