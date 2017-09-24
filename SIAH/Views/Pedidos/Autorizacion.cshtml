@@ -222,8 +222,10 @@
                     var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
                     var $tdTipo = $('<td>').html(data.tipo).append($tipo);
 
-                    var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val(data.precioUnitario);
-                    var $tdPrecioUnitario = $('<td>').html(data.precioUnitario).append($precioUnitario);
+                    var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
+
+                    var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
+                    var $tdPrecioUnitario = $('<td>').html($precioAMostrar).append($precioUnitario);
 
                     var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val(data.cantidad);
                     var $tdCantidad = $('<td>').html(data.cantidad).append($cantidad);
@@ -232,12 +234,14 @@
                     var $tdCantidadAut = $('<td>').append($cantidadAut);
 
                     var $subtotalCalculado = data.precioUnitario * data.cantidad;
-                    total += $subtotalCalculado;
-                    var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalCalculado);
-                    var $tdSubtotal = $('<td>').html('$' + $subtotalCalculado).append($cantidad);
+                    var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
+
+                    var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalAMostrar);
+                    var $tdSubtotal = $('<td>').html('$' + $subtotalAMostrar)
 
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdPrecioUnitario, $tdSubtotal);
                     $('#detallesPedido').append($tr);
+                    total += $subtotalCalculado;
                     indice++;
 
                 }

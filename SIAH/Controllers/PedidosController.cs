@@ -227,8 +227,18 @@ namespace SIAH.Controllers
                 pedido.estaAutorizado = true;
 
                 db.Entry(pedido).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Listado");
+                try
+                {
+                    if (db.SaveChanges() > 0)
+                    {
+                        return RedirectToAction("Listado", new { param = "Success" });
+                    }
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Listado", new { param = e.Message });
+                }
+                //return RedirectToAction("Listado");
             }
             ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", pedido.hospitalId);
