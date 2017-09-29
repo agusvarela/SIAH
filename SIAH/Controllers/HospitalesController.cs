@@ -15,6 +15,12 @@ namespace SIAH.Controllers
     {
         private SIAHContext db = new SIAHContext();
 
+        //GET: Presupuesto
+        public String getPresupuesto(int idHospital)
+        {
+            var presupuesto = db.Hospitales.Where(p => p.id == idHospital).Select(r => new { presupuesto = r.presupuesto });
+            return presupuesto.ToList().First().presupuesto.ToString();
+        }
         // GET: Hospitals
         public ActionResult Index()
         {
@@ -49,7 +55,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nombre,localidadId")] Hospital hospital)
+        public ActionResult Create([Bind(Include = "id,nombre,localidadId, presupuesto")] Hospital hospital)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +89,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nombre,localidadId")] Hospital hospital)
+        public ActionResult Edit([Bind(Include = "id,nombre,localidadId, presupuesto")] Hospital hospital)
         {
             if (ModelState.IsValid)
             {

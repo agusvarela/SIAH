@@ -18,6 +18,7 @@ namespace SIAH.Models
         public int localidadId { get; set; }
         public Localidad localidad { get; set; }
 
+        public Decimal presupuesto { get; set; }
         public ICollection<Pedidos.Pedido> Pedidos { get; set; }
     }
 }

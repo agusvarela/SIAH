@@ -18,6 +18,9 @@
         <th>
             Localidad
         </th>
+        <th>
+            Presupuesto
+        </th>
         <th>Acciones</th>
     </tr>
 
@@ -29,6 +32,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.localidad.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.presupuesto)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |

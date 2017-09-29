@@ -99,6 +99,14 @@
                             @Html.ValidationMessageFor(model => model.hospitalId, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div  class="form-group">
+                        @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-5" })
+                        <div id="container" class="col-md-6">
+                            @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })*@
+                            <text id="presupuesto" class="form-control"></text>
+                            @*@Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
+                        </div>
+                    </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.esUrgente, "Urgente", htmlAttributes: new { @class = "control-label col-md-5", data_toggle = "tooltip", data_placement = "top", data_original_title = "tooltip here" })
                         <div class="col-md-6">
@@ -287,4 +295,33 @@
 
                 });
     </script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            var idHospital = $('#hospitalId').val();
+            $.ajax({
+                url: '@Url.Action("getPresupuesto", "Hospitales")',
+                type: 'GET',
+                data: { idHospital: idHospital },
+                cache: false,
+                success: function(result) {
+                    $('#presupuesto').html(result);
+                }
+            });
+        });
+
+        $(function () {
+        $('#hospitalId').change(function() {
+            var idHospital = $(this).val();
+            $.ajax({
+                url: '@Url.Action("getPresupuesto", "Hospitales")',
+                type: 'GET',
+                data: { idHospital: idHospital },
+                cache: false,
+                success: function (result) {
+                    $('#presupuesto').html(result);
+                }
+            });
+            });
+        });
+</script>
 }
