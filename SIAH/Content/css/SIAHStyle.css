@@ -850,7 +850,7 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
 .checkbox .checkbox-material {
   vertical-align: middle;
   position: relative;
-  top: 2px;
+  top: 9px;
   padding-right: 5px;
   display: inline-block;
 }

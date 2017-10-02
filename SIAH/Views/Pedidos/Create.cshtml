@@ -94,7 +94,7 @@
                         </div>
                         <div class="form-card__content group">
                             @*<div class="panel-heading">INSUMOS</div>*@
-                            <div class="col-sm-4">
+                            <div class="col-sm-5">
                                 <div class="form-group">
                                     @*<label class="control-label col-md-3">Seleccione un tipo</label>*@
                                     <div class="col-md-12">
@@ -124,7 +124,7 @@
 
                             </div>
 
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div id="canti" class="form-group label-floating">
                                     @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label" })
 
@@ -154,11 +154,11 @@
 
                         <div class="form-card__content group">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.esUrgente, "Tilde si su Pedido es Urgente", htmlAttributes: new { @class = "control-label col-md-10", data_toggle = "tooltip", data_placement = "top", data_original_title = "tooltip here" })
+                                @Html.LabelFor(model => model.esUrgente, "Seleccione esta casilla si su pedido es urgente:", htmlAttributes: new { @class = "control-label col-md-10 tota", @data_toggle = "tooltip", @data_placement = "top", @data_original_title = "Seleccione esta casilla si su pedido es Urgente" })
                                 <div class="col-md-2">
                                     <div class="checkbox">
                                         <label>
-                                            @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", data_toggle = "tooltip", data_placement = "right", data_original_title = "Seleccione esta casilla si su pedido es Urgente" })
+                                            @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", @data_toggle = "tooltip", @data_placement = "right", @data_original_title = "Seleccione esta casilla si su pedido es Urgente" })
                                             @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
 
                                         </label>

@@ -5,6 +5,7 @@
 @{
     ViewBag.Title = "Listado de Pedidos";
     //WebGrid grid = new WebGrid(Model);
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 <script type="text/javascript">
     window.addEventListener("load", function () {
@@ -12,124 +13,148 @@
     })
 
 </script>
-<div class="container">
-    <h2 id="titlis">Listado de Pedidos</h2>
-    <div id="cuadritos" class="container">
-        <ul class="nav nav-pills nav-stacked pull-right left">
-            <li class="text-info">
-                <a href="#" style="background-color:#fbc53c">
-                    <span class="badge pull-right"></span>
-                    No Autorizado
-                </a>
-            </li>
-        </ul>
-        <ul class="nav nav-pills nav-stacked pull-right right">
-            <li class="text-info">
-                <a href="#" style="background-color:#5cb85c">
-                    <span class="badge pull-right"></span>
-                    Autorizado
-                </a>
-            </li>
-
-        </ul>
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-12">
+            <h1>Listado de Pedidos</h1>
+            <div class="banner-catalog__content"> Autorice los pedidos pendientes verificando el detalle de cada uno.</div>
+        </div>
     </div>
+</div>
+<div class="container" style=" padding-bottom: 30px;">
+
+    <div class="form-horizontal">
+        
     </div>
-<br>
-@*@grid.GetHtml();*@
-    <table class="table">
-        <tr>
-            <th class="text-center">
-                @Html.Name("Nº Pedido")
-            </th>
-            <th class="text-center">
-                @Html.Name("Fecha de Generación")
-            </th>
-            <th class="text-center">
-                @Html.Name("Nombre de Hospital")
-            </th>
-            <th class="text-center">
-                @Html.Name("Acciones")
-            </th>
+    <br>
+    @*@grid.GetHtml();*@
+    <div class="row">
 
+        <div class="col-md-12">
+            <div class="form-card form-card--purple form-card--tight ">
+                <div class="form-card__content group">
+                    <div id="cuadritos" class="container">
+                        <ul class="nav nav-pills nav-stacked pull-right left">
+                            <li class="text-info">
+                                <a href="#" style="background-color:#fbc53c">
+                                    <span class="badge pull-right"></span>
+                                    No Autorizado
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-pills nav-stacked pull-right right">
+                            <li class="text-info">
+                                <a href="#" style="background-color:#5cb85c">
+                                    <span class="badge pull-right"></span>
+                                    Autorizado
+                                </a>
+                            </li>
 
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            if (item.estaAutorizado == true)
-            {
-                <tr style="background-color:#5cb85c">
-            
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.id)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.hospital.nombre)
-                    </td>
-                    <td class="text-center">
-                        @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                        <a href="#" class="escondido">Ir a Autorizar</a>
-
-                    </td>
-                </tr>
-            }
-            else
-            {
-                <tr style="background-color:#fbc53c">
-
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.id)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.hospital.nombre)
-                    </td>
-                    <td class="text-center">
-                        @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                        @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
-                        
-                    </td>
-                </tr>
-            }
-        }
-
-    </table>
-    @if (ViewBag.success == true)
-    {
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="alert alert-success">
-                <div class="container-fluid">
-                    <div class="alert-icon">
-                        <i class="material-icons">check</i>
+                        </ul>
                     </div>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        <span aria-hidden="true"><i class="material-icons">clear</i></span>
-                    </button>
-                    <strong>EL PEDIDO FUE ENVIADO EXITOSAMENTE.</strong>
+                    <div class="form-group">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <tr>
+                                        <th class="text-center">
+                                            @Html.Name("Nº Pedido")
+                                        </th>
+                                        <th class="text-center">
+                                            @Html.Name("Fecha de Generación")
+                                        </th>
+                                        <th class="text-center">
+                                            @Html.Name("Nombre de Hospital")
+                                        </th>
+                                        <th class="text-center">
+                                            @Html.Name("Acciones")
+                                        </th>
+
+
+                                    </tr>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        if (item.estaAutorizado == true)
+                                        {
+                                            <tr style="background-color:#5cb85c">
+
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.id)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                    <a href="#" class="escondido">Ir a Autorizar</a>
+
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr style="background-color:#fbc53c">
+
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.id)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                    @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    }
+    </div>
+                            @if (ViewBag.success == true)
+                            {
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="alert alert-success">
+                                        <div class="container-fluid">
+                                            <div class="alert-icon">
+                                                <i class="material-icons">check</i>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                            </button>
+                                            <strong>EL PEDIDO FUE ENVIADO EXITOSAMENTE.</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
 
-    else
+                            else
 if (ViewBag.success == false)
-    {
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="alert alert-danger">
-                <div class="container-fluid">
-                    <div class="alert-icon">
-                        <i class="material-icons">error_outline</i>
-                    </div>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true"><i class="material-icons">clear</i></span>
-                    </button>
-                    <strong>Ocurrió un Error inesperado: </strong> @ViewBag.problem <strong> (No se envió el pedido) </strong>
-                </div>
-            </div>
-        </div>
-    }
+                            {
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="alert alert-danger">
+                                        <div class="container-fluid">
+                                            <div class="alert-icon">
+                                                <i class="material-icons">error_outline</i>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                            </button>
+                                            <strong>Ocurrió un Error inesperado: </strong> @ViewBag.problem <strong> (No se envió el pedido) </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
