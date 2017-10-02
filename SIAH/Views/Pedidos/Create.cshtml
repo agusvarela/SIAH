@@ -377,7 +377,9 @@
 
                 data = '';
                //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
-                $('#total').val("$" + parseFloat(total).toFixed(2));
+                total = parseFloat(total).toFixed(2);
+                var $totalAMostrar = new Intl.NumberFormat('de-DE').format(total);
+                $('#total').val("$" + $totalAMostrar);
 
                 //Verificacion del costo del pedido respecto al presupuesto
                 if (parseFloat($('#presupuesto').text().replace("$", "")) < total) {
