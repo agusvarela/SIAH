@@ -215,6 +215,9 @@
                                                     </strong>
                                                 </div>
                                             </div>
+                                            <div>
+                                                <span id="totalSpan" class="text-danger"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -375,6 +378,13 @@
                 data = '';
                //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
                 $('#total').val("$" + parseFloat(total).toFixed(2));
+
+                //Verificacion del costo del pedido respecto al presupuesto
+                if (parseFloat($('#presupuesto').text().replace("$", "")) < total) {
+                    $('#totalSpan').text("El costo del pedido supera el presupuesto")
+                }
+                //Enfocar el campo de texto insumo para que siga agregando
+                $('#insu').focus();
             }
         }
     });
