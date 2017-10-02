@@ -66,6 +66,9 @@
                                             @Html.Name("Nombre de Hospital")
                                         </th>
                                         <th class="text-center">
+                                            @Html.Name("Urgente")
+                                        </th>
+                                        <th class="text-center">
                                             @Html.Name("Acciones")
                                         </th>
 
@@ -88,6 +91,12 @@
                                                     @Html.DisplayFor(modelItem => item.hospital.nombre)
                                                 </td>
                                                 <td class="text-center">
+                                                    @if (item.esUrgente == true)
+                                                    {
+                                                        <i class="material-icons">error</i>
+                                                    }
+                                                </td>   
+                                                <td class="text-center">
                                                     @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
                                                     <a href="#" class="escondido">Ir a Autorizar</a>
 
@@ -107,6 +116,12 @@
                                                 <td class="text-center">
                                                     @Html.DisplayFor(modelItem => item.hospital.nombre)
                                                 </td>
+                                                <td class="text-center" style="color:red">
+                                                    @if (item.esUrgente == true)
+                                                    {
+                                                        <i class="material-icons">error</i>
+                                                    }
+                                                </td>  
                                                 <td class="text-center">
                                                     @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
                                                     @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
