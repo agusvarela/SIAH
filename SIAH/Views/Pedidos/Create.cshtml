@@ -94,53 +94,55 @@
                         </div>
                         <div class="form-card__content group">
                             @*<div class="panel-heading">INSUMOS</div>*@
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                                    @*<label class="control-label col-md-3">Seleccione un tipo</label>*@
-                                    <div class="col-md-12">
-                                        <select class="form-control" id="tipo">
-                                            <option value="">Seleccione un tipo de Insumo</option>
-                                            @{ var tipoInsumo = ViewBag.tipoInsumo;}
-                                            @foreach (var item in tipoInsumo)
-                                            {
-                                                <option value="@item.Value">@item.Text</option>
-                                            }
-                                        </select>
+                            
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        @*<label class="control-label col-md-3">Seleccione un tipo</label>*@
+                                        
+                                            <select class="form-control" id="tipo">
+                                                <option value="">Seleccione un tipo de Insumo</option>
+                                                @{ var tipoInsumo = ViewBag.tipoInsumo;}
+                                                @foreach (var item in tipoInsumo)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        
+                                        @*<div class="col-md-7">
+                    @Html.Label("Campo opcional", null, htmlAttributes: new { })
+                </div>*@
                                     </div>
-                                    @*<div class="col-md-7">
-                                            @Html.Label("Campo opcional", null, htmlAttributes: new { })
-                                        </div>*@
                                 </div>
-                            </div>
+                        
+                           
+                                <div class="col-sm-10">
+                                    <div id="insu" class="form-group label-floating">
+                                        @Html.LabelFor(model => model.detallesPedido, " Insumo", htmlAttributes: new { @class = "control-label " })
 
-                            <div class="col-sm-4">
-                                <div id="insu" class="form-group label-floating">
-                                    @Html.LabelFor(model => model.detallesPedido, "Insumo", htmlAttributes: new { @class = "control-label " })
 
+                                        <input id="q" class="form-control style='background-color: white' buscador ui-autocomplete-input" type="text" value="" autocomplete="on" required>
 
-                                    <input id="q" class="form-control style='background-color: white' buscador ui-autocomplete-input" type="text" value="" autocomplete="on" required>
+                                    </div>
 
                                 </div>
 
-                            </div>
+                                <div class="col-sm-2">
+                                    <div id="canti" class="form-group label-floating">
+                                        @Html.Label(" Cantidad", null, htmlAttributes: new { @class = "control-label" })
 
-                            <div class="col-sm-3">
-                                <div id="canti" class="form-group label-floating">
-                                    @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label" })
-
-                                    @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
-                                    <input type="number" maxlength="7" id="cantidad" class="form-control" min="1" max="999999" required onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
-                                    <span class="help-block"
-                                          data-valmsg-for="cantidad">La cantidad ingresada debe ser mayor a 0 y menor a 999999.</span>
+                                        @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
+                                        <input type="number" maxlength="7" id="cantidad" class="form-control" min="1" max="999999" required onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                                        @*<span class="help-block"
+                    data-valmsg-for="cantidad">La cantidad ingresada debe ser mayor a 0 y menor a 999999.</span>*@
+                                    </div>
                                 </div>
+                           
+                                <div class="col-xs-12">
+                                    <br />
+                                    <input id="btn_addInsumo" type="submit" value="Agregar Insumo" class="btn btn-round btn-success pull-right btn_addInsumo" />
+                                </div>
+                                <br>
                             </div>
-
-                            <div class="col-xs-12">
-                                <br />
-                                <input id="btn_addInsumo" type="submit" value="Agregar Insumo" class="btn btn-round btn-success pull-right btn_addInsumo" />
-                            </div>
-                            <br>
-                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -206,7 +208,7 @@
 
                                         <div class="form-card__content group">
                                             <div class="form-group">
-                                               @Html.Label("Total:", null, htmlAttributes: new { @class = "control-label col-md-4 tota"})
+                                                @Html.Label("Total:", null, htmlAttributes: new { @class = "control-label col-md-4 tota" })
                                                 <div class="col-md-8">
                                                     <strong>
                                                         @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
@@ -242,15 +244,26 @@
     $(document).on('click', '#enviar', function () {
         document.getElementById("q").removeAttribute('required');
         document.getElementById("cantidad").removeAttribute('required');
-    });
+            });
+    //Este metodo Habilita el boton si insumo esta vacio para que pueda hacer las validaciones(Facu)
+    
 
     var total = 0;
     var indice = $('#detallesPedido > tr').not('.empty').length;
     $('#enviar').hide();
-    var data = '';
-    $("#q").autocomplete({
-        minLength: 1,
+        var data = '';
+
+        $("#q").autocomplete({
+        minLength: 0,
         source: function (request, response) {
+
+            //Agregue esto para que no se pueda agregar un insumo mientras haya algo escrito que no sea un insumo,
+            //cuando se selecciona un insumo, se habilita de nuevo. (Facu)
+            if ($("#q").val() != '') {
+                $('#btn_addInsumo').attr('disabled', true);
+            }
+            
+
             $.ajax({
                 url: '@Url.Action("../Insumos/BuscarInsumos")',
                 dataType: "json",
@@ -269,13 +282,21 @@
             data = p.item;
             $('#q').val(p.item.nombre);
             $('#idInsumo').val(p.item.id);
+            //Aca habilito el boton de nuevo (Facu)
+            $('#btn_addInsumo').attr('disabled', false);
             return false;
         }
     }).autocomplete("instance")._renderItem = function (ul, item) {
         return $("<li>")
             .append("<div><strong>" + item.nombre + "<\/strong><br><em>" + item.tipo + "<\/em><\/div>")
             .appendTo(ul);
-    }
+            }
+        $('#q').keyup(function () {
+            if (!this.value) {
+                $('#btn_addInsumo').attr('disabled', false);
+            }
+        });
+
     $(document).on('click', '#btn-eliminar-detallesPedido', function () {
         //Funcion que calcula el subtotal de la fila y lo resta al total al eliminar un elemento
         //Luego elimina la fila entera del detalle y verifica si la lista esta vacia para ocultar el boton enviar
@@ -330,7 +351,7 @@
                 var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalAMostrar);
                 var $tdSubtotal = $('<td>').html('$' + $subtotalAMostrar).append($cantidad);
 
-                var $boton = $('<button>').attr('type', 'button').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs btn-eliminar-detallesPedido').append($('<i>').addClass('fa fa-times'));
+                var $boton = $('<button>').attr('type', 'button').attr('id', 'btn-eliminar-detallesPedido').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs ').append($('<i>').addClass('fa fa-times'));
                 var $tdAccion = $('<td>').addClass('td-actions').append($boton);
 
                 var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
@@ -352,7 +373,8 @@
                 $('#canti').attr('class', 'form-group label-floating is-empty');
 
                 data = '';
-                $('#total').val("$" + total);
+               //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
+                $('#total').val("$" + parseFloat(total).toFixed(2));
             }
         }
     });

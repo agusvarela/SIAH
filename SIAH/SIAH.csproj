@@ -255,7 +255,6 @@
     <Content Include="Content\img\wave-2.png" />
     <Content Include="Content\js\bootstrap-datepicker.js" />
     <Content Include="Content\js\bootstrap.min.js" />
-    <Content Include="Content\js\PedidosJS.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\material-kit.js" />
     <Content Include="Content\js\material.min.js" />
@@ -394,6 +393,7 @@
     <Content Include="Views\Roles\Create.cshtml" />
     <Content Include="Views\Roles\Edit.cshtml" />
     <Content Include="Views\Roles\Delete.cshtml" />
+    <Content Include="Views\Shared\_NewLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
