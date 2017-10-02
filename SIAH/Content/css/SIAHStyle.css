@@ -850,7 +850,7 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
 .checkbox .checkbox-material {
   vertical-align: middle;
   position: relative;
-  top: 1px;
+  top: 2px;
   padding-right: 5px;
   display: inline-block;
 }
@@ -1596,12 +1596,12 @@ label.control-label {
   font-size: 11px;
 }
 .form-group.label-floating label.control-label, .form-group.label-placeholder label.control-label {
-  top: -7px;
+  top: 2px;
   font-size: 14px;
   line-height: 1.42857;
 }
 .form-group.label-static label.control-label, .form-group.label-floating.is-focused label.control-label, .form-group.label-floating:not(.is-empty) label.control-label {
-  top: -28px;
+  top: -18px;
   left: 0;
   font-size: 11px;
   line-height: 1.07143;
@@ -3768,8 +3768,8 @@ h2.title {
     font-size:18px
 }
 .table {
-    width:90%;
-    margin: 20px 20px 20px 20px;
+    width:100%;
+    margin: 20px 20px 20px 0px;
 }
 .margen-arriba {
     margin: 27px 0 0 0;
@@ -3787,10 +3787,10 @@ h2.title {
     background-color: white;
 }
 
-    .webgrid-table td, th {
+    /*.webgrid-table td, th {
         border: 2px solid #000000;
-            /*padding: 3px 7px 2px;*/
-    }
+        padding: 3px 7px 2px;
+    }*/
 
 .webgrid-header, .webgrid-header a {
     
@@ -3825,4 +3825,32 @@ h2.title {
 
 .col2Width {
     width: 220px;
+}
+
+
+.form-card--purple .purple-header {
+    background-color: #55b559 !important;
+    background-image: none;
+}
+.form-card--purple .info-header {
+    background-color: #0ab1fc !important;
+    background-image: none;
+    /*color: black;
+    border-bottom: solid thin;*/
+}
+.form-card--purple .alert-header {
+    background-color: #f55145 !important;
+    background-image: none;
+}
+.form-card__title .alert-icon i {
+    margin-top: -7px;
+    top: 5px;
+    position: relative;
+}
+.form-horizontal .tota {
+    text-align: left
+}
+td.last {
+    width: 1px;
+    white-space: nowrap;
 }
