@@ -65,7 +65,7 @@ namespace SIAH.Controllers
         //    var pedidos = db.Pedidos.Include(p => p.hospital);
         //    return View(pedidos.ToList());
         //}
-        [AuthorizeUserAccessLevel (UserRole = "Admin")]
+      
         [AuthorizeUserAccessLevel (UserRole = "RespAutorizacion")]
         public ActionResult Listado(string param)
         {
