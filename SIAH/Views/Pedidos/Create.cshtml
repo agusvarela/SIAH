@@ -377,8 +377,7 @@
 
                 data = '';
                //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
-                total = parseFloat(total).toFixed(2);
-                var $totalAMostrar = new Intl.NumberFormat('de-DE').format(total);
+                var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
                 $('#total').val("$" + $totalAMostrar);
 
                 //Verificacion del costo del pedido respecto al presupuesto
