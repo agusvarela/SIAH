@@ -19,6 +19,7 @@ namespace SIAH.Controllers
         private SIAHContext db = new SIAHContext();
 
         // GET: Pedidos
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult Index()
         {
             var pedidos = db.Pedidos.Include(p => p.hospital);
@@ -26,6 +27,7 @@ namespace SIAH.Controllers
         }
 
         // GET: Pedidos/Details/5
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -49,6 +51,7 @@ namespace SIAH.Controllers
         }
 
         // GET: Pedidos/Create
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult Create()
         {
             ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
@@ -63,6 +66,7 @@ namespace SIAH.Controllers
         //    return View(pedidos.ToList());
         //}
         [AuthorizeUserAccessLevel (UserRole = "Admin")]
+        [AuthorizeUserAccessLevel (UserRole = "RespAutorizacion")]
         public ActionResult Listado(string param)
         {
             if (param != null)
@@ -107,6 +111,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,esUrgente,estaAutorizado,hospitalId,detallesPedido")] Pedido pedido)
         {
             pedido.fechaEntrega = null;
@@ -137,6 +142,7 @@ namespace SIAH.Controllers
         }
 
         // GET: Pedidos/Edit/5
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -157,6 +163,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         public ActionResult Edit([Bind(Include = "id,periodo,fechaGeneracion,fechaEntrega,esUrgente,estaAutorizado, hospitalId")] Pedido pedido)
         {
             if (ModelState.IsValid)
@@ -171,6 +178,7 @@ namespace SIAH.Controllers
 
 
         // GET: Pedidos/Delete/5
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -188,6 +196,7 @@ namespace SIAH.Controllers
         // POST: Pedidos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult DeleteConfirmed(int id)
         {
             Pedido pedido = db.Pedidos.Find(id);
@@ -195,6 +204,8 @@ namespace SIAH.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         public ActionResult Autorizacion(int? id)
         {
             if (id == null)
@@ -212,6 +223,7 @@ namespace SIAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         public ActionResult Autorizacion([Bind(Include = "id,periodo,fechaGeneracion, fechaEntrega, esUrgente,estaAutorizado,hospitalId,detallesPedido")] Pedido pedido)
         {
             if (ModelState.IsValid)
@@ -245,6 +257,7 @@ namespace SIAH.Controllers
             return View(pedido);
         }
 
+        [AuthorizeUserAccessLevel(UserRole = "RespReporte")]
         public ActionResult ReporteConsolidado()
         {
             var pedidos = db.Pedidos.Include(p => p.hospital);
