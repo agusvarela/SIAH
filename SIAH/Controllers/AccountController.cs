@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using SIAH.Models;
 using SIAH.Context;
+using System.Data.Entity;
 
 namespace SIAH.Controllers
 {
@@ -67,16 +68,13 @@ namespace SIAH.Controllers
         {
             using (Context.SIAHContext db = new Context.SIAHContext())
             {
-                //var usr = db.UserAccounts.Single(u => u.email == user.email && u.password == user.password);
-                var usr = db.UserAccounts.Where(u => u.email == user.email && u.password == user.password).FirstOrDefault();
-                string rol = "";
+                var usr = db.UserAccounts.Where(u => u.email == user.email && u.password == user.password).Include(p => p.rol).FirstOrDefault();
                 if (usr != null)
                 {
                     Session["userid"] = usr.id.ToString();
                     Session["email"] = usr.email.ToString();
                     Session["nombre"] = usr.nombre.ToString();
-                    rol = db.Roles.Find(usr.rolID).nombre;
-                    Session["rol"] = rol;
+                    Session["rol"] = usr.rol.nombre.ToString();
                     return RedirectToAction("LoggedIn");
                 } else
                 {
