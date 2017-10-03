@@ -46,33 +46,34 @@ namespace SIAH.Controllers
             var rows = db.Insumos.ToList().Count() + 1;
             var columns = db.Hospitales.Where(h => h.Pedidos.Count > 0).Count() + 1;
 
-            String[,] report = new String[rows,columns];
-            report[0, 0] = "Insumo";
+            String[][] report = new String[rows][]; //columns en segundo argumento
+            for (int i = 0; i < rows; i++) { report[i] = new String[columns]; }
+            report[0][0] = "Insumo";
            /* var hospitales = db.Hospitales.Select(x => new { x.nombre }).ToList();
             var p = 1;
             foreach( var h in hospitales) { report[0, p] = h.nombre; p++; }*/
 
             var insumos = db.Insumos.Select(x => new { x.nombre }).ToList();
             var q = 1;
-            foreach (var s in insumos){report[q, 0] = s.nombre; q++;}
+            foreach (var s in insumos){report[q][0] = s.nombre; q++;}
             
             var j = 0;
             foreach (var r in result)
             {
                 if(j < columns)
                 { 
-                if (report[0, j] != r.Hospital)
+                if (report[0][j] != r.Hospital)
                 {
                     j++;
-                    report[0, j] = r.Hospital;
+                    report[0][j] = r.Hospital;
                     for (var i = 1; i < rows; i++)
                     {
-                        if (report[i, 0] == r.Insumo)
+                        if (report[i][0] == r.Insumo)
                         {
-                            report[i, j] = r.Cantidad.ToString();
+                            report[i][j] = r.Cantidad.ToString();
                         }
                             else {
-                                if (report[i, j] == null) { report[i, j] = "0"; }
+                                if (report[i][j] == null) { report[i][j] = "0"; }
                             }
 
                         }
@@ -82,33 +83,33 @@ namespace SIAH.Controllers
                     for (var i = 1; i < rows; i++)
                     {
                             
-                        if (report[i, 0] == r.Insumo)
+                        if (report[i][0] == r.Insumo)
                         {
-                            report[i, j] = r.Cantidad.ToString();
+                            report[i][j] = r.Cantidad.ToString();
                         }
                             else
                             {
-                                if (report[i, j] == null) { report[i, j] = "0"; }
+                                if (report[i][j] == null) { report[i][j] = "0"; }
                             }
                         }
                 }
             }
                 
             }
-            //return Json(result, JsonRequestBehavior.AllowGet);
-            String[][] jagged = new String[report.GetLength(0)][];
+            
+            //String[][] jagged = new String[report.GetLength(0)][];
 
-            for (int i = 0; i < report.GetLength(0); i++)
-            {
-                jagged[i] = new String[report.GetLength(1)];
-                for (int t = 0; t < report.GetLength(1); t++)
-                {
-                    jagged[i][t] = report[i,t];
-                }
-            }
+            //for (int i = 0; i < report.GetLength(0); i++)
+            //{
+            //    jagged[i] = new String[report.GetLength(1)];
+            //    for (int t = 0; t < report.GetLength(1); t++)
+            //    {
+            //        jagged[i][t] = report[i,t];
+            //    }
+            //}
 
-            List<String[]> list = jagged.ToList();
-           // List<Object> final = repor.Cast<Object>().ToList();
+            //List<String[]> list = jagged.ToList();
+            List<String[]> list = report.ToList();
             return list;
         }
 
