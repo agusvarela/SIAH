@@ -24,12 +24,12 @@ namespace System.Web.Mvc
             }
             else return false;
             */
-            //String rol = HttpContext.Current.Session["rol"].ToString();
-            //if ( rol.CompareTo(UserRole) == 0)
-            //{
+            String rol = HttpContext.Current.Session["rol"].ToString();
+            if ( rol.CompareTo(UserRole) == 0)
+            {
                 return true;
-           // }
-            //else return false;
+            }
+            else return false;
         }
     }
 }
