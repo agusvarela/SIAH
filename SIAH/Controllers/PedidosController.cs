@@ -27,15 +27,15 @@ namespace SIAH.Controllers
         }
 
         // GET: Pedidos/Details/5
-        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ViewBag.hospitalId = new SelectList(db.TiposInsumo, "id", "presupuesto");
             Pedido pedido = db.Pedidos.Find(id);
-
             if (pedido == null)
             {
                 return HttpNotFound();
@@ -44,10 +44,15 @@ namespace SIAH.Controllers
         }
 
         //GET: Pedidos/GetHospital
-        public String GetHospital(int? hospitalId)
+        public List<String> GetHospital(int? hospitalId)
         {
-            Hospital hospital = db.Hospitales.Find(hospitalId);
-            return hospital.nombre;
+            List<String> data = new List<string>();
+            Hospital hospitalData = db.Hospitales.Find(hospitalId);
+            String hospital = hospitalData.nombre;
+            String presupuesto = hospitalData.presupuesto.ToString();
+            data.Add(hospital);
+            data.Add(presupuesto);
+            return data;
         }
 
         // GET: Pedidos/Create
@@ -127,12 +132,14 @@ namespace SIAH.Controllers
                 try { 
                 if (db.SaveChanges() > 0)
                 {
-                    return RedirectToAction("Listado", new { param = "Success" });
+                       //return RedirectToAction("Listado", new { param = "Success" });
+                       return RedirectToAction("../Home/Index", new { param = "Success" });
                 }
                 }
                 catch (Exception e)
                 {
-                    return RedirectToAction("Listado", new { param = e.Message });
+                    //return RedirectToAction("Listado", new { param = e.Message });
+                    return RedirectToAction("../Home/Index", new { param = e.Message });
                 }
             }
 

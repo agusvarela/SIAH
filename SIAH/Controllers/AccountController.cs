@@ -17,7 +17,7 @@ namespace SIAH.Controllers
         {
             using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
             {
-                return View(db.UserAccounts.ToList());
+                return View(db.UserAccounts.Include(u => u.rol).ToList());
             }
         }
 

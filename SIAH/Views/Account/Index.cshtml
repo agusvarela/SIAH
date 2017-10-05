@@ -23,6 +23,9 @@
         <th>
             @Html.Name("Contraseña")
         </th>
+        <th>
+            @Html.Name("Rol")
+        </th>
         @*<th></th>*@
     </tr>
 
@@ -40,6 +43,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.password)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rol.nombre)
+        </td>
         @*<td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
             @Html.ActionLink("Details", "Details", new { id=item.id }) |
@@ -49,3 +55,5 @@
 }
 
 </table>
+
+
