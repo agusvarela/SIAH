@@ -81,8 +81,18 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-2" })
 
-        </div>
+                    <div class="col-md-7">
+                        @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto"})
+                        <div>
+                            <span id="presuSpan" name="presuSpan" class="text-danger"></span>
+                        </div>
+                    </div>
+                
+            </div>
+       </div>
     </div>
                     if (Model.estaAutorizado == false)
                     {
@@ -190,7 +200,9 @@
             var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
             $.get(urlHospital, null, function (data) {
                 //console.log(data);
-                $('#nombreHospital').val(data);
+                    $('#nombreHospital').val(data[0]);
+                    $('#presupuesto').val("$" + data[1]);
+                
             });
         })
         $(document).ready(function () {
@@ -200,6 +212,7 @@
             var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
             $.get(urlDetalle, null, function (lista) {
                 var total = 0;
+                //console.log(lista);
                 for (var i = 0, len = lista.length; i < len; i++) {
                     var data = lista[i];
                     /*Antiguo metodo de mostrar y editar los detalles
@@ -245,12 +258,19 @@
                     indice++;
 
                 }
-                $('#total').val(total);
+                // $('#total').val(total);
+                var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
+                $('#total').val("$" + $totalAMostrar);
+                if (parseFloat($('#presupuesto').val().replace("$", "")) < total) {
+                    $('#presuSpan').text("El costo del pedido supera el presupuesto");
+                    console.log($('#presupuesto').val().replace("$", ""));
+                    console.log("entro al if :v");
+                }
             });
         })
-        $(document).on("submit", null, function () {
+        //$(document).on("submit", null, function () {
 
-        });
+        //});
 
     </script>
 }

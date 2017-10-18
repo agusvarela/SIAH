@@ -13,7 +13,7 @@ namespace SIAH.Controllers
         {
             if(Session["rol"] == null)
             {
-                Session["rol"] = "Invitado";
+                Session["rol"] = "Admin";
             } 
             return View();
         }

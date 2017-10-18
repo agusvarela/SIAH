@@ -44,7 +44,7 @@ namespace SIAH.Controllers
         }
 
         //GET: Pedidos/GetHospital
-        public List<String> GetHospital(int? hospitalId)
+        public /*List<String>*/ JsonResult GetHospital(int? hospitalId)
         {
             List<String> data = new List<string>();
             Hospital hospitalData = db.Hospitales.Find(hospitalId);
@@ -52,7 +52,8 @@ namespace SIAH.Controllers
             String presupuesto = hospitalData.presupuesto.ToString();
             data.Add(hospital);
             data.Add(presupuesto);
-            return data;
+            //return data;
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Pedidos/Create
