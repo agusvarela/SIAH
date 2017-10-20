@@ -1,0 +1,89 @@
+﻿@model IEnumerable<SIAH.Models.Pedidos.Pedido>
+@{
+    ViewBag.Title = "RespFarmacia";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-12">
+            <h1>Administrador de Farmacia</h1>
+            <div class="banner-catalog__content">Genere nuevos pedidos y revise el estado de los pedidos realizados.</div>
+        </div>
+    </div>
+</div>
+<div id="page" style="min-height: 363px;">
+    <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="row">
+            <button class="btn  bigbut btn-success col-lg-3 col-md-4 col-sm-5" onclick="location.href='@Url.Action("Create", "Pedidos")'">
+                <i class="material-icons bigicon">add</i>
+               <strong>Generar Nuevo Pedido</strong> 
+            </button>
+
+
+            <div class="col-lg-9 col-md-8 col-sm-7">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="alertArea">
+                            <div class="alert alert-info pq-alert">
+                                <i class="fa fa-arrow-right"></i>
+                                <span>Histórico de Pedidos</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div id="app" data-bind="visible: loaded" style="">
+                    <!-- ko if: !projects().length --><!-- /ko -->
+                    <!-- ko if: projects().length -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="nav-dashboard">
+                                <ul class="list-unstyled list-group">
+                                    @foreach (var item in Model)
+                                    {
+                                        if (item.estaAutorizado == true)
+                                        {
+
+                                            <li class="nav-dashboard__item  list-group-item-success"  >
+                                                <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                    <div class="selector hide"></div>
+
+                                                    <span class="nav-dashboard__item__text" style="color: #3c763d">@Html.DisplayFor(model => item.periodo)</span>
+
+                                                    <i class="icon-green material-icons pull-right">spellcheck</i>
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+
+                                            <li class="nav-dashboard__item list-group-item-danger" >
+                                                <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                    <div class="selector hide"></div>
+
+                                                    <span class="nav-dashboard__item__text" style="color: #a94442">@Html.DisplayFor(model => item.periodo)</span>
+                                                    <i class="icon-red  material-icons pull-right">schedule</i>
+                                                </a>
+                                            </li>
+                                        }
+
+                                    }
+
+                                </ul>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

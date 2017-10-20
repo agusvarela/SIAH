@@ -75,7 +75,17 @@ namespace SIAH.Controllers
                     Session["email"] = usr.email.ToString();
                     Session["nombre"] = usr.nombre.ToString();
                     Session["rol"] = usr.rol.nombre.ToString();
-                    return RedirectToAction("LoggedIn");
+                    //Intento de redirigir el login pero no funciona 
+
+                    if (usr.rol.nombre.ToString().Equals("RespFarmacia"))
+                    {
+                        return RedirectToAction("../Pedidos/RespFarmacia");
+                    }
+                    else
+                    {
+                        return RedirectToAction("LoggedIn");
+                    }
+                    
                 } else
                 {
                     ModelState.AddModelError("", "Usuario y/o contraseña incorrecto");

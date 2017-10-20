@@ -2,155 +2,147 @@
 
 @{
     ViewBag.Title = "Detalle del pedido";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<h2>Detalle del pedido @Html.DisplayFor(model => model.id)</h2>
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>Detalle del pedido @Html.DisplayFor(model => model.id)</h4>
-        <hr />
-        <div class="form-group">
-            <div class="form-group">
-                @Html.LabelFor(model => model.estado, "El estado actual del pedido es: ", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    <text class="form-control" >@ViewBag.estado</text>
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.hospital.nombre, "Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.hospital.nombre, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
-                    @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
-                    @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-2" })
-                @{ DateTime fechaE = DateTime.Today.AddDays(3);
-                if (fechaE.DayOfWeek == DayOfWeek.Saturday || fechaE.DayOfWeek == DayOfWeek.Sunday)
-                {
-                    fechaE = fechaE.AddDays(2);
-                }
-                }
-                <div class="col-md-7">
-                    @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE })
-                    @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.esUrgente, "Urgente", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    <div class="checkbox">
-                        <label>
-                            @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", @onclick = "return false;" })
-                            @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
-
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.estaAutorizado, "¿Está Autorizado?", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    <div class="checkbox">
-                        <label>
-                            @Html.CheckBoxFor(model => model.estaAutorizado, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", @onclick = "return false;" })
-                            @Html.ValidationMessageFor(model => model.estaAutorizado, "", new { @class = "text-danger" })
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                <div class="col-md-7">
-                    @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
-                    <div>
-                        <span id="presuSpan" name="presuSpan" class="text-danger"></span>
-                    </div>
-                </div>
-
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-12">
+                <h1>Detalle del pedido @Html.DisplayFor(model => model.id)</h1>
+                <div class="banner-catalog__content"> El estado actual del pedido es: @ViewBag.estado.</div>
             </div>
         </div>
     </div>
-    @*Detalle del pedido*@
-                    <table id="detalles" class="table">
-                        <tr>
-                            <th>
-                                Insumo
-                            </th>
-                            <th>
-                                Tipo
-                            </th>
-                            <th>
-                                Cantidad
-                            </th>
-                            <th>
-                                Cantidad Autorizada
-                            </th>
-                            <th>
-                                Precio unitario
-                            </th>
-                            <th>
-                                Subtotal
-                            </th>
-                            <th>
-                                Subtotal Autorizado
-                            </th>
-                        </tr>
+    <br />
 
-                    </table>
+    <div class="container" style=" padding-bottom: 30px;">
 
-                    @*Boton para autorizar*@
-                    <div class="form-group " >
-                        <div class="pull-right" id="cuadritos1" style="width: 13%; height:116px">
-                            <div class="panel panel-DEFAULT text-center">
-                                @*<div class="panel-heading">INSUMOS</div>*@
-                                <div class="panel-body">
-                                    @Html.Label(" Total Aut", null, htmlAttributes: new { @class = "control-label" })
-                                    <strong>
-                                        @Html.TextBox("totalAutorizado", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
-                                    </strong>
-                                </div>
-                                 </div>
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info_outline</i>
+                                <strong>Información general del pedido</strong>
                             </div>
-                            <div class="pull-rigth" id="cuadritos1" style="width: 13%">
-                                <div class="panel panel-DEFAULT text-center">
-                                    @*<div class="panel-heading">INSUMOS</div>*@
-                                    <div class="panel-body">
-                                        @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
-                                        <strong>
-                                            @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
-                                        </strong>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.periodo, "Período:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                                        @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                                        @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.hospitalId, "Hospital:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.hospital.nombre, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div id="container" class="col-md-12">
+                                        @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
+                                        <div>
+                                            <span id="presuSpan" name="presuSpan" class="text-danger"></span>
+                                        </div>
+                                        @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })
+                                            <text id="presupuesto" class="form-control"></text>
+                                            @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        @*Detalle del pedido*@
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight ">
+                    <div class="form-card__content group">
+                        <div class="form-group">
+                            <h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="detalles" class=" table table-hover table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:17%">Nombre</th>
+                                                <th style="width:14%">Tipo </th>
+                                                <th style="width:17%">Cantidad Pedido</th>
+                                                <th style="width:20%">Cantidad Autorizada</th>
+                                                <th style="width:16%">Precio Unitario</th>
+                                                <th style="width:16%">Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                            <tbody name="detallesPedido" id="detallesPedido">
+                                                @*<tr class="empty well text-center">
+                                                    <td colspan="6">Aun no se han agregado insumos</td>
+                                                </tr>*@
+                                            </tbody>
+                                    </table>
 
-                    @Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
-                    @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
-                    }
+                                    @*Boton para autorizar*@
+                                    <div class="form-group ">
+                                        <div class="pull-right" id="cuadritos1" style="width: 13%; height:116px">
+                                            <div class="panel panel-DEFAULT text-center">
+                                                @*<div class="panel-heading">INSUMOS</div>*@
+                                                <div class="panel-body">
+                                                    @Html.Label(" Total Aut", null, htmlAttributes: new { @class = "control-label" })
+                                                    <strong>
+                                                        @Html.TextBox("totalAutorizado", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pull-rigth" id="cuadritos1" style="width: 13%">
+                                            <div class="panel panel-DEFAULT text-center">
+                                                @*<div class="panel-heading">INSUMOS</div>*@
+                                                <div class="panel-body">
+                                                    @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
+                                                    <strong>
+                                                        @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
+    @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
+}
 
 <div class="container">
     @Html.ActionLink("Volver al Listado", "Listado")

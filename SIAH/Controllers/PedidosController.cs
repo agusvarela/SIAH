@@ -27,6 +27,7 @@ namespace SIAH.Controllers
         }
 
         // GET: Pedidos/Details/5
+ 
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         public ActionResult Details(int? id)
         {
@@ -269,6 +270,13 @@ namespace SIAH.Controllers
 
         [AuthorizeUserAccessLevel(UserRole = "RespReporte")]
         public ActionResult ReporteConsolidado()
+        {
+            var pedidos = db.Pedidos.Include(p => p.hospital);
+            return View(pedidos.ToList());
+        }
+
+       [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
+        public ActionResult RespFarmacia()
         {
             var pedidos = db.Pedidos.Include(p => p.hospital);
             return View(pedidos.ToList());

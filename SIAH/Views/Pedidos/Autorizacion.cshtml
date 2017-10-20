@@ -1,10 +1,9 @@
 ﻿@model SIAH.Models.Pedidos.Pedido
 @{
     ViewBag.Title = "Autorizacion";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
     var detallesPedido = Model.detallesPedido;
 }
-
-<h2>Autorización de Pedido</h2>
 
 @using (Html.BeginForm())
 {
@@ -15,151 +14,135 @@
     }
 
 
-    <div class="form-horizontal">
-        <h4>Detalle del pedido @Html.DisplayFor(model => model.id)</h4>
-        <hr />
-        <div class="form-group">
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.hospital.nombre, "Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.hospital.nombre, "", new { @class = "text-danger" })
-                </div>
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-12">
+                <h1>Autorización del pedido @Html.DisplayFor(model => model.id)</h1>
+                <div class="banner-catalog__content"> Aqui puede corroborar informacion referida a un pedido, seleccionar una cantidad a autorizar y Autorizar el Pedido.</div>
             </div>
+        </div>
+    </div>
+    <br />
 
+    <div class="container" style=" padding-bottom: 30px;">
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
-                    @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
-                    @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-2" })
-                @{ DateTime fechaE = DateTime.Today.AddDays(3);
-                if (fechaE.DayOfWeek == DayOfWeek.Saturday || fechaE.DayOfWeek == DayOfWeek.Sunday)
-                {
-                    fechaE = fechaE.AddDays(2);
-                }
-                }
-                <div class="col-md-7">
-                    @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE })
-                    @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.esUrgente, "Urgente", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    <div class="checkbox">
-                        <label>
-                            @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", @onclick = "return false;" })
-                            @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
-
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.estaAutorizado, "¿Está Autorizado?", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-7">
-                    <div class="checkbox">
-                        <label>
-                            @Html.CheckBoxFor(model => model.estaAutorizado, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", @onclick = "return false;" })
-                            @Html.ValidationMessageFor(model => model.estaAutorizado, "", new { @class = "text-danger" })
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-7">
-                        @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto"})
-                        <div>
-                            <span id="presuSpan" name="presuSpan" class="text-danger"></span>
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info_outline</i>
+                                <strong>Información general del pedido</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.periodo, "Período:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                                        @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                                        @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.hospitalId, "Hospital:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.hospital.nombre, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div id="container" class="col-md-12">
+                                        @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
+                                        <div>
+                                            <span id="presuSpan" name="presuSpan" class="text-danger"></span>
+                                        </div>
+                                        @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })
+                                            <text id="presupuesto" class="form-control"></text>
+                                            @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                
+                </div>
             </div>
-       </div>
-    </div>
-                    if (Model.estaAutorizado == false)
-                    {
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <h3 class="col-md-offset-2 col-md-7"><strong>Listado de Insumos</strong></h3>
-                                <table class="col-md-offset-2 col-md-9 table  table-hover table-condensed">
-                                    <thead>
-                                        <tr>
-                                        <tr>
-                                            <th>
-                                                Insumo
-                                            </th>
-                                            <th>
-                                                Tipo
-                                            </th>
-                                            <th>
-                                                Cantidad Pedida
-                                            </th>
-                                            <th>
-                                                Cantidad Autorizada
-                                            </th>
-                                            <th>
-                                                Precio unitario
-                                            </th>
-                                            <th>
-                                                Subtotal
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    @{ var subtotal = "";}
-                                    <tbody name="detallesPedido" id="detallesPedido">
-                                        @foreach (var item in detallesPedido)
-                                        {
+        </div>
+        <br />
+        <br />
+        @*Detalle del pedido*@
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight ">
+                    <div class="form-card__content group">
+                        <div class="form-group">
+                            <h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="detalles" class=" table table-hover table-condensed">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    <input type="hidden" name="@item.pedidoId" value="@item.pedidoId">
-                                                    @item.pedidoId;
-                                                    <input type="hidden" name="@item.insumoId" value="@item.insumoId">
-                                                    <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
-                                                    @item.insumo.nombre;
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
-                                                    @item.insumo.tiposInsumo.nombre;
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="@item.cantidad" value="@item.cantidad">
-                                                    @item.cantidad;
-                                                </td>
-                                                <td>
-                                                    <input type="number" name="@item.cantidadAutorizada" min="0" max="@item.cantidad" value="@item.cantidad">
-                                                    @item.cantidadAutorizada;
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
-                                                    @item.insumo.precioUnitario;
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="subtotal" value="subtotal">
-                                                    @subtotal;
-                                                </td>
+                                                <th style="width:17%">Nombre</th>
+                                                <th style="width:14%">Tipo </th>
+                                                <th style="width:17%">Cantidad Pedido</th>
+                                                <th style="width:20%">Cantidad Autorizada</th>
+                                                <th style="width:16%">Precio Unitario</th>
+                                                <th style="width:16%">Subtotal</th>
                                             </tr>
-                                        }
+                                        </thead>
 
-                                </table>
-                                @*<div class="form-group">*@
+                                        @{ var subtotal = "";}
+                                        <tbody name="detallesPedido" id="detallesPedido">
+                                            @foreach (var item in detallesPedido)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <input type="hidden" name="@item.pedidoId" value="@item.pedidoId">
+                                                        @item.pedidoId;
+                                                        <input type="hidden" name="@item.insumoId" value="@item.insumoId">
+                                                        <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
+                                                        @item.insumo.nombre;
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
+                                                        @item.insumo.tiposInsumo.nombre;
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" name="@item.cantidad" value="@item.cantidad">
+                                                        @item.cantidad;
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" name="@item.cantidadAutorizada" min="0" max="@item.cantidad" value="@item.cantidad">
+                                                        @item.cantidadAutorizada;
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
+                                                        @item.insumo.precioUnitario;
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" name="subtotal" value="subtotal">
+                                                        @subtotal;
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                    </table>
+                                    @*<div class="form-group">*@
                                     <div class="col-md-offset-10 col-md-2" style="width: 13%">
                                         <div class="panel panel-DEFAULT text-center">
                                             @*<div class="panel-heading">INSUMOS</div>*@
@@ -177,14 +160,20 @@
                                         <input type="submit" value="Autorizar" id="Autorizacion" class="btn btn-success" />
                                     </div>
 
+                                </div>
                             </div>
                         </div>
-                        @*Boton para autorizar*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    @*Boton para autorizar*@
 
-                                        }
-                                        @Html.TextBox("hospitalId", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden", @name = "hospitalId" })
-                                        @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido", @name = "id" })
-                                        }
+                                            }
+@Html.TextBox("hospitalId", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden", @name = "hospitalId" })
+@Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido", @name = "id" })
+            }
 
 <br />
 <div class="container">
@@ -200,9 +189,9 @@
             var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
             $.get(urlHospital, null, function (data) {
                 //console.log(data);
-                    $('#nombreHospital').val(data[0]);
-                    $('#presupuesto').val("$" + data[1]);
-                
+                $('#nombreHospital').val(data[0]);
+                $('#presupuesto').val("$" + data[1]);
+
             });
         })
         $(document).ready(function () {

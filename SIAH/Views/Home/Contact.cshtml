@@ -1,17 +1,65 @@
-﻿@{
+﻿@model IEnumerable<SIAH.Models.Pedidos.Pedido>
+@{
     ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<div id="page" style="min-height: 363px;">
+    <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-5">
+                <div class="nav-dashboard">
+                    <div class="nav-dashboard__header">
+                        <div class="nav-dashboard__header__overlay"></div>
+                    </div>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+                </div>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+
+            </div>
+            <div class="col-lg-9 col-md-8 col-sm-7">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="alertArea">
+                            <div class="alert alert-primary pq-alert">
+                                <i class="fa fa-arrow-right"></i>
+                                <span>Histórico de Pedidos</span>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div id="app" data-bind="visible: loaded" style="">
+                    <!-- ko if: !projects().length --><!-- /ko -->
+                    <!-- ko if: projects().length -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="nav-dashboard">
+                                <ul class="list-unstyled">
+                                    @foreach (var item in Model)
+                                    {
+                                        <li class="nav-dashboard__item group">
+                                            <a href="/projects" class="group">
+
+                                                <div class="selector show"></div>
+                                                <i class="nav-dashboard__item__icon material-icons">folder_special</i>
+                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id })
+                                                <span class="nav-dashboard__item__text">@Html.DisplayFor(model => item.periodo)</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
