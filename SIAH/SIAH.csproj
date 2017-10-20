@@ -65,6 +65,7 @@
       <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -175,6 +176,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthorizeUserAccessLevel.cs" />
     <Compile Include="Controllers\DetallesPedidoController.cs" />
+    <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HospitalesController.cs" />
     <Compile Include="Controllers\InsumosController.cs" />
@@ -229,12 +231,17 @@
     <Compile Include="Migrations\201709292154023_alter_table_hospital_presupuesto.Designer.cs">
       <DependentUpon>201709292154023_alter_table_hospital_presupuesto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710182327538_create_table_estado_alter_table_pedido.cs" />
+    <Compile Include="Migrations\201710182327538_create_table_estado_alter_table_pedido.Designer.cs">
+      <DependentUpon>201710182327538_create_table_estado_alter_table_pedido.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />
     <Compile Include="Models\Localidad.cs" />
     <Compile Include="Models\Insumos\TipoInsumo.cs" />
     <Compile Include="Models\Pedidos\DetallePedido.cs" />
+    <Compile Include="Models\Pedidos\Estado.cs" />
     <Compile Include="Models\Pedidos\Pedido.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\UserAccount.cs" />
@@ -394,6 +401,11 @@
     <Content Include="Views\Roles\Edit.cshtml" />
     <Content Include="Views\Roles\Delete.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
+    <Content Include="Views\Estados\Create.cshtml" />
+    <Content Include="Views\Estados\Delete.cshtml" />
+    <Content Include="Views\Estados\Details.cshtml" />
+    <Content Include="Views\Estados\Edit.cshtml" />
+    <Content Include="Views\Estados\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -444,6 +456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709292154023_alter_table_hospital_presupuesto.resx">
       <DependentUpon>201709292154023_alter_table_hospital_presupuesto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710182327538_create_table_estado_alter_table_pedido.resx">
+      <DependentUpon>201710182327538_create_table_estado_alter_table_pedido.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

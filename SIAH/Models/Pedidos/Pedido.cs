@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using SIAH.Models.Pedidos;
 
 namespace SIAH.Models.Pedidos
 {
@@ -32,6 +33,9 @@ namespace SIAH.Models.Pedidos
 
         public int hospitalId { get; set; }
         public Hospital hospital { get; set; }
+
+        public int estadoId { get; set; }
+        public Estado estado { get; set; }
 
         public ICollection<DetallePedido> detallesPedido { get; set; }
 

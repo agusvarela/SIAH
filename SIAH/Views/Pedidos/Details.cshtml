@@ -14,7 +14,12 @@
         <h4>Detalle del pedido @Html.DisplayFor(model => model.id)</h4>
         <hr />
         <div class="form-group">
-
+            <div class="form-group">
+                @Html.LabelFor(model => model.estado, "El estado actual del pedido es: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-7">
+                    <text class="form-control" >@ViewBag.estado</text>
+                </div>
+            </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.hospital.nombre, "Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-7">
@@ -76,7 +81,17 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-2" })
 
+                <div class="col-md-7">
+                    @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
+                    <div>
+                        <span id="presuSpan" name="presuSpan" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
     @*Detalle del pedido*@
@@ -150,7 +165,8 @@
             var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
             $.get(urlHospital, null, function (data) {
                 //console.log(data);
-                $('#nombreHospital').val(data);
+                $('#nombreHospital').val(data[0]);
+                $('#presupuesto').val("$" + data[1]);
             });
         })
         $(document).ready(function () {
@@ -171,21 +187,32 @@
                     var $tdCantidad = $('<td>').append(item.cantidad);
                     var $tdCantidadAutorizada = $('<td>').append(item.cantidadAutorizada);
 
-                    var $tdPrecioUnitario = $('<td>').append(item.precioUnitario);
+                    var $precioAMostrar = new Intl.NumberFormat('de-DE').format(item.precioUnitario);
+                    var $tdPrecioUnitario = $('<td>').append($precioAMostrar);
 
-                    var subtotal = item.precioUnitario * item.cantidad;
-                    var $tdSubtotal = $('<td>').append(subtotal);
+                    var $subtotalCalculado = item.precioUnitario * item.cantidad;
+                    var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
+                    
+                    var $tdSubtotal = $('<td>').html('$' + $subtotalAMostrar)
 
-                    var subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
-                    var $tdSubtotalAutorizado = $('<td>').append(subtotalAutorizado);
+                    var $subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
+                    var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
+                    var $tdSubtotalAutorizado = $('<td>').append($subtotalAutAMostrar);
 
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotal, $tdSubtotalAutorizado);
-                    total += subtotal;
-                    totalAutorizado += subtotalAutorizado;
+                    total += $subtotalCalculado;
+                    totalAutorizado += $subtotalAutorizado;
                     $('#detalles').append($tr);
                 }
-                $('#total').val(total);
-                $('#totalAutorizado').val(totalAutorizado);
+                var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
+                var $totalAutorizadoAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(totalAutorizado).toFixed(2));
+                $('#total').val("$" + $totalAMostrar);
+                $('#totalAutorizado').val("$"+$totalAutorizadoAMostrar);
+                if (parseFloat($('#presupuesto').val().replace("$", "")) < total) {
+                    $('#presuSpan').text("El costo del pedido supera el presupuesto");
+                    console.log($('#presupuesto').val().replace("$", ""));
+                }
+               
             });
         });
 

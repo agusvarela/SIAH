@@ -43,6 +43,8 @@ namespace SIAH.Context
 
         public DbSet<Rol> Roles { get; set; }
 
+        public DbSet<Estado> Estados { get; set; }
+
     }
 
 }

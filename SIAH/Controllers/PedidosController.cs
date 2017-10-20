@@ -34,7 +34,8 @@ namespace SIAH.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.hospitalId = new SelectList(db.TiposInsumo, "id", "presupuesto");
+            //ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "presupuesto");
+            ViewBag.estado = db.Pedidos.Include(p => p.estado).Where(x => x.id == id).Select(r => new { estado = r.estado.nombreEstado }).First().estado;
             Pedido pedido = db.Pedidos.Find(id);
             if (pedido == null)
             {
@@ -121,6 +122,7 @@ namespace SIAH.Controllers
         public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,esUrgente,estaAutorizado,hospitalId,detallesPedido")] Pedido pedido)
         {
             pedido.fechaEntrega = null;
+            pedido.estadoId = db.Estados.Find(1).id;
 
             foreach (var detalle in pedido.detallesPedido)
             {
@@ -245,7 +247,7 @@ namespace SIAH.Controllers
                 }
                 //Se modifica el estado del pedido en general
                 pedido.estaAutorizado = true;
-
+                pedido.estadoId = 2;
                 db.Entry(pedido).State = EntityState.Modified;
                 try
                 {
