@@ -407,6 +407,7 @@
     <Content Include="Views\Estados\Edit.cshtml" />
     <Content Include="Views\Estados\Index.cshtml" />
     <Content Include="Views\Pedidos\RespFarmacia.cshtml" />
+    <Content Include="Views\Home\RespAutorizacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

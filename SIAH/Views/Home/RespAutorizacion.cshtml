@@ -1,0 +1,55 @@
+﻿@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.Title = "Home Responsable Autorizacion";
+}
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-12">
+            <h1>Responsable de Autorizacion</h1>
+            <div class="banner-catalog__content">Verifique sus pedidos pendientes y autorice según presupuesto.</div>
+        </div>
+    </div>
+</div>
+<div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-6 animated zoomIn">
+                <div class="card card-project">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-success">
+                                <i class="material-icons">verified_user</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="../Pedidos/Listado">Autorizaciones</a>
+                            </h4>
+                            <p>Autorice los pedidos de los hospitales y realice la carga en el sistema de envios de Ocasa.</p>
+                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("Listado", "Pedidos")'">Ir al listado de Pedidos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 animated zoomIn">
+                <div class="card card-project">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                                <i class="material-icons">description</i>
+                            </div>
+                            <h4 class="info-title">Reportes</h4>
+                            <p>Genere reportes que lo ayudarán a la toma de decisiones a la hora de Autorizar.</p>
+
+                            <div class="btn btn-round btn-primary" >Ir al Reporte</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

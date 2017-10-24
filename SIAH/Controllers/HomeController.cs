@@ -31,5 +31,11 @@ namespace SIAH.Controllers
 
             return View();
         }
+        public ActionResult RespAutorizacion()
+        {
+            ViewBag.Message = "Your index Page.";
+
+            return View();
+        }
     }
 }

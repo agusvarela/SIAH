@@ -64,7 +64,7 @@ namespace SIAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login( UserAccount user)
+        public ActionResult Login(UserAccount user)
         {
             using (Context.SIAHContext db = new Context.SIAHContext())
             {
@@ -83,13 +83,23 @@ namespace SIAH.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("LoggedIn");
+
+                        if (usr.rol.nombre.ToString().Equals("RespAutorizacion"))
+                        {
+                            return RedirectToAction("../Home/RespAutorizacion");
+                        }
+                        else
+                        {
+
+                            return RedirectToAction("LoggedIn");
+                        }
                     }
-                    
-                } else
+
+                }
+                else
                 {
                     ModelState.AddModelError("", "Usuario y/o contraseña incorrecto");
-                    
+
                 }
             }
             return View();
@@ -97,7 +107,7 @@ namespace SIAH.Controllers
 
         public ActionResult LoggedIn()
         {
-            if(Session["userid"]!=null)
+            if (Session["userid"] != null)
             {
                 return View();
             }

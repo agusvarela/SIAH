@@ -30,108 +30,121 @@
         @*@grid.GetHtml();*@
         <div class="row">
 
-            <div class="col-md-12">
-                <div class="form-card form-card--purple form-card--tight ">
-                    <div class="form-card__content group">
-                        <div id="cuadritos" class="container">
-                            <ul class="nav nav-pills nav-stacked pull-right left">
-                                <li class="text-info">
-                                    <a href="#" style="background-color:#fbc53c">
-                                        <span class="badge pull-right"></span>
-                                        No Autorizado
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-pills nav-stacked pull-right right">
-                                <li class="text-info">
-                                    <a href="#" style="background-color:#5cb85c">
-                                        <span class="badge pull-right"></span>
-                                        Autorizado
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <table class="table">
-                                    <tr>
-                                        <th class="text-center">
-                                            @Html.Name("Nº Pedido")
-                                        </th>
-                                        <th class="text-center">
-                                            @Html.Name("Fecha de Generación")
-                                        </th>
-                                        <th class="text-center">
-                                            @Html.Name("Nombre de Hospital")
-                                        </th>
-                                        <th class="text-center">
-                                            @Html.Name("Urgente")
-                                        </th>
-                                        <th class="text-center">
-                                            @Html.Name("Acciones")
-                                        </th>
 
 
-                                    </tr>
+            <div class="col-lg-12">
+                <div id="alertArea">
+                    <div class="alert alert-info pq-alert">
+                        <i class="fa fa-arrow-right"></i>
+                        <span>Seleccione un Pedido para ver su detalle o Autorizarlo</span>
+                    </div>
+                </div>
 
-                                    @foreach (var item in Model)
-                                    {
-                                        if (item.estaAutorizado == true)
+
+
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight ">
+                        <div class="form-card__content group">
+                            <div id="cuadritos" class="container">
+                                <ul class="nav nav-pills nav-stacked pull-right left">
+                                    <li class="text-info">
+                                        <a class="list-group-item-warning">
+                                            <span class="badge pull-right"></span>
+                                            No Autorizado
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-pills nav-stacked pull-right right">
+                                    <li class="text-info">
+                                        <a class="list-group-item-success">
+                                            <span class="badge pull-right"></span>
+                                            Autorizado
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <table class="table">
+                                        <tr>
+                                            <th class="text-center">
+                                                @Html.Name("Nº Pedido")
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.Name("Fecha de Generación")
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.Name("Nombre de Hospital")
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.Name("Urgente")
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.Name("Acciones")
+                                            </th>
+
+
+                                        </tr>
+
+                                        @foreach (var item in Model)
                                         {
-                                            <tr style="background-color:#5cb85c">
+                                            if (item.estaAutorizado == true)
+                                            {
+                                                <tr class="list-group-item-success">
 
-                                                <td class="text-center">
-                                                    @Html.DisplayFor(modelItem => item.id)
-                                                </td>
-                                                <td class="text-center">
-                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                </td>
-                                                <td class="text-center">
-                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                </td>
-                                                <td class="text-center">
-                                                    @if (item.esUrgente == true)
-                                                    {
-                                                        <i class="material-icons">error</i>
-                                                    }
-                                                </td>
-                                                <td class="text-center">
-                                                    @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                                                    <a href="#" class="escondido">Ir a Autorizar</a>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.esUrgente == true)
+                                                        {
+                                                            <i class="material-icons">error</i>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                        <a href="#" class="escondido">Ir a Autorizar</a>
 
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr class="list-group-item-warning">
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                    </td>
+                                                    <td class="text-center" style="color:red">
+                                                        @if (item.esUrgente == true)
+                                                        {
+                                                            <i class="material-icons">error</i>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                        @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
+
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
-                                        else
-                                        {
-                                            <tr style="background-color:#fbc53c">
 
-                                                <td class="text-center">
-                                                    @Html.DisplayFor(modelItem => item.id)
-                                                </td>
-                                                <td class="text-center">
-                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                </td>
-                                                <td class="text-center">
-                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                </td>
-                                                <td class="text-center" style="color:red">
-                                                    @if (item.esUrgente == true)
-                                                    {
-                                                        <i class="material-icons">error</i>
-                                                    }
-                                                </td>
-                                                <td class="text-center">
-                                                    @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                                                    @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
-
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-
-                                </table>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -139,38 +152,37 @@
             </div>
         </div>
     </div>
-</div>
-@if (ViewBag.success == true)
-{
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="alert alert-success">
-            <div class="container-fluid">
-                <div class="alert-icon">
-                    <i class="material-icons">check</i>
+    @if (ViewBag.success == true)
+    {
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="alert alert-success">
+                <div class="container-fluid">
+                    <div class="alert-icon">
+                        <i class="material-icons">check</i>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                    </button>
+                    <strong>EL PEDIDO FUE AUTORIZADO EXITOSAMENTE</strong>
                 </div>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
-                </button>
-                <strong>EL PEDIDO FUE ENVIADO EXITOSAMENTE.</strong>
             </div>
         </div>
-    </div>
-}
+    }
 
-else
+    else
 if (ViewBag.success == false)
-{
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="alert alert-danger">
-            <div class="container-fluid">
-                <div class="alert-icon">
-                    <i class="material-icons">error_outline</i>
+    {
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="alert alert-danger">
+                <div class="container-fluid">
+                    <div class="alert-icon">
+                        <i class="material-icons">error_outline</i>
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                    </button>
+                    <strong>Ocurrió un Error inesperado: </strong> @ViewBag.problem <strong> (No se autorizo el pedido) </strong>
                 </div>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
-                </button>
-                <strong>Ocurrió un Error inesperado: </strong> @ViewBag.problem <strong> (No se envió el pedido) </strong>
             </div>
         </div>
-    </div>
-}
+    }

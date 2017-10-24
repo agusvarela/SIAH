@@ -97,6 +97,7 @@ namespace SIAH.Controllers
                 return View(pedidos.ToList());
             }
 
+
         }
         public JsonResult GetInsumos(String id)
         {
@@ -136,14 +137,14 @@ namespace SIAH.Controllers
                 try { 
                 if (db.SaveChanges() > 0)
                 {
-                       //return RedirectToAction("Listado", new { param = "Success" });
-                       return RedirectToAction("../Home/Index", new { param = "Success" });
+                       return RedirectToAction("RespFarmacia", new { param = "Success" });
+                       
                 }
                 }
                 catch (Exception e)
                 {
-                    //return RedirectToAction("Listado", new { param = e.Message });
-                    return RedirectToAction("../Home/Index", new { param = e.Message });
+                    return RedirectToAction("RespFarmacia", new { param = e.Message });
+                    
                 }
             }
 
@@ -235,7 +236,7 @@ namespace SIAH.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
-        public ActionResult Autorizacion([Bind(Include = "id,periodo,fechaGeneracion, fechaEntrega, esUrgente,estaAutorizado,hospitalId,detallesPedido")] Pedido pedido)
+        public ActionResult Autorizacion([Bind(Include = "id,periodo,fechaGeneracion, fechaEntrega, esUrgente,estaAutorizado,hospitalId,estadoID,detallesPedido")] Pedido pedido)
         {
             if (ModelState.IsValid)
             {
@@ -275,13 +276,35 @@ namespace SIAH.Controllers
             return View(pedidos.ToList());
         }
 
-       [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
-        public ActionResult RespFarmacia()
+       //[AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
+       // public ActionResult RespFarmacia()
+       // {
+       //     var pedidos = db.Pedidos.Include(p => p.hospital);
+       //     return View(pedidos.ToList());
+       // }
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
+        public ActionResult RespFarmacia(string param)
         {
-            var pedidos = db.Pedidos.Include(p => p.hospital);
-            return View(pedidos.ToList());
+            if (param != null)
+            {
+                if (param.CompareTo("Success") == 0)
+                {
+                    ViewBag.success = true;
+                }
+                else
+                {
+                    ViewBag.success = false;
+                    ViewBag.problem = param;
+                };
+                var pedidos = db.Pedidos.Include(p => p.hospital);
+                return View(pedidos.ToList());
+            }
+            else
+            {
+                var pedidos = db.Pedidos.Include(p => p.hospital);
+                return View(pedidos.ToList());
+            }
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

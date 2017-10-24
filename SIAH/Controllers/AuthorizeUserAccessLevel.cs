@@ -25,24 +25,34 @@ namespace System.Web.Mvc
                   }
                   else return false;
                   */
-            String rol = HttpContext.Current.Session["rol"].ToString();
+            String rol = "";
+            if (HttpContext.Current.Session != null)
+            {
+                rol = HttpContext.Current.Session["rol"].ToString();
+            }
+            else
+            {
+                return false;
+            }
+
+
             if (rol.CompareTo(UserRole) == 0)
             {
                 return true;
             }
             else return false;
         }
-        //protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
-        //{
-        //    if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
-        //    {
-        //        base.HandleUnauthorizedRequest(filterContext);
-        //    }
-        //    else
-        //    {
-        //        filterContext.Result = new RedirectToRouteResult(new
-        //        RouteValueDictionary(new { controller = "Error", action = "AccessDenied" }));
-        //    }
-        //}
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                base.HandleUnauthorizedRequest(filterContext);
+            }
+            else
+            {
+                filterContext.Result = new RedirectToRouteResult(new
+                RouteValueDictionary(new { controller = "Error", action = "AccessDenied" }));
+            }
+        }
     }
 }
