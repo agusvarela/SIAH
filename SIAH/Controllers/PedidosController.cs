@@ -28,7 +28,7 @@ namespace SIAH.Controllers
 
         // GET: Pedidos/Details/5
  
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia", UserRole2 = "RespAutorizacion")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -260,6 +260,7 @@ namespace SIAH.Controllers
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.ToString());
                     return RedirectToAction("Listado", new { param = e.Message });
                 }
                 //return RedirectToAction("Listado");

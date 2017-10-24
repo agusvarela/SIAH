@@ -9,7 +9,7 @@ namespace System.Web.Mvc
     public class AuthorizeUserAccessLevel: AuthorizeAttribute
     {
         public string UserRole {get; set;}
-
+        public string UserRole2 { get; set; }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             /*var isAuthorized = base.AuthorizeCore(httpContext);
@@ -36,7 +36,7 @@ namespace System.Web.Mvc
             }
 
 
-            if (rol.CompareTo(UserRole) == 0)
+            if (rol.CompareTo(UserRole) == 0 || rol.CompareTo(UserRole2) == 0)
             {
                 return true;
             }

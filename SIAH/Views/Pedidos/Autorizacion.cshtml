@@ -155,7 +155,7 @@
                                         </div>
                                     </div>
 
-
+                                    @*Boton para autorizar*@
                                     <div class="col-md-offset-10 col-md-2">
                                         <input type="submit" value="Autorizar" id="Autorizacion" class="btn btn-success" />
                                     </div>
@@ -168,12 +168,12 @@
             </div>
         </div>
     </div>
-                    @*Boton para autorizar*@
-
-                                            }
+                   
 @Html.TextBox("hospitalId", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden", @name = "hospitalId" })
 @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido", @name = "id" })
-            }
+}
+
+            
 
 <br />
 <div class="container">
