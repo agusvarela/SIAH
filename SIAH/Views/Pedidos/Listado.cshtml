@@ -50,7 +50,7 @@
                                     <li class="text-info">
                                         <a class="list-group-item-warning">
                                             <span class="badge pull-right"></span>
-                                            No Autorizado
+                                            Generado
                                         </a>
                                     </li>
                                 </ul>
@@ -61,8 +61,14 @@
                                             Autorizado
                                         </a>
                                     </li>
-
-                                </ul>
+                              </ul><ul class="nav nav-pills nav-stacked pull-right right">
+                              <li class="text-info">
+                              <a class="list-group-item-success">
+                              <span class="badge pull-right"></span>
+                                  En Proceso de Envío
+                                </a>
+                             </li>
+                            </ul>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
@@ -91,7 +97,8 @@
                                         {
                                             if (item.estaAutorizado == true)
                                             {
-                                                <tr class="list-group-item-success">
+                                                if(item.estadoId == 3) { 
+                                                <tr class="list-group-item-warning">
 
                                                     <td class="text-center">
                                                         @Html.DisplayFor(modelItem => item.id)
@@ -114,6 +121,33 @@
 
                                                     </td>
                                                 </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr class="list-group-item-success">
+
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.id)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if (item.esUrgente == true)
+                                                            {
+                                                                <i class="material-icons">error</i>
+                                                            }
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                            <a href="#" class="escondido">Ir a Autorizar</a>
+
+                                                        </td>
+                                                    </tr>
+                                                }
                                             }
                                             else
                                             {
@@ -152,6 +186,9 @@
             </div>
         </div>
     </div>
+    <div>
+        <a id="enviar" type="button" class="btn btn-success btn-round btn_export" href="@Url.Action("GenerateSendOcasa", "Pedidos")">Enviar a OCASA</a>
+    </div>
     @if (ViewBag.success == true)
     {
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -185,4 +222,11 @@ if (ViewBag.success == false)
                 </div>
             </div>
         </div>
+    }
+    @section Scripts {
+    <script type="text/javascript">
+        $(document).on('click', '#enviar' , function (event) {
+            setTimeout(function () { location.reload() }, 2000);
+        });
+    </script>
     }

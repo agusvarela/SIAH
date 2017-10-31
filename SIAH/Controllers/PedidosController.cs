@@ -11,6 +11,7 @@ using SIAH.Models.Pedidos;
 using SIAH.Models.Insumos;
 using SIAH.Models;
 using System.Globalization;
+using System.IO;
 
 namespace SIAH.Controllers
 {
@@ -43,6 +44,32 @@ namespace SIAH.Controllers
                 return HttpNotFound();
             }
             return View(pedido);
+        }
+
+        //POST: Pedidos/GenerateSendOcasa
+        public FileContentResult GenerateSendOcasa()
+        {
+            var detalles = db.DetallesPedido.Include(p => p.pedido).Where(x => x.pedido.estadoId == 2);
+
+            StringWriter csv = new StringWriter();
+            
+            foreach(var detalle in detalles.ToList())
+            {
+                csv.WriteLine(string.Format("{0},{1},{2}\n", detalle.pedidoId, detalle.insumoId, detalle.cantidadAutorizada));
+            }
+               
+            //csv = string.Concat(detalles.Select(
+            //detalle => string.Format("{0},{1},{2}\n", detalle.pedidoId, detalle.insumoId, detalle.cantidadAutorizada)));
+
+            foreach (var i in detalles.Select(x => x.pedidoId).ToList())
+            {
+                Pedido pedido = db.Pedidos.Find(i);
+                pedido.estadoId = 3;
+                db.Entry(pedido).State = EntityState.Modified;
+                //db.SaveChanges();
+            }
+            db.SaveChanges();
+            return File(new System.Text.UTF8Encoding().GetBytes(csv.ToString()), "text/csv", "Envio.csv");
         }
 
         //GET: Pedidos/GetHospital
