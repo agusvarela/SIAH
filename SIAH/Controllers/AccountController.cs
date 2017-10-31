@@ -62,6 +62,12 @@ namespace SIAH.Controllers
             return View();
         }
 
+        //[HttpPost]
+        public ActionResult Denied()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(UserAccount user)

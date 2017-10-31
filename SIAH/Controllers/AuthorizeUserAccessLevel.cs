@@ -35,23 +35,26 @@ namespace System.Web.Mvc
                 return false;
             }
 
-
+            
             if (rol.CompareTo(UserRole) == 0 || rol.CompareTo(UserRole2) == 0)
             {
                 return true;
             }
             else return false;
         }
+       
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                base.HandleUnauthorizedRequest(filterContext);
+                filterContext.Result = new RedirectToRouteResult(new
+                RouteValueDictionary(new { controller = "Account", action = "Denied" }));
+                //base.HandleUnauthorizedRequest(filterContext);
             }
             else
             {
-                filterContext.Result = new RedirectToRouteResult(new
-                RouteValueDictionary(new { controller = "Error", action = "AccessDenied" }));
+              /*  filterContext.Result = new RedirectToRouteResult(new
+                RouteValueDictionary(new { controller = "AccountController", action = "Denied" }));*/
             }
         }
     }
