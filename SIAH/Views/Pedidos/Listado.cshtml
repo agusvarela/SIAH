@@ -81,7 +81,7 @@
                                                 @Html.Name("Fecha de Generación")
                                             </th>
                                             <th class="text-center">
-                                                @Html.Name("Nombre de Hospital")
+                                                @Html.Name("Hospital")
                                             </th>
                                             <th class="text-center">
                                                 @Html.Name("Urgente")
@@ -97,33 +97,6 @@
                                         {
                                             if (item.estaAutorizado == true)
                                             {
-                                                if(item.estadoId == 3) { 
-                                                <tr class="list-group-item-warning">
-
-                                                    <td class="text-center">
-                                                        @Html.DisplayFor(modelItem => item.id)
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @if (item.esUrgente == true)
-                                                        {
-                                                            <i class="material-icons">error</i>
-                                                        }
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                                                        <a href="#" class="escondido">Ir a Autorizar</a>
-
-                                                    </td>
-                                                </tr>
-                                                }
-                                                else
-                                                {
                                                     <tr class="list-group-item-success">
 
                                                         <td class="text-center">
@@ -147,7 +120,7 @@
 
                                                         </td>
                                                     </tr>
-                                                }
+                                                
                                             }
                                             else
                                             {
@@ -170,7 +143,7 @@
                                                     </td>
                                                     <td class="text-center">
                                                         @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                                                        @Html.ActionLink("Ir a Autorizar", "Autorizacion", new { id = item.id })
+                                                        @Html.ActionLink("Autorizar", "Autorizacion", new { id = item.id })
 
                                                     </td>
                                                 </tr>
