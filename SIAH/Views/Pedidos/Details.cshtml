@@ -93,10 +93,11 @@
                                             <tr>
                                                 <th style="width:17%">Nombre</th>
                                                 <th style="width:14%">Tipo </th>
-                                                <th style="width:17%">Cantidad Pedido</th>
-                                                <th style="width:20%">Cantidad Autorizada</th>
-                                                <th style="width:16%">Precio Unitario</th>
-                                                <th style="width:16%">Subtotal</th>
+                                                <th style="width:15%">Cantidad Pedido</th>
+                                                <th style="width:15%">Cantidad Autorizada</th>
+                                                <th style="width:13%">Precio Unitario</th>
+                                                <th style="width:13%">Subtotal</th>
+                                                <th style="width:13%">Subtotal Autorizado</th>
                                             </tr>
                                         </thead>
                                         
@@ -180,7 +181,7 @@
                     var $tdCantidadAutorizada = $('<td>').append(item.cantidadAutorizada);
 
                     var $precioAMostrar = new Intl.NumberFormat('de-DE').format(item.precioUnitario);
-                    var $tdPrecioUnitario = $('<td>').append($precioAMostrar);
+                    var $tdPrecioUnitario = $('<td>').append("$"+$precioAMostrar);
 
                     var $subtotalCalculado = item.precioUnitario * item.cantidad;
                     var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
@@ -200,7 +201,7 @@
                 var $totalAutorizadoAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(totalAutorizado).toFixed(2));
                 $('#total').val("$" + $totalAMostrar);
                 $('#totalAutorizado').val("$"+$totalAutorizadoAMostrar);
-                if (parseFloat($('#presupuesto').val().replace("$", "")) < total) {
+                if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) < total) {
                     $('#presuSpan').text("El costo del pedido supera el presupuesto");
                     console.log($('#presupuesto').val().replace("$", ""));
                 }

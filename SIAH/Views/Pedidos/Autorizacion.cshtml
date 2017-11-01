@@ -190,7 +190,9 @@
             $.get(urlHospital, null, function (data) {
                 //console.log(data);
                 $('#nombreHospital').val(data[0]);
-                $('#presupuesto').val("$" + data[1]);
+                var $presupuesto = parseFloat(data[1]);
+                var $presupuestoAMostrar = new Intl.NumberFormat('de-DE').format($presupuesto);
+                $('#presupuesto').val("$" + $presupuestoAMostrar);
 
             });
         })
@@ -227,7 +229,7 @@
                     var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
 
                     var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
-                    var $tdPrecioUnitario = $('<td>').html($precioAMostrar).append($precioUnitario);
+                    var $tdPrecioUnitario = $('<td>').html("$" +$precioAMostrar).append($precioUnitario);
 
                     var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val(data.cantidad);
                     var $tdCantidad = $('<td>').html(data.cantidad).append($cantidad);
@@ -250,7 +252,7 @@
                 // $('#total').val(total);
                 var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
                 $('#total').val("$" + $totalAMostrar);
-                if (parseFloat($('#presupuesto').val().replace("$", "")) < total) {
+                if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) < total) {
                     $('#presuSpan').text("El costo del pedido supera el presupuesto");
                     console.log($('#presupuesto').val().replace("$", ""));
                 }

@@ -306,18 +306,19 @@
         //Funcion que calcula el subtotal de la fila y lo resta al total al eliminar un elemento
         //Luego elimina la fila entera del detalle y verifica si la lista esta vacia para ocultar el boton enviar
         var $aRestar = 0;
-        $aRestar = parseFloat($(this).parents('tr').get(0).children.item(2).innerHTML) * parseFloat($(this).parents('tr').get(0).children.item(3).innerHTML);
-        //console.log($aRestar);
+        var precio = $(this).parents('tr').get(0).children.item(3).innerHTML.replace(",", ".").replace("$","");
+        console.log(precio);
+        $aRestar = parseFloat(precio) * parseFloat($(this).parents('tr').get(0).children.item(2).innerHTML);
+        
+        console.log($aRestar);
         total -= $aRestar;
         console.log($(this).parents('tr'));
-        // $('#detallesPedido > tr').get($(this).parents('tr').get(0).;
         $(this).parents('tr').remove();
         indice--;
-        //console.log($('#detallesPedido > tr').get(i));
 
-        var $totalAMostrar = new Intl.NumberFormat('de-DE').format(total);
+        var totalAMostrar = new Intl.NumberFormat('de-DE').format(total);
 
-        $('#total').val("$" + $totalAMostrar);
+        $('#total').val("$" + totalAMostrar);
         if ($('#detallesPedido > tr').not('.empty').length == 0) {
             $('#enviar').hide();
             $('#detallesPedido .empty').show();
@@ -345,7 +346,7 @@
                 var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
 
                 var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
-                var $tdPrecioUnitario = $('<td>').html($precioAMostrar).append($precioUnitario);
+                var $tdPrecioUnitario = $('<td>').html("$" +$precioAMostrar).append($precioUnitario);
 
                 var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());
                 var $tdCantidad = $('<td>').html($('#cantidad').val()).append($cantidad);
@@ -383,7 +384,7 @@
                 $('#total').val("$" + $totalAMostrar);
 
                 //Verificacion del costo del pedido respecto al presupuesto
-                if (parseFloat($('#presupuesto').text().replace("$", "")) < total) {
+                if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) < total) {
                     $('#totalSpan').text("El costo del pedido supera el presupuesto")
                 }
                 //Enfocar el campo de texto insumo para que siga agregando
@@ -404,8 +405,10 @@
                 type: 'GET',
                 data: { idHospital: idHospital },
                 cache: false,
-                success: function(result) {
-                    $('#presupuesto').html("$"+result);
+                success: function (result) {
+                    var presupuesto = parseFloat(result);
+                    var $presupuestoAMostrar = new Intl.NumberFormat('de-DE').format(presupuesto);
+                    $('#presupuesto').html("$" + $presupuestoAMostrar);
                 }
             });
         });
@@ -419,7 +422,9 @@
                 data: { idHospital: idHospital },
                 cache: false,
                 success: function (result) {
-                    $('#presupuesto').html("$"+result);
+                    var presupuesto = parseFloat(result);
+                    var $presupuestoAMostrar = new Intl.NumberFormat('de-DE').format(presupuesto);
+                    $('#presupuesto').html("$" + $presupuestoAMostrar);
                 }
             });
             });
