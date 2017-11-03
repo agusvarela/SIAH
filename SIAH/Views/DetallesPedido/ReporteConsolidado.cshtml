@@ -28,49 +28,48 @@
                     <div class="form-card__content group">
                         @using (Html.BeginForm())
                         {
-                            @*<div>
-                                    @grid.GetHtml(tableStyle: "webgrid-table",
-                                headerStyle: "webgrid-header",
-                                footerStyle: "webgrid-footer",
-                                alternatingRowStyle: "webgrid-alternating-row",
-                                selectedRowStyle: "webgrid-selected-row",
-                                rowStyle: "webgrid-row-style")
-                                </div>*@
-
-                            <div id="table_wrapper">
+                            <section class="">
+                            <div class="t-container">
                                 <table id="tablaReporte" class="table">
 
                                     @foreach (var i in Model)
                                     {
-                                        <tr class="webgrid-row-style">
-                                            @if (isFirst == false)
-                    {
-                        var total = 0;
-                        foreach (var e in i)
-                        {
-                            var celda = e.AsInt(0);
-                                                    <td class="webgrid-row-style webgrid-alternating-row">@e</td>
-                                                    total += celda;
-                                                }
-                                                <td class="webgrid-row-style webgrid-alternating-row">@total</td>
-                                            }
-                                            else
-                                            {
-                                                foreach (var e in i)
-                                                {
-                                                    isFirst = false;
-                                                    <td class="webgrid-header">@e</td>
-                                                }
-                                                <td class="webgrid-header">Total</td>
 
-                                            }
-                                        </tr>
+                                        if (isFirst == false)
+                                        {
+                                            <tr>
+                                                @{var total = 0;
+                                                    foreach (var e in i)
+                                                    {
+                                                        var celda = e.AsInt(0);
+                                                        <td>@e</td>
+                                                        total += celda;
+                                                    }
+                                                    <td>@total</td>
+                                                }
+                                            </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <thead>
+                                                            <tr class="header">
+                                                                @{foreach (var e in i)
+                                                                    {
+                                                                        isFirst = false;
+                                                                        <th>@e<div>@e</div> </th>
+                                                                    }
+                                                                    <th>Total<div>Total</div> </th>
+                                                                }
+                                                            </tr>
+                                                        </thead>
+                                                                        }
 
-                                    }
+                                                                    }
                                 </table>
-
                             </div>
-                        }
+                            </section>
+                                                                    }
+                                
                         <div class="col-md-offset-10 col-md-2" style="width: 13%">
                             @*<a href="#" onClick="$('#tablaReporte').tableExport({type:'excel',escape:'false'});">Exportar a Excel (XLS)</a>*@
                             <input id="btn_export" type="button" value="Exportar Excel" class="btn btn-success btn-round btn_export" />

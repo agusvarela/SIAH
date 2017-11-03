@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using SIAH.Context;
 using SIAH.Models.Pedidos;
 using System.Collections;
+using System.Data.Entity.Core.Objects;
 
 namespace SIAH.Controllers
 {
@@ -24,28 +25,37 @@ namespace SIAH.Controllers
         }
 
         // GET: DetallesPedido/ReporteConsolidado
-        public ActionResult ReporteConsolidado()
+        public ActionResult ReporteConsolidado(DateTime fechaInicio, DateTime fechaFin)
         {
-            var datos = this.GenerarReporte();
+            var datos = this.GenerarReporte(fechaInicio, fechaFin);
             return View(datos);
             //return View();
         }
 
         // GET: DetallesPedido/GenerarReporte
         [AllowAnonymousAttribute]
-        public IEnumerable<String[]> GenerarReporte()
+        public IEnumerable<String[]> GenerarReporte(DateTime fechaInicio, DateTime fechaFin)
         {
+            //Consulta a la BD para traer cada detalle con su hospital, su insumo y su cantidad
             var result = db.DetallesPedido.Join(db.Insumos, d => d.insumoId, s => s.id, (d, s) => new { d, s }).
                 Join(db.Pedidos, x => x.d.pedidoId, p => p.id, (x, p) => new { x, p }).
                 Join(db.Hospitales, t => t.p.hospitalId, h => h.id, (t, h) => new { t, h }).
+                //Filtro por fecha
+                Where(k => DbFunctions.TruncateTime(k.t.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) && DbFunctions.TruncateTime(k.t.p.fechaGeneracion) <= DbFunctions.TruncateTime(fechaFin)).
                // Para mostrar el total
                //GroupBy(x => x.t.x.s.nombre, x => x.t.x.d.cantidad, (key, g) => new { Insumo = key, Total = g.Sum() }).
                GroupBy(x => new { hospital = x.h.nombre, insumo = x.t.x.s.nombre }, x => x.t.x.d.cantidad, (key, g) => new { Hospital = key.hospital, Insumo = key.insumo, Cantidad = g.Sum() }).
                ToList();
 
+            //Declaro la cantidad de filas y de columnas
             var rows = db.Insumos.ToList().Count() + 1;
-            var columns = db.Hospitales.Where(h => h.Pedidos.Count > 0).Count() + 1;
-
+            var columns = db.Hospitales.Join(db.Pedidos, x => x.id, p => p.hospitalId, (x, p) => new { x, p }).
+                Where(k => DbFunctions.TruncateTime(k.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) && 
+                DbFunctions.TruncateTime(k.p.fechaGeneracion) <= DbFunctions.TruncateTime(fechaFin)).
+                GroupBy(x => new { hospital = x.x.nombre}, (key, g) => new { Hospital = key.hospital }).
+                Count() + 1;
+            
+            //Armo el Vector
             String[][] report = new String[rows][]; //columns en segundo argumento
             for (int i = 0; i < rows; i++) { report[i] = new String[columns]; }
             report[0][0] = "Insumo";
@@ -97,18 +107,6 @@ namespace SIAH.Controllers
                 
             }
             
-            //String[][] jagged = new String[report.GetLength(0)][];
-
-            //for (int i = 0; i < report.GetLength(0); i++)
-            //{
-            //    jagged[i] = new String[report.GetLength(1)];
-            //    for (int t = 0; t < report.GetLength(1); t++)
-            //    {
-            //        jagged[i][t] = report[i,t];
-            //    }
-            //}
-
-            //List<String[]> list = jagged.ToList();
             List<String[]> list = report.ToList();
             return list;
         }
