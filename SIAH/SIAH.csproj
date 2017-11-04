@@ -19,8 +19,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -256,7 +258,6 @@
     <Content Include="Content\img\back.jpg" />
     <Content Include="Content\img\hospital.jpg" />
     <Content Include="Content\img\logo.jpg" />
-    <Content Include="Content\img\mountain-light.jpg" />
     <Content Include="Content\img\wave-2.png" />
     <Content Include="Content\js\bootstrap-datepicker.js" />
     <Content Include="Content\js\bootstrap.min.js" />
@@ -264,6 +265,7 @@
     <Content Include="Content\js\material-kit.js" />
     <Content Include="Content\js\material.min.js" />
     <Content Include="Content\js\nouislider.min.js" />
+    <Content Include="Content\img\login.jpg" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />

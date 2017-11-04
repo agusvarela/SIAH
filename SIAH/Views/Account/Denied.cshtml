@@ -1,7 +1,60 @@
 ﻿
 @{
     ViewBag.Title = "Denied";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-12">
+            <h1> <i class="material-icons text-warning">warning</i> Acceso Denegado</h1>
 
-<h2>Denied</h2>
-no estas autorizado we >:V
+            @try
+            {
+                if (Session["rol"].ToString() == "RespAutorizacion")
+                {
+                    <div class="banner-catalog__content">
+                        Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br> 
+                        <a class="btn btn-primary btn-raised btn-lg" href="~/Home/RespAutorizacion">
+                            Ir a Página <br> Principal
+                        </a>
+                        <a class="btn btn-primary btn-raised btn-lg" href="~/Account/Login">
+                            Iniciar Sesión <br> con otro usuario
+                        </a>
+                    </div>
+                }
+                if (Session["rol"].ToString() == "RespFarmacia")
+                {
+                    <div class="banner-catalog__content">
+                        Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
+                        <a class="btn btn-primary btn-raised btn-lg" href="~/Pedidos/RespFarmacia">
+                            Ir a Página Principal
+                        </a>
+                        <a class="btn btn-primary btn-raised btn-lg" href="~/Account/Login">
+                            Iniciar Sesión con otro usuario
+                        </a>
+                    </div>
+                }
+                if (Session["userid"] == null)
+                {
+                    <div class="banner-catalog__content">
+                        Debe iniciar sesión para ingresar a esta vista. <br> <br>
+                        <a class="btn btn-primary btn-raised btn-lg" href="~/Account/Login">
+                            Iniciar Sesión 
+                        </a>
+
+                    </div>
+                }
+            }
+            catch (Exception e)
+            { <div class="banner-catalog__content">
+                Debe iniciar sesión para ingresar a esta vista. <br> <br>
+                <a class="btn btn-primary btn-raised btn-lg" href="~/Account/Login">
+                    Iniciar Sesión
+                </a>
+            </div>
+            }
+
+        </div>
+    </div>
+</div>
+<br />

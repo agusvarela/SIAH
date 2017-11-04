@@ -39,7 +39,7 @@
                         <div class="form-card__content group">
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.periodo, "Período:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
                                         @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
                                         @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
@@ -57,7 +57,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.hospitalId, "Hospital:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.hospital.nombre, "", new { @class = "text-danger" })
@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div id="container" class="col-md-12">
                                         @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
                                         <div>
@@ -99,10 +99,10 @@
                                             <tr>
                                                 <th style="width:17%">Nombre</th>
                                                 <th style="width:14%">Tipo </th>
-                                                <th style="width:17%">Cantidad Pedido</th>
-                                                <th style="width:20%">Cantidad Autorizada</th>
-                                                <th style="width:16%">Precio Unitario</th>
-                                                <th style="width:16%">Subtotal</th>
+                                                <th style="width:17%" class="text-center">Cantidad Pedido</th>
+                                                <th style="width:20%" class="text-center">Cantidad Autorizada</th>
+                                                <th style="width:16%" class="text-center">Precio Unitario</th>
+                                                <th style="width:16%" class="text-center">Subtotal</th>
                                             </tr>
                                         </thead>
 
@@ -147,7 +147,7 @@
                                         <div class="panel panel-DEFAULT text-center">
                                             @*<div class="panel-heading">INSUMOS</div>*@
                                             <div class="panel-body">
-                                                @Html.Label("Total", null, htmlAttributes: new { @class = "control-label" })
+                                                @Html.Label("Total Solicitado", null, htmlAttributes: new { @class = "control-label" })
                                                 <strong>
                                                     @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
                                                 </strong>
@@ -229,19 +229,19 @@
                     var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
 
                     var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
-                    var $tdPrecioUnitario = $('<td>').html("$" +$precioAMostrar).append($precioUnitario);
+                    var $tdPrecioUnitario = $('<td align="center">').html("$" +$precioAMostrar).append($precioUnitario);
 
                     var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val(data.cantidad);
-                    var $tdCantidad = $('<td>').html(data.cantidad).append($cantidad);
+                    var $tdCantidad = $('<td align="center">').html(data.cantidad).append($cantidad);
 
-                    var $cantidadAut = $('<input>').attr('type', 'number').attr('min', '0').attr('max', data.cantidad).attr('value', data.cantidad).attr('name', 'detallesPedido[' + indice + '][cantidadAutorizada]');
-                    var $tdCantidadAut = $('<td>').append($cantidadAut);
+                    var $cantidadAut = $('<input  style="text-align:center">').attr('type', 'number').attr('min', '0').attr('max', data.cantidad).attr('value', data.cantidad).attr('name', 'detallesPedido[' + indice + '][cantidadAutorizada]');
+                    var $tdCantidadAut = $('<td align="center">').append($cantidadAut);
 
                     var $subtotalCalculado = data.precioUnitario * data.cantidad;
                     var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
 
                     var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalAMostrar);
-                    var $tdSubtotal = $('<td>').html('$' + $subtotalAMostrar)
+                    var $tdSubtotal = $('<td align="center">').html('$' + $subtotalAMostrar)
 
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdPrecioUnitario, $tdSubtotal);
                     $('#detallesPedido').append($tr);

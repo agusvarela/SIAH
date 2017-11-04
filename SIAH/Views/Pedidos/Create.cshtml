@@ -39,7 +39,7 @@
                         <div class="form-card__content group">
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.periodo, "Período:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
                                         @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
                                         @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
@@ -57,7 +57,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.hospitalId, "Hospital:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.DropDownList("hospitalId", null, htmlAttributes: new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.hospitalId, "", new { @class = "text-danger" })
@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto:", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div id="container" class="col-md-12">
                                         @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })*@
                                         <text id="presupuesto" class="form-control"></text>

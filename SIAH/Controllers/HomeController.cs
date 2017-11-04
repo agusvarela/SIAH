@@ -31,6 +31,7 @@ namespace SIAH.Controllers
 
             return View();
         }
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         public ActionResult RespAutorizacion()
         {
             ViewBag.Message = "Your index Page.";

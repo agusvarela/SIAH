@@ -78,18 +78,26 @@
                             <li><a href="/TiposInsumo/Index">Tipo Insumo</a></li>
                         </ul>
                     </li>*@
-                    @if (Session["rol"].ToString() == "RespAutorizacion")
+                    @try
+                    {
+                    if (Session["rol"].ToString() == "RespAutorizacion")
                     {
                         <li>@Html.ActionLink("Ir al Dashboard", "RespAutorizacion", "Home")</li>
                     }
-                    @if (Session["rol"].ToString() == "RespFarmacia")
+                    if (Session["rol"].ToString() == "RespFarmacia")
                     {
                         <li>@Html.ActionLink("Ir al Dashboard", "RespFarmacia", "Pedidos")</li>
                     }
-                    @if (Session["userid"] != null)
+                    if (Session["userid"] != null)
                     {
                         <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
                     }
+                    }
+                    catch (Exception e)
+                    {
+                        <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account")</li>
+                    }
+
                 </ul>
             </div>
         </div>

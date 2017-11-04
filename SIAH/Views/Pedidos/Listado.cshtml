@@ -116,7 +116,7 @@
                                                         </td>
                                                         <td class="text-center">
                                                             @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                                                            <a href="#" class="escondido">Ir a Autorizar</a>
+                                                            <a href="#" class="escondido">Autorizar</a>
 
                                                         </td>
                                                     </tr>
@@ -153,6 +153,7 @@
                                     </table>
                                 </div>
                             </div>
+                            <a id="enviar" type="button" class="btn btn-success btn-round btn_export pull-right" href="@Url.Action("GenerateSendOcasa", "Pedidos")">Enviar a OCASA</a>
                         </div>
                     </div>
                 </div>
@@ -160,7 +161,7 @@
         </div>
     </div>
     <div>
-        <a id="enviar" type="button" class="btn btn-success btn-round btn_export" href="@Url.Action("GenerateSendOcasa", "Pedidos")">Enviar a OCASA</a>
+       
     </div>
     @if (ViewBag.success == true)
     {

@@ -28,7 +28,14 @@ namespace System.Web.Mvc
             String rol = "";
             if (HttpContext.Current.Session != null)
             {
-                rol = HttpContext.Current.Session["rol"].ToString();
+                try
+                {
+                    rol = HttpContext.Current.Session["rol"].ToString();
+                }
+                catch(Exception e)
+                {
+                    return false;
+                }
             }
             else
             {
