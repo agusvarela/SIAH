@@ -46,12 +46,12 @@
                             <div class="info">
                                 <form>
                                     Ingrese Fecha de Inicio Reporte:
-                                    <input type="date" name="inicio"/><br>
+                                    <input type="date" id="inicio"/><br>
                                     Ingrese Fecha de Fin Reporte
-                                    <input type="date" name="fin"/><br>
+                                    <input type="date" id="fin"/><br>
                                 </form>
                             </div>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = new DateTime(2017, 2, 2), fechaFin = new DateTime(2017, 11, 1) })'">Ir al Reporte</div>
+                            <a id="reporte" class="btn btn-round btn-primary" @*onclick="location.href='@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = new DateTime(2017, 2, 2), fechaFin = new DateTime(2017, 11, 1) })'"*@>Ir al Reporte</a>
                         </div>
 
                     </div>
@@ -60,3 +60,18 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).on('click', '#reporte', function (event)
+        {
+            event.preventDefault();
+            var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
+            
+            url = url.replace("START", $("#inicio").val());
+            url = url.replace("END", $("#fin").val());
+            url = url.replace("amp;", "");
+            location.href = url;
+        });
+    </script>
+    }
