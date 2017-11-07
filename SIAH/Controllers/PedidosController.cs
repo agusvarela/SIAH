@@ -115,12 +115,12 @@ namespace SIAH.Controllers
                     ViewBag.success = false;
                     ViewBag.problem = param;
                 };
-                var pedidos = db.Pedidos.Include(p => p.hospital);
+                var pedidos = db.Pedidos.Include(p => p.hospital).OrderBy(o=>o.fechaGeneracion);
                 return View(pedidos.ToList());
             }
             else
             {
-                var pedidos = db.Pedidos.Include(p => p.hospital);
+                var pedidos = db.Pedidos.Include(p => p.hospital).OrderBy(o => o.fechaGeneracion);
                 return View(pedidos.ToList());
             }
 
