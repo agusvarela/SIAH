@@ -235,6 +235,10 @@
     <Compile Include="Migrations\201710182327538_create_table_estado_alter_table_pedido.Designer.cs">
       <DependentUpon>201710182327538_create_table_estado_alter_table_pedido.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711070131294_alter_table_insumos_stock.cs" />
+    <Compile Include="Migrations\201711070131294_alter_table_insumos_stock.Designer.cs">
+      <DependentUpon>201711070131294_alter_table_insumos_stock.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />
@@ -464,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710182327538_create_table_estado_alter_table_pedido.resx">
       <DependentUpon>201710182327538_create_table_estado_alter_table_pedido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711070131294_alter_table_insumos_stock.resx">
+      <DependentUpon>201711070131294_alter_table_insumos_stock.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

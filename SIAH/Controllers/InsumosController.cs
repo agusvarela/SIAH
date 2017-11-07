@@ -70,7 +70,7 @@ namespace SIAH.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nombre,precioUnitario,tipoInsumoId")] Insumo insumo)
+        public ActionResult Create([Bind(Include = "id,nombre,precioUnitario,tipoInsumoId,stock")] Insumo insumo)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace SIAH.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nombre,precioUnitario,tipoInsumoId")] Insumo insumo)
+        public ActionResult Edit([Bind(Include = "id,nombre,precioUnitario,tipoInsumoId,stock")] Insumo insumo)
         {
             if (ModelState.IsValid)
             {

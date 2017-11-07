@@ -18,6 +18,8 @@ namespace SIAH.Models.Insumos
         //[Range(0, 9999999999999999.99)]
         public Decimal precioUnitario { get; set; }
         public int tipoInsumoId { get; set; }
+        [Range(0, Int32.MaxValue)]
+        public int stock { get; set; }
 
         public TipoInsumo tiposInsumo { get; set; }
 
