@@ -50,7 +50,7 @@
                                 <ul id="lista" class="list-unstyled list-group">
                                     <li class="nav-dashboard__item">
                                         <a class="group"  style="background-color: #9c27b0; color: white">
-                                            <span class="nav-dashboard__item__text" style=" color: white">@Html.Name("Fecha de Generación")</span>
+                                            <span class="nav-dashboard__item__text" style=" color: white">@Html.Name("Período de Generación")</span>
                                             <div class="pull-right" style=" color: white">@Html.Name("Estado")</div>
                                         </a>
                                     </li>
@@ -65,7 +65,7 @@
                                                     <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
                                                         <div class="selector hide"></div>
 
-                                                        <span class="nav-dashboard__item__text soft-warning">@Html.DisplayFor(model => item.periodo)</span>
+                                                        <span class="nav-dashboard__item__text soft-warning">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly" })</span>
                                                         <i class="icon-warning  material-icons pull-right">send</i>
                                                     </a>
 
@@ -73,13 +73,13 @@
                                                 break;
 
                                             case 2:
-                                                <li class="nav-dashboard__item list-group-item-info">
+                                                <li class="nav-dashboard__item list-group-item-success">
                                                     <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
                                                         <div class="selector hide"></div>
 
-                                                        <span class="nav-dashboard__item__text soft-info">@Html.DisplayFor(model => item.periodo)</span>
+                                                        <span class="nav-dashboard__item__text soft-success">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly" })</span>
 
-                                                        <i class="icon-info material-icons pull-right">spellcheck</i>
+                                                        <i class="icon-success material-icons pull-right">spellcheck</i>
                                                     </a>
                                                 </li>
                                                 break;
@@ -88,7 +88,7 @@
                                                     <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
                                                         <div class="selector hide"></div>
 
-                                                        <span class="nav-dashboard__item__text soft-info">@Html.DisplayFor(model => item.periodo)</span>
+                                                        <span class="nav-dashboard__item__text soft-info">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly" })</span>
                                                         <i class="icon-info material-icons pull-right">local_shipping</i>
                                                     </a>
                                                 </li>
@@ -98,7 +98,7 @@
                                                     <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
                                                         <div class="selector hide"></div>
 
-                                                        <span class="nav-dashboard__item__text soft-danger">@Html.DisplayFor(model => item.periodo)</span>
+                                                        <span class="nav-dashboard__item__text soft-danger">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly" })</span>
                                                         <i class="icon-danger  material-icons pull-right">clear</i>
                                                     </a>
                                                 </li>
@@ -108,7 +108,7 @@
                                                     <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
                                                         <div class="selector hide"></div>
 
-                                                        <span class="nav-dashboard__item__text soft-success">@Html.DisplayFor(model => item.periodo)</span>
+                                                        <span class="nav-dashboard__item__text soft-success">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly" })</span>
                                                         <i class="icon-success  material-icons pull-right">check_circle</i>
                                                     </a>
                                                 </li>

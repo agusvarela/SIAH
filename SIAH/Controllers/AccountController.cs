@@ -82,23 +82,15 @@ namespace SIAH.Controllers
                     Session["nombre"] = usr.nombre.ToString();
                     Session["rol"] = usr.rol.nombre.ToString();
                     //Intento de redirigir el login pero no funciona 
-
-                    if (usr.rol.nombre.ToString().Equals("RespFarmacia"))
-                    {
-                        return RedirectToAction("../Pedidos/RespFarmacia");
-                    }
-                    else
-                    {
-
-                        if (usr.rol.nombre.ToString().Equals("RespAutorizacion"))
-                        {
+                    switch (usr.rol.nombre.ToString()) { 
+                        case "RespFarmacia":
+                            return RedirectToAction("../Pedidos/RespFarmacia");
+                        case "RespAutorizacion":
                             return RedirectToAction("../Home/RespAutorizacion");
-                        }
-                        else
-                        {
-
+                        case "DirectorArea":
+                            return RedirectToAction("../Home/DirectorOficina");
+                        default:
                             return RedirectToAction("LoggedIn");
-                        }
                     }
 
                 }
