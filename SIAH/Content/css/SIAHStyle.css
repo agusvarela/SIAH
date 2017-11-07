@@ -3795,23 +3795,44 @@ section {
     height: 400px;
 }
 
-table {
+table .v{
     border-spacing: 0;
     width: 100%;
 }
+.webgrid-table {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    width: auto;
+    display: table;
+    border-collapse: collapse;
+    border: solid #000000;
+    background-color: white;
+}
+.webgrid-header, .webgrid-header a {
+    background-color: #9c27b0;
+    color: #ffffff;
+    text-align: left;
+    text-decoration: none;
+}
+.webgrid-footer {
+}
 
-td + td {
+.webgrid-row-style {
+    padding: 3px 7px 2px;
+}
+td + td .v{
     border-left: 1px solid #eee;
 }
 
-td, th {
+td .v, th .v{
     border-bottom: 1px solid #eee;
     background: #ddd;
     color: #000;
     padding: 10px 25px;
 }
 
-th {
+th .v{
     height: 0;
     line-height: 0;
     padding-top: 0;
@@ -3821,7 +3842,7 @@ th {
     white-space: nowrap;
 }
 
-    th div {
+    th div .v{
         position: absolute;
         background: transparent;
         color: #fff;
@@ -3832,7 +3853,7 @@ th {
         /*border-left: 1px solid #800;*/
     }
 
-    th:first-child div {
+    th:first-child div .v{
         border: none;
     }
 

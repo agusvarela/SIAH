@@ -45,7 +45,11 @@ namespace SIAH.Controllers
             ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo, "id", "nombre");
             return View();
         }
-
+        public ActionResult ControlStock()
+        {
+            var insumos = db.Insumos.Include(i => i.tiposInsumo);
+            return View(insumos.ToList());
+        }
         // GET: Insumos/Palabra/search
         public JsonResult BuscarInsumos(string term, int? id)
         {

@@ -43,10 +43,10 @@
                                                     foreach (var e in i)
                                                     {
                                                         var celda = e.AsInt(0);
-                                                        <td>@e</td>
+                                                        <td class="v">@e</td>
                                                         total += celda;
                                                     }
-                                                    <td>@total</td>
+                                                    <td class="v">@total</td>
                                                 }
                                             </tr>
                                                     }
@@ -57,9 +57,9 @@
                                                                 @{foreach (var e in i)
                                                                     {
                                                                         isFirst = false;
-                                                                        <th>@e<div>@e</div> </th>
+                                                                        <th class="v">@e<div>@e</div> </th>
                                                                     }
-                                                                    <th>Total<div>Total</div> </th>
+                                                                    <th class="v">Total<div>Total</div> </th>
                                                                 }
                                                             </tr>
                                                         </thead>
