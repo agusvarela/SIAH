@@ -431,7 +431,7 @@
 
                     var $subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
                     var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
-                    var $tdSubtotalAutorizado = $('<td  style="width:15%" align="center">').append($subtotalAutAMostrar);
+                    var $tdSubtotalAutorizado = $('<td  style="width:15%" align="center">').append("$" +$subtotalAutAMostrar);
 
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotalAutorizado);
                     total += $subtotalCalculado;

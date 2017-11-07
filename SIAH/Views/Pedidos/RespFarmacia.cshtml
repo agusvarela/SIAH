@@ -20,13 +20,13 @@
 <div id="page" style="min-height: 363px;">
     <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
         <div class="row">
-            <button class="btn  bigbut btn-success col-lg-3 col-md-4 col-sm-5" onclick="location.href='@Url.Action("Create", "Pedidos")'">
+            <button class="btn  bigbut btn-success col-sm-2" onclick="location.href='@Url.Action("Create", "Pedidos")'">
                 <i class="material-icons bigicon">add</i>
-               <strong>Generar Nuevo Pedido</strong> 
+                <strong>Generar <br /> Nuevo Pedido</strong>
             </button>
 
 
-            <div class="col-lg-9 col-md-8 col-sm-7">
+            <div class=" col-sm-10">
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="alertArea">
@@ -47,33 +47,72 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="nav-dashboard">
-                                <ul class="list-unstyled list-group">
+                                <ul id="lista" class="list-unstyled list-group">
+                                    <li class="nav-dashboard__item">
+                                        <a class="group"  style="background-color: #9c27b0; color: white">
+                                            <span class="nav-dashboard__item__text" style=" color: white">@Html.Name("Fecha de Generación")</span>
+                                            <div class="pull-right" style=" color: white">@Html.Name("Estado")</div>
+                                        </a>
+                                    </li>
                                     @foreach (var item in Model)
                                     {
-                                        if (item.estaAutorizado == true)
+                                        switch (item.estadoId)
                                         {
+                                            case 1:
 
-                                            <li class="nav-dashboard__item  list-group-item-success"  >
-                                                <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                    <div class="selector hide"></div>
 
-                                                    <span class="nav-dashboard__item__text" style="color: #3c763d">@Html.DisplayFor(model => item.periodo)</span>
+                                                <li class="nav-dashboard__item  list-group-item-warning">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
 
-                                                    <i class="icon-green material-icons pull-right">spellcheck</i>
-                                                </a>
-                                            </li>
-                                        }
-                                        else
-                                        {
+                                                        <span class="nav-dashboard__item__text soft-warning">@Html.DisplayFor(model => item.periodo)</span>
+                                                        <i class="icon-warning  material-icons pull-right">send</i>
+                                                    </a>
 
-                                            <li class="nav-dashboard__item list-group-item-danger" >
-                                                <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                    <div class="selector hide"></div>
+                                                </li>
+                                                break;
 
-                                                    <span class="nav-dashboard__item__text" style="color: #a94442">@Html.DisplayFor(model => item.periodo)</span>
-                                                    <i class="icon-red  material-icons pull-right">schedule</i>
-                                                </a>
-                                            </li>
+                                            case 2:
+                                                <li class="nav-dashboard__item list-group-item-info">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+
+                                                        <span class="nav-dashboard__item__text soft-info">@Html.DisplayFor(model => item.periodo)</span>
+
+                                                        <i class="icon-info material-icons pull-right">spellcheck</i>
+                                                    </a>
+                                                </li>
+                                                break;
+                                            case 3:
+                                                <li class="nav-dashboard__item list-group-item-info">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+
+                                                        <span class="nav-dashboard__item__text soft-info">@Html.DisplayFor(model => item.periodo)</span>
+                                                        <i class="icon-info material-icons pull-right">local_shipping</i>
+                                                    </a>
+                                                </li>
+                                                break;
+                                            case 4:
+                                                <li class="nav-dashboard__item list-group-item-danger">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+
+                                                        <span class="nav-dashboard__item__text soft-danger">@Html.DisplayFor(model => item.periodo)</span>
+                                                        <i class="icon-danger  material-icons pull-right">clear</i>
+                                                    </a>
+                                                </li>
+                                                break;
+                                            case 5:
+                                                <li class="nav-dashboard__item list-group-item-success">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+
+                                                        <span class="nav-dashboard__item__text soft-success">@Html.DisplayFor(model => item.periodo)</span>
+                                                        <i class="icon-success  material-icons pull-right">check_circle</i>
+                                                    </a>
+                                                </li>
+                                                break;
                                         }
 
                                     }

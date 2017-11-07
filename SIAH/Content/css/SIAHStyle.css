@@ -3778,8 +3778,8 @@ h2.title {
 section {
     position: relative;
     border: 1px solid #000;
-    padding-top: 37px;
-    background: #500;
+    /*padding-top: 37px;*/
+    /*background: #500;*/
 }
 
     section.positioned {
@@ -3795,7 +3795,7 @@ section {
     height: 400px;
 }
 
-table .v{
+.table1{
     border-spacing: 0;
     width: 100%;
 }
@@ -3821,23 +3821,20 @@ table .v{
 .webgrid-row-style {
     padding: 3px 7px 2px;
 }
-td + td .v{
+table.table1 td + table.table1 td {
     border-left: 1px solid #eee;
 }
 
-td .v, th .v{
+table.table1 td, table.table1 th{
     border-bottom: 1px solid #eee;
     background: #ddd;
     color: #000;
     padding: 10px 25px;
 }
 
-th .v{
-    height: 0;
-    line-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    color: transparent;
+table.table1 th {
+    background-color: #500;
+    color: white;
     border: none;
     white-space: nowrap;
 }
@@ -3908,13 +3905,34 @@ td.last {
     width: 1px;
     white-space: nowrap;
 }
-i.icon-red {
+i.icon-danger {
     color: #f44336;
 }
-i.icon-green {
+i.icon-success {
+    color: #4caf50;
+
+}
+i.icon-info {
+    color: #31708f;
+}
+i.icon-warning {
+    color: #8a6d3b;
+}
+.soft-warning {
+    color: #8a6d3b;
+}
+.soft-success {
     color: #4caf50;
 }
-.bigbut {
+.soft-danger {
+    color: #f44336;
+}
+.soft-info {
+    color: #31708f;
+}
+
+
+    .bigbut {
     line-height: 24px;
     text-transform: uppercase;
     font-size: 17px;

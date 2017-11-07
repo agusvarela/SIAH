@@ -38,5 +38,11 @@ namespace SIAH.Controllers
 
             return View();
         }
+        public ActionResult DirectorOficina()
+        {
+            ViewBag.Message = "Your index Page.";
+
+            return View();
+        }
     }
 }

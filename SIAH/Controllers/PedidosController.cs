@@ -325,12 +325,13 @@ namespace SIAH.Controllers
                     ViewBag.problem = param;
                 };
                 var pedidos = db.Pedidos.Include(p => p.hospital);
-                return View(pedidos.ToList());
+                return View(pedidos.OrderByDescending(o => o.fechaGeneracion).ToList());
+
             }
             else
             {
                 var pedidos = db.Pedidos.Include(p => p.hospital);
-                return View(pedidos.ToList());
+                return View(pedidos.OrderByDescending(o => o.fechaGeneracion).ToList());
             }
         }
         protected override void Dispose(bool disposing)

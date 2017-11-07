@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.title = "Home Director de Oficina";
+}
+
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-12">
+            <h1>Director de Oficina</h1>
+            <div class="banner-catalog__content">Realice diferentes acciones de control y genere reportes para la toma de decisiones.</div>
+        </div>
+    </div>
+</div>
+<div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-6 animated zoomIn">
+                <div class="card card-project">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-success">
+                                <i class="material-icons">equalizer</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="../Pedidos/Listado">Control de Stock</a>
+                            </h4>
+                            <p>Cotnrole el Stock de SIAH con el de OCASA.</p>
+                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Ir a la tabla de Stock</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 animated zoomIn">
+                <div class="card card-project">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                                <i class="material-icons">description</i>
+                            </div>
+                            <h4 class="info-title">Reportes</h4>
+                            <p>Genere reportes que lo ayudarán a la toma de decisiones a la hora de Autorizar.</p>
+                            <div class="info">
+                                <form>
+                                    Ingrese Fecha de Inicio Reporte:
+                                    <input type="date" id="inicio" /><br>
+                                    Ingrese Fecha de Fin Reporte
+                                    <input type="date" id="fin" /><br>
+                                </form>
+                            </div>
+                            <a id="reporte" class="btn btn-round btn-primary" @*onclick="location.href='@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = new DateTime(2017, 2, 2), fechaFin = new DateTime(2017, 11, 1) })'"*@>Ir al Reporte</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).on('click', '#reporte', function (event)
+        {
+            event.preventDefault();
+            var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
+
+            url = url.replace("START", $("#inicio").val());
+            url = url.replace("END", $("#fin").val());
+            url = url.replace("amp;", "");
+            location.href = url;
+        });
+    </script>
+}

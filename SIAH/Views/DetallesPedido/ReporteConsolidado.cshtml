@@ -31,7 +31,7 @@
                         {
                             <section class="">
                             <div class="t-container">
-                                <table id="tablaReporte" class="table">
+                                <table id="tablaReporte" class="table1">
 
                                     @foreach (var i in Model)
                                     {
@@ -53,13 +53,13 @@
                                                     else
                                                     {
                                                         <thead>
-                                                            <tr class="header">
+                                                            <tr class="header v">
                                                                 @{foreach (var e in i)
                                                                     {
                                                                         isFirst = false;
-                                                                        <th class="v">@e<div>@e</div> </th>
+                                                                        <th><div class="v">@e</div> </th>
                                                                     }
-                                                                    <th class="v">Total<div>Total</div> </th>
+                                                                    <th><div class="v">Total</div> </th>
                                                                 }
                                                             </tr>
                                                         </thead>
@@ -70,15 +70,17 @@
                             </div>
                             </section>
                                                                     }
-                                
-                        <div class="col-md-offset-10 col-md-2" style="width: 13%">
+                              <br  />   
+                        <div class=" col-md-12 pull-right">
                             @*<a href="#" onClick="$('#tablaReporte').tableExport({type:'excel',escape:'false'});">Exportar a Excel (XLS)</a>*@
                             <input id="btn_export" type="button" value="Exportar Excel" class="btn btn-success btn-round btn_export" />
 
                         </div>
                     </div>
+                   
                 </div>
             </div>
+            
         </div>
     </div>
 </div>

@@ -414,6 +414,7 @@
     <Content Include="Views\Home\RespAutorizacion.cshtml" />
     <Content Include="Views\Account\Denied.cshtml" />
     <Content Include="Views\Insumos\ControlStock.cshtml" />
+    <Content Include="Views\Home\DirectorOficina.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
