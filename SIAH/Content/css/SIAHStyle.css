@@ -3833,15 +3833,16 @@ table.table1 td, table.table1 th{
 }
 
 table.table1 th {
-    background-color: #500;
+    background-color: mediumpurple;
     color: white;
     border: none;
     white-space: nowrap;
 }
 
-    th div .v{
+    th div {
         position: absolute;
         background: transparent;
+        background-color: mediumpurple;
         color: #fff;
         padding: 9px 25px;
         top: 0;
@@ -3850,7 +3851,7 @@ table.table1 th {
         /*border-left: 1px solid #800;*/
     }
 
-    th:first-child div .v{
+    th:first-child div {
         border: none;
     }
 
