@@ -88,7 +88,7 @@ namespace SIAH.Controllers
                         case "RespAutorizacion":
                             return RedirectToAction("../Home/RespAutorizacion");
                         case "DirectorArea":
-                            return RedirectToAction("../Home/DirectorOficina");
+                            return RedirectToAction("../Home/DirectorArea");
                         default:
                             return RedirectToAction("LoggedIn");
                     }
