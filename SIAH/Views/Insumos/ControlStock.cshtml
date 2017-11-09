@@ -10,9 +10,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center">
                 <strong>
-                    ¿Desea actualizar valores de insumos en la base de datos? <br />
+                    ¿Desea actualizar el stock insumos en la base de datos? <br />
                 </strong>
                 Recuerde que no se podran recuperar los valores anteriores.
             </div>
@@ -46,7 +46,7 @@
 
                         <table id="stock" class=" table sortable">
                             <thead>
-                                <tr>
+                                <tr class="list-group-item-info" style="border-bottom: solid">
                                     <th class="text-center">
                                         @Html.Name("Id Insumo")
                                     </th>

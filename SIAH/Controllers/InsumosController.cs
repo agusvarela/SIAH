@@ -50,6 +50,11 @@ namespace SIAH.Controllers
             var insumos = db.Insumos.Include(i => i.tiposInsumo);
             return View(insumos.ToList());
         }
+        public ActionResult StockInsumos()
+        {
+            var insumos = db.Insumos.Include(i => i.tiposInsumo);
+            return View(insumos.ToList());
+        }
         // GET: Insumos/Palabra/search
         public JsonResult BuscarInsumos(string term, int? id)
         {

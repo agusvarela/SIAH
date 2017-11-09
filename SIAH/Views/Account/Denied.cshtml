@@ -34,6 +34,18 @@
                         </a>
                     </div>
                 }
+                if (Session["rol"].ToString() == "DirectorArea")
+                {
+                    <div class="banner-catalog__content">
+                        Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
+                        <a class="btn btn-primary btn-raised btn-lg" href="~/Pedidos/RespFarmacia">
+                            Ir a Página Principal
+                        </a>
+                        <a class="btn btn-primary btn-raised btn-lg" href="~/Account/Login">
+                            Iniciar Sesión con otro usuario
+                        </a>
+                    </div>
+                }
                 if (Session["userid"] == null)
                 {
                     <div class="banner-catalog__content">

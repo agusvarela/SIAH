@@ -43,14 +43,6 @@
                             </div>
                             <h4 class="info-title">Reportes</h4>
                             <p>Genere reportes que lo ayudarán a la toma de decisiones a la hora de Autorizar.</p>
-                            <div class="info">
-                                <form>
-                                    Ingrese Fecha de Inicio Reporte:
-                                    <input type="date" id="inicio"/><br>
-                                    Ingrese Fecha de Fin Reporte
-                                    <input type="date" id="fin"/><br>
-                                </form>
-                            </div>
                             <a id="reporte" class="btn btn-round btn-primary" @*onclick="location.href='@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = new DateTime(2017, 2, 2), fechaFin = new DateTime(2017, 11, 1) })'"*@>Ir al Reporte</a>
                         </div>
 
@@ -67,9 +59,22 @@
         {
             event.preventDefault();
             var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
-            
-            url = url.replace("START", $("#inicio").val());
-            url = url.replace("END", $("#fin").val());
+
+            var nd = new Date();
+            nd.setDate(nd.getDate() - 30); // minus the date
+            var month = nd.getUTCMonth() + 1; //months from 1-12
+            var day = nd.getUTCDate();
+            var year = nd.getUTCFullYear();
+            start = year + "-" + month + "-" + day;
+
+            var dateObj = new Date();
+            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+            var day = dateObj.getUTCDate();
+            var year = dateObj.getUTCFullYear();
+            end = year + "-" + month + "-" + day;
+
+            url = url.replace("START", start);
+            url = url.replace("END",end);
             url = url.replace("amp;", "");
             location.href = url;
         });

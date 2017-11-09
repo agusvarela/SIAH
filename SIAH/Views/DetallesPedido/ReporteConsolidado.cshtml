@@ -11,15 +11,69 @@
     <div class="container">
         <div class="col-lg-12">
             <h1>Reporte de Consolidado</h1>
-            <div class="banner-catalog__content">Este reporte muestra la cantidad de insumos que han sido autorizados, 
-            por hospital en el período entre @ViewBag.fechaInicio y @ViewBag.fechaFin</div>
+            <div class="banner-catalog__content">
+                Este reporte muestra la cantidad de insumos que han sido autorizados,
+                por hospital en el período entre @ViewBag.fechaInicio y @ViewBag.fechaFin
+            </div>
         </div>
     </div>
 </div>
+<br />
+
 <div class="container" style=" padding-bottom: 30px;">
 
-    <div class="">
+    <div class="form-horizontal">
 
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-card form-card--purple form-card--tight ">
+                    <div class="form-card__title info-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">date_range</i>
+                            <strong>Periodo de Reporte</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-card__content group">
+                        <div class="form-group text-center">
+                            <h4 style="margin-top:0px"> Insumos autorizados del: <br /><strong> @ViewBag.fechaInicio</strong> al<strong> @ViewBag.fechaFin</strong></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8" id="det">
+                <div class="form-card form-card--purple form-card--tight ">
+                    <div class="form-card__title purple-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">autorenew</i>
+                            <strong>Generar nuevo reporte</strong>
+                        </div>
+                    </div>
+                    <div class="form-card__content group">
+
+                        <div class="form-group">
+                            <div class="col-sm-4 ">
+                                Desde:
+                                <input type="date" id="inicio" />
+                            </div>
+                            <div class="col-sm-4 ">
+                                Hasta:
+                                <input type="date" id="fin" />
+                            </div>
+
+
+
+                            <div class="col-sm-4">
+                                <br />
+                                <a id="reporte" class="btn btn-round btn-success" style="vertical-align:bottom">Generar Reporte</a><br />
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
 
         <br>
         <div class="row">
@@ -27,60 +81,83 @@
             <div class="col-md-12">
                 <div class="form-card form-card--purple form-card--tight ">
                     <div class="form-card__content group">
+
+
+
                         @using (Html.BeginForm())
                         {
+
                             <section class="">
-                            <div class="t-container">
-                                <table id="tablaReporte" class="table1">
+                                <div class="t-container">
+                                    <table id="tablaReporte" class="table1">
 
-                                    @foreach (var i in Model)
-                                    {
-
-                                        if (isFirst == false)
+                                        @foreach (var i in Model)
                                         {
-                                            <tr>
-                                                @{var total = 0;
-                                                    foreach (var e in i)
-                                                    {
-                                                        var celda = e.AsInt(0);
-                                                        <td class="v">@e</td>
-                                                        total += celda;
-                                                    }
-                                                    <td class="v">@total</td>
-                                                }
-                                            </tr>
-                                                    }
-                                                    else
-                                                    {
-                                                        <thead>
-                                                            <tr class="header v">
-                                                                @{foreach (var e in i)
-                                                                    {
-                                                                        isFirst = false;
-                                                                        <th><div class="v">@e</div> </th>
-                                                                    }
-                                                                    <th><div class="v">Total</div> </th>
-                                                                }
-                                                            </tr>
-                                                        </thead>
-                                                                        }
 
+                                            if (isFirst == false)
+                                            {
+                                                <tr>
+                                                    @{var total = 0;
+                                                        foreach (var e in i)
+                                                        {
+                                                            var celda = e.AsInt(0);
+                                                            if (e.AsInt(1) == 0)
+                                                            {
+
+                                                                <td class="v"></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="v">@e</td>
+                                                            }
+
+                                                            total += celda;
+                                                        }
+                                                        if (total != 0)
+                                                        {
+                                                            <td class="v">@total</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="v"></td>
+                                                        }
+
+
+                                                    }
+                                                </tr>
+                                                        }
+                                                        else
+                                                        {
+                                                            <thead>
+                                                                <tr class="header v">
+                                                                    @{foreach (var e in i)
+                                                                        {
+                                                                            isFirst = false;
+                                                                            <th><div class="v">@e</div> </th>
+                                                                        }
+                                                                        <th><div class="v">Total</div> </th>
                                                                     }
-                                </table>
-                            </div>
+                                                                </tr>
+                                                            </thead>
+                                                                            }
+
+                                                                        }
+                                    </table>
+                                </div>
                             </section>
-                                                                    }
-                              <br  />   
+
+                                                                        }
+                        <br />
                         <div class=" col-md-12 pull-right">
                             @*<a href="#" onClick="$('#tablaReporte').tableExport({type:'excel',escape:'false'});">Exportar a Excel (XLS)</a>*@
                             <input id="btn_export" type="button" value="Exportar Excel" class="btn btn-success btn-round btn_export" />
 
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -92,4 +169,18 @@
             $('#tablaReporte').tableExport({ type: 'excel', escape: 'false' });
         });
     </script>
+    <script type="text/javascript">
+        $(document).on('click', '#reporte', function (event)
+        {
+            event.preventDefault();
+            var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
+
+            url = url.replace("START", $("#inicio").val());
+            url = url.replace("END", $("#fin").val());
+            url = url.replace("amp;", "");
+            location.href = url;
+        });
+    </script>
+
+
 }

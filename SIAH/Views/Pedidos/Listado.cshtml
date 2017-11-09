@@ -122,7 +122,7 @@
                                                             <i class="material-icons">send</i>
                                                         </td>
                                                         <td class="text-center">
-                                                    
+
                                                             @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
                                                             @Html.ActionLink("Autorizar", "Autorizacion", new { id = item.id })
 
@@ -247,9 +247,9 @@
                                             }
                                         }
 
-                                </table>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
                             <a id="enviar" type="button" class="btn btn-success btn-round btn_export pull-right" href="@Url.Action("GenerateSendOcasa", "Pedidos")">Enviar a OCASA</a>
                         </div>
                     </div>
@@ -257,47 +257,46 @@
             </div>
         </div>
     </div>
-    <div>
 
+</div>
+@if (ViewBag.success == true)
+{
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="alert alert-success">
+            <div class="container-fluid">
+                <div class="alert-icon">
+                    <i class="material-icons">check</i>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                </button>
+                <strong>EL PEDIDO FUE AUTORIZADO EXITOSAMENTE</strong>
+            </div>
+        </div>
     </div>
-    @if (ViewBag.success == true)
-    {
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="alert alert-success">
-                <div class="container-fluid">
-                    <div class="alert-icon">
-                        <i class="material-icons">check</i>
-                    </div>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        <span aria-hidden="true"><i class="material-icons">clear</i></span>
-                    </button>
-                    <strong>EL PEDIDO FUE AUTORIZADO EXITOSAMENTE</strong>
-                </div>
-            </div>
-        </div>
-    }
+}
 
-    else
+else
 if (ViewBag.success == false)
-    {
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="alert alert-danger">
-                <div class="container-fluid">
-                    <div class="alert-icon">
-                        <i class="material-icons">error_outline</i>
-                    </div>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true"><i class="material-icons">clear</i></span>
-                    </button>
-                    <strong>Ocurrió un Error inesperado: </strong> @ViewBag.problem <strong> (No se autorizo el pedido) </strong>
+{
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="alert alert-danger">
+            <div class="container-fluid">
+                <div class="alert-icon">
+                    <i class="material-icons">error_outline</i>
                 </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                </button>
+                <strong>Ocurrió un Error inesperado: </strong> @ViewBag.problem <strong> (No se autorizo el pedido) </strong>
             </div>
         </div>
-    }
-                                            @section Scripts {
-                                                <script type="text/javascript">
-                                                    $(document).on('click', '#enviar', function (event) {
-                                                        setTimeout(function () { location.reload() }, 2000);
-                                                    });
-                                                </script>
-                                            }
+    </div>
+}
+@section Scripts {
+    <script type="text/javascript">
+        $(document).on('click', '#enviar', function (event) {
+            setTimeout(function () { location.reload() }, 2000);
+        });
+    </script>
+}
