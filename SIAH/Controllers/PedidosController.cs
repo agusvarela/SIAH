@@ -115,17 +115,44 @@ namespace SIAH.Controllers
                     ViewBag.success = false;
                     ViewBag.problem = param;
                 };
-                var pedidos = db.Pedidos.Include(p => p.hospital).OrderBy(o=>o.fechaGeneracion);
+
+                var pedidos = db.Pedidos.Include(p => p.hospital); // OrderBy(o=>o.fechaGeneracion);
                 return View(pedidos.ToList());
             }
             else
             {
-                var pedidos = db.Pedidos.Include(p => p.hospital).OrderBy(o => o.fechaGeneracion);
+                var pedidos = db.Pedidos.Include(p => p.hospital); // OrderBy(o => o.fechaGeneracion);
                 return View(pedidos.ToList());
             }
 
 
         }
+
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [ActionName("OrdenFecha")]
+        public ActionResult Listado(string sortOrder, Boolean? b)
+        {
+            if (Session["fechaGen"] == null) Session["fechaGen"] = "true";
+            var pedidos = from p in db.Pedidos
+                           select p;
+            switch (sortOrder)
+            {
+                case "fechaGen":
+                    if (Session["fechaGen"].ToString().CompareTo("true") == 0)
+                    {
+                        pedidos = pedidos.OrderByDescending(p => p.fechaGeneracion);
+                        Session["fechaGen"] = "false";
+                    }
+                    else 
+                    {
+                        pedidos = pedidos.OrderBy(p => p.fechaGeneracion);
+                        Session["fechaGen"] = "true";
+                                            }
+                    break;
+            }
+            return View("Listado", pedidos.ToList());
+        }
+
         public JsonResult GetInsumos(String id)
         {
             int idTipo = int.Parse(id);

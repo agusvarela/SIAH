@@ -78,7 +78,7 @@
                                                 @Html.Name("Nº Pedido")
                                             </th>
                                             <th class="text-center">
-                                                @Html.Name("Fecha de Generación")
+                                                @Html.ActionLink("Fecha de Generación", "OrdenFecha", new { sortOrder = ViewBag.FechaGenSortParm = "fechaGen" } )
                                             </th>
                                             <th class="text-center">
                                                 @Html.Name("Hospital")
