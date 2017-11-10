@@ -255,6 +255,7 @@
     <Content Include="Content\app.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\animate.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\demo.css" />
     <Content Include="Content\css\SIAHStyle.css" />
@@ -264,6 +265,7 @@
     <Content Include="Content\img\logo.jpg" />
     <Content Include="Content\img\wave-2.png" />
     <Content Include="Content\js\bootstrap-datepicker.js" />
+    <Content Include="Content\js\bootstrap-notify.min.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\material-kit.js" />

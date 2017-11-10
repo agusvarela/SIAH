@@ -22,11 +22,11 @@
 
 <div class="container" style=" padding-bottom: 30px;">
 
-    <div class="form-horizontal">
+    <div class="form-horizontal ">
 
         <div class="row">
             <div class="col-md-4">
-                <div class="form-card form-card--purple form-card--tight ">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
                     <div class="form-card__title info-header">
                         <div class="alert-icon">
                             <i class="material-icons">date_range</i>
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="col-md-8" id="det">
-                <div class="form-card form-card--purple form-card--tight ">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                     <div class="form-card__title purple-header">
                         <div class="alert-icon">
                             <i class="material-icons">autorenew</i>
@@ -79,7 +79,7 @@
         <div class="row">
 
             <div class="col-md-12">
-                <div class="form-card form-card--purple form-card--tight ">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                     <div class="form-card__content group">
 
 
@@ -129,13 +129,13 @@
                                                         else
                                                         {
                                                             <thead>
-                                                                <tr class="header v">
+                                                                <tr class=" v">
                                                                     @{foreach (var e in i)
                                                                         {
                                                                             isFirst = false;
-                                                                            <th><div class="v">@e</div> </th>
+                                                                            <th class="v">@e<div >@e</div> </th>
                                                                         }
-                                                                        <th><div class="v">Total</div> </th>
+                                                                        <th  class="v">Total<div>Total</div> </th>
                                                                     }
                                                                 </tr>
                                                             </thead>
@@ -164,11 +164,6 @@
 @section Scripts{
     <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
-    <script type="text/javascript">
-        $(document).on('click', '.btn_export', function (event) {
-            $('#tablaReporte').tableExport({ type: 'excel', escape: 'false' });
-        });
-    </script>
     <script type="text/javascript">
         $(document).on('click', '#reporte', function (event)
         {

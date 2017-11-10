@@ -117,12 +117,12 @@ namespace SIAH.Controllers
                 };
 
                 var pedidos = db.Pedidos.Include(p => p.hospital); // OrderBy(o=>o.fechaGeneracion);
-                return View(pedidos.ToList());
+                return View(pedidos.OrderByDescending(p => p.id).ToList());
             }
             else
             {
                 var pedidos = db.Pedidos.Include(p => p.hospital); // OrderBy(o => o.fechaGeneracion);
-                return View(pedidos.ToList());
+                return View(pedidos.OrderByDescending(p => p.id).ToList());
             }
 
 
@@ -352,13 +352,13 @@ namespace SIAH.Controllers
                     ViewBag.problem = param;
                 };
                 var pedidos = db.Pedidos.Include(p => p.hospital);
-                return View(pedidos.OrderByDescending(o => o.fechaGeneracion).ToList());
+                return View(pedidos.OrderByDescending(o => o.id).ToList());
 
             }
             else
             {
                 var pedidos = db.Pedidos.Include(p => p.hospital);
-                return View(pedidos.OrderByDescending(o => o.fechaGeneracion).ToList());
+                return View(pedidos.OrderByDescending(o => o.id).ToList());
             }
         }
         protected override void Dispose(bool disposing)

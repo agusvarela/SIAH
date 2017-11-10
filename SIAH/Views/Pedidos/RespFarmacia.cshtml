@@ -2,13 +2,14 @@
 @{
     ViewBag.Title = "Home Responsable Farmacia";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
-}
-<script type="text/javascript">
-    window.addEventListener("load", function () {
-        $('#myModal').modal({ show: true });
-    })
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
 
-</script>
+    }
+}
 <div class="banner-catalog">
     <div class="container">
         <div class="col-lg-12">
@@ -20,149 +21,175 @@
 <div id="page" style="min-height: 363px;">
     <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
         <div class="row">
-            <button class="btn  bigbut btn-success col-sm-2" onclick="location.href='@Url.Action("Create", "Pedidos")'">
-                <i class="material-icons bigicon">add</i>
-                <strong>Generar <br /> Nuevo Pedido</strong>
-            </button>
+            <div class=" col-sm-3">
+                <button class="btn  bigbut btn-success col-sm-12  animated zoomIn" style="display: inline-block; white-space: normal;" onclick="location.href='@Url.Action("Create", "Pedidos")'">
+                    <i class="material-icons bigicon">add</i>
+                    <strong>Generar Nuevo Pedido</strong>
+                </button>
+            </div>
 
-
-            <div class=" col-sm-10">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div id="alertArea">
-                            <div class="alert alert-info pq-alert">
-                                <i class="fa fa-arrow-right"></i>
-                                <span>Histórico de Pedidos</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-                <div id="app" data-bind="visible: loaded" style="">
-                    <!-- ko if: !projects().length --><!-- /ko -->
-                    <!-- ko if: projects().length -->
+                <div class=" col-sm-9">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="nav-dashboard">
-                                <ul id="lista" class="list-unstyled list-group">
-                                    <li class="nav-dashboard__item">
-                                        <a class="group"  style="background-color: #9c27b0; color: white">
-                                            <span class="nav-dashboard__item__text" style=" color: white">@Html.Name("Período de Generación")</span>
-                                            <div class="pull-right" style=" color: white">@Html.Name("Estado")</div>
-                                        </a>
-                                    </li>
-                                    @foreach (var item in Model)
-                                    {
-                                        switch (item.estadoId)
-                                        {
-                                            case 1:
-
-
-                                                <li class="nav-dashboard__item  list-group-item-warning">
-                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                        <div class="selector hide"></div>
-
-                                                        <span class="nav-dashboard__item__text soft-warning">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly" })</span>
-                                                        <i class="icon-warning  material-icons pull-right">send</i>
-                                                    </a>
-
-                                                </li>
-                                                break;
-
-                                            case 2:
-                                                <li class="nav-dashboard__item list-group-item-success">
-                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                        <div class="selector hide"></div>
-
-                                                        <span class="nav-dashboard__item__text soft-success">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly" })</span>
-
-                                                        <i class="icon-success material-icons pull-right">spellcheck</i>
-                                                    </a>
-                                                </li>
-                                                break;
-                                            case 3:
-                                                <li class="nav-dashboard__item list-group-item-info">
-                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                        <div class="selector hide"></div>
-
-                                                        <span class="nav-dashboard__item__text soft-info">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly" })</span>
-                                                        <i class="icon-info material-icons pull-right">local_shipping</i>
-                                                    </a>
-                                                </li>
-                                                break;
-                                            case 4:
-                                                <li class="nav-dashboard__item list-group-item-danger">
-                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                        <div class="selector hide"></div>
-
-                                                        <span class="nav-dashboard__item__text soft-danger">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly" })</span>
-                                                        <i class="icon-danger  material-icons pull-right">clear</i>
-                                                    </a>
-                                                </li>
-                                                break;
-                                            case 5:
-                                                <li class="nav-dashboard__item list-group-item-success">
-                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                        <div class="selector hide"></div>
-
-                                                        <span class="nav-dashboard__item__text soft-success">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly" })</span>
-                                                        <i class="icon-success  material-icons pull-right">check_circle</i>
-                                                    </a>
-                                                </li>
-                                                break;
-                                        }
-
-                                    }
-
-                                </ul>
-
-
-
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Histórico de Pedidos</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- /ko -->
 
 
+
+
+                    <div id="app" data-bind="visible: loaded" style="">
+                        <!-- ko if: !projects().length --><!-- /ko -->
+                        <!-- ko if: projects().length -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="nav-dashboard  animated zoomIn">
+                                    <ul id="lista" class="list-unstyled list-group">
+                                        <li class="nav-dashboard__item">
+                                            <a class="group" style="background-color: #9c27b0; color: white">
+
+                                                <span class="nav-dashboard__item__text" style=" color: white"><strong>@Html.Name("Período de Generación")</strong></span>
+                                                <span class="nav-dashboard__item__text pull-right" style=" color: white"><strong>@Html.Name("Estado")</strong></span>
+
+                                            </a>
+                                        </li>
+                                        @foreach (var item in Model)
+                                        {
+                                            switch (item.estadoId)
+                                            {
+                                                case 1:
+
+
+                                                    <li class="nav-dashboard__item  list-group-item-warning">
+                                                        <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                            <div class="selector hide"></div>
+
+                                                            <span class="nav-dashboard__item__text soft-warning">@Html.Label("periodo", item.fechaGeneracion.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-warning" })</span>
+                                                            <i class="icon-warning  material-icons pull-right" style="margin-right:10px">send</i>
+                                                        </a>
+
+                                                    </li>
+                                                    break;
+
+                                                case 2:
+                                                    <li class="nav-dashboard__item list-group-item-success">
+                                                        <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                            <div class="selector hide"></div>
+
+                                                            <span class="nav-dashboard__item__text soft-success">@Html.Label("periodo", item.fechaGeneracion.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-success" })</span>
+
+                                                            <i class="icon-success material-icons pull-right" style="margin-right:10px">spellcheck</i>
+                                                        </a>
+                                                    </li>
+                                                    break;
+                                                case 3:
+                                                    <li class="nav-dashboard__item list-group-item-info">
+                                                        <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                            <div class="selector hide"></div>
+
+                                                            <span class="nav-dashboard__item__text soft-info">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
+                                                            <i class="icon-info material-icons pull-right" style="margin-right:10px">local_shipping</i>
+                                                        </a>
+                                                    </li>
+                                                    break;
+                                                case 4:
+                                                    <li class="nav-dashboard__item list-group-item-danger">
+                                                        <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                            <div class="selector hide"></div>
+
+                                                            <span class="nav-dashboard__item__text soft-danger">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-danger" })</span>
+                                                            <i class="icon-danger  material-icons pull-right" style="margin-right:10px">clear</i>
+                                                        </a>
+                                                    </li>
+                                                    break;
+                                                case 5:
+                                                    <li class="nav-dashboard__item list-group-item-success">
+                                                        <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                            <div class="selector hide"></div>
+
+                                                            <span class="nav-dashboard__item__text soft-success">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-success" })</span>
+                                                            <i class="icon-success  material-icons pull-right" style="margin-right:10px">check_circle</i>
+                                                        </a>
+                                                    </li>
+                                                    break;
+                                            }
+
+                                        }
+
+                                    </ul>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /ko -->
+
+
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>
-@if (ViewBag.success == true)
-{
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="alert alert-success">
-            <div class="container-fluid">
-                <div class="alert-icon">
-                    <i class="material-icons">check</i>
-                </div>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
-                </button>
-                <strong>EL PEDIDO FUE ENVIADO EXITOSAMENTE.</strong>
-            </div>
-        </div>
-    </div>
-}
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if (@ViewBag.success.ToString().ToLower() ===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'El pedido fue enviado exitosamente.'
+                    }, {
+                            type: 'success',
+                            offset: {
+                                x: 20,
+                                y: 90
+                            }
+                        },
+                    );
 
-else
-if (ViewBag.success == false)
-{
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="alert alert-danger">
-            <div class="container-fluid">
-                <div class="alert-icon">
-                    <i class="material-icons">error_outline</i>
-                </div>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
-                </button>
-                <strong>Ocurrió un Error inesperado: </strong> @ViewBag.problem <strong> (No se envió el pedido) </strong>
-            </div>
-        </div>
-    </div>
+                }
+                else {
+                if (@ViewBag.validacion.ToString().ToLower()===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'El pedido no fue enviado: @ViewBag.problem '
+                    }, {
+                            type: 'danger',
+                            offset: {
+                                x: 20,
+                                y: 80
+                            }
+                        },
+                    );
+                }
+
+                }
+
+        });
+        var myNewURL = refineURL();
+        //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced. 
+        window.history.pushState("object or string", "Title", "/" + myNewURL);
+        //Helper function to extract the URL between the last '/' and before '?' 
+        //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php' 
+        //pseudo code: edit to match your URL settings  
+        function refineURL() {
+            //get full URL
+            var currURL = window.location.href; //get current address
+
+            //Get the URL between what's after '/' and befor '?' 
+            //1- get URL after'/'
+            var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
+            //2- get the part before '?'
+            var beforeQueryString = afterDomain.split("?")[0];
+
+            return "Pedidos/"+beforeQueryString;
+        }
+
+
+    </script>
 }

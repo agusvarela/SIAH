@@ -13,7 +13,26 @@
         @Html.TextBox("yaAutorizado", "El pedido al que intenta acceder ya fue autorizado", htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
     }
 
-
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
+                </div>
+                <div class="modal-body text-center">
+                    
+                        <h5> ¿Desea autorizar el pedido? </h5>
+                        
+                                          
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
+                    <input id="yes" type="submit" class="btn btn-info btn-simple" value="Aceptar">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="banner-catalog">
         <div class="container">
             <div class="col-lg-12">
@@ -29,7 +48,7 @@
         <div class="form-horizontal">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-card form-card--purple form-card--tight">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                         <div class="form-card__title info-header">
                             <div class="alert-icon">
                                 <i class="material-icons">info_outline</i>
@@ -88,7 +107,7 @@
         @*Detalle del pedido*@
         <div class="row">
             <div class="col-md-12">
-                <div class="form-card form-card--purple form-card--tight ">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                     <div class="form-card__content group">
                         <div class="form-group">
                             <h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>
@@ -143,7 +162,7 @@
 
                                     </table>
                                     @*<div class="form-group">*@
-                                    <div class="col-md-offset-10 col-md-2" style="width: 13%">
+                                    <div class="pull-rigth col-md-2" id="cuadritos1"  style="padding-right:10px">
                                         <div class="panel panel-DEFAULT text-center">
                                             @*<div class="panel-heading">INSUMOS</div>*@
                                             <div class="panel-body">
@@ -154,15 +173,16 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     @*Boton para autorizar*@
-                                    <div class="col-md-offset-10 col-md-2">
-                                        <input type="submit" value="Autorizar" id="Autorizacion" class="btn btn-success" />
-                                    </div>
+                                   
 
                                 </div>
                             </div>
+                            <div class=" pull-right col-md-2">
+                                <input type="button" value="Autorizar" id="Autorizacion" class="btn btn-round btn-success" data-toggle="modal" data-target="#myModal" />
+                            </div>
                         </div>
+                      
                     </div>
                 </div>
             </div>
@@ -258,9 +278,5 @@
                 }
             });
         })
-        //$(document).on("submit", null, function () {
-
-        //});
-
     </script>
 }

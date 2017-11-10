@@ -3067,7 +3067,6 @@ select.form-control[multiple],
     font-weight: 500;
     min-width: 100px;
     text-align: center;
-    color: #555;
     transition: all .3s
 }
 
