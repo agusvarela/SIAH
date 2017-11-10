@@ -239,6 +239,10 @@
     <Compile Include="Migrations\201711070131294_alter_table_insumos_stock.Designer.cs">
       <DependentUpon>201711070131294_alter_table_insumos_stock.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711102046002_alter_table_userAccount_hospital.cs" />
+    <Compile Include="Migrations\201711102046002_alter_table_userAccount_hospital.Designer.cs">
+      <DependentUpon>201711102046002_alter_table_userAccount_hospital.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />
@@ -476,6 +480,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711070131294_alter_table_insumos_stock.resx">
       <DependentUpon>201711070131294_alter_table_insumos_stock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711102046002_alter_table_userAccount_hospital.resx">
+      <DependentUpon>201711102046002_alter_table_userAccount_hospital.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -74,13 +74,18 @@ namespace SIAH.Controllers
         {
             using (Context.SIAHContext db = new Context.SIAHContext())
             {
-                var usr = db.UserAccounts.Where(u => u.email == user.email && u.password == user.password).Include(p => p.rol).FirstOrDefault();
+                var usr = db.UserAccounts.Where(u => u.email == user.email && u.password == user.password).Include(p => p.rol).Include(h => h.hospital).FirstOrDefault();
                 if (usr != null)
                 {
                     Session["userid"] = usr.id.ToString();
                     Session["email"] = usr.email.ToString();
                     Session["nombre"] = usr.nombre.ToString();
                     Session["rol"] = usr.rol.nombre.ToString();
+                    if (usr.hospitalID != null)
+                    {
+                        Session["hospitalId"] = usr.hospitalID.ToString();
+                        Session["hospital"] = usr.hospital.nombre.ToString();
+                    }
                     //Intento de redirigir el login pero no funciona 
                     switch (usr.rol.nombre.ToString()) { 
                         case "RespFarmacia":

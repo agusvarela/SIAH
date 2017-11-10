@@ -55,21 +55,27 @@ namespace SIAH.Controllers
             
             foreach(var detalle in detalles.ToList())
             {
-                csv.WriteLine(string.Format("{0},{1},{2}\n", detalle.pedidoId, detalle.insumoId, detalle.cantidadAutorizada));
+                csv.WriteLine(string.Format("{0},{1},{2}", detalle.pedidoId, detalle.insumoId, detalle.cantidadAutorizada));
             }
-               
+
             //csv = string.Concat(detalles.Select(
             //detalle => string.Format("{0},{1},{2}\n", detalle.pedidoId, detalle.insumoId, detalle.cantidadAutorizada)));
-
-            foreach (var i in detalles.Select(x => x.pedidoId).ToList())
+            try
             {
-                Pedido pedido = db.Pedidos.Find(i);
-                pedido.estadoId = 3;
-                db.Entry(pedido).State = EntityState.Modified;
-                //db.SaveChanges();
+                foreach (var i in detalles.Select(x => x.pedidoId).ToList())
+                {
+                    Pedido pedido = db.Pedidos.Find(i);
+                    pedido.estadoId = 3;
+                    db.Entry(pedido).State = EntityState.Modified;
+                    //db.SaveChanges();
+                }
+                db.SaveChanges();
             }
-            db.SaveChanges();
-            return File(new System.Text.UTF8Encoding().GetBytes(csv.ToString()), "text/csv", "Envio.csv");
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            return File(new System.Text.UTF8Encoding().GetBytes(csv.ToString()), "text/csv", "DespachoMinisterioDeSalud"+DateTime.Now.ToString()+".csv");
         }
 
         //GET: Pedidos/GetHospital
@@ -90,7 +96,7 @@ namespace SIAH.Controllers
         public ActionResult Create()
         {
             ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
-            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
+            //ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
             return View(new Pedido());
         }
 
@@ -351,13 +357,15 @@ namespace SIAH.Controllers
                     ViewBag.success = false;
                     ViewBag.problem = param;
                 };
-                var pedidos = db.Pedidos.Include(p => p.hospital);
+                var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
+                var pedidos = db.Pedidos.Where(r=> r.hospitalId == hospitalActual).Include(p => p.hospital);
                 return View(pedidos.OrderByDescending(o => o.id).ToList());
 
             }
             else
             {
-                var pedidos = db.Pedidos.Include(p => p.hospital);
+                var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
+                var pedidos = db.Pedidos.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital);
                 return View(pedidos.OrderByDescending(o => o.id).ToList());
             }
         }
