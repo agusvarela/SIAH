@@ -104,22 +104,22 @@
                                                             if (e.AsInt(1) == 0)
                                                             {
 
-                                                                <td class="v"></td>
+                                                                <td class="v text-center"></td>
                                                             }
                                                             else
                                                             {
-                                                                <td class="v">@e</td>
+                                                                <td class="v text-center">@e</td>
                                                             }
 
                                                             total += celda;
                                                         }
                                                         if (total != 0)
                                                         {
-                                                            <td class="v">@total</td>
+                                                            <td class="v  text-center" style="font-size: large"><strong>@total</strong></td>
                                                         }
                                                         else
                                                         {
-                                                            <td class="v"></td>
+                                                            <td class="v  text-center"></td>
                                                         }
 
 
@@ -133,9 +133,9 @@
                                                                     @{foreach (var e in i)
                                                                         {
                                                                             isFirst = false;
-                                                                            <th class="v">@e<div >@e</div> </th>
+                                                                            <th class="v  text-center"><strong>@e</strong></th>
                                                                         }
-                                                                        <th  class="v">Total<div>Total</div> </th>
+                                                                        <th class="v  text-center">Total</th>
                                                                     }
                                                                 </tr>
                                                             </thead>

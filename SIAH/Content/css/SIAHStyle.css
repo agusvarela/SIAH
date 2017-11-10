@@ -3798,7 +3798,7 @@ section {
 .table1 {
     border-spacing: 0;
     width: 100%;
-    table-layout: fixed;
+
     border-width: 0;
 }
 .webgrid-table {
@@ -3827,39 +3827,40 @@ table.table1 td + table.table1 td {
     border-left: 1px solid #eee;
 }
 
-table.table1 td, table.table1 th{
+table.table1 td, table.table1 th {
     border-bottom: 1px solid #eee;
     background: #ddd;
     color: #000;
     padding: 10px 25px;
+    border-left: solid thin white;
 }
 
 table.table1 th {
-    background-color: mediumpurple;
+    background-color: #9c27b0;
     color: white;
-    border: none;
-    white-space: nowrap;
-    
-}
-th:first-child div {
-    border: none;
+    border-color:white;
 }
 
-th div {
-    position: absolute;
-    background: mediumpurple;
-    background-color: mediumpurple;
+table.table1 tr td:last-child {
+    background-color: #9c27b0;
     color: #fff;
-    padding: 9px 25px;
-    top: 0;
-    margin-left: -25px;
-    line-height: normal;
-    /*border-left: 1px solid #800;*/
 }
-
-    th:first-child div {
-        border: none;
+    th.v {
+        position: sticky;
+        background: #9c27b0;
+        background-color: #9c27b0;
+        color: #fff;
+        padding: 9px 25px;
+        top: 0;
+        margin-left: -25px;
+        line-height: normal;
+        /*border-left: 1px solid #800;*/
+        box-sizing: border-box;
+        /*max-width:initial;
+    width:100%*/
+        border-color:white;
     }
+
 
 .table {
     width: 100%;
