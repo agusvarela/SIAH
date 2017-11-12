@@ -52,10 +52,10 @@ namespace SIAH.Controllers
             var detalles = db.DetallesPedido.Include(p => p.pedido).Where(x => x.pedido.estadoId == 2);
 
             StringWriter csv = new StringWriter();
-            
-            foreach(var detalle in detalles.ToList())
+            csv.WriteLine(string.Format("{0},{1},{2},{3}", "Pedido", "Insumo", "Cantidad", "Hospital"));
+            foreach (var detalle in detalles.ToList())
             {
-                csv.WriteLine(string.Format("{0},{1},{2}", detalle.pedidoId, detalle.insumoId, detalle.cantidadAutorizada));
+                csv.WriteLine(string.Format("{0},{1},{2},{3}", detalle.pedidoId, detalle.insumoId, detalle.cantidadAutorizada,detalle.pedido.hospitalId));
             }
 
             //csv = string.Concat(detalles.Select(
@@ -171,7 +171,7 @@ namespace SIAH.Controllers
         public JsonResult GetDetalles(int idPedido)
         {
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == idPedido)
-                                .Select(x => new { pedidoId = x.pedidoId, insumoId = x.insumoId, nombre = x.insumo.nombre, precioUnitario = x.insumo.precioUnitario, cantidad = x.cantidad, cantidadAutorizada = x.cantidadAutorizada, tipo = x.insumo.tiposInsumo.nombre });
+                                .Select(x => new { pedidoId = x.pedidoId, insumoId = x.insumoId, nombre = x.insumo.nombre, precioUnitario = x.insumo.precioUnitario, cantidad = x.cantidad, cantidadAutorizada = x.cantidadAutorizada, tipo = x.insumo.tiposInsumo.nombre, stock = x.insumo.stock });
             return Json(detallesPedido, JsonRequestBehavior.AllowGet);
         }
 

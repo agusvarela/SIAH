@@ -347,6 +347,9 @@
             $('#enviar').hide();
             $('#detallesPedido .empty').show();
         }
+        if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) > total) {
+            $('#totalSpan').text("")
+        }
     });
     //Boton para agregar insumo a la lista
     $(document).on('click', '#btn_addInsumo', function (event) {

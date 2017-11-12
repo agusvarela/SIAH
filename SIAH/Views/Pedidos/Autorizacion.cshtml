@@ -69,11 +69,27 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                                        @Html.TextBoxFor(model => model.fechaGeneracion,Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly"})
                                         @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @{ DateTime fechaE = DateTime.Today.AddDays(3);
+                                        if (fechaE.DayOfWeek == DayOfWeek.Saturday || fechaE.DayOfWeek == DayOfWeek.Sunday)
+                                        {
+                                            fechaE = fechaE.AddDays(2);
+                                        }
+                                    }
+                                    <div class="col-md-12">
+                                        @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE })
+                                        @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
+                                    </div>
+                                    </div>
+                                </div> 
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
@@ -102,6 +118,32 @@
                 </div>
             </div>
         </div>
+        <div></div>
+        <div class="col-md-8">
+            <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                <div class="form-card__title alert-header">
+                    <div class="alert-icon">
+                        <i class="material-icons">warning</i>
+                        <strong>Pedido Urgente!</strong>
+                    </div>
+                </div>
+
+                <div class="form-card__content group">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.esUrgente, "Casilla seleccionada si el pedido es urgente:", htmlAttributes: new { @class = "control-label col-md-10 tota", @data_toggle = "tooltip", @data_placement = "top", @data_original_title = "Seleccione esta casilla si su pedido es Urgente" })
+                        <div class="col-md-2">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new {@type = "checkbox", @name = "optionsCheckboxes", @data_toggle = "tooltip", @data_placement = "right", @data_original_title = "Seleccione esta casilla si su pedido es Urgente", @disabled = "disabled" })
+                                    @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <br />
         <br />
         @*Detalle del pedido*@
@@ -116,12 +158,13 @@
                                     <table id="detalles" class=" table table-hover table-condensed">
                                         <thead>
                                             <tr>
-                                                <th style="width:17%">Nombre</th>
-                                                <th style="width:14%">Tipo </th>
-                                                <th style="width:17%" class="text-center">Cantidad Solicitada</th>
-                                                <th style="width:20%" class="text-center">Cantidad Autorizada</th>
-                                                <th style="width:16%" class="text-center">Precio Unitario</th>
-                                                <th style="width:16%" class="text-center">Subtotal</th>
+                                                <th style="width:15%">Nombre</th>
+                                                <th style="width:15%">Tipo </th>
+                                                <th style="width:15%" class="text-center">Cantidad Solicitada</th>
+                                                <th style="width:15%" class="text-center">Cantidad Autorizada</th>
+                                                <th style="width:15%" class="text-center">Stock</th>
+                                                <th style="width:12%" class="text-center">Precio Unitario</th>
+                                                <th style="width:13%" class="text-center">Subtotal</th>
                                             </tr>
                                         </thead>
 
@@ -173,6 +216,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="pull-left col-md-2" id="cuadritos1" style="padding-right:10px">
+                                        <div class="panel panel-DEFAULT text-center">
+                                            @*<div class="panel-heading">INSUMOS</div>*@
+                                            <div class="panel-body">
+                                                @Html.Label("Total Autorizado", null, htmlAttributes: new { @class = "control-label" })
+                                                <strong>
+                                                    @Html.TextBox("totalAut", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     @*Boton para autorizar*@
                                    
 
@@ -180,6 +235,9 @@
                             </div>
                             <div class=" pull-right col-md-2">
                                 <input type="button" value="Autorizar" id="Autorizacion" class="btn btn-round btn-success" data-toggle="modal" data-target="#myModal" />
+                            </div>
+                            <div class=" pull-left col-md-2">
+                                <input type="button" value="Calcular Total Autorizado" id="calcular" class="btn btn-round btn-success" />
                             </div>
                         </div>
                       
@@ -248,14 +306,18 @@
 
                     var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
 
-                    var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
-                    var $tdPrecioUnitario = $('<td align="center">').html("$" +$precioAMostrar).append($precioUnitario);
+                   // var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('value', data.precioUnitario).val($precioAMostrar);
+                    var $precioUnitario = $('<input>').attr('type','hidden').attr('id', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('value', data.precioUnitario);
+                    var $tdPrecioUnitario = $('<td align="center">').html("$"+ $precioAMostrar).append($precioUnitario);
 
                     var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val(data.cantidad);
                     var $tdCantidad = $('<td align="center">').html(data.cantidad).append($cantidad);
 
-                    var $cantidadAut = $('<input  style="text-align:center">').attr('type', 'number').attr('min', '0').attr('max', data.cantidad).attr('value', data.cantidad).attr('name', 'detallesPedido[' + indice + '][cantidadAutorizada]');
+                    var $cantidadAut = $('<input  style="text-align:center">').attr('type', 'number').attr('min', '0').attr('max', data.cantidad).attr('value', data.cantidad)
+                        .attr('onchange', "updateInput(this.value," + indice + ")").attr('name', 'detallesPedido[' + indice + '][cantidadAutorizada]').attr('id', 'detallesPedido[' + indice + '][cantidadAutorizada]');
                     var $tdCantidadAut = $('<td align="center">').append($cantidadAut);
+
+                    var $tdStock = $('<td align="center">').html(data.stock);
 
                     var $subtotalCalculado = data.precioUnitario * data.cantidad;
                     var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
@@ -263,7 +325,7 @@
                     var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalAMostrar);
                     var $tdSubtotal = $('<td align="center">').html('$' + $subtotalAMostrar)
 
-                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdPrecioUnitario, $tdSubtotal);
+                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdStock, $tdPrecioUnitario, $tdSubtotal);
                     $('#detallesPedido').append($tr);
                     total += $subtotalCalculado;
                     indice++;
@@ -278,5 +340,22 @@
                 }
             });
         })
+        function updateInput(ish, indice) {
+            document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]").setAttribute("value",ish);
+        }
+        $(document).on('click', '#calcular', function (event) {
+            event.preventDefault();
+            var len = $('#detallesPedido > tr').not('.empty').length;
+            var cantAut, precio;
+            console.log(len);
+            var totalAutorizado = 0;
+            for (var i = 0; i < len; i++){
+                precio = document.getElementById("detallesPedido[" + i + "][insumo][precioUnitario]").getAttribute("value");
+                cantAut = document.getElementById("detallesPedido[" + i + "][cantidadAutorizada]").getAttribute("value");
+                totalAutorizado += parseFloat(cantAut) * parseFloat(precio);
+            }
+            var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(totalAutorizado).toFixed(2));
+            $('#totalAut').val("$" + $totalAMostrar)
+        });
     </script>
 }

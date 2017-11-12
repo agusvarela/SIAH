@@ -44,8 +44,25 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBox("fechaGeneracion", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                                        @Html.TextBoxFor(model => model.fechaGeneracion, Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @if (Model.fechaEntrega != null)
+                                        {
+                                            @Html.TextBoxFor(model => model.fechaEntrega, Model.fechaEntrega.Value.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("fechaEntrega", "Pedido No Autorizado", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        }
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -63,13 +80,38 @@
                                     @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div id="container" class="col-md-12">
                                         @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
-                                        <div>
-                                            <span id="presuSpan" name="presuSpan" class="text-danger"></span>
-                                        </div>
+                                        <div> <span id="presuSpan" name="presuSpan" class="text-danger"></span></div>
+                                        <div><span id="autoSpan" name="autosSpan" class="text-success"></span></div>
                                         @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })
                                             <text id="presupuesto" class="form-control"></text>
                                             @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div></div>
+            <div class="col-md-4">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                    <div class="form-card__title alert-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">warning</i>
+                            <strong>Pedido Urgente!</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-card__content group">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.esUrgente, "Casilla seleccionada si el pedido es urgente:", htmlAttributes: new { @class = "control-label col-md-10 tota", @data_toggle = "tooltip", @data_placement = "top", @data_original_title = "Seleccione esta casilla si su pedido es Urgente" })
+                            <div class="col-md-2">
+                                <div class="checkbox">
+                                    <label>
+                                        @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new {@type = "checkbox", @name = "optionsCheckboxes", @data_toggle = "tooltip", @data_placement = "right", @data_original_title = "Seleccione esta casilla si su pedido es Urgente", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
+
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -413,7 +455,7 @@
                 var totalAutorizado = 0;
                 for (var i = 0, len = lista.length; i < len; i++) {
                     var item = lista[i];
-                    console.log(item);
+                    //console.log(item);
                     var $tdInsumo = $('<td  style="width:30%">').append(item.nombre);
 
                     var $tdTipo = $('<td  style="width:16%">').append(item.tipo);
@@ -444,7 +486,12 @@
                 $('#totalAutorizado').val("$" + $totalAutorizadoAMostrar);
                 if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) < total) {
                     $('#presuSpan').text("El costo del pedido supera el presupuesto");
-                    console.log($('#presupuesto').val().replace("$", ""));
+                    //console.log($('#presupuesto').val().replace("$", ""));
+                }
+                if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) > totalAutorizado) {
+                    $('#autoSpan').text("El costo autorizado está dentro del presupuesto");
+                } else {
+                    $('#autoSpan').attr("class","text-danger").text("El costo autorizado supera el presupuesto");
                 }
 
             });
