@@ -3,16 +3,17 @@ namespace SIAH.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class create_tipos_insumo_table : DbMigration
+    public partial class create_table_InsumoOcasa : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.TipoInsumo",
+                "dbo.InsumoOcasa",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: false),
-                        nombre = c.String(nullable: false, maxLength: 255),
+                        nombre = c.String(),
+                        stockDisponible = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id);
             
@@ -20,7 +21,7 @@ namespace SIAH.Migrations
         
         public override void Down()
         {
-            DropTable("dbo.TipoInsumo");
+            DropTable("dbo.InsumoOcasa");
         }
     }
 }

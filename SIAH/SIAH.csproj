@@ -184,6 +184,7 @@
     <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TiposInsumoController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -243,8 +244,13 @@
     <Compile Include="Migrations\201711102046002_alter_table_userAccount_hospital.Designer.cs">
       <DependentUpon>201711102046002_alter_table_userAccount_hospital.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711131927363_create_table_InsumoOcasa.cs" />
+    <Compile Include="Migrations\201711131927363_create_table_InsumoOcasa.Designer.cs">
+      <DependentUpon>201711131927363_create_table_InsumoOcasa.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Hospital.cs" />
+    <Compile Include="Models\InsumoOcasa.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />
     <Compile Include="Models\Localidad.cs" />
     <Compile Include="Models\Insumos\TipoInsumo.cs" />
@@ -422,9 +428,11 @@
     <Content Include="Views\Insumos\ControlStock.cshtml" />
     <Content Include="Views\Home\DirectorArea.cshtml" />
     <Content Include="Views\Insumos\StockInsumos.cshtml" />
+    <Content Include="Views\Upload\UploadFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="UploadedFiles\" />
     <Folder Include="Views\Formularios\" />
   </ItemGroup>
   <ItemGroup>
@@ -483,6 +491,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711102046002_alter_table_userAccount_hospital.resx">
       <DependentUpon>201711102046002_alter_table_userAccount_hospital.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711131927363_create_table_InsumoOcasa.resx">
+      <DependentUpon>201711131927363_create_table_InsumoOcasa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

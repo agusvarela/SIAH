@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SIAH.Models.Insumos.Insumo>
+﻿
 @{
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     ViewBag.Title = "Control de Stock";
@@ -18,7 +18,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                <button id="yes" type="button" class="btn btn-info btn-simple" data-dismiss="modal" >Aceptar</button>
+                <button id="yes" type="button" class="btn btn-info btn-simple" data-dismiss="modal">Aceptar</button>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
 
                     <div id="contenedor" class="col-md-12">
 
-
+                        <input id="btn_export" type="button" value="Exportar Excel" class="btn btn-success btn-round btn_export" onClick="$('#stock').tableExport({type:'excel',escape:'false'});" />
                         <table id="stock" class=" table sortable">
                             <thead>
                                 <tr class="list-group-item-info" style="border-bottom: solid">
@@ -71,42 +71,47 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @{int i = 0;
-                                    foreach (var item in Model)
+                                @{
+                                    foreach (var item in ViewBag.insumos)
                                     {
+                                        int p;
+                                        int diferencia = 0;
+                                        int stockOcasa = item.GetType().GetProperty("stockOcasa").GetValue(item, null);
+                                        int stock = item.GetType().GetProperty("stock").GetValue(item, null);
+                                        int id = item.GetType().GetProperty("id").GetValue(item, null);
+                                        String tipo = item.GetType().GetProperty("tipo").GetValue(item, null);
+                                        String nombre = item.GetType().GetProperty("nombre").GetValue(item, null);
+                                        diferencia = Math.Abs(stockOcasa - stock);
 
+                                        if (stock != 0) { p = diferencia * 100 / stock; }
+                                        else { p = 100; }
 
-                                        int num = item.stock + i;
-                                        i += 2;
-                                        int k = 0;
-                                        k = (num - item.stock);
-                                        int p = k * 100 / item.stock;
                                         if (p < 5)
                                         {
 
 
                                             <tr class="text-center list-group-item-success">
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.id)
+                                                    @id
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.nombre)
+                                                    @nombre
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
-                                                </td>
-
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.stock)
-                                                </td>
-                                                <td>
-                                                    @num
-
+                                                    @tipo
                                                 </td>
 
                                                 <td>
+                                                    @stock
+                                                </td>
+                                                <td>
+                                                    @stockOcasa
 
-                                                    @k
+                                                </td>
+
+                                                <td>
+
+                                                    @diferencia
 
                                                 </td>
                                                 <td>
@@ -121,26 +126,25 @@
                                             {
                                                 <tr class="text-center list-group-item-warning">
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.id)
+                                                        @id
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.nombre)
+                                                        @nombre
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
-                                                    </td>
-
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.stock)
-                                                    </td>
-                                                    <td>
-                                                        @num
-
+                                                        @tipo
                                                     </td>
 
                                                     <td>
+                                                        @stock
+                                                    </td>
+                                                    <td>
+                                                        @stockOcasa
 
-                                                        @k
+                                                    </td>
+                                                    <td>
+
+                                                        @diferencia
 
                                                     </td>
                                                     <td>
@@ -152,26 +156,25 @@
                                             {
                                                 <tr class="text-center list-group-item-danger">
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.id)
+                                                        @id
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.nombre)
+                                                        @nombre
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
-                                                    </td>
-
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.stock)
-                                                    </td>
-                                                    <td>
-                                                        @num
-
+                                                        @tipo
                                                     </td>
 
                                                     <td>
+                                                        @stock
+                                                    </td>
+                                                    <td>
+                                                        @stockOcasa
 
-                                                        @k
+                                                    </td>
+                                                    <td>
+
+                                                        @diferencia
 
                                                     </td>
                                                     <td>
@@ -202,7 +205,10 @@
 
     </div>
 </div>
-<script type="text/javascript">
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
+    <script type="text/javascript">
     $(document).ready(function () {
         var table, rows, switching, i, x, y, shouldSwitch;
         table = document.getElementById("stock");
@@ -238,7 +244,11 @@
         }
     });
     $("#yes").click(function () {
-        $("#contenedor").html("<h3 class='text-center'><strong>Los valores de Stock se encuentran actualizados</strong></h3>");
-        $("#btn_pisar").hide();
+       // $("#contenedor").html("<h3 class='text-center'><strong>Los valores de Stock se encuentran actualizados</strong></h3>");
+       // $("#btn_pisar").hide();
+        url = '@Url.Action("ActualizarStock", "Insumos")';
+        location.href = url;
+
     });
-</script>
+    </script>
+}

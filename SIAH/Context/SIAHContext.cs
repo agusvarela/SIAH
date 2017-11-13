@@ -45,6 +45,8 @@ namespace SIAH.Context
 
         public DbSet<Estado> Estados { get; set; }
 
+        public DbSet<InsumoOcasa> InsumoOcasa { get; set; }
+
     }
 
 }

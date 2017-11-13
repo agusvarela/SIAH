@@ -471,7 +471,9 @@
             $.get(urlHospital, null, function (data) {
                 //console.log(data);
                 $('#nombreHospital').val(data[0]);
-                $('#presupuesto').val("$" + data[1]);
+                var $presupuesto = parseFloat(data[1]);
+                var $presupuestoAMostrar = new Intl.NumberFormat('de-DE').format($presupuesto);
+                $('#presupuesto').val("$" + $presupuestoAMostrar);
             });
         })
         $(document).ready(function () {

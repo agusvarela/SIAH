@@ -118,16 +118,16 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @{ DateTime fechaE = DateTime.Today.AddDays(3);
+                                        if (fechaE.DayOfWeek == DayOfWeek.Saturday || fechaE.DayOfWeek == DayOfWeek.Sunday)
+                                        {
+                                            fechaE = fechaE.AddDays(2);
+                                        }
+                                    }
                                     <div class="col-md-12">
-                                        @if (Model.fechaEntrega != null)
-                                        {
-                                            @Html.TextBoxFor(model => model.fechaEntrega, Model.fechaEntrega.Value.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                                            @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
-                                        }
-                                        else
-                                        {
-                                            @Html.TextBox("fechaEntrega", "Pedido No Autorizado", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                                        }
+                                        @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE })
+                                        @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
+
 
                                     </div>
                                 </div>
@@ -255,7 +255,7 @@
                                 <input type="button" value="Autorizar" id="Autorizacion" class="btn btn-round btn-success" data-toggle="modal" data-target="#myModal" />
                             </div>
                             <div class=" pull-left col-md-2">
-                                <input type="button" value="Calcular Total Autorizado" id="calcular" class="btn btn-round btn-success" />
+                                <input type="button" value="Calcular Total Autorizado" id="calcular" class="btn btn-round btn-info" />
                             </div>
                         </div>
                       
