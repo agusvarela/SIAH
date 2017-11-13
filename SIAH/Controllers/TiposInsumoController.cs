@@ -11,6 +11,7 @@ using SIAH.Models.Insumos;
 
 namespace SIAH.Controllers
 {
+    [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
     public class TiposInsumoController : Controller
     {
         private SIAHContext db = new SIAHContext();
