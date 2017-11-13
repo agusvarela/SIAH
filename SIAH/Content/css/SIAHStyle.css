@@ -3864,7 +3864,6 @@ table.table1 tr td:last-child {
 
 .table {
     width: 100%;
-    margin: 20px 20px 20px 0px;
 }
 
 .margen-arriba {
@@ -4070,4 +4069,25 @@ i.icon-warning {
 .modal-dialog.confirm {
     margin-top: 100px;
     width: 300px;
+}
+.degradado {
+    background-color: #9c27b0 !important;
+    background-image: linear-gradient(-37deg, #9c27b0, #12c6dd);
+}
+.tituloPanel{
+    font-weight:bold;
+    font-size: 20px
+}
+span.tituloPanel {
+    font-weight: bold;
+    font-size: 20px
+}
+.btn.btn-softPurple {
+    color: #31708f;
+    background-color: #d9edf7;
+    white-space: normal !important;
+    word-wrap: break-word;
+}
+.text-grey{
+    color:gray;
 }

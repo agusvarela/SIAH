@@ -12,7 +12,26 @@
     {
         @Html.TextBox("yaAutorizado", "El pedido al que intenta acceder ya fue autorizado", htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
     }
+    <div class="modal fade" id="urgente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-danger" id="myModalLabel"><strong> Pedido Urgente!</strong></h4>
+                </div>
+                <div class="modal-body ">
 
+                    <h5> Este es un pedido urgente, tiene una prioridad mayor que los pedidos comunes. <br /> Por favor comúniquese con el Responsable de Farmacia del
+                    <strong id="nameHospital"></strong> para obtener mas información sobre el motivo de la solicitud. </h5>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog confirm">
             <div class="modal-content">
@@ -36,7 +55,7 @@
     <div class="banner-catalog">
         <div class="container">
             <div class="col-lg-12">
-                <h1>Autorización del pedido @Html.DisplayFor(model => model.id)</h1>
+                <h1>Autorización del pedido Nº: @Html.DisplayFor(model => model.id)</h1>
                 <div class="banner-catalog__content"> Aqui puede corroborar informacion referida a un pedido, seleccionar una cantidad a autorizar y Autorizar el Pedido.</div>
             </div>
         </div>
@@ -47,8 +66,8 @@
 
         <div class="form-horizontal">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                <div class="col-md-9">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
                         <div class="form-card__title info-header">
                             <div class="alert-icon">
                                 <i class="material-icons">info_outline</i>
@@ -56,7 +75,7 @@
                             </div>
                         </div>
                         <div class="form-card__content group">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
@@ -65,32 +84,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(model => model.fechaGeneracion,Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly"})
-                                        @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    @{ DateTime fechaE = DateTime.Today.AddDays(3);
-                                        if (fechaE.DayOfWeek == DayOfWeek.Saturday || fechaE.DayOfWeek == DayOfWeek.Sunday)
-                                        {
-                                            fechaE = fechaE.AddDays(2);
-                                        }
-                                    }
-                                    <div class="col-md-12">
-                                        @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE })
-                                        @Html.ValidationMessageFor(model => model.fechaEntrega, "", new { @class = "text-danger" })
-                                    </div>
-                                    </div>
-                                </div> 
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
@@ -99,53 +93,77 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div id="container" class="col-md-12">
                                         @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
-                                        <div>
-                                            <span id="presuSpan" name="presuSpan" class="text-danger"></span>
-                                        </div>
+                                        <div> <span id="presuSpan" name="presuSpan" class="text-danger"></span></div>
+                                        <div><span id="autoSpan" name="autosSpan" class="text-success"></span></div>
                                         @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })
-                                            <text id="presupuesto" class="form-control"></text>
-                                            @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
+                                    <text id="presupuesto" class="form-control"></text>
+                                    @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.fechaGeneracion, Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @if (Model.fechaEntrega != null)
+                                        {
+                                            @Html.TextBoxFor(model => model.fechaEntrega, Model.fechaEntrega.Value.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("fechaEntrega", "Pedido No Autorizado", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div></div>
-        <div class="col-md-8">
-            <div class="form-card form-card--purple form-card--tight  animated zoomIn">
-                <div class="form-card__title alert-header">
-                    <div class="alert-icon">
-                        <i class="material-icons">warning</i>
-                        <strong>Pedido Urgente!</strong>
-                    </div>
-                </div>
+                <div class="col-md-3">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__title alert-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">warning</i>
+                                <strong>Pedido Urgente!</strong>
+                            </div>
+                        </div>
 
-                <div class="form-card__content group">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.esUrgente, "Casilla seleccionada si el pedido es urgente:", htmlAttributes: new { @class = "control-label col-md-10 tota", @data_toggle = "tooltip", @data_placement = "top", @data_original_title = "Seleccione esta casilla si su pedido es Urgente" })
-                        <div class="col-md-2">
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new {@type = "checkbox", @name = "optionsCheckboxes", @data_toggle = "tooltip", @data_placement = "right", @data_original_title = "Seleccione esta casilla si su pedido es Urgente", @disabled = "disabled" })
-                                    @Html.ValidationMessageFor(model => model.esUrgente, "", new { @class = "text-danger" })
+                        <div class="form-card__content group">
+                            <div class="form-group text-center">
+                                @if (Model.esUrgente)
+                                {
+                                    <h4 class="text-danger"><strong>Este pedido es Urgente </strong></h4>
+                                    <input type="button" value="Mas info" class="btn btn-simple btn-primary" data-toggle="modal" data-target="#urgente" />
+                                }
+                                else
+                                {
+                                    <h4><strong>Este pedido no es Urgente </strong></h4>
+                                }
 
-                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <br />
-        <br />
+        <hr />
         @*Detalle del pedido*@
         <div class="row">
             <div class="col-md-12">
@@ -158,13 +176,13 @@
                                     <table id="detalles" class=" table table-hover table-condensed">
                                         <thead>
                                             <tr>
-                                                <th style="width:15%">Nombre</th>
-                                                <th style="width:15%">Tipo </th>
-                                                <th style="width:15%" class="text-center">Cantidad Solicitada</th>
-                                                <th style="width:15%" class="text-center">Cantidad Autorizada</th>
-                                                <th style="width:15%" class="text-center">Stock</th>
-                                                <th style="width:12%" class="text-center">Precio Unitario</th>
-                                                <th style="width:13%" class="text-center">Subtotal</th>
+                                                <th style="width:30%; font-weight:bold ">Nombre</th>
+                                                <th style="width:16%; font-weight:bold">Tipo </th>
+                                                <th style="width:17%; font-weight:bold" class="text-center">Cantidad Solicitada</th>
+                                                <th style="width:17%; font-weight:bold" class="text-center">Cantidad Autorizada</th>
+                                                <th style="width:13%; font-weight:bold">Stock</th>
+                                                <th style="width:15%; font-weight:bold" class="text-center">Precio Unitario</th>                      
+                                                <th style="width:15%; font-weight:bold" text-align="center">Subtotal</th>
                                             </tr>
                                         </thead>
 
@@ -267,6 +285,7 @@
             var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
             $.get(urlHospital, null, function (data) {
                 //console.log(data);
+                $('#nameHospital').html(data[0]);
                 $('#nombreHospital').val(data[0]);
                 var $presupuesto = parseFloat(data[1]);
                 var $presupuestoAMostrar = new Intl.NumberFormat('de-DE').format($presupuesto);

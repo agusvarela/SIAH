@@ -28,112 +28,131 @@
                 </button>
             </div>
 
-                <div class=" col-sm-9">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div id="alertArea  animated zoomIn">
-                                <div class="alert alert-info pq-alert animated zoomIn">
-                                    <i class="fa fa-arrow-right"></i>
-                                    <span>Histórico de Pedidos del Hospital @Session["hospital"]</span>
-                                </div>
+            <div class=" col-sm-9">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="alertArea  animated zoomIn">
+                            <div class="alert alert-info pq-alert animated zoomIn">
+                                <i class="fa fa-arrow-right"></i>
+                                <span>Histórico de Pedidos del Hospital @Session["hospital"]</span>
                             </div>
                         </div>
-                    </div>
-
-
-
-
-                    <div id="app" data-bind="visible: loaded" style="">
-                        <!-- ko if: !projects().length --><!-- /ko -->
-                        <!-- ko if: projects().length -->
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="nav-dashboard  animated zoomIn">
-                                    <ul id="lista" class="list-unstyled list-group">
-                                        <li class="nav-dashboard__item">
-                                            <a class="group" style="background-color: #9c27b0; color: white">
-
-                                                <span class="nav-dashboard__item__text" style=" color: white"><strong>@Html.Name("Período de Generación")</strong></span>
-                                                <span class="nav-dashboard__item__text pull-right" style=" color: white"><strong>@Html.Name("Estado")</strong></span>
-
-                                            </a>
-                                        </li>
-                                        @foreach (var item in Model)
-                                        {
-                                            switch (item.estadoId)
-                                            {
-                                                case 1:
-
-
-                                                    <li class="nav-dashboard__item  list-group-item-warning">
-                                                        <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                            <div class="selector hide"></div>
-
-                                                            <span class="nav-dashboard__item__text soft-warning">@Html.Label("periodo", item.fechaGeneracion.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-warning" })</span>
-                                                            <i class="icon-warning  material-icons pull-right" style="margin-right:10px">send</i>
-                                                        </a>
-
-                                                    </li>
-                                                    break;
-
-                                                case 2:
-                                                    <li class="nav-dashboard__item list-group-item-success">
-                                                        <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                            <div class="selector hide"></div>
-
-                                                            <span class="nav-dashboard__item__text soft-success">@Html.Label("periodo", item.fechaGeneracion.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-success" })</span>
-
-                                                            <i class="icon-success material-icons pull-right" style="margin-right:10px">spellcheck</i>
-                                                        </a>
-                                                    </li>
-                                                    break;
-                                                case 3:
-                                                    <li class="nav-dashboard__item list-group-item-info">
-                                                        <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                            <div class="selector hide"></div>
-
-                                                            <span class="nav-dashboard__item__text soft-info">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
-                                                            <i class="icon-info material-icons pull-right" style="margin-right:10px">local_shipping</i>
-                                                        </a>
-                                                    </li>
-                                                    break;
-                                                case 4:
-                                                    <li class="nav-dashboard__item list-group-item-danger">
-                                                        <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                            <div class="selector hide"></div>
-
-                                                            <span class="nav-dashboard__item__text soft-danger">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-danger" })</span>
-                                                            <i class="icon-danger  material-icons pull-right" style="margin-right:10px">clear</i>
-                                                        </a>
-                                                    </li>
-                                                    break;
-                                                case 5:
-                                                    <li class="nav-dashboard__item list-group-item-success">
-                                                        <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
-                                                            <div class="selector hide"></div>
-
-                                                            <span class="nav-dashboard__item__text soft-success">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-success" })</span>
-                                                            <i class="icon-success  material-icons pull-right" style="margin-right:10px">check_circle</i>
-                                                        </a>
-                                                    </li>
-                                                    break;
-                                            }
-
-                                        }
-
-                                    </ul>
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /ko -->
-
-
                     </div>
                 </div>
+
+
+
+
+                <div id="app" data-bind="visible: loaded" style="">
+                    <!-- ko if: !projects().length --><!-- /ko -->
+                    <!-- ko if: projects().length -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="nav-dashboard  animated zoomIn">
+                                <ul id="lista" class="list-unstyled list-group">
+                                    <li class="nav-dashboard__item">
+                                        <a class="group" style="background-color: #9c27b0; color: white">
+
+                                            <span  style=" color: white"><strong>@Html.Name("Período de Generación")</strong></span>
+                                            <div class="col-md-2 text-center pull-right">
+                                                <span class="  text-center" style="  color: white"><strong>@Html.Name("Estado")</strong></span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    @foreach (var item in Model)
+                                    {
+                                        switch (item.estadoId)
+                                        {
+                                            case 1:
+
+
+                                                <li class="nav-dashboard__item  ">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+
+                                                        <span class="nav-dashboard__item__text">@Html.Label("periodo", item.fechaGeneracion.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "text-grey" })</span>
+                                                        <div class="col-md-2 text-center pull-right text-grey">
+                                                            <i class="   material-icons " style="margin-right:13px">send</i>
+                                                            <div> <strong>Generado  </strong></div>
+                                                        </div>
+                                                    </a>
+
+                                                </li>
+                                                break;
+
+                                            case 2:
+                                                <li class="nav-dashboard__item list-group-item-warning">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+
+                                                        <span class="nav-dashboard__item__text soft-warning">@Html.Label("periodo", item.fechaGeneracion.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-warning" })</span>
+                                                        <div class="col-md-2 text-center pull-right">
+                                                            <i class="icon-warning material-icons" style="margin-right:10px">spellcheck</i>
+                                                            <div class="soft-warning"> <strong>Autorizado</strong></div>
+                                                        </div>
+                                                    </a>
+
+                                                </li>
+                                                break;
+                                            case 3:
+                                                <li class="nav-dashboard__item list-group-item-info">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+
+                                                        <span class="nav-dashboard__item__text soft-info">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
+                                                        <div class="col-md-2 text-center pull-right">
+                                                            <i class="icon-info material-icons " style="margin-right:10px">local_shipping</i>
+
+                                                            <div class=" soft-info"> <strong>En proceso de Envío</strong></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                break;
+                                            case 4:
+                                                <li class="nav-dashboard__item list-group-item-danger">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+
+
+                                                        <span class="nav-dashboard__item__text soft-danger">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-danger" })</span>
+                                                        <div class="col-md-2 text-center pull-right">
+                                                            <i class="icon-danger  material-icons " style="margin-right:10px">clear</i>
+                                                            <div class=" soft-danger"> <strong>Cancelado</strong></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                break;
+                                            case 5:
+                                                <li class="nav-dashboard__item list-group-item-success">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+
+                                                        <span class="nav-dashboard__item__text soft-success">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-success" })</span>
+
+                                                        <div class="col-md-2 text-center pull-right">
+                                                            <i class="icon-success  material-icons" style="margin-right:10px">check_circle</i>
+                                                            <div class=" soft-success"> <strong>Entregado</strong></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                break;
+                                        }
+
+                                    }
+
+                                </ul>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+
+
+                </div>
             </div>
+        </div>
     </div>
 </div>
 @section Scripts {
@@ -172,16 +191,16 @@
 
         });
         var myNewURL = refineURL();
-        //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced. 
+        //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
         window.history.pushState("object or string", "Title", "/" + myNewURL);
-        //Helper function to extract the URL between the last '/' and before '?' 
-        //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php' 
-        //pseudo code: edit to match your URL settings  
+        //Helper function to extract the URL between the last '/' and before '?'
+        //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+        //pseudo code: edit to match your URL settings
         function refineURL() {
             //get full URL
             var currURL = window.location.href; //get current address
 
-            //Get the URL between what's after '/' and befor '?' 
+            //Get the URL between what's after '/' and befor '?'
             //1- get URL after'/'
             var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
             //2- get the part before '?'

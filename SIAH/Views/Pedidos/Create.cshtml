@@ -11,6 +11,28 @@
 
 @using (Html.BeginForm(new { enctype = "multipart/form-data" }))
 {
+    <div class="modal fade" id="urgente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-danger" id="myModalLabel"><strong> Pedido Urgente!</strong></h4>
+                </div>
+                <div class="modal-body ">
+
+                    <h5>
+                        Si usted marca este pedido como <strong>"Urgente"</strong> , tendrá una prioridad mayor que los pedidos comunes. <br /> Por favor comúniquese con el Responsable de Autorización de su hospital
+                         para obtener mas información sobre pedidos Urgentes.
+                    </h5>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog confirm">
             <div class="modal-content">
@@ -82,7 +104,7 @@
                                     @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @*@Html.DropDownList("hospitalId", null, htmlAttributes: new { @class = "form-control" })*@
-                                        @Html.TextBox("hospitalId",hid, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                        @Html.TextBox("hospitalId", hid, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
                                         @Html.TextBox("hospital", hosp, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.hospitalId, "", new { @class = "text-danger" })
                                     </div>
@@ -118,55 +140,55 @@
                         </div>
                         <div class="form-card__content group">
                             @*<div class="panel-heading">INSUMOS</div>*@
-                            
-                                <div class="col-sm-8">
-                                    <div class="form-group">
-                                        @*<label class="control-label col-md-3">Seleccione un tipo</label>*@
-                                        
-                                            <select class="form-control" id="tipo">
-                                                <option value="">Seleccione un tipo de Insumo</option>
-                                                @{ var tipoInsumo = ViewBag.tipoInsumo;}
-                                                @foreach (var item in tipoInsumo)
-                                                {
-                                                    <option value="@item.Value">@item.Text</option>
-                                                }
-                                            </select>
-                                        
-                                        @*<div class="col-md-7">
-                    @Html.Label("Campo opcional", null, htmlAttributes: new { })
-                </div>*@
-                                    </div>
+
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    @*<label class="control-label col-md-3">Seleccione un tipo</label>*@
+
+                                    <select class="form-control" id="tipo">
+                                        <option value="">Seleccione un tipo de Insumo</option>
+                                        @{ var tipoInsumo = ViewBag.tipoInsumo;}
+                                        @foreach (var item in tipoInsumo)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+
+                                    @*<div class="col-md-7">
+                                            @Html.Label("Campo opcional", null, htmlAttributes: new { })
+                                        </div>*@
                                 </div>
-                        
-                           
-                                <div class="col-sm-10">
-                                    <div id="insu" class="form-group label-floating">
-                                        @Html.LabelFor(model => model.detallesPedido, " Insumo", htmlAttributes: new { @class = "control-label " })
-
-
-                                        <input id="q" class="form-control style='background-color: white' buscador ui-autocomplete-input" type="text" value="" autocomplete="on" required>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <div id="canti" class="form-group label-floating">
-                                        @Html.Label(" Cantidad", null, htmlAttributes: new { @class = "control-label" })
-
-                                        @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
-                                        <input type="number" maxlength="7" id="cantidad" class="form-control" min="1" max="999999" required onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
-                                        @*<span class="help-block"
-                    data-valmsg-for="cantidad">La cantidad ingresada debe ser mayor a 0 y menor a 999999.</span>*@
-                                    </div>
-                                </div>
-                           
-                                <div class="col-xs-12">
-                                    <br />
-                                    <input id="btn_addInsumo" type="submit" value="Agregar Insumo" class="btn btn-round btn-success pull-right btn_addInsumo" />
-                                </div>
-                                <br>
                             </div>
+
+
+                            <div class="col-sm-10">
+                                <div id="insu" class="form-group label-floating">
+                                    @Html.LabelFor(model => model.detallesPedido, " Insumo", htmlAttributes: new { @class = "control-label " })
+
+
+                                    <input id="q" class="form-control style='background-color: white' buscador ui-autocomplete-input" type="text" value="" autocomplete="on" required>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div id="canti" class="form-group label-floating">
+                                    @Html.Label(" Cantidad", null, htmlAttributes: new { @class = "control-label" })
+
+                                    @*@Html.TextBox("Cantidad", null, htmlAttributes: new { @class = "form-control", @id = "cantidad", @type = "number", @valueDefault = 0, @valueMin = 0 })*@
+                                    <input type="number" maxlength="7" id="cantidad" class="form-control" min="1" max="999999" required onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                                    @*<span class="help-block"
+                                        data-valmsg-for="cantidad">La cantidad ingresada debe ser mayor a 0 y menor a 999999.</span>*@
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <br />
+                                <input id="btn_addInsumo" type="submit" value="Agregar Insumo" class="btn btn-round btn-success pull-right btn_addInsumo" />
+                            </div>
+                            <br>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -180,8 +202,10 @@
 
                         <div class="form-card__content group">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.esUrgente, "Seleccione esta casilla si su pedido es urgente:", htmlAttributes: new { @class = "control-label col-md-10 tota", @data_toggle = "tooltip", @data_placement = "top", @data_original_title = "Seleccione esta casilla si su pedido es Urgente" })
-                                <div class="col-md-2">
+              
+                                    @Html.LabelFor(model => model.esUrgente, "Seleccione esta casilla si su pedido es urgente:", htmlAttributes: new { @class = "control-label col-md-12 tota text-center", @data_toggle = "tooltip", @data_placement = "top", @data_original_title = "Seleccione esta casilla si su pedido es Urgente" })
+                              
+                                <div class="col-md-12 text-center">
                                     <div class="checkbox">
                                         <label>
                                             @Html.CheckBoxFor(model => model.esUrgente, htmlAttributes: new { @type = "checkbox", @name = "optionsCheckboxes", @data_toggle = "tooltip", @data_placement = "right", @data_original_title = "Seleccione esta casilla si su pedido es Urgente" })
@@ -190,7 +214,14 @@
                                         </label>
                                     </div>
                                 </div>
+                               
+                                <div class="col-md-12 text-center">
+                                    <br />
+                                    <input type="button" value="Mas info" class="btn btn-simple btn-primary pull-center" data-toggle="modal" data-target="#urgente" />
+                                </div>
+                              
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -258,7 +289,7 @@
             </div>
         </div>
     </div>
-                                                }
+                                            }
 
 <div>
     @Html.ActionLink("Volver al Inicio", "Index", "Home")
@@ -275,7 +306,7 @@
         document.getElementById("cantidad").removeAttribute('required');
             });
     //Este metodo Habilita el boton si insumo esta vacio para que pueda hacer las validaciones(Facu)
-    
+
 
     var total = 0;
     var indice = $('#detallesPedido > tr').not('.empty').length;
@@ -291,7 +322,7 @@
             if ($("#q").val() != '') {
                 $('#btn_addInsumo').attr('disabled', true);
             }
-            
+
 
             $.ajax({
                 url: '@Url.Action("../Insumos/BuscarInsumos")',
@@ -333,7 +364,7 @@
         var precio = $(this).parents('tr').get(0).children.item(3).innerHTML.replace(",", ".").replace("$","");
         console.log(precio);
         $aRestar = parseFloat(precio) * parseFloat($(this).parents('tr').get(0).children.item(2).innerHTML);
-        
+
         console.log($aRestar);
         total -= $aRestar;
         console.log($(this).parents('tr'));

@@ -14,174 +14,216 @@
 <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
     <div class="row">
         <div class="col-md-12">
-            <div class="col-md-3 animated zoomIn">
-                <div class="card card-project">
+            <div class="col-md-6">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right tituloPanel"></i>
+                        <span class="tituloPanel">Stock</span>
+                    </div>
+                </div>
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
 
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-success">
-                                <i class="material-icons">equalizer</i>
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-success">
+                                    <i class="material-icons">equalizer</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Control de Stock</a>
+                                </h4>
+                                <p>Controle la Base de Datos de SIAH y actualice el Stock de Insumos.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Ir a control de Stock</div>
                             </div>
-                            <h4 class="info-title">
-                                <a>Control de Stock</a>
-                            </h4>
-                            <p>Controle la Base de Datos de SIAH y actualice el Stock de Insumos.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Ir a la tabla de Stock</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-info">
+                                    <i class="material-icons">storage</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Stock de Insumos</a>
+                                </h4>
+                                <p>Listado de Insumos Médicos y su Stock disponible en este momento.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Ir a la tabla de Stock</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-3 animated zoomIn">
-                <div class="card card-project">
-
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-danger">
-                                <i class="material-icons">timeline</i>
-                            </div>
-                            <h4 class="info-title">Reportes</h4>
-                            <p>Genere reportes que lo ayudarán a la toma de decisiones.</p>
-
-                            <a id="reporte" class="btn btn-round btn-primary" @*onclick="location.href='@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = new DateTime(2017, 2, 2), fechaFin = new DateTime(2017, 11, 1) })'"*@>Ir al Reporte</a>
-                        </div>
-
+            <div class="col-md-6">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right"></i>
+                        <span class="tituloPanel">Reportes y Pedidos</span>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 animated zoomIn">
-                <div class="card card-project">
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
 
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-info">
-                                <i class="material-icons">storage</i>
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="material-icons">timeline</i>
+                                </div>
+                                <h4 class="info-title">Reportes</h4>
+                                <p>Genere reportes que lo ayudarán a la toma de decisiones.</p>
+
+                                <a id="reporte" class="btn btn-round btn-softPurple" @*onclick="location.href='@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = new DateTime(2017, 2, 2), fechaFin = new DateTime(2017, 11, 1) })'"*@>Ir al Reporte de consolidado</a>
                             </div>
-                            <h4 class="info-title">
-                                <a>Stock de Insumos</a>
-                            </h4>
-                            <p>Listado de Insumos Médicos y su Stock disponible en este momento.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Ir a la tabla de Stock</div>
+
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 animated zoomIn">
-                <div class="card card-project">
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
 
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-warning">
-                                <i class="material-icons">supervisor_account</i>
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-success">
+                                    <i class="material-icons">send</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Administrar Pedidos</a>
+                                </h4>
+                                <p>Agregue, Modifique y Elimine Pedidos de Insumos.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Listado", "Pedidos")'">Ir a Pedidos</div>
                             </div>
-                            <h4 class="info-title">
-                                <a>Administrar Usuarios</a>
-                            </h4>
-                            <p>Agregue, Consulte, Modifique y Elimine Usuarios del Sistema.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("Index", "Account")'">Ir a Gestión de Usuarios</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 animated zoomIn">
-                <div class="card card-project">
+            <div class="col-md-6">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right"></i>
+                        <span class="tituloPanel">Usuarios</span>
+                    </div>
+                </div>
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
 
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-success">
-                                <i class="material-icons">send</i>
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-warning">
+                                    <i class="material-icons">supervisor_account</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Administrar Usuarios</a>
+                                </h4>
+                                <p>Agregue, Consulte, Modifique y Elimine Usuarios del Sistema.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Account")'">Ir a Usuarios</div>
                             </div>
-                            <h4 class="info-title">
-                                <a>Administrar Pedidos</a>
-                            </h4>
-                            <p>Agregue, Modifique y Elimine Pedidos.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("Listado", "Pedidos")'">Ir a Pedidos</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-success">
+                                    <i class="material-icons">fingerprint</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Administrar Roles</a>
+                                </h4>
+                                <p>Agregue, Modifique y Elimine Roles de usuarios del Sistema.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Roles")'">Ir a Roles</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 animated zoomIn">
-                <div class="card card-project">
+            <div class="col-md-6">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right"></i>
+                        <span class="tituloPanel">Hospitales y Ubicacion</span>
+                    </div>
+                </div>
 
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-danger">
-                                <i class="material-icons">local_hospital</i>
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="material-icons">local_hospital</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Administrar Hospitales</a>
+                                </h4>
+                                <p>Agregue, Modifique y Elimine Hospitales de la Provincia.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Hospitales")'">Ir a Hospitales</div>
                             </div>
-                            <h4 class="info-title">
-                                <a>Administrar Hospitales</a>
-                            </h4>
-                            <p>Agregue, Modifique y Elimine Hospitales.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("Index", "Hospitales")'">Ir a Hospitales</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-warning">
+                                    <i class="material-icons">location_on</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Administrar Localidades</a>
+                                </h4>
+                                <p>Agregue, Modifique y Elimine Localidades.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Localidades")'">Ir a Localidades</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 animated zoomIn">
-                <div class="card card-project">
+            <div class="col-md-6">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right"></i>
+                        <span class="tituloPanel">Insumos</span>
+                    </div>
+                </div>
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
 
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-info">
-                                <i class="material-icons">colorize</i>
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-info">
+                                    <i class="material-icons">colorize</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Administrar Insumos</a>
+                                </h4>
+                                <p>Agregue, Modifique y Elimine Insumos Médicos.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Insumos")'">Ir a Insumos</div>
                             </div>
-                            <h4 class="info-title">
-                                <a>Administrar Insumos</a>
-                            </h4>
-                            <p>Agregue, Modifique y Elimine Insumos.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("Index", "Insumos")'">Ir a Insumos</div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-3 animated zoomIn">
-                <div class="card card-project">
 
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-warning">
-                                <i class="material-icons">location_on</i>
+
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="material-icons">bubble_chart</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Administrar Tipos de Insumo</a>
+                                </h4>
+                                <p>Agregue, Modifique y Elimine Tipos de Insumo</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "TiposInsumo")'">Ir a Tipos de Insumo</div>
                             </div>
-                            <h4 class="info-title">
-                                <a>Administrar Localidades</a>
-                            </h4>
-                            <p>Agregue, Modifique y Elimine Localidades.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("Index", "Localidades")'">Ir a Localidades</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 animated zoomIn">
-                <div class="card card-project">
-
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-success">
-                                <i class="material-icons">fingerprint</i>
-                            </div>
-                            <h4 class="info-title">
-                                <a>Administrar Roles</a>
-                            </h4>
-                            <p>Agregue, Modifique y Elimine Roles.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("Index", "Roles")'">Ir a Roles</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 animated zoomIn">
-                <div class="card card-project">
-
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-danger">
-                                <i class="material-icons">bubble_chart</i>
-                            </div>
-                            <h4 class="info-title">
-                                <a>Administrar Tipos de Insumo</a>
-                            </h4>
-                            <p>Agregue, Modifique y Elimine Tipos Insumo</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("Index", "TiposInsumo")'">Ir a Tipos de Insumo</div>
                         </div>
                     </div>
                 </div>
