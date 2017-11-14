@@ -231,26 +231,32 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                        <div class="form-card__title  violet-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">storage</i>
+                                <strong>Listado de Insumos</strong>
+                            </div>
+                        </div>
                         <div class="form-card__content group">
                             <div class="form-group">
-                                <h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>
+                                @*<h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>*@
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <table class=" table table-hover table-condensed">
+                                        <table id="insumos" class=" table table-hover table-condensed">
                                             <thead>
-                                                <tr>
-                                                    <th style="width:17%">Nombre</th>
-                                                    <th style="width:14%">Tipo </th>
-                                                    <th style="width:17%">Cantidad</th>
-                                                    <th style="width:20%">Precio Unitario</th>
-                                                    <th style="width:16%">Sub Total</th>
-                                                    <th style="width:16%">Acciones</th>
+                                                <tr class="text-center">
+                                                    <th class="text-center">Nombre</th>
+                                                    <th class="text-center" >Tipo </th>
+                                                    <th class="text-center">Cantidad</th>
+                                                    <th class="text-center">Precio Unitario</th>
+                                                    <th class="text-center">Sub Total</th>
+                                                    <th class="text-center">Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody name="detallesPedido" id="detallesPedido">
-                                                <tr class="empty well text-center">
+                                                @*<tr class="empty well text-center">
                                                     <td colspan="6">Aun no se han agregado insumos</td>
-                                                </tr>
+                                                </tr>*@
                                             </tbody>
                                         </table>
                                     </div>
@@ -298,18 +304,20 @@
 @section Scripts {
 
     <script type="text/javascript">
+        var table;
+        $(document).on('click', '#enviar', function () {
+            document.getElementById("q").removeAttribute('required');
+            document.getElementById("cantidad").removeAttribute('required');
+        });
         $(document).ready(function () {
     //Este método borra los campos requeridos de insumo y cantidad para
     //que se pueda submitear el form sin que los pida, ya que no son necesarios.
-    $(document).on('click', '#enviar', function () {
-        document.getElementById("q").removeAttribute('required');
-        document.getElementById("cantidad").removeAttribute('required');
-            });
+   
     //Este metodo Habilita el boton si insumo esta vacio para que pueda hacer las validaciones(Facu)
-
+         table = $("#insumos").DataTable();
 
     var total = 0;
-    var indice = $('#detallesPedido > tr').not('.empty').length;
+    var indice = table.length;
     $('#enviar').hide();
         var data = '';
 
@@ -368,7 +376,10 @@
         console.log($aRestar);
         total -= $aRestar;
         console.log($(this).parents('tr'));
+        
         $(this).parents('tr').remove();
+        table.row(this).delete();
+        
         indice--;
 
         var totalAMostrar = new Intl.NumberFormat('de-DE').format(total);
@@ -388,41 +399,43 @@
         var inpObj = document.getElementById("cantidad");
         if ($('#cantidad').val() < 999999) {
             if (data != '' && $('#cantidad').val() != "") {
+                $('#enviar').show();
                 if ($('#detallesPedido .empty').is(':visible')) {
                     $('#detallesPedido .empty').hide();
-                    $('#enviar').show();
+                    
                 }
                 //console.log(data);
                 var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').val(data.id);
                 var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').val(data.id);
                 var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
-                var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre);
+                var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre).addClass('text-center');
 
                 var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
-                var $tdTipo = $('<td>').html(data.tipo).append($tipo);
+                var $tdTipo = $('<td>').html(data.tipo).append($tipo).addClass('text-center');
 
                 var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
 
                 var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
-                var $tdPrecioUnitario = $('<td>').html("$" +$precioAMostrar).append($precioUnitario);
+                var $tdPrecioUnitario = $('<td>').addClass('text-center').html("$" +$precioAMostrar).append($precioUnitario);
 
                 var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());
-                var $tdCantidad = $('<td>').html($('#cantidad').val()).append($cantidad);
+                var $tdCantidad = $('<td>').addClass('text-center').html($('#cantidad').val()).append($cantidad);
 
                 var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
                 var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
 
                 var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalAMostrar);
-                var $tdSubtotal = $('<td>').html('$' + $subtotalAMostrar).append($cantidad);
+                var $tdSubtotal = $('<td>').addClass('text-center').html('$' + $subtotalAMostrar).append($cantidad);
 
                 var $boton = $('<button>').attr('type', 'button').attr('id', 'btn-eliminar-detallesPedido').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs ').append($('<i>').addClass('fa fa-times'));
-                var $tdAccion = $('<td>').addClass('td-actions').append($boton);
+                var $tdAccion = $('<td>').addClass('td-actions').append($boton).addClass('text-center');
 
                 var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
-                $('#detallesPedido').append($tr);
+                ////$('#detallesPedido').append($tr);
                 indice++;
                 total += $subtotalCalculado;
-
+                table.row.add($tr);
+                table.draw();
 
                 //Previene que se submitee el Form con este botón. Solo valide los campos vacios.
                 event.preventDefault();
@@ -447,8 +460,13 @@
                 }
                 //Enfocar el campo de texto insumo para que siga agregando
                 $('#insu').focus();
+
+                
+               
+                                
             }
         }
+        
     });
 
 
@@ -469,6 +487,7 @@
                     $('#presupuesto').html("$" + $presupuestoAMostrar);
                 }
             });
+            
         });
 
         @*$(function () {

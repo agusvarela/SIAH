@@ -384,9 +384,15 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                    <div class="form-card__title  violet-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">storage</i>
+                            <strong>Listado de Insumos</strong>
+                        </div>
+                    </div>
                     <div class="form-card__content group">
                         <div class="form-group">
-                            <h3 class="col-md-7">Listado de Insumos</h3>
+                            @*<h3 class="col-md-7">Listado de Insumos</h3>*@
                             <div class="row">
                                 <div class="col-md-12">
                                     <table id="detalles" class=" table table-hover table-condensed">
@@ -477,7 +483,7 @@
             });
         })
         $(document).ready(function () {
-
+            var table = $("#detalles").DataTable();
             var idPedido = $('#idPedido').val();
             console.log(idPedido);
             var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
@@ -509,7 +515,9 @@
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotalAutorizado);
                     total += $subtotalCalculado;
                     totalAutorizado += $subtotalAutorizado;
-                    $('#detalles').append($tr);
+                    //$('#detalles').append($tr);
+                    table.row.add($tr);
+                    table.draw();
                 }
                 var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
                 var $totalAutorizadoAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(totalAutorizado).toFixed(2));
@@ -524,7 +532,7 @@
                 } else {
                     $('#autoSpan').attr("class", "text-danger").text("El costo autorizado supera el presupuesto");
                 }
-
+                
             });
         });
 

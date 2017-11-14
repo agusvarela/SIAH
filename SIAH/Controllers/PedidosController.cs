@@ -327,7 +327,7 @@ namespace SIAH.Controllers
             }
             ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", pedido.hospitalId);
-            return View(pedido);
+            return RedirectToAction("Listado", new { param = "Se rompio todo" });
         }
 
         [AuthorizeUserAccessLevel(UserRole = "RespReporte")]

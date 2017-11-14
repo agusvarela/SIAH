@@ -4091,3 +4091,6 @@ span.tituloPanel {
 .text-grey{
     color:gray;
 }
+thead.listado {
+    background-color: white;
+}

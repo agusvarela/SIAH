@@ -268,6 +268,7 @@
     <Content Include="Content\css\animate.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\demo.css" />
+    <Content Include="Content\css\jquery.TablaDatos.min.css" />
     <Content Include="Content\css\SIAHStyle.css" />
     <Content Include="Content\css\SiahStyleNew.css" />
     <Content Include="Content\img\back.jpg" />
@@ -277,6 +278,7 @@
     <Content Include="Content\js\bootstrap-datepicker.js" />
     <Content Include="Content\js\bootstrap-notify.min.js" />
     <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\jquery.TablaDatos.min.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\material-kit.js" />
     <Content Include="Content\js\material.min.js" />

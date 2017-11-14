@@ -66,7 +66,7 @@
 
         <div class="form-horizontal">
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-sm-9">
                     <div class="form-card form-card--purple form-card--tight animated zoomIn">
                         <div class="form-card__title info-header">
                             <div class="alert-icon">
@@ -77,8 +77,8 @@
                         <div class="form-card__content group">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
+                                    @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
+                                    <div class="col-sm-12">
                                         @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
                                         @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
                                     </div>
@@ -86,8 +86,8 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
+                                    @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
+                                    <div class="col-sm-12">
                                         @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.hospital.nombre, "", new { @class = "text-danger" })
                                     </div>
@@ -95,8 +95,8 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div id="container" class="col-md-12">
+                                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
+                                    <div id="container" class="col-sm-12">
                                         @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
                                         <div> <span id="presuSpan" name="presuSpan" class="text-danger"></span></div>
                                         <div><span id="autoSpan" name="autosSpan" class="text-success"></span></div>
@@ -108,8 +108,8 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
+                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
+                                    <div class="col-sm-12">
                                         @Html.TextBoxFor(model => model.fechaGeneracion, Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
                                     </div>
@@ -136,7 +136,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-sm-3">
                     <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                         <div class="form-card__title alert-header">
                             <div class="alert-icon">
@@ -166,21 +166,27 @@
         <hr />
         @*Detalle del pedido*@
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                    <div class="form-card__title  violet-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">storage</i>
+                            <strong>Listado de Insumos</strong>
+                        </div>
+                    </div>
                     <div class="form-card__content group">
                         <div class="form-group">
-                            <h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>
+                            @*<h3 class="col-sm-7"><strong>Listado de Insumos</strong></h3>*@
                             <div class="row">
-                                <div class="col-md-12">
-                                    <table id="detalles" class=" table table-hover table-condensed">
+                                <div class="col-sm-12">
+                                    <table id="detalles" class=" table table-hover">
                                         <thead>
                                             <tr>
                                                 <th style="width:30%; font-weight:bold ">Nombre</th>
                                                 <th style="width:16%; font-weight:bold">Tipo </th>
                                                 <th style="width:17%; font-weight:bold" class="text-center">Cantidad Solicitada</th>
                                                 <th style="width:17%; font-weight:bold" class="text-center">Cantidad Autorizada</th>
-                                                <th style="width:13%; font-weight:bold">Stock</th>
+                                                <th style="width:13%; font-weight:bold" class="text-center">Stock</th>
                                                 <th style="width:15%; font-weight:bold" class="text-center">Precio Unitario</th>                      
                                                 <th style="width:15%; font-weight:bold" text-align="center">Subtotal</th>
                                             </tr>
@@ -188,7 +194,7 @@
 
                                         @{ var subtotal = "";}
                                         <tbody name="detallesPedido" id="detallesPedido">
-                                            @foreach (var item in detallesPedido)
+                                            @*@foreach (var item in detallesPedido)
                                             {
                                                 <tr>
                                                     <td>
@@ -219,11 +225,11 @@
                                                         @subtotal;
                                                     </td>
                                                 </tr>
-                                            }
+                                            }*@
 
                                     </table>
                                     @*<div class="form-group">*@
-                                    <div class="pull-rigth col-md-2" id="cuadritos1"  style="padding-right:10px">
+                                    <div class="pull-rigth col-sm-2" id="cuadritos1"  style="padding-right:10px">
                                         <div class="panel panel-DEFAULT text-center">
                                             @*<div class="panel-heading">INSUMOS</div>*@
                                             <div class="panel-body">
@@ -234,7 +240,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="pull-left col-md-2" id="cuadritos1" style="padding-right:10px">
+                                    <div class="pull-left col-sm-2" id="cuadritos1" style="padding-right:10px">
                                         <div class="panel panel-DEFAULT text-center">
                                             @*<div class="panel-heading">INSUMOS</div>*@
                                             <div class="panel-body">
@@ -251,7 +257,7 @@
 
                                 </div>
                             </div>
-                            <div class=" pull-right col-md-2">
+                            <div class=" pull-right col-sm-2">
                                 <input type="button" value="Autorizar" id="Autorizacion" class="btn btn-round btn-success" data-toggle="modal" data-target="#myModal" />
                             </div>
                             <div class=" pull-left col-md-2">
@@ -278,8 +284,8 @@
 
 @section Scripts {
     <script type="text/javascript">
-
         $(document).ready(function () {
+            
             var idHospital = $('#hospitalId').val();
             //console.log(idHospital);
             var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
@@ -294,6 +300,7 @@
             });
         })
         $(document).ready(function () {
+           
             var indice = $('#detallesPedido > tr').not('.empty').length;
             var idPedido = $('#idPedido').val();
             console.log(idPedido);
@@ -346,10 +353,12 @@
 
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdStock, $tdPrecioUnitario, $tdSubtotal);
                     $('#detallesPedido').append($tr);
+                   
                     total += $subtotalCalculado;
                     indice++;
 
                 }
+                var table = $("#detalles").DataTable();
                 // $('#total').val(total);
                 var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
                 $('#total').val("$" + $totalAMostrar);
@@ -357,7 +366,9 @@
                     $('#presuSpan').text("El costo del pedido supera el presupuesto");
                     console.log($('#presupuesto').val().replace("$", ""));
                 }
+                var table = $("#detalles").DataTable();
             });
+            
         })
         function updateInput(ish, indice) {
             document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]").setAttribute("value",ish);
@@ -375,6 +386,7 @@
             }
             var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(totalAutorizado).toFixed(2));
             $('#totalAut').val("$" + $totalAMostrar)
+            $("#detalles").DataTable().draw();
         });
     </script>
 }

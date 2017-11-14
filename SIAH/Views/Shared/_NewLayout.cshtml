@@ -10,7 +10,9 @@
     <title>@ViewBag.Title - SIAH</title>
     <!--     Fonts and icons     -->
     @*<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>*@
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -27,12 +29,14 @@
     @Styles.Render("~/Content/app.css")
     @RenderSection("scripts", required: false)
     <!-- CSS Files -->
-    @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/modernizr")
+        <script src="~/Content/js/jquery.TablaDatos.min.js"></script>
     @Styles.Render("~/Content/css/bootstrap.min.css")
     @Styles.Render("~/Content/css/SiahStyleNew.css")
     @Styles.Render("~/Content/css/SIAHStyle.css")
         @Styles.Render("~/Content/css/demo.css")
         <link href="~/Content/css/animate.css" rel="stylesheet" />
+    <link href="~/Content/css/jquery.TablaDatos.min.css" rel="stylesheet" />
     <script src="~/Content/js/material.min.js"></script>
     <script src="~/Content/js/material-kit.js"></script>
     <script src="~/Content/js/bootstrap-notify.min.js"></script>

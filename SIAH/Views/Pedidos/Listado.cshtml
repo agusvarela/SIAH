@@ -57,7 +57,7 @@
                                     <li class="text-info">
                                         <a class="list-group-item-danger soft-danger">
                                             <i class="material-icons " style="padding:0px">clear</i>
-                                        
+
                                             Cancelado
                                         </a>
                                     </li>
@@ -66,7 +66,7 @@
                                     <li class="text-info">
                                         <a class="list-group-item-success soft-success" style="vertical-align:central">
                                             <i class="material-icons " style="padding:0px">check_circle</i>
-                                         
+
                                             Recibido
                                         </a>
                                     </li>
@@ -75,7 +75,7 @@
                                     <li class="text-info">
                                         <a class="list-group-item-info soft-info">
                                             <i class="material-icons " style="padding:0px">local_shipping</i>
-                                         
+
                                             En Proceso de Envío
                                         </a>
                                     </li>
@@ -84,7 +84,7 @@
                                     <li class="text-info">
                                         <a class="list-group-item-warning soft-warning">
                                             <i class="material-icons " style="padding:0px">spellcheck</i>
-                                     
+
                                             Autorizado
                                         </a>
                                     </li>
@@ -94,198 +94,206 @@
 
                                         <a class="list-group-item">
                                             <i class="material-icons " style="padding:0px">send</i>
-                                          
-                                            
+
+
                                             Generado
                                         </a>
                                     </li>
                                 </ul>
-                             
-                            
+
+
                             </div>
-                            
-                            <div class="form-group  animated zoomIn">
-                             
+
+                            <div class="animated zoomIn">
+
                                 <div class="col-md-12">
                                     <hr />
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">
-                                                    <strong> @Html.Name("Nº Pedido")</strong>
-                                                </th>
-                                                <th class="text-center">
-                                                    <strong> @Html.ActionLink("Fecha de Generación", "OrdenFecha", new { sortOrder = ViewBag.FechaGenSortParm = "fechaGen" })</strong>
-                                                </th>
-                                                <th class="text-center">
-                                                    <strong> @Html.Name("Hospital")</strong>
-                                                </th>
-                                                <th class="text-center">
-                                                    <strong> @Html.Name("Urgente")</strong>
-                                                </th>
-                                                <th class="text-center">
-                                                    <strong>  @Html.Name("Estado")</strong>
-                                                </th>
-                                                <th class="text-center">
-                                                    <strong>  @Html.Name("Acciones")</strong>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        @foreach (var item in Model)
-                                        {
-                                            switch (item.estadoId)
+                                    <div id="table-container">
+                                        <table id="maintable" class="table table-condensed">
+                                            <thead class="listado">
+                                                <tr>
+                                                    <th class="text-center">
+                                                        <strong> @Html.Name("Nº Pedido")</strong>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <strong> @Html.Name("Fecha Generación")</strong>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <strong> @Html.Name("Hospital")</strong>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <strong> @Html.Name("Urgente")</strong>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <strong>  @Html.Name("Estado")</strong>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <strong>  @Html.Name("Acciones")</strong>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            @foreach (var item in Model)
                                             {
-                                                case 1:
-                                                    <tr class="">
+                                                switch (item.estadoId)
+                                                {
+                                                    case 1:
+                                                        <tr class="">
 
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.id)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @if (item.esUrgente == true)
-                                                            {
-                                                                <i class="material-icons icon-danger">error</i>
-                                                            }
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <i class="material-icons">send</i>
-                                                        </td>
-                                                        <td class="text-center">
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">send</i>
+                                                            </td>
+                                                            <td class="text-center">
 
-                                                            @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                                                            @Html.ActionLink("Autorizar", "Autorizacion", new { id = item.id })
+                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                @Html.ActionLink("Autorizar", "Autorizacion", new { id = item.id })
 
-                                                        </td>
+                                                            </td>
 
 
-                                                    </tr>
-                                                    break;
-                                                case 2:
-                                                    <tr class="list-group-item-warning">
+                                                        </tr>
+                                                        break;
+                                                    case 2:
+                                                        <tr class="list-group-item-warning">
 
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.id)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @if (item.esUrgente == true)
-                                                            {
-                                                                <i class="material-icons icon-danger">error</i>
-                                                            }
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <i class="icon-warning material-icons">spellcheck</i>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                                                            <a href="#" class="escondido">Autorizar</a>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="icon-warning material-icons">spellcheck</i>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                <a href="#" class="escondido">Autorizar</a>
 
-                                                        </td>
-                                                    </tr>
-                                                    break;
-                                                case 3:
-                                                    <tr class="list-group-item-info">
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 3:
+                                                        <tr class="list-group-item-info">
 
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.id)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @if (item.esUrgente == true)
-                                                            {
-                                                                <i class="material-icons icon-danger">error</i>
-                                                            }
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <i class="material-icons">local_shipping</i>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                                                            <a href="#" class="escondido">Autorizar</a>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">local_shipping</i>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                <a href="#" class="escondido">Autorizar</a>
 
-                                                        </td>
-                                                    </tr>
-                                                    break;
-                                                case 4:
-                                                    <tr class="list-group-item-danger">
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 4:
+                                                        <tr class="list-group-item-danger">
 
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.id)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @if (item.esUrgente == true)
-                                                            {
-                                                                <i class="material-icons icon-danger">error</i>
-                                                            }
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <i class="material-icons">clear</i>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                                                            <a href="#" class="escondido">Autorizar</a>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">clear</i>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                <a href="#" class="escondido">Autorizar</a>
 
-                                                        </td>
-                                                    </tr>
-                                                    break;
-                                                case 5:
-                                                    <tr class="list-group-item-success">
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 5:
+                                                        <tr class="list-group-item-success">
 
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.id)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @if (item.esUrgente == true)
-                                                            {
-                                                                <i class="material-icons icon-danger">error</i>
-                                                            }
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <i class="material-icons">check_circle</i>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
-                                                            <a href="#" class="escondido">Autorizar</a>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">check_circle</i>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                <a href="#" class="escondido">Autorizar</a>
 
-                                                        </td>
-                                                    </tr>
-                                                    break;
+                                                            </td>
+                                                        </tr>
+                                                        break;
 
+                                                }
                                             }
-                                        }
 
-                                    </table>
+                                        </table>
+                                        <div id="bottom_anchor"></div>
+
+                                    </div>
                                 </div>
+                                <br><br>
                             </div>
-                            <a id="enviar" type="button" class="btn btn-success btn-round btn_export pull-right" href="@Url.Action("GenerateSendOcasa", "Pedidos")">Enviar a OCASA</a>
+                            <br />
+                            <div class="col-md-12" style="padding-top:20px">
+                                <a id="enviar" type="button" class="btn btn-success  btn-round btn_export pull-right" href="@Url.Action("GenerateSendOcasa", "Pedidos")">Enviar a OCASA</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -295,7 +303,9 @@
 
 </div>
 @section Scripts {
+
     <script type="text/javascript">
+
         $(document).on('click', '#enviar', function (event) {
             setTimeout(function () { location.reload() }, 2000);
         });
@@ -331,16 +341,16 @@
 
             }
             var myNewURL = refineURL();
-            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced. 
+            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
             window.history.pushState("object or string", "Title", "/" + myNewURL);
-            //Helper function to extract the URL between the last '/' and before '?' 
-            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php' 
-            //pseudo code: edit to match your URL settings  
+            //Helper function to extract the URL between the last '/' and before '?'
+            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+            //pseudo code: edit to match your URL settings
             function refineURL() {
                 //get full URL
                 var currURL = window.location.href; //get current address
 
-                //Get the URL between what's after '/' and befor '?' 
+                //Get the URL between what's after '/' and befor '?'
                 //1- get URL after'/'
                 var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
                 //2- get the part before '?'
@@ -348,10 +358,38 @@
 
                 return "Pedidos/" + beforeQueryString;
             }
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
 
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]]
+            });;
         });
 
 
 
-    </script>
+</script>
 }
