@@ -24,68 +24,109 @@
 
                     <div id="contenedor" class="col-md-12">
 
+                        <div id="table-container">
+                            <table id="maintable" class="table table-condensed">
+                                <thead>
+                                    <tr class="list-group-item-info" style="border-bottom: solid">
 
-                        <table id="stock" class=" table sortable">
-                            <thead>
-                                <tr class="list-group-item-info" style="border-bottom: solid">
+                                        <th class="text-center">
+                                            @Html.Name("Id Insumo")
+                                        </th>
+                                        <th class="text-center">
+                                            @Html.Name("Nombre")
+                                        </th>
 
-                                    <th class="text-center">
-                                        @Html.Name("Id Insumo")
-                                    </th>
-                                    <th class="text-center">
-                                        @Html.Name("Nombre")
-                                    </th>
+                                        <th class="text-center">
+                                            @Html.Name("Stock")
+                                        </th>
+                                        <th class="text-center">
+                                            @Html.Name("Tipo")
+                                        </th>
 
-                                    <th class="text-center">
-                                        @Html.Name("Stock")
-                                    </th>
-                                    <th class="text-center">
-                                        @Html.Name("Tipo")
-                                    </th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{int i = 0;
-                                    foreach (var item in Model)
-                                    {
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int i = 0;
+                                        foreach (var item in Model)
+                                        {
 
 
 
-                                        <tr class="text-center  ">
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.id)
-                                            </td>
-                                            <td>
-                                               <strong >@Html.DisplayFor(modelItem => item.nombre)</strong> 
-                                            </td>
-                                          
+                                            <tr class="text-center  ">
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.id)
+                                                </td>
+                                                <td>
+                                                    <strong>@Html.DisplayFor(modelItem => item.nombre)</strong>
+                                                </td>
 
-                                            <td>
-                                               <strong>@Html.DisplayFor(modelItem => item.stock)</strong>
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
-                                            </td>
-                                        </tr>
+
+                                                <td>
+                                                    <strong>@Html.DisplayFor(modelItem => item.stock)</strong>
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
+                                                </td>
+                                            </tr>
                                         }
                                     }
 
 
                                     @*<tr class="empty well text-center">
-                                            <td colspan="6">Aun no se han agregado insumos</td>
-                                        </tr>*@
+                        <td colspan="6">Aun no se han agregado insumos</td>
+                    </tr>*@
                                 </tbody>
                             </table>
-
+                            <div id="bottom_anchor"></div>
                         </div>
 
 
-                    </div>
                 </div>
-
             </div>
 
         </div>
+
     </div>
+</div>
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]]
+            });;
+        });
+
+
+
+    </script>
+}
 
