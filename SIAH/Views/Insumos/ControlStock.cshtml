@@ -82,9 +82,9 @@
                                         String tipo = item.GetType().GetProperty("tipo").GetValue(item, null);
                                         String nombre = item.GetType().GetProperty("nombre").GetValue(item, null);
                                         diferencia = Math.Abs(stockOcasa - stock);
-
+                                        if (diferencia == 0) { break; }
                                         if (stock != 0) { p = diferencia * 100 / stock; }
-                                        else { p = 100; }
+                                        else { p = diferencia; }
 
                                         if (p < 5)
                                         {
