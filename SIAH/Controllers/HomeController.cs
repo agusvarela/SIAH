@@ -11,10 +11,10 @@ namespace SIAH.Controllers
     {
         public ActionResult Index()
         {
-            if(Session["rol"] == null)
+            if (Session["rol"] == null)
             {
                 Session["rol"] = "Admin";
-            } 
+            }
             return View();
         }
 
@@ -38,11 +38,27 @@ namespace SIAH.Controllers
 
             return View();
         }
-        public ActionResult DirectorArea()
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
+        public ActionResult DirectorArea(string param)
         {
-            ViewBag.Message = "Your index Page.";
+            if (param != null)
+            {
+                if (param.CompareTo("Success") == 0)
+                {
+                    ViewBag.success = true;
+                }
+                else
+                {
+                    ViewBag.success = false;
+                    ViewBag.problem = param;
+                };
 
-            return View();
+                return View();
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }

@@ -49,27 +49,38 @@ namespace SIAH.Controllers
         public ActionResult ControlStock()
         {
             var insumos = db.Insumos.Include(i => i.tiposInsumo).Join(db.InsumoOcasa, d => d.id, s => s.id, (d, s) => new { d, s }).
-                Select(x=> new { id = x.d.id, nombre = x.d.nombre, tipo = x.d.tiposInsumo.nombre, stock = x.d.stock, stockOcasa = x.s.stockDisponible  }).ToList();
+                Select(x => new { id = x.d.id, nombre = x.d.nombre, tipo = x.d.tiposInsumo.nombre, stock = x.d.stock, stockOcasa = x.s.stockDisponible }).ToList();
             ViewBag.insumos = insumos;
             return View();
         }
         public ActionResult ActualizarStock()
         {
-            var insumosOcasa = db.InsumoOcasa.Select(x=> new { id=x.id,stockOcasa=x.stockDisponible}).ToList();
-
-            foreach(var item in insumosOcasa)
+            try
             {
-                var insumoActual = db.Insumos.Find(item.id);
-                if (insumoActual != null)
+                var insumosOcasa = db.InsumoOcasa.Select(x => new { id = x.id, stockOcasa = x.stockDisponible }).ToList();
+
+                foreach (var item in insumosOcasa)
                 {
-                    insumoActual.stock = item.stockOcasa;
-                    db.Entry(insumoActual).State = EntityState.Modified;
+                    var insumoActual = db.Insumos.Find(item.id);
+                    if (insumoActual != null)
+                    {
+                        insumoActual.stock = item.stockOcasa;
+                        db.Entry(insumoActual).State = EntityState.Modified;
+                    }
+
                 }
-                
+                db.SaveChanges();
+                return RedirectToAction("DirectorArea", "Home", new { param = "Success" });
             }
-            db.SaveChanges();
-            return RedirectToAction("DirectorArea", "Home");
-         
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return RedirectToAction("DirectorArea", "Home", new
+                {
+                    param = e.Message
+                });
+            }
+
         }
         public ActionResult StockInsumos()
         {

@@ -1,6 +1,13 @@
 ﻿@{
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     ViewBag.title = "Home Director de Oficina";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
 }
 
 <div class="banner-catalog">
@@ -234,6 +241,57 @@
 
 @section Scripts{
     <script type="text/javascript">
+        $(document).ready(function () {
+            if (@ViewBag.success.ToString().ToLower() ===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'La actualizacion de stock fue realizada exitosamente.'
+                    }, {
+                            type: 'success',
+                            offset: {
+                                x: 20,
+                                y: 90
+                            }
+                        },
+                    );
+
+                }
+                else {
+                if (@ViewBag.validacion.ToString().ToLower()===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'Hubo un error en la actualizacion: @ViewBag.problem '
+                    }, {
+                            type: 'danger',
+                            offset: {
+                                x: 20,
+                                y: 80
+                            }
+                        },
+                    );
+                }
+
+            }
+            var myNewURL = refineURL();
+            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
+            window.history.pushState("object or string", "Title", "/" + myNewURL);
+            //Helper function to extract the URL between the last '/' and before '?'
+            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+            //pseudo code: edit to match your URL settings
+            function refineURL() {
+                //get full URL
+                var currURL = window.location.href; //get current address
+
+                //Get the URL between what's after '/' and befor '?'
+                //1- get URL after'/'
+                var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
+                //2- get the part before '?'
+                var beforeQueryString = afterDomain.split("?")[0];
+
+                return "Home/" + beforeQueryString;
+            }
+        });
+
         $(document).on('click', '#reporte', function (event)
         {
             event.preventDefault();
@@ -253,9 +311,9 @@
             end = year + "-" + month + "-" + day;
 
             url = url.replace("START", start);
-            url = url.replace("END",end);
+            url = url.replace("END", end);
             url = url.replace("amp;", "");
             location.href = url;
-        });
+            });
     </script>
 }
