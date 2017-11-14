@@ -18,7 +18,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                <button id="yes" type="button" class="btn btn-info btn-simple" data-dismiss="modal">Aceptar</button>
+                <button id="yes" name="yes" type="button" class="btn btn-info btn-simple" data-dismiss="modal">Aceptar</button>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
 
                     <div id="contenedor" class="col-md-12">
 
-                        <input id="btn_export" type="button" value="Exportar Excel" class="btn btn-success btn-round btn_export" onClick="$('#stock').tableExport({type:'excel',escape:'false'});" />
+                        @*<input id="btn_export" type="button" value="Exportar Excel" class="btn btn-success btn-round btn_export" onClick="$('#stock').tableExport({type:'excel',escape:'false'});" />*@
                         <table id="stock" class=" table sortable">
                             <thead>
                                 <tr class="list-group-item-info" style="border-bottom: solid">
@@ -209,41 +209,41 @@
     <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
     <script type="text/javascript">
-    $(document).ready(function () {
-        var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("stock");
-        switching = true;
-        /*Make a loop that will continue until
-        no switching has been done:*/
-        while (switching) {
-            //start by saying: no switching is done:
-            switching = false;
-            rows = table.getElementsByTagName("TR");
-            /*Loop through all table rows (except the
-            first, which contains table headers):*/
-            for (i = 1; i < (rows.length - 1); i++) {
-                //start by saying there should be no switching:
-                shouldSwitch = false;
-                /*Get the two elements you want to compare,
-                one from current row and one from the next:*/
-                x = rows[i].getElementsByTagName("TD")[6];
-                y = rows[i + 1].getElementsByTagName("TD")[6];
-                //check if the two rows should switch place:
-                if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
-                    //if so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
+        $(document).ready(function () {
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementById("stock");
+            switching = true;
+            /*Make a loop that will continue until
+            no switching has been done:*/
+            while (switching) {
+                //start by saying: no switching is done:
+                switching = false;
+                rows = table.getElementsByTagName("TR");
+                /*Loop through all table rows (except the
+                first, which contains table headers):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /*Get the two elements you want to compare,
+                    one from current row and one from the next:*/
+                    x = rows[i].getElementsByTagName("TD")[6];
+                    y = rows[i + 1].getElementsByTagName("TD")[6];
+                    //check if the two rows should switch place:
+                    if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
                 }
             }
-            if (shouldSwitch) {
-                /*If a switch has been marked, make the switch
-                and mark that a switch has been done:*/
-                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                switching = true;
-            }
-        }
-    });
-    $("#yes").click(function () {
+        });
+    $(document).on('click','#yes',function () {
        // $("#contenedor").html("<h3 class='text-center'><strong>Los valores de Stock se encuentran actualizados</strong></h3>");
        // $("#btn_pisar").hide();
         url = '@Url.Action("ActualizarStock", "Insumos")';
