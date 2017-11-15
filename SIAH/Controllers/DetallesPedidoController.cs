@@ -41,8 +41,8 @@ namespace SIAH.Controllers
             var fInicio = new DateTime(y1,m1,d1);
             var fFin = new DateTime(y2,m2,d2);
             var datos = this.GenerarReporte(fInicio, fFin);
-            ViewBag.fechaInicio = fechaInicio;
-            ViewBag.fechaFin = fechaFin;
+            ViewBag.fechaInicio = d1+"/"+m1 + "/"+y1;
+            ViewBag.fechaFin = d2 + "/" + m2 + "/" + y2;
             return View(datos);
             //return View();
         }

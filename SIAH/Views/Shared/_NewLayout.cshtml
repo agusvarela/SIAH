@@ -61,7 +61,7 @@
                         <img src="~/Content/img/logo.jpg" alt="AH Logo">
                     </div>
 
-                    @Html.ActionLink(" Autorizaciones Hospitalarias", "Index", "Home", new { area = "" }, new { @class = " logo-container brand" })
+                    @Html.Label(" Autorizaciones Hospitalarias",new { @class = " logo-container brand" })
 
                 </div>
             </div>
@@ -92,7 +92,7 @@
                         }
                         if (Session["rol"].ToString() == "DirectorArea")
                         {
-                            <li>@Html.ActionLink("Ir al Dashboard", "DirectorOficina", "Home")</li>
+                            <li>@Html.ActionLink("Ir al Dashboard", "DirectorArea", "Home")</li>
                         }
                         if (Session["rol"].ToString() == "RespFarmacia")
                         {

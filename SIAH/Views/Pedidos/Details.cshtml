@@ -453,7 +453,14 @@
     @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
 }
 <div class="container">
-    @Html.ActionLink("Volver al Listado", "Listado")
+    @if (Session["rol"].ToString() == "RespAutorizacion")
+    {
+          @Html.ActionLink("Volver al Listado", "Listado", "Pedidos")
+    }
+    @if (Session["rol"].ToString() == "RespFarmacia")
+    {
+             @Html.ActionLink("Volver al Listado", "RespFarmacia", "Pedidos")
+    }
 </div>
 @*<div class="container">
     @if (Session["rol"].ToString() == "RespAutorizacion")
@@ -527,11 +534,15 @@
                     $('#presuSpan').text("El costo del pedido supera el presupuesto");
                     //console.log($('#presupuesto').val().replace("$", ""));
                 }
-                if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) > totalAutorizado) {
-                    $('#autoSpan').text("El costo autorizado está dentro del presupuesto");
-                } else {
-                    $('#autoSpan').attr("class", "text-danger").text("El costo autorizado supera el presupuesto");
+                if (totalAutorizado > 0) {
+                    if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) > totalAutorizado) {
+
+                        $('#autoSpan').text("El costo autorizado está dentro del presupuesto");
+                    } else {
+                        $('#autoSpan').attr("class", "text-danger").text("El costo autorizado supera el presupuesto");
+                    }
                 }
+                
                 
             });
         });

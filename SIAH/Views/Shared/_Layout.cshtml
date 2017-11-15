@@ -55,8 +55,7 @@
                         <img src="~/Content/img/logo.jpg" alt="AH Logo">
                     </div>
 
-                    @Html.ActionLink(" Autorizaciones Hospitalarias", "Index", "Home", new { area = "" }, new { @class = " logo-container brand" })
-
+                    @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
                 </div>
             </div>
             <div class="collapse navbar-collapse" id="navigation-index">
@@ -78,10 +77,29 @@
                         <li><a href="/TiposInsumo/Index">Tipo Insumo</a></li>
                     </ul>
                 </li>*@
-                @if (Session["userid"] != null)
-                {
+              @try
+              {
+                  if (Session["rol"].ToString() == "RespAutorizacion")
+                  {
+                    <li>@Html.ActionLink("Ir al Dashboard", "RespAutorizacion", "Home")</li>
+                  }
+                  if (Session["rol"].ToString() == "DirectorArea")
+                  {
+                    <li>@Html.ActionLink("Ir al Dashboard", "DirectorArea", "Home")</li>
+                  }
+                  if (Session["rol"].ToString() == "RespFarmacia")
+                  {
+                    <li>@Html.ActionLink("Ir al Dashboard", "RespFarmacia", "Pedidos")</li>
+                  }
+                  if (Session["userid"] != null)
+                  {
                     <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
-                }
+                  }
+              }
+              catch (Exception e)
+              {
+                <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account")</li>
+              }
             </ul>
         </div>
     </div>

@@ -29,7 +29,7 @@ namespace SIAH.Controllers
 
         // GET: Pedidos/Details/5
  
-        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia", UserRole2 = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia", UserRole2 = "RespAutorizacion", UserRole3 = "DirectorArea")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -107,7 +107,7 @@ namespace SIAH.Controllers
         //    return View(pedidos.ToList());
         //}
       
-        [AuthorizeUserAccessLevel (UserRole = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel (UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         public ActionResult Listado(string param)
         {
             if (param != null)
@@ -134,7 +134,7 @@ namespace SIAH.Controllers
 
         }
 
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion",UserRole2 = "DirectorArea")]
         [ActionName("OrdenFecha")]
         public ActionResult Listado(string sortOrder, Boolean? b)
         {
@@ -277,7 +277,7 @@ namespace SIAH.Controllers
             return RedirectToAction("Index");
         }
 
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         public ActionResult Autorizacion(int? id)
         {
             if (id == null)
@@ -295,7 +295,7 @@ namespace SIAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         public ActionResult Autorizacion([Bind(Include = "id,periodo,fechaGeneracion, fechaEntrega, esUrgente,estaAutorizado,hospitalId,estadoID,detallesPedido")] Pedido pedido)
         {
             if (ModelState.IsValid)

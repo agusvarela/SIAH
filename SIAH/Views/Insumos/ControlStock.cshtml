@@ -83,7 +83,7 @@
                                             String nombre = item.GetType().GetProperty("nombre").GetValue(item, null);
                                             diferencia = Math.Abs(stockOcasa - stock);
                                             if (diferencia == 0) { break; }
-                                            if (stock != 0) { p = diferencia * 100 / stock; }
+                                            if (stock != 0 && stockOcasa!=0) { p = diferencia * 100 / stock; }
                                             else { p = diferencia; }
 
                                             if (p < 5)
@@ -193,7 +193,7 @@
                             </table>
                             <div id="bottom_anchor"></div>
                         </div>
-                        <input id="btn_export" type="button" value="Exportar Excel" class="btn btn-info btn-round btn_export" onClick="$('#stock').tableExport({type:'excel',escape:'false'});" />
+                        @*<input id="btn_export" type="button" value="Exportar Excel" class="btn btn-info btn-round btn_export" onClick="$('#contenedor').tableExport({type:'excel',escape:'false'});" />*@
 
                         <div class="pull-right">
                             <input id="btn_pisar" type="button" value="Actualizar Valores" class="btn btn-success btn-round" data-toggle="modal" data-target="#myModal" />
@@ -280,8 +280,9 @@
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
             $("#maintable").DataTable({
-                "order": [[0, "desc"]]
+                "order": [[6, "desc"]]
             });;
         });
+
     </script>
 }

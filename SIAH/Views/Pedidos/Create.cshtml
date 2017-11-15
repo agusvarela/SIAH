@@ -378,7 +378,12 @@
         console.log($(this).parents('tr'));
         
         $(this).parents('tr').remove();
-        table.row(this).delete();
+        
+            table
+                .row($(this).parents('tr'))
+                .remove()
+                .draw();
+      
         
         indice--;
 
