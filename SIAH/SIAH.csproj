@@ -182,6 +182,7 @@
     <Compile Include="Controllers\InsumosController.cs" />
     <Compile Include="Controllers\LocalidadesController.cs" />
     <Compile Include="Controllers\PedidosController.cs" />
+    <Compile Include="Controllers\RemitosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TiposInsumoController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
@@ -248,7 +249,21 @@
     <Compile Include="Migrations\201711131927363_create_table_InsumoOcasa.Designer.cs">
       <DependentUpon>201711131927363_create_table_InsumoOcasa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711161956295_alter_table_insumo_insumoOcasa_stockFisico.cs" />
+    <Compile Include="Migrations\201711161956295_alter_table_insumo_insumoOcasa_stockFisico.Designer.cs">
+      <DependentUpon>201711161956295_alter_table_insumo_insumoOcasa_stockFisico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711162039435_create_table_remito_detalle_remito.cs" />
+    <Compile Include="Migrations\201711162039435_create_table_remito_detalle_remito.Designer.cs">
+      <DependentUpon>201711162039435_create_table_remito_detalle_remito.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711182051266_create_table_compras_detalleCompras.cs" />
+    <Compile Include="Migrations\201711182051266_create_table_compras_detalleCompras.Designer.cs">
+      <DependentUpon>201711182051266_create_table_compras_detalleCompras.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Compras\Compra.cs" />
+    <Compile Include="Models\Compras\DetalleCompra.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\InsumoOcasa.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />
@@ -257,6 +272,8 @@
     <Compile Include="Models\Pedidos\DetallePedido.cs" />
     <Compile Include="Models\Pedidos\Estado.cs" />
     <Compile Include="Models\Pedidos\Pedido.cs" />
+    <Compile Include="Models\Remitos\DetalleRemito.cs" />
+    <Compile Include="Models\Remitos\Remito.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -431,6 +448,11 @@
     <Content Include="Views\Home\DirectorArea.cshtml" />
     <Content Include="Views\Insumos\StockInsumos.cshtml" />
     <Content Include="Views\Upload\UploadFile.cshtml" />
+    <Content Include="Views\Remitos\Create.cshtml" />
+    <Content Include="Views\Remitos\Delete.cshtml" />
+    <Content Include="Views\Remitos\Details.cshtml" />
+    <Content Include="Views\Remitos\Edit.cshtml" />
+    <Content Include="Views\Remitos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -496,6 +518,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711131927363_create_table_InsumoOcasa.resx">
       <DependentUpon>201711131927363_create_table_InsumoOcasa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711161956295_alter_table_insumo_insumoOcasa_stockFisico.resx">
+      <DependentUpon>201711161956295_alter_table_insumo_insumoOcasa_stockFisico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711162039435_create_table_remito_detalle_remito.resx">
+      <DependentUpon>201711162039435_create_table_remito_detalle_remito.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711182051266_create_table_compras_detalleCompras.resx">
+      <DependentUpon>201711182051266_create_table_compras_detalleCompras.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

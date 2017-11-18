@@ -20,7 +20,8 @@ namespace SIAH.Models.Insumos
         public int tipoInsumoId { get; set; }
         [Range(0, Int32.MaxValue)]
         public int stock { get; set; }
-
+        [Range(0, Int32.MaxValue)]
+        public int stockFisico { get; set; }
         public TipoInsumo tiposInsumo { get; set; }
 
         public ICollection<Pedidos.DetallePedido> DetallesPedido { get; set; }

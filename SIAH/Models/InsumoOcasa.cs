@@ -13,6 +13,6 @@ namespace SIAH.Models
 
         public String nombre { get; set; }
 
-        public int stockDisponible { get; set; }
+        public int stockFisico { get; set; }
     }
 }

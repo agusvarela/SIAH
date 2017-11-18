@@ -9,6 +9,8 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
+using SIAH.Models.Remitos;
+using SIAH.Models.Compras;
 
 namespace SIAH.Context
 {
@@ -46,6 +48,14 @@ namespace SIAH.Context
         public DbSet<Estado> Estados { get; set; }
 
         public DbSet<InsumoOcasa> InsumoOcasa { get; set; }
+
+        public DbSet<Remito> Remitos { get; set; }
+        
+        public DbSet<DetalleRemito> DetallesRemito { get; set; }
+
+        public DbSet<Compra> Compras { get; set; }
+
+        public DbSet<DetalleCompra> DetallesCompra { get; set; }
 
     }
 

@@ -1,0 +1,75 @@
+﻿@model SIAH.Models.Remitos.Remito
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Remito</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.id, "remitoId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("remitoId", null)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fechaEntregaEfectiva, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("fecha",null)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.pedidoId, "pedidoId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("pedidoId", null)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label( "PathDetalles", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("path", null)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="crear" type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
+    <script type="text/javascript">
+        $(document).on('click', '#crear', function (event)
+        {
+
+            event.preventDefault();
+            var url = '@Url.Action("CrearRemito", "Remitos", new { remitoId = "ID", fechaEntregaEfectiva = "DATE",  pedidoId = "PID",  pathDetalles = "PATH" })';
+       
+            url = url.replace("ID", $("#remitoId").val());
+            url = url.replace("DATE", $("#fecha").val());
+            url = url.replace("PID", $("#pedidoId").val());
+            url = url.replace("PATH", $("#path").val());
+            url = url.replace("amp;", "");
+            alert(url);
+            location.href = url;
+        });
+    </script>
+
+
+}
