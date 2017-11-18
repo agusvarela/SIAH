@@ -68,13 +68,7 @@ namespace SIAH.Controllers
     
         public ActionResult CrearRemito(int remitoId, String fechaEntregaEfectiva, int pedidoId, String pathDetalles)
         {
-            /*DateTime fecha = this.parseFecha(fechaEntregaEfectiva);
-            int id = remitoId;
-            Remito remito = new Remito(id, fecha, pedidoId);*/
-            // DetalleRemito detalleFantasma = new DetalleRemito(remitoId, 152446, 0);
-            //  remito.detallesRemito.Add(detalleFantasma);
-            //db.Remitos.Add(remito);
-            //  db.SaveChanges();
+            
             String procedimientoRemito = "INSERT INTO [dbo].[Remito] (id,fechaEntregaEfectiva,pedidoId) VALUES ("+remitoId+", "+fechaEntregaEfectiva+", "+pedidoId+")";
                 String procedimientoDetalles;
                 using (var sr = new StreamReader(@"C:/Tesis/SIAH/SIAH/UploadedFiles/ProcedimientoAlmacenadoDetallesRemito.sql"))
