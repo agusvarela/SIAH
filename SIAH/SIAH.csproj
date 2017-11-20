@@ -453,6 +453,7 @@
     <Content Include="Views\Remitos\Details.cshtml" />
     <Content Include="Views\Remitos\Edit.cshtml" />
     <Content Include="Views\Remitos\Index.cshtml" />
+    <Content Include="Views\DetallesPedido\ReporteComparacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

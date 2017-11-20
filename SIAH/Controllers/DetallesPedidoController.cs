@@ -24,6 +24,15 @@ namespace SIAH.Controllers
             return View(detallesPedido.ToList());
         }
 
+        //public ActionResult ReporteComparacion()
+        //{
+        //     var  detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).
+        //    GroupBy(d => d.insumo.nombre)
+        //    .Select(d => new { Insumo =  d.Key , Cantidad = d.Sum(c => c.cantidad), CantidadAutorizada = d.Sum(c=> c.cantidadAutorizada) });
+        //    IEnumerable < String > lista =  detallesPedido.ToList();
+        //    return View(detallesPedido.ToList());
+        //}
+
         // GET: DetallesPedido/ReporteConsolidado
         public ActionResult ReporteConsolidado(String fechaInicio, String fechaFin)
         {
@@ -38,10 +47,10 @@ namespace SIAH.Controllers
             var m2 = Int32.Parse(end[1]);
             var d2 = Int32.Parse(end[2]);
 
-            var fInicio = new DateTime(y1,m1,d1);
-            var fFin = new DateTime(y2,m2,d2);
+            var fInicio = new DateTime(y1, m1, d1);
+            var fFin = new DateTime(y2, m2, d2);
             var datos = this.GenerarReporte(fInicio, fFin);
-            ViewBag.fechaInicio = d1+"/"+m1 + "/"+y1;
+            ViewBag.fechaInicio = d1 + "/" + m1 + "/" + y1;
             ViewBag.fechaFin = d2 + "/" + m2 + "/" + y2;
             return View(datos);
             //return View();
@@ -65,63 +74,64 @@ namespace SIAH.Controllers
             //Declaro la cantidad de filas y de columnas
             var rows = db.Insumos.ToList().Count() + 1;
             var columns = db.Hospitales.Join(db.Pedidos, x => x.id, p => p.hospitalId, (x, p) => new { x, p }).
-                Where(k => DbFunctions.TruncateTime(k.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) && 
+                Where(k => DbFunctions.TruncateTime(k.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) &&
                 DbFunctions.TruncateTime(k.p.fechaGeneracion) <= DbFunctions.TruncateTime(fechaFin)).
-                GroupBy(x => new { hospital = x.x.nombre}, (key, g) => new { Hospital = key.hospital }).
+                GroupBy(x => new { hospital = x.x.nombre }, (key, g) => new { Hospital = key.hospital }).
                 Count() + 1;
-            
+
             //Armo el Vector
             String[][] report = new String[rows][]; //columns en segundo argumento
             for (int i = 0; i < rows; i++) { report[i] = new String[columns]; }
             report[0][0] = "Insumo";
-           /* var hospitales = db.Hospitales.Select(x => new { x.nombre }).ToList();
-            var p = 1;
-            foreach( var h in hospitales) { report[0, p] = h.nombre; p++; }*/
+            /* var hospitales = db.Hospitales.Select(x => new { x.nombre }).ToList();
+             var p = 1;
+             foreach( var h in hospitales) { report[0, p] = h.nombre; p++; }*/
 
             var insumos = db.Insumos.Select(x => new { x.nombre }).ToList();
             var q = 1;
-            foreach (var s in insumos){report[q][0] = s.nombre; q++;}
-            
+            foreach (var s in insumos) { report[q][0] = s.nombre; q++; }
+
             var j = 0;
             foreach (var r in result)
             {
-                if(j < columns)
-                { 
-                if (report[0][j] != r.Hospital)
+                if (j < columns)
                 {
-                    j++;
-                    report[0][j] = r.Hospital;
-                    for (var i = 1; i < rows; i++)
+                    if (report[0][j] != r.Hospital)
                     {
-                        if (report[i][0] == r.Insumo)
+                        j++;
+                        report[0][j] = r.Hospital;
+                        for (var i = 1; i < rows; i++)
                         {
-                            report[i][j] = r.Cantidad.ToString();
-                        }
-                            else {
+                            if (report[i][0] == r.Insumo)
+                            {
+                                report[i][j] = r.Cantidad.ToString();
+                            }
+                            else
+                            {
                                 if (report[i][j] == null) { report[i][j] = "0"; }
                             }
 
                         }
-                }
-                else
-                {
-                    for (var i = 1; i < rows; i++)
+                    }
+                    else
                     {
-                            
-                        if (report[i][0] == r.Insumo)
+                        for (var i = 1; i < rows; i++)
                         {
-                            report[i][j] = r.Cantidad.ToString();
-                        }
+
+                            if (report[i][0] == r.Insumo)
+                            {
+                                report[i][j] = r.Cantidad.ToString();
+                            }
                             else
                             {
                                 if (report[i][j] == null) { report[i][j] = "0"; }
                             }
                         }
+                    }
                 }
+
             }
-                
-            }
-            
+
             List<String[]> list = report.ToList();
             return list;
         }
@@ -237,6 +247,6 @@ namespace SIAH.Controllers
             }
             base.Dispose(disposing);
         }
-        
+
     }
 }
