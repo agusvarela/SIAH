@@ -10,6 +10,7 @@ using SIAH.Context;
 using SIAH.Models.Remitos;
 using System.IO;
 using System.Data.SqlClient;
+using SIAH.Models.Pedidos;
 
 namespace SIAH.Controllers
 {
@@ -22,6 +23,14 @@ namespace SIAH.Controllers
         {
             var remitos = db.Remitos.Include(r => r.pedido);
             return View(remitos.ToList());
+        }
+
+        public ActionResult ListadoPedidos()
+        {
+            var pedidos = db.Pedidos.Include(r => r.hospital);
+            var pedidosEstadoEntregado = pedidos.Where(x => x.estadoId == 5).ToList();
+            return View(pedidosEstadoEntregado.ToList());
+            
         }
 
         // GET: Remitos/Details/5
@@ -40,10 +49,18 @@ namespace SIAH.Controllers
         }
 
         // GET: Remitos/Create
-        public ActionResult Create(/*int pedidoId*/)
+        public ActionResult Create(int? id)
         {
-           // ViewBag.pedidoId = pedidoId;
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Remito remito = new Remito();
+            remito.id = (int) id;
+            remito.pedidoId = (int) id;
+           
+            //ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", pedido.pedidoId);
+            return View(remito);
         }
 
 

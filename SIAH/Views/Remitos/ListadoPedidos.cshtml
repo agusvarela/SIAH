@@ -1,0 +1,94 @@
+﻿@model IEnumerable<SIAH.Models.Pedidos.Pedido>
+
+@{
+    ViewBag.Title = "Listado de Pedidos";
+    //WebGrid grid = new WebGrid(Model);
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
+}
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ListadoPedidos</title>
+</head>
+<body>
+    <div>
+        <div class="col-md-12">
+            <hr />
+            <div id="table-container">
+                <table id="maintable" class="table table-condensed">
+                    <thead class="listado">
+                        <tr>
+                            <th class="text-center">
+                                <strong> @Html.Name("Nº Pedido")</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong> @Html.Name("Fecha Generación")</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong> @Html.Name("Hospital")</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong> @Html.Name("Urgente")</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>  @Html.Name("Estado")</strong>
+                            </th>
+                            <th class="text-center">
+                                <strong>  @Html.Name("Acciones")</strong>
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                       
+                                <tr class="">
+
+                                    <td class="text-center">
+                                        @Html.DisplayFor(modelItem => item.id)
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.esUrgente == true)
+                                        {
+                                            <i class="material-icons icon-danger">error</i>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <i class="material-icons">send</i>
+                                    </td>
+                                    <td class="text-center">
+
+                                        @Html.ActionLink("Cargar Remito", "Create", new { id = item.id }) |
+                                        
+                                    </td>
+
+
+                                </tr>
+                              
+                          
+                           
+                            
+                           
+
+                        }
+                    }
+
+                </table>
+            </div>
+            </div>
+
+</body>
+
