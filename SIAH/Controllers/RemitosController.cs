@@ -124,7 +124,7 @@ namespace SIAH.Controllers
         public ActionResult CrearRemito(int remitoId, String fechaEntregaEfectiva, int pedidoId, String pathDetalles)
         {
             
-            String procedimientoRemito = "INSERT INTO [dbo].[Remito] (id,fechaEntregaEfectiva,pedidoId) VALUES ("+remitoId+", "+fechaEntregaEfectiva+", "+pedidoId+")";
+            String procedimientoRemito = "INSERT INTO [dbo].[Remito] (id,fechaEntregaEfectiva,estadoId,pedidoId) VALUES ("+remitoId+", "+fechaEntregaEfectiva+", 1, "+pedidoId+")";
                 String procedimientoDetalles;
                 using (var sr = new StreamReader(@"C:/Tesis/SIAH/SIAH/UploadedFiles/ProcedimientoAlmacenadoDetallesRemito.sql"))
                 {

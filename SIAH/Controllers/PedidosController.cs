@@ -303,6 +303,11 @@ namespace SIAH.Controllers
                 //A cada detalle se le modifican los atributos
                 foreach (var detalle in pedido.detallesPedido)
                 {
+                    Insumo ins = db.Insumos.Find(detalle.insumoId);
+
+                    ins.stock -= detalle.cantidadAutorizada;
+                    
+                    db.Entry(ins).State = EntityState.Modified;
                     detalle.insumo = null;
                     db.Entry(detalle).State = EntityState.Modified;
                     db.SaveChanges();

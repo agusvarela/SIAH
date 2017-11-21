@@ -261,6 +261,10 @@
     <Compile Include="Migrations\201711182051266_create_table_compras_detalleCompras.Designer.cs">
       <DependentUpon>201711182051266_create_table_compras_detalleCompras.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711212245200_create_table_estadoRemito.cs" />
+    <Compile Include="Migrations\201711212245200_create_table_estadoRemito.Designer.cs">
+      <DependentUpon>201711212245200_create_table_estadoRemito.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
@@ -273,6 +277,7 @@
     <Compile Include="Models\Pedidos\Estado.cs" />
     <Compile Include="Models\Pedidos\Pedido.cs" />
     <Compile Include="Models\Remitos\DetalleRemito.cs" />
+    <Compile Include="Models\Remitos\EstadoRemito.cs" />
     <Compile Include="Models\Remitos\Remito.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\UserAccount.cs" />
@@ -529,6 +534,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711182051266_create_table_compras_detalleCompras.resx">
       <DependentUpon>201711182051266_create_table_compras_detalleCompras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711212245200_create_table_estadoRemito.resx">
+      <DependentUpon>201711212245200_create_table_estadoRemito.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

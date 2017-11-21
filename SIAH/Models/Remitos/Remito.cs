@@ -20,6 +20,9 @@ namespace SIAH.Models.Remitos
         public int pedidoId { get; set; }
         public Pedidos.Pedido pedido { get; set; }
 
+        public int estadoId { get; set; }
+        public EstadoRemito estado { get; set; }
+
         public ICollection<DetalleRemito> detallesRemito { get; set; }
 
         public Remito()
