@@ -28,7 +28,13 @@ namespace SIAH.Controllers
         public ActionResult ListadoPedidos()
         {
             var pedidos = db.Pedidos.Include(r => r.hospital);
+            var remitosConPedido = db.Remitos.Join(db.Pedidos, s=>s.pedidoId, r=> r.id, (s,r) => new {s,r }).Select(x => new { id = x.s.pedidoId }).ToList();
             var pedidosEstadoEntregado = pedidos.Where(x => x.estadoId == 5).ToList();
+            foreach (var i in remitosConPedido)
+            {
+                pedidosEstadoEntregado.Remove(pedidosEstadoEntregado.Find(x => x.id == i.id));
+            }
+            
             return View(pedidosEstadoEntregado.ToList());
             
         }
@@ -136,7 +142,7 @@ namespace SIAH.Controllers
                 cm2.ExecuteNonQuery();
                 conn.Close();
                // System.IO.File.Delete(pathDetalles); //Borrar el archivo del Servidor una vez que se cargo en la BD
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("ListadoPedidos","Remitos");
             
         }
 
