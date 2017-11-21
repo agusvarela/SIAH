@@ -56,32 +56,64 @@ namespace SIAH.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Remito remito = new Remito();
-            remito.id = (int) id;
-            remito.pedidoId = (int) id;
-           
-            //ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", pedido.pedidoId);
+            ViewBag.remitoId = (int) id;
+            ViewBag.pedidoId = (int)id;
             return View(remito);
         }
 
 
 
-        // POST: Remitos/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        /*  [HttpPost]
+          [HttpPost]
           [ValidateAntiForgeryToken]
-          public ActionResult Create([Bind(Include = "id,fechaEntregaEfectiva,pedidoId")] Remito remito)
+          public ActionResult Create(HttpPostedFileBase file, int remitoId, int pedidoId)
           {
-              if (ModelState.IsValid)
-              {
-                  db.Remitos.Add(remito);
-                  db.SaveChanges();
-                  return RedirectToAction("Index");
-              }
+            try
+            {
+                int remitoIdEnArchivo;
+                if (file.ContentLength > 0)
+                {
+                    string _FileName = Path.GetFileName(file.FileName);
+                    string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);
+                    file.SaveAs(_path);
+                    string lecturaArchivo;
+                    using (var sr = new StreamReader(_path))
+                    {
+                        lecturaArchivo = sr.ReadLine();
+                        var campos = lecturaArchivo.Split(';');
+                        remitoIdEnArchivo = Int32.Parse(campos[0]);
+                        sr.Close();
+                    }
+                    if (remitoIdEnArchivo == remitoId)
+                    {
+                        ViewBag.remitoId = remitoId;
+                        ViewBag.pedidoId = pedidoId;
+                        ViewBag.Message = "El archivo se cargó correctamente";
+                        ViewBag.path = _path;
+                        
+                    }
+                    else {
+                        ViewBag.Message = "El id de Remito de los detalles no coincide con el Pedido que intenta cargar";
+                        ViewBag.remitoId = remitoId;
+                        ViewBag.pedidoId = pedidoId;
+                        System.IO.File.Delete(_path);
+                        return View();
+                    }
+                    
 
-              ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", remito.pedidoId);
-              return View(remito);
-          }*/
+                }
+                return View();
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Message = "Falló la carga del archivo, intentelo nuevamente";
+                ViewBag.remitoId = remitoId;
+                ViewBag.pedidoId = pedidoId;
+                Console.WriteLine(e.Message);
+                return View();
+            }
+        }
+    
     
         public ActionResult CrearRemito(int remitoId, String fechaEntregaEfectiva, int pedidoId, String pathDetalles)
         {
@@ -103,7 +135,7 @@ namespace SIAH.Controllers
                 SqlCommand cm2 = new SqlCommand(procedimientoDetalles, conn);
                 cm2.ExecuteNonQuery();
                 conn.Close();
-
+               // System.IO.File.Delete(pathDetalles); //Borrar el archivo del Servidor una vez que se cargo en la BD
                 return RedirectToAction("Index","Home");
             
         }

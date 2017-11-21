@@ -35,6 +35,7 @@ namespace System.Web.Mvc
                 }
                 catch(Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     return false;
                 }
             }

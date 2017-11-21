@@ -33,21 +33,8 @@ namespace FileUpload.Controllers
                 string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);
                 file.SaveAs(_path);
             }
-                String procedimiento;
-                using (var sr = new StreamReader(@"C:/Tesis/SIAH/SIAH/UploadedFiles/ProcedimientoAlmacenadoOcasa.sql"))
-                {
-                    procedimiento = sr.ReadToEnd();
-                    sr.Close();
-                }
-                
-                string sqlConnectionString = "Data Source=DESKTOP-QAVKP3R;Initial Catalog=SIAHConnection;Integrated Security=True";
-                SqlConnection conn = new SqlConnection(sqlConnectionString);
-                conn.Open();
-                SqlCommand cm = new SqlCommand(procedimiento, conn);
-                cm.ExecuteNonQuery();
-                conn.Close();
 
-                ViewBag.Message = "Archivo Subido y Cargado en la BD";
+            ViewBag.Message = "Archivo Subido";
             return View();
         }
         catch (Exception e)
