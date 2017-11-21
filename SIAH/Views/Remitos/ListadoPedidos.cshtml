@@ -47,9 +47,7 @@
                                         <th class="text-center">
                                             <strong> @Html.Name("Hospital")</strong>
                                         </th>
-                                        <th class="text-center">
-                                            <strong> @Html.Name("Urgente")</strong>
-                                        </th>
+                                       
                                         <th class="text-center">
                                             <strong>  @Html.Name("Estado")</strong>
                                         </th>
@@ -72,13 +70,7 @@
                                         <td class="text-center">
                                             @Html.DisplayFor(modelItem => item.hospital.nombre)
                                         </td>
-                                        <td class="text-center">
-                                            @if (item.esUrgente == true)
-                                            {
-                                                <i class="material-icons icon-danger">error</i>
-
-                                            }
-                                        </td>
+                                        
                                         <td class="text-center">
                                             <a class="list-group-item-success soft-success" style="vertical-align:central">
                                                 <i class="material-icons " style="padding:0px">check_circle</i>
