@@ -14,81 +14,144 @@
 }
 
 
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListadoPedidos</title>
-</head>
-<body>
-    <div>
-        <div class="col-md-12">
-            <hr />
-            <div id="table-container">
-                <table id="maintable" class="table table-condensed">
-                    <thead class="listado">
-                        <tr>
-                            <th class="text-center">
-                                <strong> @Html.Name("Nº Pedido")</strong>
-                            </th>
-                            <th class="text-center">
-                                <strong> @Html.Name("Fecha Generación")</strong>
-                            </th>
-                            <th class="text-center">
-                                <strong> @Html.Name("Hospital")</strong>
-                            </th>
-                            <th class="text-center">
-                                <strong> @Html.Name("Urgente")</strong>
-                            </th>
-                            <th class="text-center">
-                                <strong>  @Html.Name("Estado")</strong>
-                            </th>
-                            <th class="text-center">
-                                <strong>  @Html.Name("Acciones")</strong>
-                            </th>
-                        </tr>
-                    </thead>
-                    @foreach (var item in Model)
-                    {
-                       
-                                <tr class="">
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-12">
+            <h1>Control de Stock diario</h1>
+            <div class="banner-catalog__content">
+                Listado de Pedidos.
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+            <div class="form-card__content group">
+                <div class="form-group">
+                    @*<h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>
+                        <div class="row">*@
 
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.id)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                    </td>
-                                    <td class="text-center">
-                                        @if (item.esUrgente == true)
-                                        {
-                                            <i class="material-icons icon-danger">error</i>
-                                        }
-                                    </td>
-                                    <td class="text-center">
-                                        <i class="material-icons">send</i>
-                                    </td>
-                                    <td class="text-center">
+                    <div id="contenedor" class="col-md-12">
 
-                                        @Html.ActionLink("Cargar Remito", "Create", new { id = item.id }) |
-                                        
-                                    </td>
+                        <div id="table-container">
+                            <table id="maintable" class="table table-condensed">
+                                <thead>
+                                    <tr class="list-group-item-info" style="border-bottom: solid">
+                                        <th class="text-center">
+                                            <strong> @Html.Name("Nº Pedido")</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong> @Html.Name("Fecha Generación")</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong> @Html.Name("Hospital")</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong> @Html.Name("Urgente")</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>  @Html.Name("Estado")</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>  @Html.Name("Acciones")</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr class="list-group-item-success">
+
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.id)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.esUrgente == true)
+                                            {
+                                                <i class="material-icons icon-danger">error</i>
+
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="list-group-item-success soft-success" style="vertical-align:central">
+                                                <i class="material-icons " style="padding:0px">check_circle</i>
+
+                                                Recibido
+                                            </a>
+                                        </td>
+                                        <td class="text-center">
+
+                                            @Html.ActionLink("Cargar Remito", "Create", new { id = item.id })
+
+                                        </td>
 
 
-                                </tr>
-                              
-                          
-                           
-                            
-                           
+                                    </tr>
 
-                        }
+
+
+
+
+
+                                }
+                                
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script type="text/javascript">
+
+       
+        $(document).ready(function () {
+          
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
                     }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]]
+            });;
+        });
 
-                </table>
-            </div>
-            </div>
 
-</body>
+
+    </script>
+}
+
 

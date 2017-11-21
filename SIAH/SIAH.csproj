@@ -454,6 +454,7 @@
     <Content Include="Views\Remitos\Edit.cshtml" />
     <Content Include="Views\Remitos\Index.cshtml" />
     <Content Include="Views\DetallesPedido\ReporteComparacion.cshtml" />
+    <Content Include="Views\Remitos\ListadoPedidos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
