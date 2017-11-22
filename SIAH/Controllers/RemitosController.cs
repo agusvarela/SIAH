@@ -197,15 +197,14 @@ namespace SIAH.Controllers
             foreach(var i in detallesPedidoRemito)
             {
                 var diff = i.cantidadEntregada - i.cantidadAutorizada;
+                Insumo insumo = db.Insumos.Find(i.insumoId);
+                insumo.stockFisico = i.cantidadEntregada;
                 if ( diff != 0)
                 {
-                    Insumo insumo = db.Insumos.Find(i.insumoId);
                     insumo.stock = insumo.stock - diff;
-                    insumo.stockFisico = i.cantidadEntregada;
-                    db.Entry(insumo).State = EntityState.Modified;
-                    db.SaveChanges();
                 }
-                
+                db.Entry(insumo).State = EntityState.Modified;
+                db.SaveChanges();
             }
         }
         //GET: Remitos/DetallesPedidoRemito
