@@ -177,6 +177,7 @@
     <Compile Include="Controllers\AuthorizeUserAccessLevel.cs" />
     <Compile Include="Controllers\DetallesPedidoController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
+    <Compile Include="Controllers\EstadosRemitoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HospitalesController.cs" />
     <Compile Include="Controllers\InsumosController.cs" />
@@ -460,6 +461,12 @@
     <Content Include="Views\Remitos\Index.cshtml" />
     <Content Include="Views\DetallesPedido\ReporteComparacion.cshtml" />
     <Content Include="Views\Remitos\ListadoPedidos.cshtml" />
+    <Content Include="Views\EstadosRemito\Create.cshtml" />
+    <Content Include="Views\EstadosRemito\Delete.cshtml" />
+    <Content Include="Views\EstadosRemito\Details.cshtml" />
+    <Content Include="Views\EstadosRemito\Edit.cshtml" />
+    <Content Include="Views\EstadosRemito\Index.cshtml" />
+    <Content Include="Views\Remitos\ControlPedidoRemito.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

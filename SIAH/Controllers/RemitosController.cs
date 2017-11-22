@@ -11,6 +11,7 @@ using SIAH.Models.Remitos;
 using System.IO;
 using System.Data.SqlClient;
 using SIAH.Models.Pedidos;
+using SIAH.Models.Insumos;
 
 namespace SIAH.Controllers
 {
@@ -156,8 +157,86 @@ namespace SIAH.Controllers
             return fechaParseada;
         }
 
-            // GET: Remitos/Edit/5
-            public ActionResult Edit(int? id)
+        //GET: Remitos/ControlPedidoRemito
+        public ActionResult ControlPedidoRemito(int? id)
+        {
+            Pedido pedido = db.Pedidos.Find(id);
+            return View(pedido);
+        }
+
+        //POST: Remitos/ControlPedidoRemito
+        [HttpPost]
+        public ActionResult ControlPedidoRemito(int id)
+        {
+            Remito remito = db.Remitos.Find(id);
+            remito.estadoId = 2;
+            db.Entry(remito).State = EntityState.Modified;
+            db.SaveChanges();
+            this.ActualizarStockConDetallesRemito(id);
+            return RedirectToAction("ListadoPedidos", "Remitos");
+        }
+
+        public void ActualizarStockConDetallesRemito(int idPedido)
+        {
+            var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).
+                Where(d => d.pedidoId == idPedido).
+                Select(x => new {
+                    insumoId = x.insumoId,
+                    cantidadAutorizada = x.cantidadAutorizada
+                });
+            var detallesRemito = db.DetallesRemito.Include(d => d.remito).
+                Where(d => d.remitoId == idPedido).
+                Select(x => new {  insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada });
+            var detallesPedidoRemito = detallesPedido.Join(detallesRemito, s => s.insumoId, r => r.insumoRemitoId, (s, r) => new { s, r }).
+                Select(x => new
+                {
+                    insumoId = x.s.insumoId,
+                    cantidadAutorizada = x.s.cantidadAutorizada,
+                    cantidadEntregada = x.r.cantidadEntregada
+                }).ToList();
+            foreach(var i in detallesPedidoRemito)
+            {
+                var diff = i.cantidadEntregada - i.cantidadAutorizada;
+                if ( diff != 0)
+                {
+                    Insumo insumo = db.Insumos.Find(i.insumoId);
+                    insumo.stock = insumo.stock - diff;
+                    insumo.stockFisico = i.cantidadEntregada;
+                    db.Entry(insumo).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                
+            }
+        }
+        //GET: Remitos/DetallesPedidoRemito
+        public JsonResult GetDetallesPedidoRemito(int idPedido)
+        {
+            var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).
+                Where(d => d.pedidoId == idPedido).
+                Select(x => new { pedidoId = x.pedidoId, insumoId = x.insumoId, nombre = x.insumo.nombre,
+                                precioUnitario = x.insumo.precioUnitario, cantidad = x.cantidad,
+                                 cantidadAutorizada = x.cantidadAutorizada, tipo = x.insumo.tiposInsumo.nombre,
+                                    stock = x.insumo.stock });
+            var detallesRemito = db.DetallesRemito.Include(d => d.remito).
+                Where(d => d.remitoId == idPedido).
+                Select(x => new { remitoId = x.remitoId, insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada });
+            var detallesPedidoRemito = detallesPedido.Join(detallesRemito, s => s.insumoId, r => r.insumoRemitoId, (s, r) => new { s, r }).
+                Select(x => new
+                {
+                    pedidoId = x.s.pedidoId,
+                    insumoId = x.s.insumoId,
+                    nombre = x.s.nombre,
+                    precioUnitario = x.s.precioUnitario,
+                    cantidad = x.s.cantidad,
+                    cantidadAutorizada = x.s.cantidadAutorizada,
+                    tipo = x.s.tipo,
+                    stock = x.s.stock,
+                    cantidadEntregada = x.r.cantidadEntregada
+                });
+            return Json(detallesPedidoRemito, JsonRequestBehavior.AllowGet);
+        }
+        // GET: Remitos/Edit/5
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {

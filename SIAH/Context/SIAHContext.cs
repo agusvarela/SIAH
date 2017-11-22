@@ -57,6 +57,7 @@ namespace SIAH.Context
 
         public DbSet<DetalleCompra> DetallesCompra { get; set; }
 
+        public System.Data.Entity.DbSet<SIAH.Models.Remitos.EstadoRemito> EstadoRemitoes { get; set; }
     }
 
 }
