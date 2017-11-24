@@ -29,14 +29,16 @@ namespace SIAH.Controllers
         public ActionResult ListadoPedidos()
         {
             var pedidos = db.Pedidos.Include(r => r.hospital);
+            var remitos = db.Remitos.Include(p => p.estado).ToList();
             var remitosConPedido = db.Remitos.Join(db.Pedidos, s=>s.pedidoId, r=> r.id, (s,r) => new {s,r }).Select(x => new { id = x.s.pedidoId }).ToList();
             var pedidosEstadoEntregado = pedidos.Where(x => x.estadoId == 5).ToList();
-            foreach (var i in remitosConPedido)
+            /*foreach (var i in remitosConPedido)
             {
                 pedidosEstadoEntregado.Remove(pedidosEstadoEntregado.Find(x => x.id == i.id));
-            }
-            
-            return View(pedidosEstadoEntregado.ToList());
+            }*/
+               
+            var tuplaPedidoRemito = new Tuple<List<Pedido>, List<Remito>>(pedidosEstadoEntregado, remitos);
+            return View(tuplaPedidoRemito);
             
         }
 
