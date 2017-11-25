@@ -57,10 +57,10 @@
                                             @Html.Name("Tipo")
                                         </th>
                                         <th class="text-center">
-                                            @Html.Name("Stock SIAH")
+                                            @Html.Name("Stock Fisico SIAH")
                                         </th>
                                         <th class="text-center">
-                                            @Html.Name("Stock Ocasa")
+                                            @Html.Name("Stock Fisico Ocasa")
                                         </th>
                                         <th class="text-center">
                                             @Html.Name("Diferencia")
@@ -196,7 +196,7 @@
                         @*<input id="btn_export" type="button" value="Exportar Excel" class="btn btn-info btn-round btn_export" onClick="$('#contenedor').tableExport({type:'excel',escape:'false'});" />*@
 
                         <div class="pull-right">
-                            <input id="btn_pisar" type="button" value="Actualizar Valores" class="btn btn-success btn-round" data-toggle="modal" data-target="#myModal" />
+                            <input id="btn_pisar" type="button" value="Generar Reclamo a Ocasa" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal" />
 
                         </div>
 
@@ -245,13 +245,7 @@
                 }
             }
         });
-    $(document).on('click','#yes',function () {
-       // $("#contenedor").html("<h3 class='text-center'><strong>Los valores de Stock se encuentran actualizados</strong></h3>");
-       // $("#btn_pisar").hide();
-        url = '@Url.Action("ActualizarStock", "Insumos")';
-        location.href = url;
 
-        });
         $(document).ready(function () {
             function moveScroll() {
                 var scroll = $(window).scrollTop();
@@ -279,9 +273,16 @@
             }
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
-            $("#maintable").DataTable({
+            dataTable = $("#maintable").DataTable({
                 "order": [[6, "desc"]]
-            });;
+            });
+            $(document).on('click','#yes',function () {
+        console.log(dataTable);
+        dataTable.fnGetNodes().tableExport({ type: 'excel', escape: 'false' });
+        url = '@Url.Action("ActualizarStock", "Insumos")';
+        location.href = url;
+
+        });
         });
 
     </script>

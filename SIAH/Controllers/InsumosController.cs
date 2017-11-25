@@ -49,7 +49,7 @@ namespace SIAH.Controllers
         public ActionResult ControlStock()
         {
             var insumos = db.Insumos.Include(i => i.tiposInsumo).Join(db.InsumoOcasa, d => d.id, s => s.id, (d, s) => new { d, s }).
-                Select(x => new { id = x.d.id, nombre = x.d.nombre, tipo = x.d.tiposInsumo.nombre, stock = x.d.stock, stockOcasa = x.s.stockFisico }).ToList();
+                Select(x => new { id = x.d.id, nombre = x.d.nombre, tipo = x.d.tiposInsumo.nombre, stock = x.d.stockFisico, stockOcasa = x.s.stockFisico }).ToList();
             ViewBag.insumos = insumos;
             return View();
         }
