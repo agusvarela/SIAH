@@ -25,7 +25,7 @@ namespace SIAH.Controllers
             var remitos = db.Remitos.Include(r => r.pedido);
             return View(remitos.ToList());
         }
-
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         public ActionResult ListadoPedidos()
         {
             var pedidos = db.Pedidos.Include(r => r.hospital);
@@ -56,7 +56,7 @@ namespace SIAH.Controllers
             }
             return View(remito);
         }
-
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         // GET: Remitos/Create
         public ActionResult Create(int? id)
         {
@@ -71,8 +71,8 @@ namespace SIAH.Controllers
         }
 
 
-
-          [HttpPost]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [HttpPost]
           [ValidateAntiForgeryToken]
           public ActionResult Create(HttpPostedFileBase file, int remitoId, int pedidoId)
           {
@@ -122,8 +122,8 @@ namespace SIAH.Controllers
                 return View();
             }
         }
-    
-    
+
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         public ActionResult CrearRemito(int remitoId, String fechaEntregaEfectiva, int pedidoId, String pathDetalles)
         {
             
@@ -158,14 +158,16 @@ namespace SIAH.Controllers
             DateTime fechaParseada = new DateTime(d1, m1, y1);
             return fechaParseada;
         }
-
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         //GET: Remitos/ControlPedidoRemito
         public ActionResult ControlPedidoRemito(int? id)
         {
+            Remito remito = db.Remitos.Find(id);
             Pedido pedido = db.Pedidos.Find(id);
-            return View(pedido);
+            var tuplaPedidoRemito = new Tuple<Pedido, Remito>(pedido, remito);
+            return View(tuplaPedidoRemito);
         }
-
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         //POST: Remitos/ControlPedidoRemito
         [HttpPost]
         public ActionResult ControlPedidoRemito(int id)
@@ -178,7 +180,7 @@ namespace SIAH.Controllers
             return RedirectToAction("ListadoPedidos", "Remitos");
         }
 
-        public void ActualizarStockConDetallesRemito(int idPedido)
+        private void ActualizarStockConDetallesRemito(int idPedido)
         {
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).
                 Where(d => d.pedidoId == idPedido).
@@ -209,6 +211,7 @@ namespace SIAH.Controllers
                 db.SaveChanges();
             }
         }
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         //GET: Remitos/DetallesPedidoRemito
         public JsonResult GetDetallesPedidoRemito(int idPedido)
         {
