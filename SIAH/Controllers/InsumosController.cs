@@ -64,7 +64,7 @@ namespace SIAH.Controllers
                     var insumoActual = db.Insumos.Find(item.id);
                     if (insumoActual != null)
                     {
-                        insumoActual.stock = item.stockOcasa;
+                        insumoActual.stockFisico = item.stockOcasa;
                         db.Entry(insumoActual).State = EntityState.Modified;
                     }
 
