@@ -24,14 +24,40 @@ namespace SIAH.Controllers
             return View(detallesPedido.ToList());
         }
 
-        //public ActionResult ReporteComparacion()
-        //{
-        //     var  detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).
-        //    GroupBy(d => d.insumo.nombre)
-        //    .Select(d => new { Insumo =  d.Key , Cantidad = d.Sum(c => c.cantidad), CantidadAutorizada = d.Sum(c=> c.cantidadAutorizada) });
-        //    IEnumerable < String > lista =  detallesPedido.ToList();
-        //    return View(detallesPedido.ToList());
-        //}
+        public ActionResult /* Esto es lo que retorna a la vista o sea el @Model IEnumerable<String[]>*/ ReporteComparacion()
+        {
+            var result = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).
+           GroupBy(d => d.insumo.nombre)
+           .Select(d => new { Insumo = d.Key, Cantidad = d.Sum(c => c.cantidad), CantidadAutorizada = d.Sum(c => c.cantidadAutorizada) }).ToList();
+            //Declaro la cantidad de filas y de columnas
+            var rows = db.Insumos.ToList().Count() + 1;
+            var columns = 3;
+
+            //Armo el Vector
+            String[][] report = new String[rows][]; //columns en segundo argumento
+            for (int i = 0; i < rows; i++) { report[i] = new String[columns]; }
+            report[0][0] = "Insumo";
+            report[0][1] = "Cantidad Pedida";
+            report[0][2] = "Cantidad Autorizada";
+
+            var insumos = db.Insumos.Select(x => new { x.nombre }).ToList();
+            var q = 1;
+            foreach (var s in insumos) { report[q][0] = s.nombre; q++; }
+
+            var j = 1;
+            foreach (var r in result)
+            {
+                report[j][0] = r.Insumo;
+                report[j][1] = r.Cantidad.ToString();
+                report[j][2] = r.CantidadAutorizada.ToString();
+                j++;
+
+            }
+
+            List<String[]> list = report.ToList();
+            return View(list);
+
+        }
 
         // GET: DetallesPedido/ReporteConsolidado
         public ActionResult ReporteConsolidado(String fechaInicio, String fechaFin)
