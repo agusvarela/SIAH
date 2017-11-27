@@ -7,7 +7,7 @@
     int remitoId = ViewBag.remitoId;
     String path = ViewBag.path;
 }
-@using (Html.BeginForm("Create","Remitos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Remitos", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -31,12 +31,12 @@
         <div class="form-horizontal">
 
             <div class="row">
-                <div class="col-sm-offset-2 col-sm-8 mx-auto">
+                <div class=" col-sm-6">
                     <div class="form-card form-card--purple form-card--tight  animated zoomIn mx-auto ">
-                        <div class="form-card__title purple-header">
+                        <div class="form-card__title info-header">
                             <div class="alert-icon">
-                                <i class="material-icons">add</i>
-                                <strong>Cargar un Remito</strong>
+                                <i class="material-icons">info</i>
+                                <strong>Informacion General</strong>
                             </div>
                         </div>
 
@@ -46,42 +46,61 @@
 
                             <div class="col-sm-3">
                                 <div class="form-group label-floating">
-                                    @Html.LabelFor(model => model.id, "Id Remito", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
+                                    @Html.LabelFor(model => model.id, "Id Remito", htmlAttributes: new { @class = "control-label  tota" })
+                                  
                                         @Html.TextBox("remitoId", remitoId, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
+                                 
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group label-floating">
-                                    @Html.LabelFor(model => model.pedidoId, "Id Pedido", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
+                                    @Html.LabelFor(model => model.pedidoId, "Id Pedido", htmlAttributes: new { @class = "control-label  tota" })
+                                 
                                         @Html.TextBox("pedidoId", pedidoId, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
+                                    
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group label-floating">
-                                    @Html.LabelFor(model => model.fechaEntregaEfectiva, "Fecha Entrega Pedido", htmlAttributes: new { @class = "control-label col-md-12  tota " })
-                                    <div class="col-md-12">
+                                    @Html.LabelFor(model => model.fechaEntregaEfectiva, "Fecha Entrega Pedido", htmlAttributes: new { @class = "control-label   tota " })
+                                    
                                         @Html.TextBox("fecha", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @type = "text", @onfocus = "(this.type='date')", @onfocusout = "(this.type='text')" })
-                                    </div>
+                               
                                 </div>
                             </div>
 
-                            <div class="col-sm-12">
-                                        @Html.TextBox("file", "", new { type = "file" })<br />
-                                         @Html.TextBox("path", path, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
 
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-6">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn mx-auto ">
+                        <div class="form-card__title purple-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">add</i>
+                                <strong>Cargar un Remito</strong>
                             </div>
-                            <div >
-                                <input id="uploadFile" type="submit"  value="Upload" class="btn btn-default"/>
+                        </div>
+
+                        <div class="form-card__content group">
+                            <div class="col-sm-12">
+                                @Html.TextBox("file", "", new { @type = "file", @class = "col-sm-12" })<br /><br />
+                                <div class="form-group label-floating col-sm-7">
+                                    @Html.TextBox("path", path, htmlAttributes: new { @class = "form-control ", @readonly = "readonly" })
+                                    
+                                </div>
+                                <input id="uploadFile" type="submit" value="Subir Archivo" class="btn btn-sm btn-success btn-round col-sm-5" />
+                            </div>
+                            <div>
+
                                 @ViewBag.Message
                             </div>
                             <br />
-                            <div class=" pull-right">
-                                <input id="crear" type="submit" value="Cargar Remito" class="btn btn-default" />
-                                
+                            <br />
+                            <br />
+                            <div class=" pull-center text-center" style="margin-top:50px">
+                                <input id="crear" type="submit" value="Impactar Remito" class="btn btn-default" />
+
 
                             </div>
                         </div>
@@ -113,7 +132,7 @@
             alert(url);
             location.href = url;
             } else { alert("Por favor cargue un archivo válido de Remito");}
-            
+
         });
     </script>
 

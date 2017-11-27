@@ -58,71 +58,117 @@
                                 </thead>
                                 @foreach (var item in Model.Item1)
                                 {
-                                    <tr class="list-group-item-info">
-
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.id)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.fechaEntrega)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                        </td>
 
 
-                                        @*@if (Model.Item2.Count == 0)
-                                            {
-                                                @Html.ActionLink("Cargar Remito", "Create", new { id = item.id })
-                                            }
-                                            else*@
-                                        @{bool existeRemito = false;}
-                                        @foreach (var rem in Model.Item2)
+
+                                    @*@if (Model.Item2.Count == 0)
                                         {
-                                            if (rem.pedidoId == item.id)
-                                            {
-                                                existeRemito = true;
-                                                switch (rem.estadoId)
-                                                {
-                                                    case 1:
-                                                        <td class="text-center">@Html.Label("Pendiente")</td>
+                                            @Html.ActionLink("Cargar Remito", "Create", new { id = item.id })
+                                        }
+                                        else*@
+                                bool existeRemito = false;
+                                foreach (var rem in Model.Item2)
+                                {
+                                    if (rem.pedidoId == item.id)
+                                    {
+                                        existeRemito = true;
+                                        switch (rem.estadoId)
+                                        {
+                                            case 1:
 
-                                                                <td class="text-center">
-                                                                    @Html.ActionLink("Controlar Remito", "ControlPedidoRemito", new { id = item.id })
-                                                                </td>
-                                                        break;
-                                                    case 2:
+                                                <tr class="list-group-item-warning">
+
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaEntrega)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                    </td>
+                                                    <td class="text-center">@Html.Label("Pendiente")</td>
+
+                                                    <td class="text-center">
+                                                        @Html.ActionLink("Controlar Remito", "ControlPedidoRemito", new { id = item.id })
+                                                    </td>
+                                                </tr>
+                                                    break;
+                                                case 2:
+
+                                                    <tr class="list-group-item-success">
+
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.id)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.fechaEntrega)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                        </td>
                                                         <td class="text-center">@Html.Label("Impactado")</td>
                                                         <td class="text-center">
                                                             @Html.ActionLink("Ver Detalle", "ControlPedidoRemito", new { id = item.id })
                                                         </td>
-                                                        break;
-                                                    case 3:
+                                                    </tr>
+                                                    break;
+                                                case 3:
+
+                                                    <tr class="list-group-item-danger">
+
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.id)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.fechaEntrega)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                        </td>
                                                         <td class="text-center">@Html.Label("Reclamado")</td>
                                                         <td class="text-center">
                                                             @Html.ActionLink("Ver Detalle", "ControlPedidoRemito", new { id = item.id })
                                                         </td>
-                                                        break;
+                                                    </tr>
+                                                    break;
 
-                                                }
-                                                break;
                                             }
+                                            break;
                                         }
+                                    }
 
-                                        @if (!existeRemito)
-                                        {
+
+                                    if (!existeRemito)
+                                    {
+                                        <tr>
+
+                                            <td class="text-center">
+                                                @Html.DisplayFor(modelItem => item.id)
+                                            </td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(modelItem => item.fechaEntrega)
+                                            </td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                            </td>
                                             <td class="text-center">@Html.Label("Sin Remito")</td>
 
-                                                        <td class="text-center">
-                                                            @Html.ActionLink("Cargar Remito", "Create", new { id = item.id })
-                                                        </td>
-                                        }
+                                            <td class="text-center">
+                                                @Html.ActionLink("Cargar Remito", "Create", new { id = item.id })
+                                            </td>
+                                            
 
-                                    </tr>
-                                 }
+                                        </tr>
+
+                                    }
+                                }
                             </table>
+                            <div id="bottom_anchor"></div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -133,33 +179,33 @@
 
     <script type="text/javascript">
 
-       
+
         $(document).ready(function () {
 
-                function moveScroll() {
-                    var scroll = $(window).scrollTop();
-                    var anchor_top = $("#maintable").offset().top;
-                    var anchor_bottom = $("#bottom_anchor").offset().top;
-                    if (scroll > anchor_top && scroll < anchor_bottom) {
-                        clone_table = $("#clone");
-                        if (clone_table.length == 0) {
-                            clone_table = $("#maintable").clone();
-                            clone_table.attr('id', 'clone');
-                            clone_table.css({
-                                position: 'fixed',
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
                             'pointer-events': 'none',
                             top: 0
                         });
-                                                           clone_table.width($("#maintable").width());
+                        clone_table.width($("#maintable").width());
                         $("#table-container").append(clone_table);
                         $("#clone").css({ visibility: 'hidden' });
                         $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
 
-                                                       }
-    } else {
+                    }
+                } else {
                     $("#clone").remove();
-                                               }
-                                           }
+                }
+            }
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
             $("#maintable").DataTable({
