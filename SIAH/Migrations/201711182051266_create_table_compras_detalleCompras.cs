@@ -11,7 +11,7 @@ namespace SIAH.Migrations
                 "dbo.Compra",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Int(nullable: false, identity: false),
                         fechaEntregaEfectiva = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.id);

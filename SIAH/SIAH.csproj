@@ -175,6 +175,7 @@
     <Compile Include="Context\SIAHContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthorizeUserAccessLevel.cs" />
+    <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\DetallesPedidoController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\EstadosRemitoController.cs" />
@@ -467,9 +468,13 @@
     <Content Include="Views\EstadosRemito\Edit.cshtml" />
     <Content Include="Views\EstadosRemito\Index.cshtml" />
     <Content Include="Views\Remitos\ControlPedidoRemito.cshtml" />
+    <Content Include="Views\Compras\CargarCompra.cshtml" />
+    <Content Include="Views\Compras\Remito.cshtml" />
+    <Content Include="Views\Compras\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="CargaRemitosCSV\" />
     <Folder Include="UploadedFiles\" />
     <Folder Include="Views\Formularios\" />
   </ItemGroup>
