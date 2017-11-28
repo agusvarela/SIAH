@@ -38,6 +38,13 @@ namespace SIAH.Controllers
 
             return View();
         }
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
+        public ActionResult RespFarmaciaDashboard()
+        {
+            ViewBag.Message = "Your index Page.";
+
+            return View();
+        }
         [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult DirectorArea(string param)
         {

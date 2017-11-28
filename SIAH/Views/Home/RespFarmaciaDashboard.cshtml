@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Responsable Farmacia Dashboard";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-12">
+            <h1>Responsable de Farmacia</h1>
+            <div class="banner-catalog__content">Genere pedidos y controle su Stock de Farmacia.</div>
+        </div>
+    </div>
+</div>
+<div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-6 animated zoomIn">
+                <div class="card card-project">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-success">
+                                <i class="material-icons">send</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="../Pedidos/RespFarmacia">Gestionar Pedidos</a>
+                            </h4>
+                            <p>Administre sus Pedidos enviados y genere nuevas solicitudes.</p>
+                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">Ir a Gestion de Pedidos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 animated zoomIn">
+                <div class="card card-project">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-info">
+                                <i class="material-icons">storage</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="">Stock de Farmacia</a>
+                            </h4>
+                            <p>Gestione el Stock de insumos de la Farmacia de su Hospital</p>
+                            <div class="btn btn-round btn-primary" @*onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'"*@>Ir a Gestion de Stock Farmacia</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).on('click', '#reporte', function (event)
+        {
+            event.preventDefault();
+            var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
+
+            var nd = new Date();
+            nd.setDate(nd.getDate() - 30); // minus the date
+            var month = nd.getUTCMonth() + 1; //months from 1-12
+            var day = nd.getUTCDate();
+            var year = nd.getUTCFullYear();
+            start = year + "-" + month + "-" + day;
+
+            var dateObj = new Date();
+            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+            var day = dateObj.getUTCDate();
+            var year = dateObj.getUTCFullYear();
+            end = year + "-" + month + "-" + day;
+
+            url = url.replace("START", start);
+            url = url.replace("END",end);
+            url = url.replace("amp;", "");
+            location.href = url;
+        });
+    </script>
+}
+

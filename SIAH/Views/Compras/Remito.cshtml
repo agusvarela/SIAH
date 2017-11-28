@@ -1,69 +1,108 @@
 ﻿@model List<SIAH.Models.Insumos.Insumo>
 
 @{
-    ViewBag.Title = "Compra";
     ViewBag.id = Model.First().id;
+    ViewBag.Title = "Compra Nº"+ViewBag.id;
+
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<h3> COMPRA NMERO @ViewBag.id</h3>
 
 @using (Html.BeginForm("Remito", "Compras", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.TextBox("id", Model.First().id, htmlAttributes: new { @class = "form-control", @value = Model.First().id, @name = "id", @style = "display:none" })
-    <div class="col-md-12">
-        <div class="form-group">
-            @Html.Label("", "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-            <div class="col-md-12">
-                @Html.TextBox("fechaEntregaEfectiva", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = DateTime.Today, @name = "fechaEntregaEfectiva" })
-                @Html.ValidationMessage("", "", new { @class = "text-danger" })
+
+    @*@Html.TextBox("id", Model.First().id, htmlAttributes: new { @class = "form-control", @value = Model.First().id, @name = "id", @style = "display:none" })*@
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-sm-12">
+                <h1> Compra Nº @ViewBag.id</h1>
+                <div class="banner-catalog__content"> Aqui Varela tiene que poner una descripcion</div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-card form-card--purple form-card--tight animated zoomIn">
-                <div class="form-card__title  violet-header">
-                    <div class="alert-icon">
-                        <i class="material-icons">storage</i>
-                        <strong>Listado de la Compra</strong>
-                    </div>
-                </div>
-                <div class="form-card__content group">
-                    <div class="form-group">
-                        @*<h3 class="col-md-7">Listado de Insumos</h3>*@
-                        <div class="row">
-                            <div class="col-md-12">
-                                <table class=" table table-hover table-condensed">
-                                    <thead>
-                                        <tr style="font-weight:bold">
-                                            <th style="width:30%; font-weight:bold ">Nombre del Insumo</th>
-                                            <th style="width:16%; font-weight:bold">Cantidad Comprada </th>
-                                        </tr>
-                                    </thead>
+    <br />
+    <div class="container" style=" padding-bottom: 30px;">
 
-                                    <tbody>
-                                        @for (var i = 1; i < Model.Count; i++)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(x => x[i].nombre)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(x => x[i].stockFisico)
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title  info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info</i>
+                                <strong>Informacion Compra</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+
+
+                            <div class="form-group">
+                                @Html.Label("", "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota " })
+                                <div class="col-md-12">
+                                    @Html.TextBox("fechaEntregaEfectiva", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = DateTime.Today, @name = "fechaEntregaEfectiva", @type ="date", @id="fecha" })
+                                    @Html.ValidationMessage("", "", new { @class = "text-danger" })
                                 </div>
-                            <div class=" pull-right col-sm-2">
-                                <input type="submit" value="Actualizar Stock" class="btn btn-round btn-success" data-toggle="modal" data-target="#myModal" />
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-9">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title  violet-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">storage</i>
+                                <strong>Listado de la Compra</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="form-group">
+                                @*<h3 class="col-md-7">Listado de Insumos</h3>*@
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class=" table table-hover table-condensed">
+                                            <thead>
+                                                <tr style="font-weight:bold">
+                                                    <th style=" font-weight:bold ">Nombre del Insumo</th>
+                                                    <th style="text-align:center; font-weight:bold">Cantidad Comprada </th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @for (var i = 1; i < Model.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(x => x[i].nombre)
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            @Html.DisplayFor(x => x[i].stockFisico)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <div class=" pull-right ">
+                                            <input type="submit" value="Actualizar Stock" class="btn btn-round btn-success" data-toggle="modal" data-target="#myModal" />
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
-
+    @section Scripts{
+        <script>
+            $(document).ready(function () {
+            document.getElementById('fecha').valueAsDate = new Date();
+            })
+        </script>
+        
+        
+        }
 }

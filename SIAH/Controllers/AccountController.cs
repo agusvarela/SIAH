@@ -89,7 +89,7 @@ namespace SIAH.Controllers
                     //Intento de redirigir el login pero no funciona 
                     switch (usr.rol.nombre.ToString()) { 
                         case "RespFarmacia":
-                            return RedirectToAction("../Pedidos/RespFarmacia");
+                            return RedirectToAction("../Home/RespFarmaciaDashboard");
                         case "RespAutorizacion":
                             return RedirectToAction("../Home/RespAutorizacion");
                         case "DirectorArea":
