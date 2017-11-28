@@ -21,8 +21,10 @@
                 </div>
                 <div class="modal-body ">
 
-                    <h5> Este es un pedido urgente, tiene una prioridad mayor que los pedidos comunes. <br /> Por favor comúniquese con el Responsable de Farmacia del
-                    <strong id="nameHospital"></strong> para obtener mas información sobre el motivo de la solicitud. </h5>
+                    <h5>
+                        Este es un pedido urgente, tiene una prioridad mayor que los pedidos comunes. <br /> Por favor comúniquese con el Responsable de Farmacia del
+                        <strong id="nameHospital"></strong> para obtener mas información sobre el motivo de la solicitud.
+                    </h5>
 
 
                 </div>
@@ -40,10 +42,10 @@
                     <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
                 </div>
                 <div class="modal-body text-center">
-                    
-                        <h5> ¿Desea autorizar el pedido? </h5>
-                        
-                                          
+
+                    <h5> ¿Desea autorizar el pedido? </h5>
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
@@ -54,7 +56,7 @@
     </div>
     <div class="banner-catalog">
         <div class="container">
-            <div class="col-lg-12">
+            <div class="col-sm-12">
                 <h1>Autorización del pedido Nº: @Html.DisplayFor(model => model.id)</h1>
                 <div class="banner-catalog__content"> Aqui puede corroborar informacion referida a un pedido, seleccionar una cantidad a autorizar y Autorizar el Pedido.</div>
             </div>
@@ -101,8 +103,8 @@
                                         <div> <span id="presuSpan" name="presuSpan" class="text-danger"></span></div>
                                         <div><span id="autoSpan" name="autosSpan" class="text-success"></span></div>
                                         @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })
-                                    <text id="presupuesto" class="form-control"></text>
-                                    @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
+                                            <text id="presupuesto" class="form-control"></text>
+                                            @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +126,7 @@
                                             fechaE = fechaE.AddDays(2);
                                         }
                                     }
-                                    <div class="col-md-12">
+                                    <div class="col-sm-12">
                                         @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE })
                                         @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
 
@@ -182,54 +184,55 @@
                                     <table id="detalles" class=" table table-hover">
                                         <thead>
                                             <tr>
-                                                <th style="width:30%; font-weight:bold ">Nombre</th>
-                                                <th style="width:16%; font-weight:bold">Tipo </th>
-                                                <th style="width:17%; font-weight:bold" class="text-center">Cantidad Solicitada</th>
-                                                <th style="width:17%; font-weight:bold" class="text-center">Cantidad Autorizada</th>
-                                                <th style="width:13%; font-weight:bold" class="text-center">Stock</th>
-                                                <th style="width:15%; font-weight:bold" class="text-center">Precio Unitario</th>                      
-                                                <th style="width:15%; font-weight:bold" text-align="center">Subtotal</th>
+                                                <th style="font-weight:bold ">Nombre</th>
+                                                <th style="font-weight:bold">Tipo </th>
+                                                <th style="font-weight:bold" class="text-center">Cantidad Solicitada</th>
+                                                <th style="font-weight:bold" class="text-center">Cantidad Autorizada</th>
+                                                <th style="font-weight:bold" class="text-center">Stock</th>
+                                                <th style="font-weight:bold" class="text-center">Stock Hospital</th>
+                                                <th style="font-weight:bold" class="text-center">Precio Unitario</th>
+                                                <th style="font-weight:bold" text-align="center">Subtotal</th>
                                             </tr>
                                         </thead>
 
                                         @{ var subtotal = "";}
                                         <tbody name="detallesPedido" id="detallesPedido">
                                             @*@foreach (var item in detallesPedido)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        <input type="hidden" name="@item.pedidoId" value="@item.pedidoId">
-                                                        @item.pedidoId;
-                                                        <input type="hidden" name="@item.insumoId" value="@item.insumoId">
-                                                        <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
-                                                        @item.insumo.nombre;
-                                                    </td>
-                                                    <td>
-                                                        <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
-                                                        @item.insumo.tiposInsumo.nombre;
-                                                    </td>
-                                                    <td>
-                                                        <input type="hidden" name="@item.cantidad" value="@item.cantidad">
-                                                        @item.cantidad;
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" name="@item.cantidadAutorizada" min="0" max="@item.cantidad" value="@item.cantidad">
-                                                        @item.cantidadAutorizada;
-                                                    </td>
-                                                    <td>
-                                                        <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
-                                                        @item.insumo.precioUnitario;
-                                                    </td>
-                                                    <td>
-                                                        <input type="hidden" name="subtotal" value="subtotal">
-                                                        @subtotal;
-                                                    </td>
-                                                </tr>
-                                            }*@
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <input type="hidden" name="@item.pedidoId" value="@item.pedidoId">
+                                                            @item.pedidoId;
+                                                            <input type="hidden" name="@item.insumoId" value="@item.insumoId">
+                                                            <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
+                                                            @item.insumo.nombre;
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
+                                                            @item.insumo.tiposInsumo.nombre;
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" name="@item.cantidad" value="@item.cantidad">
+                                                            @item.cantidad;
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" name="@item.cantidadAutorizada" min="0" max="@item.cantidad" value="@item.cantidad">
+                                                            @item.cantidadAutorizada;
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
+                                                            @item.insumo.precioUnitario;
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" name="subtotal" value="subtotal">
+                                                            @subtotal;
+                                                        </td>
+                                                    </tr>
+                                                }*@
 
                                     </table>
                                     @*<div class="form-group">*@
-                                    <div class="pull-rigth col-sm-2" id="cuadritos1"  style="padding-right:10px">
+                                    <div class="pull-rigth col-sm-2" id="cuadritos1" style="padding-right:10px">
                                         <div class="panel panel-DEFAULT text-center">
                                             @*<div class="panel-heading">INSUMOS</div>*@
                                             <div class="panel-body">
@@ -253,29 +256,29 @@
                                     </div>
 
                                     @*Boton para autorizar*@
-                                   
+
 
                                 </div>
                             </div>
                             <div class=" pull-right col-sm-2">
                                 <input type="button" value="Autorizar" id="Autorizacion" class="btn btn-round btn-success" data-toggle="modal" data-target="#myModal" />
                             </div>
-                            <div class=" pull-left col-md-2">
+                            <div class=" pull-left col-sm-2">
                                 <input type="button" value="Calcular Total Autorizado" id="calcular" class="btn btn-round btn-info" />
                             </div>
                         </div>
-                      
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-                   
-@Html.TextBox("hospitalId", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden", @name = "hospitalId" })
-@Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido", @name = "id" })
-}
 
-            
+    @Html.TextBox("hospitalId", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden", @name = "hospitalId" })
+                                            @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido", @name = "id" })
+                                            }
+
+
 
 <br />
 <div class="container">
@@ -285,7 +288,7 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            
+
             var idHospital = $('#hospitalId').val();
             //console.log(idHospital);
             var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
@@ -300,7 +303,7 @@
             });
         })
         $(document).ready(function () {
-           
+
             var indice = $('#detallesPedido > tr').not('.empty').length;
             var idPedido = $('#idPedido').val();
             console.log(idPedido);
@@ -332,18 +335,23 @@
 
                     var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
 
-                   // var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('value', data.precioUnitario).val($precioAMostrar);
-                    var $precioUnitario = $('<input>').attr('type','hidden').attr('id', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('value', data.precioUnitario);
-                    var $tdPrecioUnitario = $('<td align="center">').html("$"+ $precioAMostrar).append($precioUnitario);
+                    // var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('value', data.precioUnitario).val($precioAMostrar);
+                    var $precioUnitario = $('<input>').attr('type', 'hidden').attr('id', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('value', data.precioUnitario);
+                    var $tdPrecioUnitario = $('<td align="center">').html("$" + $precioAMostrar).append($precioUnitario);
 
-                    var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val(data.cantidad);
+                    var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').attr('id', 'detallesPedido[' + indice + '][cantidad]').val(data.cantidad);
                     var $tdCantidad = $('<td align="center">').html(data.cantidad).append($cantidad);
 
                     var $cantidadAut = $('<input  style="text-align:center">').attr('type', 'number').attr('min', '0').attr('max', data.cantidad).attr('value', data.cantidad)
                         .attr('onchange', "updateInput(this.value," + indice + ")").attr('name', 'detallesPedido[' + indice + '][cantidadAutorizada]').attr('id', 'detallesPedido[' + indice + '][cantidadAutorizada]');
-                    var $tdCantidadAut = $('<td align="center">').append($cantidadAut);
 
-                    var $tdStock = $('<td align="center">').html(data.stock);
+
+                    var $tdCantidadAut = $('<td id="cantAut" align="center">').append($cantidadAut);
+
+
+
+                    var $tdStock = $('<td  id="stock" align="center">').html(data.stock).attr('id', 'detallesPedido[' + indice + '][stock]');
+                    var $tdStockFarmacia = $('<td  id="stock" align="center">').html(Math.floor((Math.random() * 10) + 1));
 
                     var $subtotalCalculado = data.precioUnitario * data.cantidad;
                     var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
@@ -351,9 +359,15 @@
                     var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalAMostrar);
                     var $tdSubtotal = $('<td align="center">').html('$' + $subtotalAMostrar)
 
-                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdStock, $tdPrecioUnitario, $tdSubtotal);
+                    if (data.cantidad > data.stock) {
+                        var $tr = $('<tr class="list-group-item-danger">').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdStock,  $tdStockFarmacia,  $tdPrecioUnitario, $tdSubtotal);
+                    }
+                    else {
+                        var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdStock, $tdStockFarmacia, $tdPrecioUnitario, $tdSubtotal);
+
+                    }
                     $('#detallesPedido').append($tr);
-                   
+
                     total += $subtotalCalculado;
                     indice++;
 
@@ -368,10 +382,28 @@
                 }
                 var table = $("#detalles").DataTable();
             });
-            
+
         })
+
         function updateInput(ish, indice) {
-            document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]").setAttribute("value",ish);
+            document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]").setAttribute("value", ish);
+            var j = document.getElementById("detallesPedido[" + indice + "][stock]").innerText;
+
+            var x = document.getElementById("detallesPedido[" + indice + "][cantidad]").value;
+
+            if (ish > j ) {
+                $(document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]")).closest('tr').attr("class", "list-group-item-danger");
+            }
+            else {
+                if (ish == x) {
+                    $(document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]")).closest('tr').attr("class", "");
+                }
+                else {
+                    $(document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]")).closest('tr').attr("class", "list-group-item-success");
+
+                }
+
+            }
         }
         $(document).on('click', '#calcular', function (event) {
             event.preventDefault();
@@ -379,7 +411,7 @@
             var cantAut, precio;
             console.log(len);
             var totalAutorizado = 0;
-            for (var i = 0; i < len; i++){
+            for (var i = 0; i < len; i++) {
                 precio = document.getElementById("detallesPedido[" + i + "][insumo][precioUnitario]").getAttribute("value");
                 cantAut = document.getElementById("detallesPedido[" + i + "][cantidadAutorizada]").getAttribute("value");
                 totalAutorizado += parseFloat(cantAut) * parseFloat(precio);
