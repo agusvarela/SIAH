@@ -400,7 +400,8 @@
     });
     //Boton para agregar insumo a la lista
     $(document).on('click', '#btn_addInsumo', function (event) {
-
+        //Previene que se submitee el Form con este botón. Solo valide los campos vacios.
+        event.preventDefault();
         var inpObj = document.getElementById("cantidad");
         if ($('#cantidad').val() < 999999) {
             if (data != '' && $('#cantidad').val() != "") {
@@ -410,40 +411,74 @@
                     
                 }
                 //console.log(data);
-                var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').val(data.id);
-                var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').val(data.id);
-                var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
-                var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre).addClass('text-center');
+                //Evaluar si el insumo ya fue ingresado
+                var x;
+                var id;
+                var flag = true;
+                for (var i = 0; i < $('#detallesPedido > tr').length; i++) {
+                    x = document.getElementById('detallesPedido[' + i + '][insumoId]');
+                    if ( x != null) {
+                        id = x.getAttribute("value");
+                        if (data.id == id) {
+                            alert("Está intentando ingresar un insumo ya cargado");
+                            var cantidadAnterior = document.getElementById('detallesPedido[' + i + '][cantidad]').getAttribute("value");
+                            var cantidadAnteriorNum = parseInt(cantidadAnterior);
+                            var cantidadNueva = cantidadAnteriorNum + parseInt($('#cantidad').val());
+                            document.getElementById('detallesPedido[' + i + '][cantidad]').setAttribute("value", cantidadNueva.toString());
+                            document.getElementById('detallesPedido[' + i + '][cantidadVisible]').innerHTML = cantidadNueva.toString();
+                            flag = false;
+                        }
+                    }
+                }
+               
+                //En el caso que nunca fue ingresado se procede al agregado en la lista, caso contrario no se agrega
+                if (flag == true) {
+                    var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').val(data.id);
+                    var $insumoId = $('<input>').attr('type', 'hidden').attr('id', 'detallesPedido[' + indice + '][insumoId]').val(data.id);
+                    var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
+                    var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre).addClass('text-center');
 
-                var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
-                var $tdTipo = $('<td>').html(data.tipo).append($tipo).addClass('text-center');
+                    var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
+                    var $tdTipo = $('<td>').html(data.tipo).append($tipo).addClass('text-center');
 
-                var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
+                    var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
 
-                var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
-                var $tdPrecioUnitario = $('<td>').addClass('text-center').html("$" +$precioAMostrar).append($precioUnitario);
+                    var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
+                    var $tdPrecioUnitario = $('<td>').addClass('text-center').html("$" + $precioAMostrar).append($precioUnitario);
 
-                var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());
-                var $tdCantidad = $('<td>').addClass('text-center').html($('#cantidad').val()).append($cantidad);
+                    var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').attr('id', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());
+                    var $tdCantidad = $('<td>').addClass('text-center').attr('id', 'detallesPedido[' + indice + '][cantidadVisible]').html($('#cantidad').val()).append($cantidad);
 
-                var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
-                var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
+                    var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
+                    var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
 
-                var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalAMostrar);
-                var $tdSubtotal = $('<td>').addClass('text-center').html('$' + $subtotalAMostrar).append($cantidad);
+                    var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'subtotal').val($subtotalAMostrar);
+                    var $tdSubtotal = $('<td>').addClass('text-center').html('$' + $subtotalAMostrar).append($cantidad);
 
-                var $boton = $('<button>').attr('type', 'button').attr('id', 'btn-eliminar-detallesPedido').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs ').append($('<i>').addClass('fa fa-times'));
-                var $tdAccion = $('<td>').addClass('td-actions').append($boton).addClass('text-center');
+                    var $boton = $('<button>').attr('type', 'button').attr('id', 'btn-eliminar-detallesPedido').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs ').append($('<i>').addClass('fa fa-times'));
+                    var $tdAccion = $('<td>').addClass('td-actions').append($boton).addClass('text-center');
 
-                var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
-                ////$('#detallesPedido').append($tr);
-                indice++;
-                total += $subtotalCalculado;
-                table.row.add($tr);
-                table.draw();
+                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
+                    ////$('#detallesPedido').append($tr);
+                    indice++;
+                    total += $subtotalCalculado;
+                    table.row.add($tr);
+                    table.draw();
+                    data = '';
+                    //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
+                    var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
+                    $('#total').val("$" + $totalAMostrar);
 
-                //Previene que se submitee el Form con este botón. Solo valide los campos vacios.
-                event.preventDefault();
+                    //Verificacion del costo del pedido respecto al presupuesto
+                    if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) < total) {
+                        $('#totalSpan').text("El costo del pedido supera el presupuesto")
+                    }
+                    //Enfocar el campo de texto insumo para que siga agregando
+                    $('#insu').focus();
+                }
+               
+
+                
 
                 //Vacia los text box
                 $('#q').val("");
@@ -454,17 +489,7 @@
                 $('#insu').attr('class', 'form-group label-floating is-empty');
                 $('#canti').attr('class', 'form-group label-floating is-empty');
 
-                data = '';
-               //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
-                var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
-                $('#total').val("$" + $totalAMostrar);
-
-                //Verificacion del costo del pedido respecto al presupuesto
-                if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) < total) {
-                    $('#totalSpan').text("El costo del pedido supera el presupuesto")
-                }
-                //Enfocar el campo de texto insumo para que siga agregando
-                $('#insu').focus();
+               
 
                 
                
