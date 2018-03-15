@@ -101,7 +101,8 @@ namespace SIAH.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Usuario y/o contraseña incorrecto");
+                    //ModelState.AddModelError("", "Usuario y/o contraseña incorrecto");
+                    ViewBag.error = "Usuario y/o contraseña incorrecto";
 
                 }
             }

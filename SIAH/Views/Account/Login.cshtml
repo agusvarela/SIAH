@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Ingreso al sistema";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    String error = ViewBag.error;
 }
 
 
@@ -41,7 +42,7 @@
                                         </span>
                                         @*<input type="password" placeholder="Contraseña" class="form-control" />*@
                                         @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contraseña", @type = "password" } })
-                                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.password, error, new { @class = "text-danger" })
                                     </div>
                                     <!-- If you want to add a checkbox to this form, uncomment this code
 

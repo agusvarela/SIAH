@@ -425,7 +425,7 @@
                             var cantidadAnteriorNum = parseInt(cantidadAnterior);
                             var cantidadNueva = cantidadAnteriorNum + parseInt($('#cantidad').val());
                             document.getElementById('detallesPedido[' + i + '][cantidad]').setAttribute("value", cantidadNueva.toString());
-                            document.getElementById('detallesPedido[' + i + '][cantidadVisible]').innerHTML = cantidadNueva.toString();
+                            document.getElementById('[' + i + ']cantidadVisible').innerHTML = cantidadNueva.toString();
                             flag = false;
                         }
                     }
@@ -434,7 +434,7 @@
                 //En el caso que nunca fue ingresado se procede al agregado en la lista, caso contrario no se agrega
                 if (flag == true) {
                     var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').val(data.id);
-                    var $insumoId = $('<input>').attr('type', 'hidden').attr('id', 'detallesPedido[' + indice + '][insumoId]').val(data.id);
+                    var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').attr('id', 'detallesPedido[' + indice + '][insumoId]').val(data.id);
                     var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
                     var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre).addClass('text-center');
 
@@ -447,7 +447,7 @@
                     var $tdPrecioUnitario = $('<td>').addClass('text-center').html("$" + $precioAMostrar).append($precioUnitario);
 
                     var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').attr('id', 'detallesPedido[' + indice + '][cantidad]').val($('#cantidad').val());
-                    var $tdCantidad = $('<td>').addClass('text-center').attr('id', 'detallesPedido[' + indice + '][cantidadVisible]').html($('#cantidad').val()).append($cantidad);
+                    var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html($('#cantidad').val()).append($cantidad);
 
                     var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
                     var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
