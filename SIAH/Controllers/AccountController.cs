@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using SIAH.Models;
 using SIAH.Context;
 using System.Data.Entity;
-
 namespace SIAH.Controllers
 {
     public class AccountController : Controller
@@ -26,6 +25,7 @@ namespace SIAH.Controllers
             ViewBag.rolID = new SelectList(db.Roles, "id", "nombre");
             return View();
         }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -35,6 +35,9 @@ namespace SIAH.Controllers
             {
                 //account.rol = null;
                 //account.rolID = null;
+                String hash = Hashing.HashPassword(account.password);
+                account.password = hash;
+                account.confirmPassword = hash;
                 using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
                 {
                     db.UserAccounts.Add(account);
@@ -74,35 +77,47 @@ namespace SIAH.Controllers
         {
             using (Context.SIAHContext db = new Context.SIAHContext())
             {
-                var usr = db.UserAccounts.Where(u => u.email == user.email && u.password == user.password).Include(p => p.rol).Include(h => h.hospital).FirstOrDefault();
+                //var usr = db.UserAccounts.Where(u => u.email == user.email && u.password == user.password).Include(p => p.rol).Include(h => h.hospital).FirstOrDefault();
+                var usr = db.UserAccounts.Where(u => u.email == user.email).Include(p => p.rol).Include(h => h.hospital).FirstOrDefault();
+                
                 if (usr != null)
                 {
-                    Session["userid"] = usr.id.ToString();
-                    Session["email"] = usr.email.ToString();
-                    Session["nombre"] = usr.nombre.ToString();
-                    Session["rol"] = usr.rol.nombre.ToString();
-                    if (usr.hospitalID != null)
+                    String hash = usr.password;
+                    if (Hashing.ValidatePassword(user.password, hash))
                     {
-                        Session["hospitalId"] = usr.hospitalID.ToString();
-                        Session["hospital"] = usr.hospital.nombre.ToString();
+                        Session["userid"] = usr.id.ToString();
+                        Session["email"] = usr.email.ToString();
+                        Session["nombre"] = usr.nombre.ToString();
+                        Session["rol"] = usr.rol.nombre.ToString();
+                        if (usr.hospitalID != null)
+                        {
+                            Session["hospitalId"] = usr.hospitalID.ToString();
+                            Session["hospital"] = usr.hospital.nombre.ToString();
+                        }
+                        //Intento de redirigir el login pero no funciona 
+                        switch (usr.rol.nombre.ToString())
+                        {
+                            case "RespFarmacia":
+                                return RedirectToAction("../Home/RespFarmaciaDashboard");
+                            case "RespAutorizacion":
+                                return RedirectToAction("../Home/RespAutorizacion");
+                            case "DirectorArea":
+                                return RedirectToAction("../Home/DirectorArea");
+                            default:
+                                return RedirectToAction("LoggedIn");
+                        }
                     }
-                    //Intento de redirigir el login pero no funciona 
-                    switch (usr.rol.nombre.ToString()) { 
-                        case "RespFarmacia":
-                            return RedirectToAction("../Home/RespFarmaciaDashboard");
-                        case "RespAutorizacion":
-                            return RedirectToAction("../Home/RespAutorizacion");
-                        case "DirectorArea":
-                            return RedirectToAction("../Home/DirectorArea");
-                        default:
-                            return RedirectToAction("LoggedIn");
+                    else
+                    {
+                        ViewBag.error = "Contraseña incorrecta";
                     }
+                    
 
                 }
                 else
                 {
                     //ModelState.AddModelError("", "Usuario y/o contraseña incorrecto");
-                    ViewBag.error = "Usuario y/o contraseña incorrecto";
+                    ViewBag.error = "Usuario  incorrecto";
 
                 }
             }
