@@ -19,10 +19,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -282,10 +280,13 @@
     <Compile Include="Models\Pedidos\DetallePedido.cs" />
     <Compile Include="Models\Pedidos\Estado.cs" />
     <Compile Include="Models\Pedidos\Pedido.cs" />
+    <Compile Include="Models\Reclamos\EstadoReclamo.cs" />
+    <Compile Include="Models\Reclamos\Reclamo.cs" />
     <Compile Include="Models\Remitos\DetalleRemito.cs" />
     <Compile Include="Models\Remitos\EstadoRemito.cs" />
     <Compile Include="Models\Remitos\Remito.cs" />
     <Compile Include="Models\Rol.cs" />
+    <Compile Include="Models\Reclamos\TipoReclamo.cs" />
     <Compile Include="Models\UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
