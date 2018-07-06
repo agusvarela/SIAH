@@ -1,0 +1,83 @@
+﻿@model SIAH.Models.Reclamos.Reclamo
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Reclamo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.hospital.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hospital.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pedido.id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pedido.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.observacionFamacia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.observacionFamacia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.respuesta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.respuesta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaInicioReclamo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaInicioReclamo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaFinReclamo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFinReclamo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reclamoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reclamoId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estadoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estadoId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

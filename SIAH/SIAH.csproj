@@ -178,6 +178,7 @@
     <Compile Include="Controllers\AuthorizeUserAccessLevel.cs" />
     <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\DetallesPedidoController.cs" />
+    <Compile Include="Controllers\EstadoReclamosController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\EstadosRemitoController.cs" />
     <Compile Include="Controllers\Hashing.cs" />
@@ -186,8 +187,10 @@
     <Compile Include="Controllers\InsumosController.cs" />
     <Compile Include="Controllers\LocalidadesController.cs" />
     <Compile Include="Controllers\PedidosController.cs" />
+    <Compile Include="Controllers\ReclamosController.cs" />
     <Compile Include="Controllers\RemitosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\TipoReclamosController.cs" />
     <Compile Include="Controllers\TiposInsumoController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Global.asax.cs">
@@ -268,6 +271,10 @@
     <Compile Include="Migrations\201711212245200_create_table_estadoRemito.cs" />
     <Compile Include="Migrations\201711212245200_create_table_estadoRemito.Designer.cs">
       <DependentUpon>201711212245200_create_table_estadoRemito.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807062328453_create_reclamos_tables.cs" />
+    <Compile Include="Migrations\201807062328453_create_reclamos_tables.Designer.cs">
+      <DependentUpon>201807062328453_create_reclamos_tables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
@@ -477,6 +484,22 @@
     <Content Include="Views\Compras\Remito.cshtml" />
     <Content Include="Views\Compras\Index.cshtml" />
     <Content Include="Views\Home\RespFarmaciaDashboard.cshtml" />
+    <Content Include="Views\Reclamos\Create.cshtml" />
+    <Content Include="Views\Reclamos\Delete.cshtml" />
+    <Content Include="Views\Reclamos\Details.cshtml" />
+    <Content Include="Views\Reclamos\Edit.cshtml" />
+    <Content Include="Views\Reclamos\Index.cshtml" />
+    <Content Include="Views\TipoReclamos\Create.cshtml" />
+    <Content Include="Views\TipoReclamos\Delete.cshtml" />
+    <Content Include="Views\TipoReclamos\Details.cshtml" />
+    <Content Include="Views\TipoReclamos\Edit.cshtml" />
+    <Content Include="Views\TipoReclamos\Index.cshtml" />
+    <Content Include="Views\EstadoReclamos\Create.cshtml" />
+    <Content Include="Views\EstadoReclamos\Delete.cshtml" />
+    <Content Include="Views\EstadoReclamos\Details.cshtml" />
+    <Content Include="Views\EstadoReclamos\Edit.cshtml" />
+    <Content Include="Views\EstadoReclamos\Index.cshtml" />
+    <Content Include="Views\Reclamos\ReclamosRespFarmacia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -555,6 +578,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711212245200_create_table_estadoRemito.resx">
       <DependentUpon>201711212245200_create_table_estadoRemito.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807062328453_create_reclamos_tables.resx">
+      <DependentUpon>201807062328453_create_reclamos_tables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

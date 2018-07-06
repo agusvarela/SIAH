@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace SIAH.Models
+namespace SIAH.Models.Reclamos
 {
     public class TipoReclamo
     {

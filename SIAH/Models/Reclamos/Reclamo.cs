@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace SIAH.Models
+namespace SIAH.Models.Reclamos
 {
     public class Reclamo
     {
@@ -29,11 +29,18 @@ namespace SIAH.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? fechaFinReclamo { get; set; }
 
+        public int reclamoId { get; set; }
+        public TipoReclamo tipoReclamo { get; set; }
 
+        public int pedidoId { get; set; }
         public Pedidos.Pedido pedido { get; set; }
+
+        public int hospitalId { get; set; }
+        public Hospital hospital { get; set; }
+
         public UserAccount responsableAsignado { get; set; }
 
         public int estadoId { get; set; }
         public EstadoReclamo estadoReclamo { get; set; }
-     }
+    }
 }
