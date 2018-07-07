@@ -12,12 +12,71 @@ using SIAH.Models.Insumos;
 using SIAH.Models;
 using System.Globalization;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 
 namespace SIAH.Controllers
 {
     public class PedidosController : Controller
     {
         private SIAHContext db = new SIAHContext();
+
+        //POST: EntregaPedido
+        public HttpResponseMessage EntregaPedido(int? id)
+        {
+            HttpResponseMessage response;
+            if (id == null)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+            try
+            {
+                var pedido = db.Pedidos.Where(p => p.id == id).Include(t => t.estado).First();
+                if(pedido.estadoId == 4)
+                {
+                    pedido.estadoId = 6;
+                    db.Entry(pedido).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    response = new HttpResponseMessage(HttpStatusCode.NotAcceptable);
+                    /*response.Content = new StringContent("El pedido ingresado debe estar en estado " +
+                        "En Proceso de Envío y el estado del pedido ingresado es " + pedido.estado.nombreEstado);*/
+                    return response;
+                }
+            }catch (Exception e)
+            {
+                response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                //response.Content = new StringContent("Ocurrió un error al intentar realizar el cambio de estado");
+                return response;
+            }
+            response = new HttpResponseMessage(HttpStatusCode.Accepted);
+            //response.Content = new StringContent("El pedido cambió correctamente a estado Entregado");
+            return response;
+        }
+
+        // POST: Pedidos/Recibido
+        public ActionResult Recibido(int? pedidoId)
+        {
+            if (pedidoId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            try
+            {
+
+                var pedido = db.Pedidos.Where(p => p.id == pedidoId).First();
+                pedido.estadoId = 5;
+                db.Entry(pedido).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return RedirectToAction("RespFarmacia", "Pedidos");
+        }
 
         // GET: Pedidos
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
@@ -28,7 +87,6 @@ namespace SIAH.Controllers
         }
 
         // GET: Pedidos/Details/5
- 
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia", UserRole2 = "RespAutorizacion", UserRole3 = "DirectorArea")]
         public ActionResult Details(int? id)
         {
