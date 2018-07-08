@@ -29,7 +29,7 @@ namespace SIAH.Models.Reclamos
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? fechaFinReclamo { get; set; }
 
-        public int reclamoId { get; set; }
+        public int tipoReclamoId { get; set; }
         public TipoReclamo tipoReclamo { get; set; }
 
         public int pedidoId { get; set; }
@@ -38,9 +38,10 @@ namespace SIAH.Models.Reclamos
         public int hospitalId { get; set; }
         public Hospital hospital { get; set; }
 
+        public int responsableAsignadoId { get; set; }
         public UserAccount responsableAsignado { get; set; }
 
-        public int estadoId { get; set; }
+        public int estadoReclamoId { get; set; }
         public EstadoReclamo estadoReclamo { get; set; }
     }
 }

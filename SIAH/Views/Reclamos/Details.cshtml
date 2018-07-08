@@ -12,6 +12,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.estadoReclamo.nombreEstado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estadoReclamo.nombreEstado)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.hospital.nombre)
         </dt>
 
@@ -25,6 +33,22 @@
 
         <dd>
             @Html.DisplayFor(model => model.pedido.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.responsableAsignado.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.responsableAsignado.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipoReclamo.tipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipoReclamo.tipo)
         </dd>
 
         <dt>
@@ -57,22 +81,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.fechaFinReclamo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.reclamoId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.reclamoId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.estadoId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.estadoId)
         </dd>
 
     </dl>

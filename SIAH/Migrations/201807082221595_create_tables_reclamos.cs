@@ -3,7 +3,7 @@ namespace SIAH.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class create_reclamos_tables : DbMigration
+    public partial class create_tables_reclamos : DbMigration
     {
         public override void Up()
         {
@@ -26,25 +26,23 @@ namespace SIAH.Migrations
                         respuesta = c.String(),
                         fechaInicioReclamo = c.DateTime(nullable: false),
                         fechaFinReclamo = c.DateTime(),
-                        reclamoId = c.Int(nullable: false),
+                        tipoReclamoId = c.Int(nullable: false),
                         pedidoId = c.Int(nullable: false),
                         hospitalId = c.Int(nullable: false),
-                        estadoId = c.Int(nullable: false),
-                        estadoReclamo_id = c.Int(),
-                        responsableAsignado_id = c.Int(),
-                        tipoReclamo_id = c.Int(),
+                        responsableAsignadoId = c.Int(nullable: false),
+                        estadoReclamoId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.EstadoReclamo", t => t.estadoReclamo_id)
+                .ForeignKey("dbo.EstadoReclamo", t => t.estadoReclamoId, cascadeDelete: true)
                 .ForeignKey("dbo.Hospital", t => t.hospitalId, cascadeDelete: true)
                 .ForeignKey("dbo.Pedido", t => t.pedidoId, cascadeDelete: false)
-                .ForeignKey("dbo.UserAccount", t => t.responsableAsignado_id)
-                .ForeignKey("dbo.TipoReclamo", t => t.tipoReclamo_id)
+                .ForeignKey("dbo.UserAccount", t => t.responsableAsignadoId, cascadeDelete: true)
+                .ForeignKey("dbo.TipoReclamo", t => t.tipoReclamoId, cascadeDelete: true)
+                .Index(t => t.tipoReclamoId)
                 .Index(t => t.pedidoId)
                 .Index(t => t.hospitalId)
-                .Index(t => t.estadoReclamo_id)
-                .Index(t => t.responsableAsignado_id)
-                .Index(t => t.tipoReclamo_id);
+                .Index(t => t.responsableAsignadoId)
+                .Index(t => t.estadoReclamoId);
             
             CreateTable(
                 "dbo.TipoReclamo",
@@ -60,16 +58,16 @@ namespace SIAH.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Reclamo", "tipoReclamo_id", "dbo.TipoReclamo");
-            DropForeignKey("dbo.Reclamo", "responsableAsignado_id", "dbo.UserAccount");
+            DropForeignKey("dbo.Reclamo", "tipoReclamoId", "dbo.TipoReclamo");
+            DropForeignKey("dbo.Reclamo", "responsableAsignadoId", "dbo.UserAccount");
             DropForeignKey("dbo.Reclamo", "pedidoId", "dbo.Pedido");
             DropForeignKey("dbo.Reclamo", "hospitalId", "dbo.Hospital");
-            DropForeignKey("dbo.Reclamo", "estadoReclamo_id", "dbo.EstadoReclamo");
-            DropIndex("dbo.Reclamo", new[] { "tipoReclamo_id" });
-            DropIndex("dbo.Reclamo", new[] { "responsableAsignado_id" });
-            DropIndex("dbo.Reclamo", new[] { "estadoReclamo_id" });
+            DropForeignKey("dbo.Reclamo", "estadoReclamoId", "dbo.EstadoReclamo");
+            DropIndex("dbo.Reclamo", new[] { "estadoReclamoId" });
+            DropIndex("dbo.Reclamo", new[] { "responsableAsignadoId" });
             DropIndex("dbo.Reclamo", new[] { "hospitalId" });
             DropIndex("dbo.Reclamo", new[] { "pedidoId" });
+            DropIndex("dbo.Reclamo", new[] { "tipoReclamoId" });
             DropTable("dbo.TipoReclamo");
             DropTable("dbo.Reclamo");
             DropTable("dbo.EstadoReclamo");

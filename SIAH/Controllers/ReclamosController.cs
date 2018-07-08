@@ -18,7 +18,7 @@ namespace SIAH.Controllers
         // GET: Reclamos
         public ActionResult Index()
         {
-            var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.pedido);
+            var reclamoes = db.Reclamoes.Include(r => r.estadoReclamo).Include(r => r.hospital).Include(r => r.pedido).Include(r => r.responsableAsignado).Include(r => r.tipoReclamo);
             return View(reclamoes.ToList());
         }
 
@@ -40,8 +40,11 @@ namespace SIAH.Controllers
         // GET: Reclamos/Create
         public ActionResult Create()
         {
+            ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
             ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id");
+            ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre");
+            ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo");
             return View();
         }
 
@@ -50,7 +53,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,reclamoId,pedidoId,hospitalId,estadoId")] Reclamo reclamo)
+        public ActionResult Create([Bind(Include = "id,observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId,estadoReclamoId")] Reclamo reclamo)
         {
             if (ModelState.IsValid)
             {
@@ -59,8 +62,11 @@ namespace SIAH.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", reclamo.hospitalId);
             ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", reclamo.pedidoId);
+            ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre", reclamo.responsableAsignadoId);
+            ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
             return View(reclamo);
         }
 
@@ -76,8 +82,11 @@ namespace SIAH.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", reclamo.hospitalId);
             ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", reclamo.pedidoId);
+            ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre", reclamo.responsableAsignadoId);
+            ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
             return View(reclamo);
         }
 
@@ -86,7 +95,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,reclamoId,pedidoId,hospitalId,estadoId")] Reclamo reclamo)
+        public ActionResult Edit([Bind(Include = "id,observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId,estadoReclamoId")] Reclamo reclamo)
         {
             if (ModelState.IsValid)
             {
@@ -94,8 +103,11 @@ namespace SIAH.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", reclamo.hospitalId);
             ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", reclamo.pedidoId);
+            ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre", reclamo.responsableAsignadoId);
+            ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
             return View(reclamo);
         }
 
@@ -132,6 +144,20 @@ namespace SIAH.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
+        public ActionResult ReclamosRespFarmacia()
+        {
+            var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
+            var reclamoes = db.Reclamoes.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
+            return View(reclamoes.ToList());
+
+        }
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        public ActionResult ListadoReclamos()
+        {
+            var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
+            return View(reclamoes.ToList());
         }
     }
 }
