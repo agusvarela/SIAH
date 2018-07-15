@@ -7,7 +7,26 @@
 
 
 @using (Html.BeginForm())
-{
+{<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
+                </div>
+                <div class="modal-body text-center">
+
+                    <h5> ¿Desea confirmar que recibió el pedido? </h5>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
+                    <input id="yes" type="submit" class="btn btn-info btn-simple" value="Aceptar">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="banner-catalog">
         <div class="container">
             <div class="col-lg-12">
@@ -597,7 +616,7 @@
             });
         })
         //Función boton confirmación de recepción (Cambio a Enviado y Recibido)
-        $(document).on('click', '#btn_recibido', function (event) {
+        $(document).on('click', '#yes', function (event) {
             event.preventDefault();
             var idPedido = $('#idPedido').val();
             var urlRecibido = '/Pedidos/Recibido' + '?pedidoId=' + idPedido;
