@@ -32,7 +32,7 @@ namespace SIAH.Controllers
             try
             {
                 var pedido = db.Pedidos.Where(p => p.id == id).Include(t => t.estado).First();
-                if(pedido.estadoId == 4)
+                if(pedido.estadoId == 3)
                 {
                     pedido.estadoId = 6;
                     db.Entry(pedido).State = EntityState.Modified;
