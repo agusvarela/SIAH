@@ -38,11 +38,16 @@ namespace SIAH.Controllers
         }
 
         // GET: Reclamos/Create
-        public ActionResult Create()
+        public ActionResult Create(int? pedidoId, int? hospitalId)
         {
+            if(pedidoId == null || hospitalId == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.pedidoId = pedidoId;
             ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado");
-            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
-            ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id");
+            ViewBag.hospital = db.Hospitales.Where(p => p.id == hospitalId).First().nombre;
+            ViewBag.hospitalId = hospitalId;
             ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre");
             ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo");
             return View();
@@ -53,18 +58,22 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId,estadoReclamoId")] Reclamo reclamo)
+        public ActionResult Create([Bind(Include = "id,observacionFamacia,fechaInicioReclamo,tipoReclamoId,pedidoId,hospitalId,estadoReclamoId")] Reclamo reclamo)
         {
+            //TODO: Falta setear nullable el responsableId y establecer el estado inicial del reclamo mejor
+            reclamo.responsableAsignadoId = db.UserAccounts.First().id;
+            reclamo.estadoReclamoId = db.EstadoReclamoes.First().id;
             if (ModelState.IsValid)
             {
                 db.Reclamoes.Add(reclamo);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("RespFarmacia", "Pedidos");
             }
 
             ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
-            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", reclamo.hospitalId);
-            ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", reclamo.pedidoId);
+            ViewBag.hospitalId = reclamo.hospitalId;
+            ViewBag.hospital = db.Hospitales.Where(p => p.id == reclamo.hospitalId).First().nombre;
+            ViewBag.pedidoId = reclamo.pedidoId;
             ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre", reclamo.responsableAsignadoId);
             ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
             return View(reclamo);

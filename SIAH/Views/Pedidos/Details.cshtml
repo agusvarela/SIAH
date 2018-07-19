@@ -575,7 +575,8 @@
     @if (Session["rol"].ToString() == "RespFarmacia" && Model.estadoId == 6)
     {
         <br />
-        <input type="button" id="btn_recibido" value="Pedido Recibido" class="btn pull-right btn-primary" data-toggle="modal" data-target="#myModal" />
+        <input type="button" id="btn_recibido" value="Pedido Recibido" class="btn pull-right btn-success" data-toggle="modal" data-target="#myModal" />
+        <input type="button" id="btn_reclamar" value="Reclamar Pedido" class="btn pull-left btn-warning"/>
     }
 </div>
 <div class="container">
@@ -620,6 +621,14 @@
             event.preventDefault();
             var idPedido = $('#idPedido').val();
             var urlRecibido = '/Pedidos/Recibido' + '?pedidoId=' + idPedido;
+            location.href = urlRecibido;
+        })
+        //Función reclamar pedido
+        $(document).on('click', '#btn_reclamar', function (event) {
+            event.preventDefault();
+            var idPedido = $('#idPedido').val();
+            var idHospital = $('#idHospital').val();
+            var urlRecibido = '/Reclamos/Create' + '?pedidoId=' + idPedido + '&hospitalId=' + idHospital;
             location.href = urlRecibido;
         })
         $(document).ready(function () {
