@@ -4,79 +4,125 @@
     ViewBag.Title = "ListadoReclamos";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-12">
+            <h1>Listado de Reclamos</h1>
+            <div class="banner-catalog__content">
+                Aqui encontrará los reclamos pendientes de asignación e históricos
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+            <div class="form-card__content group">
+                <div class="form-group">
+                    @*<h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>
+                        <div class="row">*@
 
-<h2>ListadoReclamos</h2>
+                    <div id="contenedor" class="col-md-12">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.estadoReclamo.nombreEstado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.hospital.nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.pedido.id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.responsableAsignado.nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tipoReclamo.tipo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.observacionFamacia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.respuesta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaInicioReclamo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaFinReclamo)
-        </th>
-        <th></th>
-    </tr>
+                        <div id="table-container">
+                            <p>
+                                @Html.ActionLink("Crear Nuevo Reclamo", "Create")
+                            </p>
+                            <table id="maintable" class="table table-condensed">
+                                <thead>
+                                    <tr class="list-group-item-info" style="border-bottom: solid">
+                                        <th class="text-center">
+                                            <strong>@Html.DisplayNameFor(model => model.id)</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>@Html.DisplayNameFor(model => model.pedidoId)</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong> @Html.DisplayNameFor(model => model.hospital.nombre)</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>
+                                                @Html.DisplayNameFor(model => model.fechaInicioReclamo)
+                                            </strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>
+                                                @Html.DisplayNameFor(model => model.fechaFinReclamo)
+                                            </strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>
+                                                @Html.DisplayNameFor(model => model.tipoReclamo.tipo)
+                                            </strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>
+                                                @Html.DisplayNameFor(model => model.estadoReclamo.nombreEstado)
+                                            </strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>  @Html.DisplayNameFor(model => model.observacionFamacia)</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>
+                                                @Html.DisplayNameFor(model => model.responsableAsignado.apellido)
+                                            </strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>  @Html.Name("Acciones")</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>  @Html.Name("Autoasignarse Reclamo")</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.pedido.id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.fechaFinReclamo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tipoReclamo.tipo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.observacionFamacia)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                                    </td>
+                                    <td>                                    
+                                        @Html.Action("AutoAsignacion", "Reclamos", new { id = item.id })
+                                    </td>
+                                </tr>
+                                }
+                            </table>
+                            <div id="bottom_anchor"></div>
+                        </div>
+                    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.hospital.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.pedido.id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.responsableAsignado.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tipoReclamo.tipo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.observacionFamacia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.respuesta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaFinReclamo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
-
-</table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

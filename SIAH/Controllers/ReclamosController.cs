@@ -122,6 +122,45 @@ namespace SIAH.Controllers
             ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
             return View(reclamo);
         }
+        [HttpPost]
+        public ActionResult AutoAsignacion(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Reclamo reclamo = db.Reclamoes.Find(id);
+            return AutoAsignacion(reclamo);
+        }
+        [HttpPost]
+        public ActionResult AutoAsignacion(Reclamo reclamo)
+        {
+            if (reclamo == null)
+            {
+                return HttpNotFound();
+            }
+            reclamo.responsableAsignadoId= Int32.Parse(Session["userid"].ToString());
+            if (ModelState.IsValid)
+            {
+                db.Entry(reclamo).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("ListadoReclamos");
+            }
+            return View(reclamo);
+        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult AutoAsignacion([Bind(Include = "id,observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId,estadoReclamoId")] Reclamo reclamo)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(reclamo).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("ListadoReclamos");
+        //    }
+        //    return View(reclamo);
+        //}
 
         // GET: Reclamos/Delete/5
         public ActionResult Delete(int? id)
@@ -161,11 +200,11 @@ namespace SIAH.Controllers
         public ActionResult ReclamosRespFarmacia()
         {
 
-            var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
-            return View(reclamoes.ToList());
-            //var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
-            //var reclamoes = db.Reclamoes.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
+            //var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
             //return View(reclamoes.ToList());
+            var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
+            var reclamoes = db.Reclamoes.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
+            return View(reclamoes.ToList());
 
         }
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
