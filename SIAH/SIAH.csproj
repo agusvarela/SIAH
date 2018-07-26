@@ -276,6 +276,10 @@
     <Compile Include="Migrations\201807082221595_create_tables_reclamos.Designer.cs">
       <DependentUpon>201807082221595_create_tables_reclamos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807142140448_responsableasignadoId_nullable.cs" />
+    <Compile Include="Migrations\201807142140448_responsableasignadoId_nullable.Designer.cs">
+      <DependentUpon>201807142140448_responsableasignadoId_nullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
@@ -484,6 +488,12 @@
     <Content Include="Views\Compras\Remito.cshtml" />
     <Content Include="Views\Compras\Index.cshtml" />
     <Content Include="Views\Home\RespFarmaciaDashboard.cshtml" />
+    <Content Include="Views\Reclamos\ReclamosRespFarmacia.cshtml" />
+    <Content Include="Views\EstadoReclamos\Create.cshtml" />
+    <Content Include="Views\EstadoReclamos\Delete.cshtml" />
+    <Content Include="Views\EstadoReclamos\Details.cshtml" />
+    <Content Include="Views\EstadoReclamos\Edit.cshtml" />
+    <Content Include="Views\EstadoReclamos\Index.cshtml" />
     <Content Include="Views\Reclamos\Create.cshtml" />
     <Content Include="Views\Reclamos\Delete.cshtml" />
     <Content Include="Views\Reclamos\Details.cshtml" />
@@ -494,12 +504,7 @@
     <Content Include="Views\TipoReclamos\Details.cshtml" />
     <Content Include="Views\TipoReclamos\Edit.cshtml" />
     <Content Include="Views\TipoReclamos\Index.cshtml" />
-    <Content Include="Views\EstadoReclamos\Create.cshtml" />
-    <Content Include="Views\EstadoReclamos\Delete.cshtml" />
-    <Content Include="Views\EstadoReclamos\Details.cshtml" />
-    <Content Include="Views\EstadoReclamos\Edit.cshtml" />
-    <Content Include="Views\EstadoReclamos\Index.cshtml" />
-    <Content Include="Views\Reclamos\ReclamosRespFarmacia.cshtml" />
+    <Content Include="Views\Reclamos\ListadoReclamos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -581,6 +586,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807082221595_create_tables_reclamos.resx">
       <DependentUpon>201807082221595_create_tables_reclamos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807142140448_responsableasignadoId_nullable.resx">
+      <DependentUpon>201807142140448_responsableasignadoId_nullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -38,7 +38,7 @@ namespace SIAH.Models.Reclamos
         public int hospitalId { get; set; }
         public Hospital hospital { get; set; }
 
-        public int responsableAsignadoId { get; set; }
+        public int? responsableAsignadoId { get; set; }
         public UserAccount responsableAsignado { get; set; }
 
         public int estadoReclamoId { get; set; }

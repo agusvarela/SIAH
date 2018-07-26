@@ -66,6 +66,9 @@ namespace SIAH.Controllers
             if (ModelState.IsValid)
             {
                 db.Reclamoes.Add(reclamo);
+                reclamo.estadoReclamoId = 1;
+                reclamo.fechaInicioReclamo = DateTime.Today;
+                reclamo.responsableAsignadoId = null;
                 db.SaveChanges();
                 return RedirectToAction("RespFarmacia", "Pedidos");
             }
@@ -157,9 +160,12 @@ namespace SIAH.Controllers
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult ReclamosRespFarmacia()
         {
-            var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
-            var reclamoes = db.Reclamoes.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
+
+            var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
             return View(reclamoes.ToList());
+            //var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
+            //var reclamoes = db.Reclamoes.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
+            //return View(reclamoes.ToList());
 
         }
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]

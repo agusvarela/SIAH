@@ -17,7 +17,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <div class="col-sm-6 animated zoomIn">
+            <div class="col-sm-4 animated zoomIn">
                 <div class="card card-project">
 
                     <div class="content text-center">
@@ -29,13 +29,13 @@
                                 <a href="../Pedidos/RespFarmacia">Gestionar Pedidos</a>
                             </h4>
                             <p>Administre sus Pedidos enviados y genere nuevas solicitudes.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">Ir a Gestion de Pedidos</div>
+                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">Ir a Gestión de Pedidos</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-6 animated zoomIn">
+            <div class="col-sm-4 animated zoomIn">
                 <div class="card card-project">
 
                     <div class="content text-center">
@@ -47,11 +47,30 @@
                                 <a href="">Stock de Farmacia</a>
                             </h4>
                             <p>Gestione el Stock de insumos de la Farmacia de su Hospital</p>
-                            <div class="btn btn-round btn-primary" @*onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'"*@>Ir a Gestion de Stock Farmacia</div>
+                            <div class="btn btn-round btn-primary" @*onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'"*@>Ir a Gestión de Stock Farmacia</div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-sm-4 animated zoomIn">
+                <div class="card card-project">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                                <i class="material-icons">report</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="">Mis reclamos</a>
+                            </h4>
+                            <p>Gestione sus reclamos realizados sobre pedidos</p>
+                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">Ir a Gestión de Reclamos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </div>
