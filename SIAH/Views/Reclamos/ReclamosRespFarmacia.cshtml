@@ -64,7 +64,7 @@
                                             <strong>  @Html.DisplayNameFor(model => model.observacionFamacia)</strong>
                                         </th>
                                         <th class="text-center">
-                                            <strong>  @Html.Name("Acciones")</strong>
+                                            <strong>  @Html.DisplayNameFor(model => model.responsableAsignado)</strong>
                                         </th>
                                     </tr>
                                 </thead>
@@ -96,9 +96,8 @@
                                         @Html.DisplayFor(modelItem => item.observacionFamacia)
                                     </td>
                                     <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                                        @Html.DisplayFor(modelItem => item.responsableAsignado.nombre)
+                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
                                     </td>
                                 </tr>
                                 }

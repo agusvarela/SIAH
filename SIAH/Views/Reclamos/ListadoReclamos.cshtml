@@ -25,9 +25,6 @@
                     <div id="contenedor" class="col-md-12">
 
                         <div id="table-container">
-                            <p>
-                                @Html.ActionLink("Crear Nuevo Reclamo", "Create")
-                            </p>
                             <table id="maintable" class="table table-condensed">
                                 <thead>
                                     <tr class="list-group-item-info" style="border-bottom: solid">
@@ -71,9 +68,6 @@
                                         <th class="text-center">
                                             <strong>  @Html.Name("Acciones")</strong>
                                         </th>
-                                        <th class="text-center">
-                                            <strong>  @Html.Name("Autoasignarse Reclamo")</strong>
-                                        </th>
                                     </tr>
                                 </thead>
                                 @foreach (var item in Model)
@@ -98,29 +92,26 @@
                                         @Html.DisplayFor(modelItem => item.tipoReclamo.tipo)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                        @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.observacionFamacia)
                                     </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                                        @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.id })
-                                    </td>
-                                    <td>                                    
-                                        @Html.Action("AutoAsignacion", "Reclamos", new { id = item.id })
-                                    </td>
+                                    @if (item.estadoReclamoId == 1)
+                                    {
+                                        <td>
+                                            @Html.ActionLink("Asignarme el Reclamo", "AutoAsignacion", new { idReclamo = item.id, idResponsable = Session["userId"] })
+                                        </td>
+                                    }
                                 </tr>
                                 }
                             </table>
                             <div id="bottom_anchor"></div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

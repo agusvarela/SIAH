@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SIAH.Context;
+using SIAH.Models.Pedidos;
 using SIAH.Models.Reclamos;
 
 namespace SIAH.Controllers
@@ -60,17 +61,14 @@ namespace SIAH.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,observacionFamacia,fechaInicioReclamo,tipoReclamoId,pedidoId,hospitalId,estadoReclamoId")] Reclamo reclamo)
         {
-            //TODO: Falta setear nullable el responsableId y establecer el estado inicial del reclamo mejor
-            reclamo.responsableAsignadoId = db.UserAccounts.First().id;
-            reclamo.estadoReclamoId = db.EstadoReclamoes.First().id;
             if (ModelState.IsValid)
             {
                 db.Reclamoes.Add(reclamo);
-                reclamo.estadoReclamoId = 1;
+                reclamo.estadoReclamoId = 1; //Generado
                 reclamo.fechaInicioReclamo = DateTime.Today;
                 reclamo.responsableAsignadoId = null;
                 db.SaveChanges();
-                return RedirectToAction("RespFarmacia", "Pedidos");
+                return RedirectToAction("ReclamosRespFarmacia", "Reclamos");
             }
 
             ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
@@ -122,45 +120,25 @@ namespace SIAH.Controllers
             ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
             return View(reclamo);
         }
-        [HttpPost]
-        public ActionResult AutoAsignacion(int? id)
-        {
 
-            if (id == null)
+        // POST: Reclamos/AutoAsignacion
+        public ActionResult AutoAsignacion(int? idReclamo, String idResponsable)
+        {
+            if (idReclamo == null || idResponsable == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Reclamo reclamo = db.Reclamoes.Find(id);
-            return AutoAsignacion(reclamo);
-        }
-        [HttpPost]
-        public ActionResult AutoAsignacion(Reclamo reclamo)
-        {
+            Reclamo reclamo = db.Reclamoes.Find(idReclamo);
             if (reclamo == null)
             {
                 return HttpNotFound();
             }
-            reclamo.responsableAsignadoId= Int32.Parse(Session["userid"].ToString());
-            if (ModelState.IsValid)
-            {
-                db.Entry(reclamo).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("ListadoReclamos");
-            }
-            return View(reclamo);
+            reclamo.responsableAsignadoId = int.Parse(idResponsable);
+            reclamo.estadoReclamoId = 2; //En Revision
+            db.Entry(reclamo).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("ListadoReclamos", "Reclamos");
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult AutoAsignacion([Bind(Include = "id,observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId,estadoReclamoId")] Reclamo reclamo)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(reclamo).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("ListadoReclamos");
-        //    }
-        //    return View(reclamo);
-        //}
 
         // GET: Reclamos/Delete/5
         public ActionResult Delete(int? id)
@@ -199,18 +177,17 @@ namespace SIAH.Controllers
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult ReclamosRespFarmacia()
         {
-
-            //var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
-            //return View(reclamoes.ToList());
             var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
-            var reclamoes = db.Reclamoes.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
+            var reclamoes = db.Reclamoes.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital).
+                Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo).Include(r => r.responsableAsignado);
             return View(reclamoes.ToList());
 
         }
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         public ActionResult ListadoReclamos()
         {
-            var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo);
+            var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.pedido).
+                Include(r => r.tipoReclamo).Include(r => r.estadoReclamo).Include(r => r.responsableAsignado);
             return View(reclamoes.ToList());
         }
     }

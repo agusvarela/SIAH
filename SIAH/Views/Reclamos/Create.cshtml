@@ -24,7 +24,6 @@
             @Html.LabelFor(model => model.fechaInicioReclamo, htmlAttributes: new { @class = "control-label col-md-2 tota" })
             <div class="col-md-10">
                 @Html.TextBox("fechaInicioReclamo", DateTime.Today.ToString("yyyy-MM-dd"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
-                @Html.TextBox("fechaInicioReclamo", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control"@*, @readonly = "readonly"*@, @value = DateTime.Today })
                 @Html.ValidationMessageFor(model => model.fechaInicioReclamo, "", new { @class = "text-danger" })
             </div>
         </div>
