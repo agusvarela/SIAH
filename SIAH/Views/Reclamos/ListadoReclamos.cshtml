@@ -54,16 +54,16 @@
                                         </th>
                                         <th class="text-center">
                                             <strong>
+                                                @Html.DisplayNameFor(model => model.responsableAsignado.apellido)
+                                            </strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>
                                                 @Html.DisplayNameFor(model => model.estadoReclamo.nombreEstado)
                                             </strong>
                                         </th>
                                         <th class="text-center">
                                             <strong>  @Html.DisplayNameFor(model => model.observacionFamacia)</strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong>
-                                                @Html.DisplayNameFor(model => model.responsableAsignado.apellido)
-                                            </strong>
                                         </th>
                                         <th class="text-center">
                                             <strong>  @Html.Name("Acciones")</strong>
@@ -93,6 +93,7 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                        @Html.DisplayFor(modelItem => item.responsableAsignado.nombre)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
