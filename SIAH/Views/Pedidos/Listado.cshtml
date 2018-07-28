@@ -74,6 +74,15 @@
                                 <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
                                     <li class="text-info">
                                         <a class="list-group-item-info soft-info">
+                                            <i class="material-icons " style="padding:0px">business_center</i>
+
+                                            Entregado
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                                    <li class="text-info">
+                                        <a class="list-group-item-info soft-info">
                                             <i class="material-icons " style="padding:0px">local_shipping</i>
 
                                             En Proceso de Envío
@@ -307,7 +316,34 @@
                                                             </td>
                                                         </tr>
                                                         break;
+                                                    case 7:
+                                                        <tr class="list-group-item-danger">
 
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">clear</i>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                <a href="#" class="escondido">Autorizar</a>
+
+                                                            </td>
+                                                        </tr>
+                                                        break;
                                                 }
                                             }
 
@@ -341,7 +377,7 @@
             if (@ViewBag.success.ToString().ToLower() ===true) {
                     $.notify({
                         title: '<strong>Aviso!</strong><br/>',
-                        message: 'El pedido fue Autorizado exitosamente.'
+                        message: 'Operación completada con éxito'
                     }, {
                             type: 'success',
                             offset: {
@@ -356,7 +392,7 @@
                 if (@ViewBag.validacion.ToString().ToLower()===true) {
                     $.notify({
                         title: '<strong>Aviso!</strong><br/>',
-                        message: 'El pedido no fue Autorizado: @ViewBag.problem '
+                        message: '@ViewBag.problem '
                     }, {
                             type: 'danger',
                             offset: {

@@ -14,12 +14,12 @@ using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-
 namespace SIAH.Controllers
 {
     public class PedidosController : Controller
     {
         private SIAHContext db = new SIAHContext();
+        private static readonly HttpClient client = new HttpClient();
 
         //POST: EntregaPedido
         public HttpResponseMessage EntregaPedido(int? id)
@@ -105,35 +105,48 @@ namespace SIAH.Controllers
         }
 
         //POST: Pedidos/GenerateSendOcasa
-        public FileContentResult GenerateSendOcasa()
+        public ActionResult GenerateSendOcasa()
         {
             var detalles = db.DetallesPedido.Include(p => p.pedido).Where(x => x.pedido.estadoId == 2);
-
+            //Si no hay Pedidos en estado Autorizado, no se debe cambiar de estado nada ni enviar a OCASA 
+            if (!detalles.Any())
+            {
+                return RedirectToAction("Listado", "Pedidos");
+            }
             StringWriter csv = new StringWriter();
             csv.WriteLine(string.Format("{0},{1},{2},{3}", "Pedido", "Insumo", "Cantidad", "Hospital"));
             foreach (var detalle in detalles.ToList())
             {
                 csv.WriteLine(string.Format("{0},{1},{2},{3}", detalle.pedidoId, detalle.insumoId, detalle.cantidadAutorizada,detalle.pedido.hospitalId));
             }
-
-            //csv = string.Concat(detalles.Select(
-            //detalle => string.Format("{0},{1},{2}\n", detalle.pedidoId, detalle.insumoId, detalle.cantidadAutorizada)));
-            try
+            //Body que se enviará a OCASA con los pedidos en formato CSV (podria ser JSON pero no es algo prioritario)
+            var values = new Dictionary<string, string>
             {
-                foreach (var i in detalles.Select(x => x.pedidoId).ToList())
+               { "Pedidos", csv.ToString()}
+            };
+            var content = new FormUrlEncodedContent(values);
+            //LLamada a API ficticia que devuelve siempre un 200 (OK)
+            var response = client.PostAsync("http://httpstat.us/200", content);
+            if (response.Result.IsSuccessStatusCode)
+            {
+                try
                 {
-                    Pedido pedido = db.Pedidos.Find(i);
-                    pedido.estadoId = 3;
-                    db.Entry(pedido).State = EntityState.Modified;
-                    //db.SaveChanges();
+                    foreach (var i in detalles.Select(x => x.pedidoId).ToList())
+                    {
+                        Pedido pedido = db.Pedidos.Find(i);
+                        pedido.estadoId = 3;
+                        db.Entry(pedido).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Listado", "Pedidos", new { param = "Success" });
                 }
-                db.SaveChanges();
+                catch (Exception e)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, e.Message);
+                }
             }
-            catch (Exception e)
-            {
-                Console.Write(e.Message);
-            }
-            return File(new System.Text.UTF8Encoding().GetBytes(csv.ToString()), "text/csv", "DespachoMinisterioDeSalud"+DateTime.Now.ToString()+".csv");
+            //Si la respuesta de la API da cualquier resultado que no sea Success, se vuelve a la pagina con el mensaje de error
+            return RedirectToAction("Listado", "Pedidos", new { param = "Hubo un problema inesperado" });
         }
 
         //GET: Pedidos/GetHospital

@@ -55,7 +55,7 @@
                                             <div class="col-md-2 text-left pull-left">
                                                 <span style=" color: white"><strong>@Html.Name("ID Pedido")</strong></span>
                                             </div>
-                                            <span  style=" color: white"><strong>@Html.Name("Período de Generación")</strong></span>
+                                            <span style=" color: white"><strong>@Html.Name("Período de Generación")</strong></span>
                                             <div class="col-md-2 text-center pull-right">
                                                 <span class="  text-center" style="  color: white"><strong>@Html.Name("Estado")</strong></span>
                                             </div>
@@ -71,14 +71,14 @@
                                                 <li class="nav-dashboard__item  ">
                                                     <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
                                                         <div class="selector hide"></div>
-                                                            <span class="nav-dashboard__item__text soft-info">@Html.Label("id", item.id.ToString(), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
-                                                            <div class="col-md-2"></div>
-                                                            <span class="nav-dashboard__item__text">@Html.Label("periodo", item.fechaGeneracion.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "text-grey" })</span>
-                                                            <div class="col-md-2 text-center pull-right text-grey">
-                                                                <i class="   material-icons " style="margin-right:13px">send</i>
-                                                                <div> <strong>Generado  </strong></div>
-                                                            </div>
-                                                </a>
+                                                        <span class="nav-dashboard__item__text soft-info">@Html.Label("id", item.id.ToString(), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
+                                                        <div class="col-md-2"></div>
+                                                        <span class="nav-dashboard__item__text">@Html.Label("periodo", item.fechaGeneracion.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "text-grey" })</span>
+                                                        <div class="col-md-2 text-center pull-right text-grey">
+                                                            <i class="   material-icons " style="margin-right:13px">send</i>
+                                                            <div> <strong>Generado  </strong></div>
+                                                        </div>
+                                                    </a>
 
                                                 </li>
                                                 break;
@@ -157,6 +157,20 @@
                                                     </a>
                                                 </li>
                                                 break;
+                                            case 7:
+                                                <li class="nav-dashboard__item list-group-item-danger">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+                                                        <span class="nav-dashboard__item__text soft-info">@Html.Label("id", item.id.ToString(), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
+                                                        <div class="col-md-2"></div>
+                                                        <span class="nav-dashboard__item__text soft-danger">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-danger" })</span>
+                                                        <div class="col-md-2 text-center pull-right">
+                                                            <i class="icon-danger  material-icons " style="margin-right:10px">clear</i>
+                                                            <div class=" soft-danger"> <strong>Reclamado</strong></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            break;
                                         }
 
                                     }

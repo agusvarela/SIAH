@@ -49,12 +49,12 @@
                                         </th>
                                         <th class="text-center">
                                             <strong>
-                                                @Html.DisplayNameFor(model => model.tipoReclamo.tipo)
+                                                @Html.DisplayName("Tipo")
                                             </strong>
                                         </th>
                                         <th class="text-center">
                                             <strong>
-                                                @Html.DisplayNameFor(model => model.responsableAsignado.apellido)
+                                                @Html.DisplayName("Responsable Asignado")
                                             </strong>
                                         </th>
                                         <th class="text-center">
@@ -73,40 +73,44 @@
                                 @foreach (var item in Model)
                                 {
                                 <tr>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.id)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.pedido.id)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.hospital.nombre)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.fechaFinReclamo)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.tipoReclamo.tipo)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
                                         @Html.DisplayFor(modelItem => item.responsableAsignado.nombre)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.observacionFamacia)
                                     </td>
-                                    @if (item.estadoReclamoId == 1)
-                                    {
-                                        <td>
-                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.id , idResponsable = Session["userId"] })
-                                        </td>
-                                    }
+                                    <td>
+                                        @if (item.estadoReclamoId == 1)
+                                        {
+                                            @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.id, idResponsable = Session["userId"] })
+                                        }
+                                        @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
+                                        {
+                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.id, idResponsable = Session["userId"] })
+                                        }
+                                   </td>
                                 </tr>
                                 }
                             </table>

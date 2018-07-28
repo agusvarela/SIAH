@@ -61,12 +61,18 @@ namespace SIAH.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,observacionFamacia,fechaInicioReclamo,tipoReclamoId,pedidoId,hospitalId,estadoReclamoId")] Reclamo reclamo)
         {
+            Pedido pedido = db.Pedidos.Find(reclamo.pedidoId);
             if (ModelState.IsValid)
             {
+                //Cambio de estado del pedido
+                pedido.estadoId = 7; //Reclamado
+                db.Entry(pedido).State = EntityState.Modified;
+                //Generacion del reclamo
                 db.Reclamoes.Add(reclamo);
                 reclamo.estadoReclamoId = 1; //Generado
                 reclamo.fechaInicioReclamo = DateTime.Today;
                 reclamo.responsableAsignadoId = null;
+                //Guardar toda la transacción en DB
                 db.SaveChanges();
                 return RedirectToAction("ReclamosRespFarmacia", "Reclamos");
             }
