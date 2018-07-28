@@ -104,7 +104,7 @@
                                     @if (item.estadoReclamoId == 1)
                                     {
                                         <td>
-                                            @Html.ActionLink("Asignarme el Reclamo", "AutoAsignacion", new { idReclamo = item.id, idResponsable = Session["userId"] })
+                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.id , idResponsable = Session["userId"] })
                                         </td>
                                     }
                                 </tr>

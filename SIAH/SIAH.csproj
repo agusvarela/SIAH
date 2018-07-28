@@ -505,6 +505,7 @@
     <Content Include="Views\TipoReclamos\Edit.cshtml" />
     <Content Include="Views\TipoReclamos\Index.cshtml" />
     <Content Include="Views\Reclamos\ListadoReclamos.cshtml" />
+    <Content Include="Views\Reclamos\Resolucion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
