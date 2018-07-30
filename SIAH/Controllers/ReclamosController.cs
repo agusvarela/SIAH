@@ -131,10 +131,15 @@ namespace SIAH.Controllers
         {
             if (ModelState.IsValid)
             {
-                reclamo.estadoReclamoId = 2; //En Revision
+                reclamo.estadoReclamoId = 3; //En Revision
+                reclamo.fechaFinReclamo = DateTime.Now;
+                Pedido p = db.Pedidos.Find(reclamo.pedidoId);
+                p.estadoId = 5;
                 db.Entry(reclamo).State = EntityState.Modified;
+                db.Entry(p).State = EntityState.Modified;
+
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ListadoReclamos");
             }
             ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", reclamo.hospitalId);
