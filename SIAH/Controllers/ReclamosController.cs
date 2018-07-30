@@ -106,7 +106,7 @@ namespace SIAH.Controllers
             return View(reclamo);
         }
         
-        public ActionResult Resolucion (int? id, String idResponsable)
+        public ActionResult Resolucion (int? id)
         {
             if (id == null)
             {
@@ -118,26 +118,25 @@ namespace SIAH.Controllers
                 return HttpNotFound();
             }
             ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
-            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", reclamo.hospitalId);
-            ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", reclamo.pedidoId);
-            reclamo.responsableAsignadoId = int.Parse(idResponsable);
-            ViewBag.responsableAsignadoId = db.UserAccounts.Find(int.Parse(idResponsable)).id;
-            ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
+            ViewBag.hospitalId = reclamo.hospitalId;
+            ViewBag.hospital = db.Hospitales.Find(reclamo.hospitalId).nombre;
+            ViewBag.tipo = db.TipoReclamoes.Find(reclamo.tipoReclamoId).tipo;
+            ViewBag.pedidoId = reclamo.pedidoId;
+            ViewBag.tipoReclamoId = reclamo.tipoReclamoId;
             return View(reclamo);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Resolucion([Bind(Include = "id,observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId,estadoReclamoId")] Reclamo reclamo)
+        public ActionResult Resolucion([Bind(Include = "id,observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId")] Reclamo reclamo)
         {
             if (ModelState.IsValid)
             {
                 reclamo.estadoReclamoId = 3; //En Revision
-                reclamo.fechaFinReclamo = DateTime.Now;
+                //reclamo.fechaFinReclamo = DateTime.Now;
                 Pedido p = db.Pedidos.Find(reclamo.pedidoId);
-                p.estadoId = 5;
+                p.estadoId = 5; //Entregado y recibido
                 db.Entry(reclamo).State = EntityState.Modified;
                 db.Entry(p).State = EntityState.Modified;
-
                 db.SaveChanges();
                 return RedirectToAction("ListadoReclamos");
             }

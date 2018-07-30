@@ -63,38 +63,44 @@
                                         <th class="text-center">
                                             <strong>  @Html.DisplayNameFor(model => model.responsableAsignado)</strong>
                                         </th>
+                                        <th class="text-center">
+                                            <strong>  @Html.Name("Acciones")</strong>
+                                        </th>
                                     </tr>
                                 </thead>
                                 @foreach (var item in Model)
                                 {
                                 <tr>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.id)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.pedido.id)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.hospital.nombre)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.fechaFinReclamo)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.tipoReclamo.tipo)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.observacionFamacia)
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.responsableAsignado.nombre)
                                         @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Detalles", "Details", new { id = item.id })
                                     </td>
                                 </tr>
                                 }

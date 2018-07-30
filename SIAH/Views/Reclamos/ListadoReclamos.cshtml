@@ -102,15 +102,16 @@
                                         @Html.DisplayFor(modelItem => item.observacionFamacia)
                                     </td>
                                     <td>
+                                        @Html.ActionLink("Detalles", "Details", new { id = item.id }) |
                                         @if (item.estadoReclamoId == 1)
                                         {
                                             @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.id, idResponsable = Session["userId"] })
                                         }
                                         @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
                                         {
-                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.id, idResponsable = Session["userId"] })
+                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.id })
                                         }
-                                   </td>
+                                    </td>
                                 </tr>
                                 }
                             </table>
