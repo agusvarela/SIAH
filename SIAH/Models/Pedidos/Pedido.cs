@@ -37,6 +37,9 @@ namespace SIAH.Models.Pedidos
         public int estadoId { get; set; }
         public Estado estado { get; set; }
 
+        public int? reclamoId { get; set; }
+        public virtual Reclamos.Reclamo reclamo { get; set; }
+
         public ICollection<DetallePedido> detallesPedido { get; set; }
 
         public Pedido()

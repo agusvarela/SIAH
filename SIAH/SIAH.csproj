@@ -280,6 +280,10 @@
     <Compile Include="Migrations\201807142140448_responsableasignadoId_nullable.Designer.cs">
       <DependentUpon>201807142140448_responsableasignadoId_nullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808051811016_alter_table_pedido_reclamoId.cs" />
+    <Compile Include="Migrations\201808051811016_alter_table_pedido_reclamoId.Designer.cs">
+      <DependentUpon>201808051811016_alter_table_pedido_reclamoId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
@@ -590,6 +594,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807142140448_responsableasignadoId_nullable.resx">
       <DependentUpon>201807142140448_responsableasignadoId_nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808051811016_alter_table_pedido_reclamoId.resx">
+      <DependentUpon>201808051811016_alter_table_pedido_reclamoId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
