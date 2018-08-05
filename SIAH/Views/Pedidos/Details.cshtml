@@ -692,15 +692,15 @@
             event.preventDefault();
             var idPedido = $('#idPedido').val();
             var idHospital = $('#idHospital').val();
-            var urlRecibido = '/Reclamos/Details/' + reclamoId;
-            location.href = urlRecibido;
+            var urlRecibido = '/Reclamos/Create' + '?pedidoId=' + idPedido + '&hospitalId=' + idHospital;
+            location.href = urlRecibido; 
         })
         //Funcion para ir al Reclamo
         $(document).on('click', '#btn_reclamo', function (event) {
             event.preventDefault();
             var idPedido = $('#idPedido').val();
             var idHospital = $('#idHospital').val();
-            var urlRecibido = '/Reclamos/Create' + '?pedidoId=' + idPedido + '&hospitalId=' + idHospital;
+            var urlRecibido = '/Reclamos/Details/' + idPedido;
             location.href = urlRecibido;
         })
         $(document).ready(function () {
