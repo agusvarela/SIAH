@@ -18,7 +18,7 @@
 <div class="form-horizontal">
     <h4>Reclamo</h4>
     <hr />
-    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.pedidoId)
 
     <div class="form-group">
         @Html.LabelFor(model => model.fechaInicioReclamo, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -79,7 +79,6 @@
 
     <div class="form-group">
         @Html.HiddenFor(model => model.responsableAsignadoId)
-        @Html.HiddenFor(model => model.pedidoId)
     </div>
  </div>
 

@@ -29,9 +29,6 @@
                                 <thead>
                                     <tr class="list-group-item-info" style="border-bottom: solid">
                                         <th class="text-center">
-                                            <strong>@Html.DisplayNameFor(model => model.id)</strong>
-                                        </th>
-                                        <th class="text-center">
                                             <strong>@Html.DisplayNameFor(model => model.pedidoId)</strong>
                                         </th>
                                         <th class="text-center">
@@ -74,10 +71,7 @@
                                 {
                                 <tr>
                                     <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.id)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.pedido.id)
+                                        @Html.DisplayFor(modelItem => item.pedidoId)
                                     </td>
                                     <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.hospital.nombre)
@@ -102,14 +96,14 @@
                                         @Html.DisplayFor(modelItem => item.observacionFamacia)
                                     </td>
                                     <td>
-                                        @Html.ActionLink("Detalles", "Details", new { id = item.id }) |
+                                        @Html.ActionLink("Detalles", "Details", new { id = item.pedidoId }) |
                                         @if (item.estadoReclamoId == 1)
                                         {
-                                            @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.id, idResponsable = Session["userId"] })
+                                            @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
                                         }
                                         @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
                                         {
-                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.id })
+                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
                                         }
                                     </td>
                                 </tr>

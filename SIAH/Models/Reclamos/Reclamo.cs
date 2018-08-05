@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -9,10 +10,11 @@ namespace SIAH.Models.Reclamos
 {
     public class Reclamo
     {
-        [Display(Name = "Id Reclamo")]
-        [Key]
-        public int id { get; set; }
-
+        [Key, ForeignKey("Pedido")]
+        [Column(Order = 0)]
+        public int pedidoId { get; set; }
+        public virtual Pedidos.Pedido Pedido { get; set; }
+        
         [Display(Name = "Observación")]
         public String observacionFamacia { get; set; }
 
@@ -31,10 +33,7 @@ namespace SIAH.Models.Reclamos
 
         public int tipoReclamoId { get; set; }
         public TipoReclamo tipoReclamo { get; set; }
-
-        public int pedidoId { get; set; }
-        public Pedidos.Pedido pedido { get; set; }
-
+        
         public int hospitalId { get; set; }
         public Hospital hospital { get; set; }
 

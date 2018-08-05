@@ -19,7 +19,7 @@ namespace SIAH.Controllers
         // GET: Reclamos
         public ActionResult Index()
         {
-            var reclamoes = db.Reclamoes.Include(r => r.estadoReclamo).Include(r => r.hospital).Include(r => r.pedido).Include(r => r.responsableAsignado).Include(r => r.tipoReclamo);
+            var reclamoes = db.Reclamoes.Include(r => r.estadoReclamo).Include(r => r.hospital).Include(r => r.Pedido).Include(r => r.responsableAsignado).Include(r => r.tipoReclamo);
             return View(reclamoes.ToList());
         }
 
@@ -127,7 +127,7 @@ namespace SIAH.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Resolucion([Bind(Include = "id,observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId")] Reclamo reclamo)
+        public ActionResult Resolucion([Bind(Include = "observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId")] Reclamo reclamo)
         {
             if (ModelState.IsValid)
             {
@@ -226,14 +226,14 @@ namespace SIAH.Controllers
         {
             var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
             var reclamoes = db.Reclamoes.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital).
-                Include(r => r.pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo).Include(r => r.responsableAsignado);
+                Include(r => r.Pedido).Include(r => r.tipoReclamo).Include(r => r.estadoReclamo).Include(r => r.responsableAsignado);
             return View(reclamoes.ToList());
 
         }
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         public ActionResult ListadoReclamos()
         {
-            var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.pedido).
+            var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.Pedido).
                 Include(r => r.tipoReclamo).Include(r => r.estadoReclamo).Include(r => r.responsableAsignado);
             return View(reclamoes.ToList());
         }
