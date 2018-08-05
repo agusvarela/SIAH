@@ -2659,6 +2659,9 @@ h2.title {
 .text-info {
   color: #03a9f4;
 }
+.text-orange {
+    color: #f26d21;
+}
 
 .nav-tabs {
   background: #9c27b0;
@@ -3937,6 +3940,12 @@ i.icon-warning {
 .soft-info {
     color: #31708f;
 }
+.soft-orange {
+    color: #d2691e;
+}
+.soft-grey {
+    color: #000000
+}
 
 
     .bigbut {
@@ -4093,4 +4102,12 @@ span.tituloPanel {
 }
 thead.listado {
     background-color: white;
+}
+.list-group-item-orange {
+    color: #d2691e;
+    background-color: #FFEDCC
+}
+.list-group-item-grey {
+    color: #000000;
+    background-color: #C0C0C0
 }

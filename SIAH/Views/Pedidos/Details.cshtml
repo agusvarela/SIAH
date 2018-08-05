@@ -130,7 +130,7 @@
                                 {
                                     <h4><strong>Este pedido no es Urgente </strong></h4>
                                 }
-                                
+
                             </div>
                         </div>
                     </div>
@@ -190,7 +190,7 @@
 
                                         <div class="col-xs-2 bs-wizard-step disabled">
                                             <!-- complete -->
-                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">business_center</i> <br />Entregado</div>
+                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">markunread</i> <br />Entregado</div>
                                             <div class="progress"><div class="progress-bar"></div></div>
                                             <a href="#" class="bs-wizard-dot"></a>
                                             <div class="bs-wizard-info text-center"></div>
@@ -241,7 +241,7 @@
 
                                         <div class="col-xs-2 bs-wizard-step disabled">
                                             <!-- complete -->
-                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">business_center</i> <br />Entregado</div>
+                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">markunread</i> <br />Entregado</div>
                                             <div class="progress"><div class="progress-bar"></div></div>
                                             <a href="#" class="bs-wizard-dot"></a>
                                             <div class="bs-wizard-info text-center"></div>
@@ -297,7 +297,7 @@
 
                                         <div class="col-xs-3 bs-wizard-step disabled">
                                             <!-- complete -->
-                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">business_center</i> <br />Entregado</div>
+                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">markunread</i> <br />Entregado</div>
                                             <div class="progress"><div class="progress-bar"></div></div>
                                             <a href="#" class="bs-wizard-dot"></a>
                                             <div class="bs-wizard-info text-center"></div>
@@ -353,7 +353,7 @@
 
                                         <div class="col-xs-3 bs-wizard-step complete">
                                             <!-- complete -->
-                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">business_center</i> <br />Entregado</div>
+                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">markunread</i> <br />Entregado</div>
                                             <div class="progress"><div class="progress-bar"></div></div>
                                             <a href="#" class="bs-wizard-dot"></a>
                                             <div class="bs-wizard-info text-center"></div>
@@ -414,7 +414,7 @@
 
                                         <div class="col-xs-2 bs-wizard-step complete">
                                             <!-- complete -->
-                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">business_center</i> <br />Entregado</div>
+                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">markunread</i> <br />Entregado</div>
                                             <div class="progress"><div class="progress-bar"></div></div>
                                             <a href="#" class="bs-wizard-dot"></a>
                                             <div class="bs-wizard-info text-center"></div>
@@ -473,7 +473,7 @@
                                             <!-- complete -->
                                             <div class="text-center bs-wizard-stepnum">
                                                 <div class="icon icon-info">
-                                                    <i class="material-icons">business_center</i> <br />Entregado
+                                                    <i class="material-icons">markunread</i> <br />Entregado
                                                 </div>
                                             </div>
                                             <div class="progress"><div class="progress-bar"></div></div>
@@ -527,7 +527,7 @@
 
                                         <div class="col-xs-2 bs-wizard-step complete">
                                             <!-- complete -->
-                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">business_center</i> <br />Entregado</div>
+                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">markunread</i> <br />Entregado</div>
                                             <div class="progress"><div class="progress-bar"></div></div>
                                             <a href="#" class="bs-wizard-dot"></a>
                                             <div class="bs-wizard-info text-center"></div>
@@ -538,7 +538,7 @@
                                             <!-- active -->
                                             <div class="text-center bs-wizard-stepnum">
                                                 <div class=" icon icon-danger">
-                                                    <i class="material-icons ">clear</i> <br />Reclamado
+                                                    <i class="material-icons ">error_outline</i> <br />Reclamado
                                                 </div>
                                             </div>
                                             <div class="progress"><div class="progress-bar"></div></div>
@@ -573,7 +573,7 @@
                                 <div class="col-md-12">
                                     <table id="detalles" class=" table table-hover table-condensed">
                                         <thead>
-                                            <tr style="font-weight:bold" >
+                                            <tr style="font-weight:bold">
                                                 <th style="width:30%; font-weight:bold ">Nombre</th>
                                                 <th style="width:16%; font-weight:bold">Tipo </th>
                                                 <th style="width:17%; font-weight:bold" class="text-center">Cantidad Solicitada</th>
@@ -619,6 +619,13 @@
                                     </div>
                                 </div>
                             </div>
+                            @if (Model.estadoId==7)
+                            {
+                                <div class="col-xs-12">
+                                    <br />
+                                    <input type="button" id="btn_reclamo" value="Ir al Reclamo" class="btn pull-right btn-primary" />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -633,30 +640,30 @@
     {
         <br />
         <input type="button" id="btn_recibido" value="Pedido Recibido" class="btn pull-right btn-success" data-toggle="modal" data-target="#myModal" />
-        <input type="button" id="btn_reclamar" value="Reclamar Pedido" class="btn pull-left btn-warning"/>
+        <input type="button" id="btn_reclamar" value="Reclamar Pedido" class="btn pull-left btn-warning" />
     }
 </div>
 <div class="container">
     @if (Session["rol"].ToString() == "RespAutorizacion")
     {
-          @Html.ActionLink("Volver al Listado", "Listado", "Pedidos")
+        @Html.ActionLink("Volver al Listado", "Listado", "Pedidos")
     }
     @if (Session["rol"].ToString() == "RespFarmacia")
     {
-             @Html.ActionLink("Volver al Listado", "RespFarmacia", "Pedidos")
+        @Html.ActionLink("Volver al Listado", "RespFarmacia", "Pedidos")
     }
 </div>
 @*<div class="container">
-    @if (Session["rol"].ToString() == "RespAutorizacion")
-    {
-        @Html.ActionLink("Volver al Dashboard", "RespAutorizacion","Home")
-    }
-    @if (Session["rol"].ToString() == "RespFarmacia")
-    {
-        @Html.ActionLink("Volver al Dashboard", "RespFarmacia")
-    }
- 
-</div>*@
+        @if (Session["rol"].ToString() == "RespAutorizacion")
+        {
+            @Html.ActionLink("Volver al Dashboard", "RespAutorizacion","Home")
+        }
+        @if (Session["rol"].ToString() == "RespFarmacia")
+        {
+            @Html.ActionLink("Volver al Dashboard", "RespFarmacia")
+        }
+
+    </div>*@
 
 @section Scripts {
     <script type="text/javascript">
@@ -682,6 +689,14 @@
         })
         //Función reclamar pedido
         $(document).on('click', '#btn_reclamar', function (event) {
+            event.preventDefault();
+            var idPedido = $('#idPedido').val();
+            var idHospital = $('#idHospital').val();
+            var urlRecibido = '/Reclamos/Details/' + reclamoId;
+            location.href = urlRecibido;
+        })
+        //Funcion para ir al Reclamo
+        $(document).on('click', '#btn_reclamo', function (event) {
             event.preventDefault();
             var idPedido = $('#idPedido').val();
             var idHospital = $('#idHospital').val();
@@ -741,8 +756,8 @@
                         $('#autoSpan').attr("class", "text-danger").text("El costo autorizado supera el presupuesto");
                     }
                 }
-                
-                
+
+
             });
         });
 

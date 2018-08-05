@@ -55,7 +55,7 @@
                             <div id="cuadritos" class="container col-md-12">
                                 <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
                                     <li class="text-info">
-                                        <a class="list-group-item-danger soft-danger">
+                                        <a class="list-group-item-grey soft-grey">
                                             <i class="material-icons " style="padding:0px">clear</i>
 
                                             Cancelado
@@ -71,10 +71,19 @@
                                         </a>
                                     </li>
                                 </ul>
+                                <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                                    <li class="text-info">
+                                        <a class="list-group-item-danger soft-danger">
+                                            <i class="material-icons " style="padding:0px">error_outline</i>
+
+                                            Reclamado
+                                        </a>
+                                    </li>
+                                </ul>
                                 <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
                                     <li class="text-info">
                                         <a class="list-group-item-info soft-info">
-                                            <i class="material-icons " style="padding:0px">business_center</i>
+                                            <i class="material-icons " style="padding:0px">markunread</i>
 
                                             Entregado
                                         </a>
@@ -82,7 +91,8 @@
                                 </ul>
                                 <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
                                     <li class="text-info">
-                                        <a class="list-group-item-info soft-info">
+                                        <a class="list-group-item-orange soft-orange">
+                                    
                                             <i class="material-icons " style="padding:0px">local_shipping</i>
 
                                             En Proceso de Envío
@@ -205,7 +215,7 @@
                                                         </tr>
                                                         break;
                                                     case 3:
-                                                        <tr class="list-group-item-info">
+                                                        <tr class="list-group-item-orange">
 
                                                             <td class="text-center">
                                                                 @Html.DisplayFor(modelItem => item.id)
@@ -233,7 +243,7 @@
                                                         </tr>
                                                         break;
                                                     case 4:
-                                                        <tr class="list-group-item-danger">
+                                                        <tr class="list-group-item-grey">
 
                                                             <td class="text-center">
                                                                 @Html.DisplayFor(modelItem => item.id)
@@ -307,7 +317,7 @@
                                                                 }
                                                             </td>
                                                             <td class="text-center">
-                                                                <i class="icon-info  material-icons">business_center</i>
+                                                                <i class="icon-info  material-icons">markunread</i>
                                                             </td>
                                                             <td class="text-center">
                                                                 @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
@@ -335,7 +345,7 @@
                                                                 }
                                                             </td>
                                                             <td class="text-center">
-                                                                <i class="material-icons">clear</i>
+                                                                <i class="material-icons">error_outline</i>
                                                             </td>
                                                             <td class="text-center">
                                                                 @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |

@@ -99,30 +99,30 @@
                                                 </li>
                                                 break;
                                             case 3:
-                                                <li class="nav-dashboard__item list-group-item-info">
+                                                <li class="nav-dashboard__item list-group-item-orange">
                                                     <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
                                                         <div class="selector hide"></div>
-                                                        <span class="nav-dashboard__item__text soft-info">@Html.Label("id", item.id.ToString(), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
+                                                        <span class="nav-dashboard__item__text soft-orange">@Html.Label("id", item.id.ToString(), htmlAttributes: new { @readonly = "readonly", @class = "soft-orange" })</span>
                                                         <div class="col-md-2"></div>
-                                                        <span class="nav-dashboard__item__text soft-info">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
+                                                        <span class="nav-dashboard__item__text soft-orange">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-orange" })</span>
                                                         <div class="col-md-2 text-center pull-right">
-                                                            <i class="icon-info material-icons " style="margin-right:10px">local_shipping</i>
+                                                            <i class="soft-orange material-icons " style="margin-right:10px">local_shipping</i>
 
-                                                            <div class=" soft-info"> <strong>En proceso de Envío</strong></div>
+                                                            <div class=" soft-orange"> <strong>En proceso de Envío</strong></div>
                                                         </div>
                                                     </a>
                                                 </li>
                                                 break;
                                             case 4:
-                                                <li class="nav-dashboard__item list-group-item-danger">
+                                                <li class="nav-dashboard__item list-group-item-grey">
                                                     <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
                                                         <div class="selector hide"></div>
-                                                        <span class="nav-dashboard__item__text soft-info">@Html.Label("id", item.id.ToString(), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
+                                                        <span class="nav-dashboard__item__text soft-grey">@Html.Label("id", item.id.ToString(), htmlAttributes: new { @readonly = "readonly", @class = "soft-grey" })</span>
                                                         <div class="col-md-2"></div>
-                                                        <span class="nav-dashboard__item__text soft-danger">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-danger" })</span>
+                                                        <span class="nav-dashboard__item__text  soft-grey">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-grey" })</span>
                                                         <div class="col-md-2 text-center pull-right">
-                                                            <i class="icon-danger  material-icons " style="margin-right:10px">clear</i>
-                                                            <div class=" soft-danger"> <strong>Cancelado</strong></div>
+                                                            <i class=" soft-grey material-icons " style="margin-right:10px">clear</i>
+                                                            <div class=" soft-grey"> <strong>Cancelado</strong></div>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -151,7 +151,7 @@
                                                         <span class="nav-dashboard__item__text soft-info">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
 
                                                         <div class="col-md-2 text-center pull-right">
-                                                            <i class="icon-info  material-icons" style="margin-right:10px">business_center</i>
+                                                            <i class="icon-info  material-icons" style="margin-right:10px">markunread</i>
                                                             <div class=" soft-info"> <strong>Entregado</strong></div>
                                                         </div>
                                                     </a>
@@ -165,7 +165,7 @@
                                                         <div class="col-md-2"></div>
                                                         <span class="nav-dashboard__item__text soft-danger">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-danger" })</span>
                                                         <div class="col-md-2 text-center pull-right">
-                                                            <i class="icon-danger  material-icons " style="margin-right:10px">clear</i>
+                                                            <i class="icon-danger  material-icons " style="margin-right:10px">error_outline</i>
                                                             <div class=" soft-danger"> <strong>Reclamado</strong></div>
                                                         </div>
                                                     </a>
