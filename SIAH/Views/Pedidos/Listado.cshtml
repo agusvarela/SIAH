@@ -14,12 +14,27 @@
 
     }
 }
-<script type="text/javascript">
-    window.addEventListener("load", function () {
-        $('#myModal').modal({ show: true });
-    })
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
+            </div>
+            <div class="modal-body text-center">
 
-</script>
+                <h5> ¿Desea enviar el listado de Pedidos a Ocasa? </h5>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
+                <a id="enviar" type="button" class="btn btn-info btn-simple" href="@Url.Action("GenerateSendOcasa", "Pedidos")">Aceptar</a>
+                @*<input id="enviar" type="button" class="btn btn-info btn-simple" value="Aceptar" onclick="@Url.Action("GenerateSendOcasa", "Pedidos")">*@
+            </div>
+        </div>
+    </div>
+</div>
 <div class="banner-catalog">
     <div class="container">
         <div class="col-lg-12">
@@ -366,7 +381,7 @@
                             </div>
                             <br />
                             <div class="col-md-12" style="padding-top:20px">
-                                <a id="enviar" type="button" class="btn btn-success  btn-round btn_export pull-right" href="@Url.Action("GenerateSendOcasa", "Pedidos")">Enviar a OCASA</a>
+                                <a id="enviar1" type="button" class="btn btn-success  btn-round btn_export pull-right" data-toggle="modal" data-target="#myModal">Enviar a OCASA</a>
                             </div>
                         </div>
                     </div>

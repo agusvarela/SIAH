@@ -126,7 +126,7 @@ namespace SIAH.Controllers
             };
             var content = new FormUrlEncodedContent(values);
             //LLamada a API ficticia que devuelve siempre un 200 (OK)
-            var response = client.PostAsync("http://httpstat.us/200", content);
+            var response = client.PostAsync("https://1cb7e13b-c3ac-4278-902d-2d4ae786f363.mock.pstmn.io/uploadPedido", content);
             if (response.Result.IsSuccessStatusCode)
             {
                 try
@@ -138,7 +138,7 @@ namespace SIAH.Controllers
                         db.Entry(pedido).State = EntityState.Modified;
                     }
                     db.SaveChanges();
-                    return RedirectToAction("Listado", "Pedidos", new { param = "Success" });
+                    return RedirectToAction("Listado", "Pedidos", new {param="Success"});
                 }
                 catch (Exception e)
                 {
@@ -179,7 +179,7 @@ namespace SIAH.Controllers
         //}
       
         [AuthorizeUserAccessLevel (UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
-        public ActionResult Listado(string param)
+        public ActionResult Listado(String param)
         {
             if (param != null)
             {
