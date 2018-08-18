@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIAH", "SIAH\SIAH.csproj", "{D9809AA8-7162-4D30-AA54-D6916E3EE12F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{2F30BBFB-7175-4C27-BCB9-7A083A81E138}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +15,11 @@ Global
 		{D9809AA8-7162-4D30-AA54-D6916E3EE12F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9809AA8-7162-4D30-AA54-D6916E3EE12F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9809AA8-7162-4D30-AA54-D6916E3EE12F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F30BBFB-7175-4C27-BCB9-7A083A81E138}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F30BBFB-7175-4C27-BCB9-7A083A81E138}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F30BBFB-7175-4C27-BCB9-7A083A81E138}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F30BBFB-7175-4C27-BCB9-7A083A81E138}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B492F359-C143-4ABD-B53D-F1B57D16A709}
 	EndGlobalSection
 EndGlobal

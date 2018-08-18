@@ -60,9 +60,6 @@
                                             </strong>
                                         </th>
                                         <th class="text-center">
-                                            <strong>  @Html.DisplayNameFor(model => model.observacionFamacia)</strong>
-                                        </th>
-                                        <th class="text-center">
                                             <strong>  @Html.Name("Acciones")</strong>
                                         </th>
                                     </tr>
@@ -91,9 +88,6 @@
                                     </td>
                                     <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.observacionFamacia)
                                     </td>
                                     <td>
                                         @Html.ActionLink("Detalles", "Details", new { id = item.pedidoId }) |
