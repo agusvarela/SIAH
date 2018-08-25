@@ -284,6 +284,10 @@
     <Compile Include="Migrations\201808051811016_alter_table_pedido_reclamoId.Designer.cs">
       <DependentUpon>201808051811016_alter_table_pedido_reclamoId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808252252318_create_table_stockFarmacia.cs" />
+    <Compile Include="Migrations\201808252252318_create_table_stockFarmacia.Designer.cs">
+      <DependentUpon>201808252252318_create_table_stockFarmacia.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
@@ -302,6 +306,7 @@
     <Compile Include="Models\Remitos\Remito.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Reclamos\TipoReclamo.cs" />
+    <Compile Include="Models\StockFarmacia.cs" />
     <Compile Include="Models\UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -597,6 +602,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808051811016_alter_table_pedido_reclamoId.resx">
       <DependentUpon>201808051811016_alter_table_pedido_reclamoId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808252252318_create_table_stockFarmacia.resx">
+      <DependentUpon>201808252252318_create_table_stockFarmacia.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

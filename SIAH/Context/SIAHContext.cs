@@ -64,6 +64,8 @@ namespace SIAH.Context
         public DbSet<Models.Reclamos.TipoReclamo> TipoReclamoes { get; set; }
 
         public DbSet<Models.Reclamos.EstadoReclamo> EstadoReclamoes { get; set; }
+
+        public DbSet<Models.StockFarmacia> StockFarmacias { get; set; }
     }
 
 }
