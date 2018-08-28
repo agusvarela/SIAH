@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+@model IEnumerable<SIAH.Models.StockFarmacia>
+
+@{
+    ViewBag.Title = "Stock";
+    String nombreHospital = ViewBag.hospital;
+}
+
+<h2>
+    Stock del Hospital @nombreHospital
+</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.Name("Insumo")
+        </th>
+        <th>
+            @Html.Name("Cantidad")
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.insumo.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.stockFarmacia)
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            </td>*@
+        </tr>
+    }
+</table>
+
+
+

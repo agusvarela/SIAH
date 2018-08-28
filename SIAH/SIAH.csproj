@@ -190,6 +190,7 @@
     <Compile Include="Controllers\ReclamosController.cs" />
     <Compile Include="Controllers\RemitosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\StockFarmaciaController.cs" />
     <Compile Include="Controllers\TipoReclamosController.cs" />
     <Compile Include="Controllers\TiposInsumoController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
@@ -515,6 +516,7 @@
     <Content Include="Views\TipoReclamos\Index.cshtml" />
     <Content Include="Views\Reclamos\ListadoReclamos.cshtml" />
     <Content Include="Views\Reclamos\Resolucion.cshtml" />
+    <Content Include="Views\StockFarmacia\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

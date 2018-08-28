@@ -20,5 +20,7 @@ namespace SIAH.Models
 
         public Decimal presupuesto { get; set; }
         public ICollection<Pedidos.Pedido> Pedidos { get; set; }
+
+        public ICollection<StockFarmacia> StockFarmacias { get; set; }
     }
 }

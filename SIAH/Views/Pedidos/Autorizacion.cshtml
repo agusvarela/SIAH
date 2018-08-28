@@ -351,7 +351,9 @@
 
 
                     var $tdStock = $('<td  id="stock" align="center">').html(data.stock).attr('id', 'detallesPedido[' + indice + '][stock]');
-                    var $tdStockFarmacia = $('<td  id="stock" align="center">').html(Math.floor((Math.random() * 10) + 1));
+                    var $stockFarmacia = data.stockFarmacia
+                    if ($stockFarmacia == null) { $stockFarmacia = 0}
+                    var $tdStockFarmacia = $('<td  id="stock" align="center">').html($stockFarmacia);
 
                     var $subtotalCalculado = data.precioUnitario * data.cantidad;
                     var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
