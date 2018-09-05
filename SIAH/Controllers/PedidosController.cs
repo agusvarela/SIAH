@@ -31,10 +31,21 @@ namespace SIAH.Controllers
             }
             try
             {
-                var pedido = db.Pedidos.Where(p => p.id == id).Include(t => t.estado).First();
+                var pedido = db.Pedidos.Where(p => p.id == id).Include(t => t.estado).Include(d => d.detallesPedido).First();
                 if(pedido.estadoId == 3)
                 {
                     pedido.estadoId = 6;
+                    foreach (DetallePedido item in pedido.detallesPedido)
+                    {
+                        StockFarmacia insumo = db.StockFarmacias.Where(p => p.hospitalId == pedido.hospitalId && 
+                                                        p.insumoId == item.insumoId).First();
+                        if(insumo != null)
+                        {
+                            insumo.stockFarmacia = insumo.stockFarmacia + item.cantidadAutorizada;
+                            db.Entry(insumo).State = EntityState.Modified;
+                        }
+                        //TODO: Si el insumo no existe se deberia insertar en la BD
+                    }
                     db.Entry(pedido).State = EntityState.Modified;
                     db.SaveChanges();
                 }
@@ -45,7 +56,7 @@ namespace SIAH.Controllers
                         "En Proceso de Envío y el estado del pedido ingresado es " + pedido.estado.nombreEstado);*/
                     return response;
                 }
-            }catch (Exception e)
+            } catch (Exception e)
             {
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 //response.Content = new StringContent("Ocurrió un error al intentar realizar el cambio de estado");

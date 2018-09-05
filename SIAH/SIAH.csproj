@@ -517,6 +517,7 @@
     <Content Include="Views\Reclamos\ListadoReclamos.cshtml" />
     <Content Include="Views\Reclamos\Resolucion.cshtml" />
     <Content Include="Views\StockFarmacia\Index.cshtml" />
+    <Content Include="Views\StockFarmacia\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

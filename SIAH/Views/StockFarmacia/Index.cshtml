@@ -20,6 +20,9 @@
         <th>
             @Html.Name("Cantidad")
         </th>
+        <th>
+            @Html.Name("Acciones")
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -31,11 +34,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.stockFarmacia)
             </td>
-            @*<td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.id })
-            </td>*@
+            <td>
+                    @Html.ActionLink("Actualizar Stock", "Edit", new { id=item.id })
+            </td>
         </tr>
     }
 </table>

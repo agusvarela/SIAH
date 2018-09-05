@@ -47,7 +47,7 @@
                                 <a href="">Stock de Farmacia</a>
                             </h4>
                             <p>Gestione el Stock de insumos de la Farmacia de su Hospital</p>
-                            <div class="btn btn-round btn-primary" @*onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'"*@>Ir a Gestión de Stock Farmacia</div>
+                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("/Index", "StockFarmacia", new { hospitalId = Session["hospitalId"]})'">Ir a Gestión de Stock Farmacia</div>
                         </div>
                     </div>
                 </div>
