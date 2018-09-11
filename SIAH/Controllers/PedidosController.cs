@@ -67,6 +67,28 @@ namespace SIAH.Controllers
             return response;
         }
 
+        // POST: Pedidos/Cancelar
+        public ActionResult Cancelar(int? pedidoId)
+        {
+            if (pedidoId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            try
+            {
+
+                var pedido = db.Pedidos.Where(p => p.id == pedidoId).First();
+                pedido.estadoId = 4;
+                db.Entry(pedido).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return RedirectToAction("Listado", "Pedidos");
+        }
+
         // POST: Pedidos/Recibido
         public ActionResult Recibido(int? pedidoId)
         {
