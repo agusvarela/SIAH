@@ -1609,6 +1609,12 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-purple.active {
     border-radius: 30px
 }
 
+.btn-margin {
+    margin-right: 25px;
+    margin-bottom: 25px;
+    margin-top: 25px
+}
+
 .btn:not(.btn-just-icon):not(.btn-fab) .fa,
 .navbar .navbar-nav>li>a.btn:not(.btn-just-icon):not(.btn-fab) .fa {
     font-size: 18px;
