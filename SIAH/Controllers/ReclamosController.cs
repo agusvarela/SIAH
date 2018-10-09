@@ -134,7 +134,7 @@ namespace SIAH.Controllers
                 reclamo.estadoReclamoId = 3; //En Revision
                 //reclamo.fechaFinReclamo = DateTime.Now;
                 Pedido p = db.Pedidos.Find(reclamo.pedidoId);
-                p.estadoId = 5; //Entregado y recibido
+                p.estadoId = 8; //Reclamo Resuelto
                 db.Entry(reclamo).State = EntityState.Modified;
                 db.Entry(p).State = EntityState.Modified;
                 db.SaveChanges();

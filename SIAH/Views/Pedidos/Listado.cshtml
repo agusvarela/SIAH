@@ -369,6 +369,34 @@
                                                             </td>
                                                         </tr>
                                                         break;
+                                                    case 8:
+                                                        <tr class="list-group-item-success">
+
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">check_circle</i>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                <a href="#" class="escondido">Autorizar</a>
+
+                                                            </td>
+                                                        </tr>
+                                                        break;
                                                 }
                                             }
 

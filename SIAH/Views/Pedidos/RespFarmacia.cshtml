@@ -170,7 +170,22 @@
                                                         </div>
                                                     </a>
                                                 </li>
-                                            break;
+                                                break;
+                                            case 8:
+                                                <li class="nav-dashboard__item list-group-item-success">
+                                                    <a href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)" class="group">
+                                                        <div class="selector hide"></div>
+                                                        <span class="nav-dashboard__item__text soft-info">@Html.Label("id", item.id.ToString(), htmlAttributes: new { @readonly = "readonly", @class = "soft-info" })</span>
+                                                        <div class="col-md-2"></div>
+                                                        <span class="nav-dashboard__item__text soft-success">@Html.Label("periodo", item.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @readonly = "readonly", @class = "soft-success" })</span>
+
+                                                        <div class="col-md-2 text-center pull-right">
+                                                            <i class="icon-success  material-icons" style="margin-right:10px">check_circle</i>
+                                                            <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                break;
                                         }
 
                                     }
