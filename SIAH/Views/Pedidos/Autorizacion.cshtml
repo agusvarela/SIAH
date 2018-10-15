@@ -394,7 +394,7 @@
                         var $tr = $('<tr class="list-group-item-danger">').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdStock,  $tdStockFarmacia,  $tdPrecioUnitario, $tdSubtotal);
                     }
                     else {
-                        var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdStock, $tdStockFarmacia, $tdPrecioUnitario, $tdSubtotal);
+                        var $tr = $('<tr class="list-group-item-success">').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAut, $tdStock, $tdStockFarmacia, $tdPrecioUnitario, $tdSubtotal);
 
                     }
                     $('#detallesPedido').append($tr);
@@ -418,22 +418,16 @@
 
         function updateInput(ish, indice) {
             document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]").setAttribute("value", ish);
-            var j = document.getElementById("detallesPedido[" + indice + "][stock]").innerText;
+            var value = Number.parseInt(ish);
+            var j = Number.parseInt(document.getElementById("detallesPedido[" + indice + "][stock]").innerText);
 
             var x = document.getElementById("detallesPedido[" + indice + "][cantidad]").value;
 
-            if (ish > j ) {
+            if (value > j ) {
                 $(document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]")).closest('tr').attr("class", "list-group-item-danger");
             }
             else {
-                if (ish == x) {
-                    $(document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]")).closest('tr').attr("class", "");
-                }
-                else {
-                    $(document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]")).closest('tr').attr("class", "list-group-item-success");
-
-                }
-
+                $(document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]")).closest('tr').attr("class", "list-group-item-success");
             }
         }
         $(document).on('click', '#calcular', function (event) {
