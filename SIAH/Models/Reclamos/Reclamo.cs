@@ -26,7 +26,7 @@ namespace SIAH.Models.Reclamos
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaInicioReclamo { get; set; }
 
-        [Display(Name = "Fecha de Fin Reclamo")]
+        [Display(Name = "Fecha Resolución Reclamo")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? fechaFinReclamo { get; set; }

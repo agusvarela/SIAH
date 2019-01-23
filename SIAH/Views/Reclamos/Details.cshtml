@@ -1,98 +1,154 @@
 ﻿@model SIAH.Models.Reclamos.Reclamo
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalle del reclamo";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<h2>Details</h2>
+@using (Html.BeginForm())
+{
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-12">
+                <h1>Detalle del reclamo Nº: @Html.DisplayFor(model => model.pedidoId)</h1>
+                <div class="banner-catalog__content"> Información general del reclamo.</div>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <h4>Reclamo</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.estadoReclamo.nombreEstado)
-        </dt>
+    <br />
 
-        <dd>
-            @Html.DisplayFor(model => model.estadoReclamo.nombreEstado)
-        </dd>
+    <div class="container" style=" padding-bottom: 30px;">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info_outline</i>
+                                <strong>Información general del Reclamo</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.hospital.nombre, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("Hospital", Model.hospital.nombre, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.estadoReclamo.nombreEstado, "Estado", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("Estado", Model.estadoReclamo.nombreEstado, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.responsableAsignado.nombre, "Responsable asignado", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("ResponsableAsignado", Model.responsableAsignado.nombre + " " + Model.responsableAsignado.apellido, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.tipoReclamo.tipo, "Tipo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("Tipo", Model.tipoReclamo.tipo, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        <span>
+                                            @Model.tipoReclamo.descripcion
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.hospital.nombre)
-        </dt>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__title alert-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">warning</i>
+                                <strong>Importante</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.observacionFamacia, "Observación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("Observacion", Model.observacionFamacia, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaInicioReclamo, "Fecha inicio reclamo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("fechaInicioReclamo", Model.fechaInicioReclamo.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model.fechaFinReclamo.HasValue)
+                            {
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.fechaFinReclamo, "Fecha resolución de reclamo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                        <div class="col-md-12">
+                                            @Html.TextBox("fechaFinReclamo", Model.fechaFinReclamo.Value.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.hospital.nombre)
-        </dd>
+            <br />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.pedidoId)
-        </dt>
+            <div class="row">
+                <div class="col-md-12">
 
-        <dd>
-            @Html.DisplayFor(model => model.pedidoId)
-        </dd>
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__title purple-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info</i>
+                                <strong>Respuesta de la oficina de autorizaciones hospitalarias</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.respuesta, "Respuesta", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("respuesta", Model.respuesta, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.responsableAsignado.nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.responsableAsignado.nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.tipoReclamo.tipo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tipoReclamo.tipo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.observacionFamacia)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.observacionFamacia)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.respuesta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.respuesta)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaInicioReclamo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fechaInicioReclamo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaFinReclamo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fechaFinReclamo)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.pedidoId }) |
+        </div>
+    </div>
+    <div class="container">
     @if (Session["rol"].ToString() == "RespAutorizacion")
     {
-        @Html.ActionLink("Back to List", "ListadoReclamos")
+        @Html.ActionLink("Volver al listado", "ListadoReclamos")
     }
     @if (Session["rol"].ToString() == "RespFarmacia")
     {
-        @Html.ActionLink("Back to List", "ReclamosRespFarmacia")
+        @Html.ActionLink("Volver al listado", "ReclamosRespFarmacia")
     }
-</p>
+    </div>
+}

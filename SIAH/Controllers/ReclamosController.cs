@@ -30,7 +30,9 @@ namespace SIAH.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Reclamo reclamo = db.Reclamoes.Find(id);
+            Reclamo reclamo = db.Reclamoes.Include(r => r.hospital).Include(r => r.Pedido).
+                Include(r => r.tipoReclamo).Include(r => r.estadoReclamo).Include(r => r.responsableAsignado)
+                .Where(r => r.pedidoId == id).First();
             if (reclamo == null)
             {
                 return HttpNotFound();

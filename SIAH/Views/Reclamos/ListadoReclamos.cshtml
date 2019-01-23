@@ -19,8 +19,6 @@
         <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
             <div class="form-card__content group">
                 <div class="form-group">
-                    @*<h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>
-                        <div class="row">*@
 
                     <div id="contenedor" class="col-md-12">
 
@@ -29,7 +27,7 @@
                                 <thead>
                                     <tr class="list-group-item-info" style="border-bottom: solid">
                                         <th class="text-center">
-                                            <strong>@Html.DisplayNameFor(model => model.pedidoId)</strong>
+                                            <strong>@Html.DisplayName("Id Pedido")</strong>
                                         </th>
                                         <th class="text-center">
                                             <strong> @Html.DisplayNameFor(model => model.hospital.nombre)</strong>
@@ -37,16 +35,6 @@
                                         <th class="text-center">
                                             <strong>
                                                 @Html.DisplayNameFor(model => model.fechaInicioReclamo)
-                                            </strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong>
-                                                @Html.DisplayNameFor(model => model.fechaFinReclamo)
-                                            </strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong>
-                                                @Html.DisplayName("Tipo")
                                             </strong>
                                         </th>
                                         <th class="text-center">
@@ -77,20 +65,14 @@
                                         @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
                                     </td>
                                     <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.fechaFinReclamo)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.tipoReclamo.tipo)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido) |
                                         @Html.DisplayFor(modelItem => item.responsableAsignado.nombre)
                                     </td>
                                     <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
                                     </td>
-                                    <td>
-                                        @Html.ActionLink("Detalles", "Details", new { id = item.pedidoId }) |
+                                    <td class="text-center">
+                                        @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId }) |
                                         @if (item.estadoReclamoId == 1)
                                         {
                                             @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
