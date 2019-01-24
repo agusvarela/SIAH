@@ -413,11 +413,7 @@ namespace SIAH.Controllers
                 //A cada detalle se le modifican los atributos
                 foreach (var detalle in pedido.detallesPedido)
                 {
-                    Insumo ins = db.Insumos.Find(detalle.insumoId);
-
-                    ins.stock -= detalle.cantidadAutorizada;
-                    
-                    db.Entry(ins).State = EntityState.Modified;
+                    updateStock(detalle);
                     detalle.insumo = null;
                     db.Entry(detalle).State = EntityState.Modified;
                     db.SaveChanges();
@@ -443,6 +439,22 @@ namespace SIAH.Controllers
             ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", pedido.hospitalId);
             return RedirectToAction("Listado", new { param = "Hubo un problema inesperado" });
+        }
+
+        private void updateStock(DetallePedido detalle)
+        {
+            Insumo ins = db.Insumos.Find(detalle.insumoId);
+            int updatedStock = ins.stock - detalle.cantidadAutorizada;
+            if (updatedStock <= 0)
+            {
+                ins.stock = 0;
+            }
+            else
+            {
+                ins.stock = updatedStock;
+            }
+
+            db.Entry(ins).State = EntityState.Modified;
         }
 
         [AuthorizeUserAccessLevel(UserRole = "RespReporte")]

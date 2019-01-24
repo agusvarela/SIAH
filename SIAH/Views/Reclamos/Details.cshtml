@@ -46,14 +46,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.responsableAsignado.nombre, "Responsable asignado", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
-                                        @Html.TextBox("ResponsableAsignado", Model.responsableAsignado.nombre + " " + Model.responsableAsignado.apellido, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                            @if (Model.responsableAsignado != null)
+                            {
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.responsableAsignado.nombre, "Responsable asignado", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                        <div class="col-md-12">
+                                            @Html.TextBox("ResponsableAsignado", Model.responsableAsignado.nombre + " " + Model.responsableAsignado.apellido, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.tipoReclamo.tipo, "Tipo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
@@ -83,14 +86,6 @@
                         <div class="form-card__content group">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.observacionFamacia, "Observación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
-                                        @Html.TextBox("Observacion", Model.observacionFamacia, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
                                     @Html.LabelFor(model => model.fechaInicioReclamo, "Fecha inicio reclamo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.TextBox("fechaInicioReclamo", Model.fechaInicioReclamo.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
@@ -108,6 +103,14 @@
                                     </div>
                                 </div>
                             }
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.observacionFamacia, "Observación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 10, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -126,11 +129,11 @@
                             </div>
                         </div>
                         <div class="form-card__content group">
-                            <div class="col-sm-4">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.respuesta, "Respuesta", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBox("respuesta", Model.respuesta, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextAreaFor(model => model.respuesta, 5,  10, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                                     </div>
                                 </div>
                             </div>
@@ -138,17 +141,54 @@
                     </div>
                 </div>
             </div>
+            <br/>
 
+            @if (Model.estadoReclamoId == 1)
+            {
+                <div class="col-md-12">
+                    <input type="button" id="btn_assign" value="Asignarme" class="btn pull-right btn-success" />
+                </div>
+            }
+
+            @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId)
+            {
+                <div class="col-md-12">
+                    <input type="button" id="btn_solve" value="Resolver" class="btn pull-right btn-success" />
+                </div>
+            }
         </div>
     </div>
     <div class="container">
-    @if (Session["rol"].ToString() == "RespAutorizacion")
-    {
-        @Html.ActionLink("Volver al listado", "ListadoReclamos")
-    }
-    @if (Session["rol"].ToString() == "RespFarmacia")
-    {
-        @Html.ActionLink("Volver al listado", "ReclamosRespFarmacia")
-    }
+        @if (Session["rol"].ToString() == "RespAutorizacion")
+        {
+            @Html.ActionLink("Volver al listado", "ListadoReclamos")
+        }
+        @if (Session["rol"].ToString() == "RespFarmacia")
+        {
+            @Html.ActionLink("Volver al listado", "ReclamosRespFarmacia")
+        }
     </div>
+    @Html.HiddenFor(model => model.pedidoId, htmlAttributes: new { @id = "idPedido" })
+    @Html.Hidden("idResponsable", Session["userId"], htmlAttributes: new { @id = "idResponsable" })
+}
+
+
+@section Scripts {
+    <script type="text/javascript">
+        //Funcion para autoasignarse el reclamo
+        $(document).on('click', '#btn_assign', function (event) {
+            event.preventDefault();
+            var idPedido = $('#idPedido').val();
+            var idResponsable = $('#idResponsable').val();
+            var urlRecibido = '/Reclamos/AutoAsignacion' + '?idReclamo=' + idPedido + '&idResponsable=' + idResponsable;
+            location.href = urlRecibido;
+        });
+        //Funcion para resolver el reclamo
+        $(document).on('click', '#btn_solve', function (event) {
+            event.preventDefault();
+            var idPedido = $('#idPedido').val();
+            var urlRecibido = '/Reclamos/Resolucion' + '?id=' + idPedido;
+            location.href = urlRecibido;
+        });
+    </script>
 }

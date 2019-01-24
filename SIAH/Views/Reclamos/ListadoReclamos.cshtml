@@ -65,8 +65,10 @@
                                         @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
                                     </td>
                                     <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido) |
-                                        @Html.DisplayFor(modelItem => item.responsableAsignado.nombre)
+                                        @if (item.responsableAsignado != null)
+                                        {
+                                            @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                        }
                                     </td>
                                     <td class="text-center">
                                         @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
