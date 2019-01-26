@@ -54,37 +54,115 @@
                                 </thead>
                                 @foreach (var item in Model)
                                 {
-                                <tr>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.pedidoId)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
-                                    </td>
-                                    <td class="text-center">
-                                        @if (item.responsableAsignado != null)
-                                        {
-                                            @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
-                                        }
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId }) |
-                                        @if (item.estadoReclamoId == 1)
-                                        {
-                                            @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
-                                        }
-                                        @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
-                                        {
-                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
-                                        }
-                                    </td>
-                                </tr>
+                                switch (item.estadoReclamoId)
+                                    {
+                                        case 1:
+                                        <tr class="list-group-item-grey">
+                                                <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.pedidoId)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.responsableAsignado != null)
+                                            {
+                                                @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId }) |
+                                            @if (item.estadoReclamoId == 1)
+                                            {
+                                                @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
+                                            }
+                                            @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
+                                            {
+                                                @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
+                                            }
+                                        </td>
+                                        </tr>
+                                        break;
+
+                                        case 2:
+
+                                        <tr class="list-group-item-orange">
+                                                <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.pedidoId)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.responsableAsignado != null)
+                                            {
+                                                @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId }) |
+                                            @if (item.estadoReclamoId == 1)
+                                            {
+                                                @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
+                                            }
+                                            @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
+                                            {
+                                                @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
+                                            }
+                                        </td>
+                                        </tr>
+
+                                        break;
+
+                                        case 3:
+
+                                        <tr class="list-group-item-success">
+                                                <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.pedidoId)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.responsableAsignado != null)
+                                            {
+                                                @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId }) |
+                                            @if (item.estadoReclamoId == 1)
+                                            {
+                                                @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
+                                            }
+                                            @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
+                                            {
+                                                @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
+                                            }
+                                        </td>
+                                        </tr>
+
+                                        break;
+                                    }
+                                    
                                 }
                             </table>
                             <div id="bottom_anchor"></div>

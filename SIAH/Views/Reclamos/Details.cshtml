@@ -133,7 +133,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.respuesta, "Respuesta", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextAreaFor(model => model.respuesta, 5,  10, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextAreaFor(model => model.respuesta, 5, 10, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                                     </div>
                                 </div>
                             </div>
@@ -141,21 +141,25 @@
                     </div>
                 </div>
             </div>
-            <br/>
+            <br />
+            <div class="container">
+                    @if (Model.estadoReclamoId == 1 && Session["rol"].ToString() == "RespAutorizacion")
+                    {
+                        <div class="col-md-12">
+                            <input type="button" id="btn_assign" value="Asignarme" class="btn pull-right btn-success" />
+                        </div>
+                    }
 
-            @if (Model.estadoReclamoId == 1)
-            {
-                <div class="col-md-12">
-                    <input type="button" id="btn_assign" value="Asignarme" class="btn pull-right btn-success" />
-                </div>
-            }
-
-            @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId)
-            {
-                <div class="col-md-12">
-                    <input type="button" id="btn_solve" value="Resolver" class="btn pull-right btn-success" />
-                </div>
-            }
+                    @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion")
+                    {
+                        <div class="col-md-12">
+                            <input type="button" id="btn_solve" value="Resolver" class="btn pull-right btn-success" />
+                        </div>
+                    }
+                    <div class="col-md-12">
+                        <input type="button" id="btn_pedido" value="Ir al Pedido" class="btn pull-left btn-primary" />
+                    </div>
+            </div>
         </div>
     </div>
     <div class="container">
@@ -190,5 +194,12 @@
             var urlRecibido = '/Reclamos/Resolucion' + '?id=' + idPedido;
             location.href = urlRecibido;
         });
+        //Funcion para ir al Pedido
+        $(document).on('click', '#btn_pedido', function (event) {
+            event.preventDefault();
+            var idPedido = $('#idPedido').val();
+            var urlRecibido = '/Pedidos/Details/' + idPedido;
+            location.href = urlRecibido;
+        })
     </script>
 }
