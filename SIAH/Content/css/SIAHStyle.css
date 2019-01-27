@@ -18,7 +18,7 @@
 /* SHADOWS */
 /* Shadows (from mdl http://www.getmdl.io/) */
 body {
-  background-color: #CCCCCC;
+    background-color: #333;
 }
 body.inverse {
   background: #333333;
@@ -4110,4 +4110,13 @@ thead.listado {
 .list-group-item-grey {
     color: #000000;
     background-color: #C0C0C0
+}
+.col-container {
+    display: flex;
+    width: 100%;
+}
+
+.col {
+    flex: 1;
+    padding: 16px;
 }
