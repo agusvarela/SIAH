@@ -76,7 +76,7 @@
                                         {
                                             case 1:
 
-                                                <tr class="list-group-item-warning">
+                                                <tr class="list-group-item-warning" data-href="@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)">
 
 
                                                     <td class="text-center">
@@ -142,7 +142,7 @@
 
                                     if (!existeRemito)
                                     {
-                                        <tr>
+                                        <tr onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
                                             <td class="text-center">
                                                 @Html.DisplayFor(modelItem => item.id)
