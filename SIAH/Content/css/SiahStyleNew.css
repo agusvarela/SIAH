@@ -11853,3 +11853,7 @@ table tr:hover[onclick] {
     cursor: pointer;
     background-color: #f5f5f5;
 }
+.logo-container{
+    cursor: pointer;
+}
+

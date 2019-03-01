@@ -56,14 +56,48 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <div class="logo-container">
-                    <div class="logo">
-                        <img src="~/Content/img/logo.jpg" alt="AH Logo">
-                    </div>
 
-                    @Html.Label(" Autorizaciones Hospitalarias",new { @class = " logo-container brand" })
+                @try
+                {
+                    if (Session["rol"].ToString() == "RespAutorizacion")
+                    {
+                        <a class="logo-container" href="@Url.Action("RespAutorizacion", "Home", null)">
+                            <div class="logo">
+                                <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                            </div>
+                            @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                        </a>
+                    }
+                    if (Session["rol"].ToString() == "DirectorArea")
+                    {
+                        <a class="logo-container" href="@Url.Action("DirectorArea", "Home", null)">
+                            <div class="logo">
+                                <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                            </div>
+                            @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                        </a>
+                    }
+                    if (Session["rol"].ToString() == "RespFarmacia")
+                    {
+                        <a class="logo-container" href="@Url.Action("RespFarmacia", "Home", null)">
+                            <div class="logo">
+                                <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                            </div>
+                            @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                        </a>
+                    }
+                }
+                catch (Exception e)
+                {
 
-                </div>
+                    <a class="logo-container" href="@Url.Action("Account", "Login", null)">
+                        <div class="logo">
+                            <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                        </div>
+                        @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                    </a>
+                }
+
             </div>
             <div class="collapse navbar-collapse" id="navigation-index">
                 <ul class="nav navbar-nav navbar-right">
