@@ -392,9 +392,6 @@
     </Content>
     <Content Include="Content\css\.DS_Store" />
     <Content Include="Content\js\.DS_Store" />
-    <Content Include="connection.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-reboot.min.css.map" />
@@ -564,6 +561,9 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="connection.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
