@@ -95,7 +95,7 @@
                                 <div class="icon icon-danger">
                                     <i class="material-icons">timeline</i>
                                 </div>
-                                <h4 class="info-title">Reporte de Consolidado</h4>
+                                <h4 class="info-title">Reportes</h4>
                                 <p>Visualice un reporte con la cantidad de insumos pedida por cada hospital</p>
 
                                 <a id="reporte" class="btn btn-round btn-softPurple" @*onclick="location.href='@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = new DateTime(2017, 2, 2), fechaFin = new DateTime(2017, 11, 1) })'"*@>Generar Reporte</a>
@@ -117,6 +117,23 @@
                                 </h4>
                                 <p>Controle y Autorice Pedidos de Insumos</p>
                                 <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Listado", "Pedidos")'">Ir a Pedidos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="material-icons">report</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a href="">Reclamos</a>
+                                </h4>
+                                <p>Gestione, asigne, y vea el historial de los reclamos realizados sobre pedidos de insumos</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Ir a Gestión de Reclamos</div>
                             </div>
                         </div>
                     </div>
