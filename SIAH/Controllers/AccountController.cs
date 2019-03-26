@@ -12,6 +12,7 @@ namespace SIAH.Controllers
     {
         private SIAHContext db = new SIAHContext();
         // GET: Account
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Index()
         {
             using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
@@ -20,8 +21,10 @@ namespace SIAH.Controllers
             }
         }
 
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Register()
         {
+            ViewBag.HospitalRequired = "";
             ViewBag.rolID = new SelectList(db.Roles, "id", "nombre");
             ViewBag.hospitalID = new SelectList(db.Hospitales, "id", "nombre");
             return View();
@@ -30,33 +33,42 @@ namespace SIAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Register([Bind(Include = "nombre, apellido, email, rolID, password, confirmPassword, hospitalID")]UserAccount account)
         {
+            ViewBag.HospitalRequired = "";
             if (ModelState.IsValid)
             {
-                //account.rol = null;
-                //account.rolID = null;
-                String hash = Hashing.HashPassword(account.password);
-                account.password = hash;
-                account.confirmPassword = hash;
-                using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
+                if (string.Compare(db.Roles.Find(account.rolID.Value).nombre, "RespFarmacia") == 0 && account.hospitalID == null)
                 {
-                    db.UserAccounts.Add(account);
-                    try
+                    ViewBag.HospitalRequired = "El hospital es obligatorio para los responsables de farmacia";
+                }
+                else
+                {
+                    String hash = Hashing.HashPassword(account.password);
+                    account.password = hash;
+                    account.confirmPassword = hash;
+                    using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
                     {
-                        if (db.SaveChanges() > 0)
+                        db.UserAccounts.Add(account);
+                        try
                         {
-                            return RedirectToAction("Index", new { param = "Success" });
+                            if (db.SaveChanges() > 0)
+                            {
+                                return RedirectToAction("Index", new { param = "Success" });
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            return RedirectToAction("Index", new { param = e.Message });
                         }
                     }
-                    catch (Exception e)
-                    {
-                        return RedirectToAction("Index", new { param = e.Message });
-                    }
+                    ModelState.Clear();
                 }
-                ModelState.Clear();
-                //  ViewBag.Message = account.nombre + " " + account.apellido + " Fue registrado correctamente";
+
             }
+            ViewBag.rolID = new SelectList(db.Roles, "id", "nombre");
+            ViewBag.hospitalID = new SelectList(db.Hospitales, "id", "nombre");
             return View();
         }
 
