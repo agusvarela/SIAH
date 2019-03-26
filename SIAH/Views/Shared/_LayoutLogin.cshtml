@@ -50,13 +50,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <div class="logo-container">
+                <a class="logo-container" href="@Url.Action("Index", "Home", null)">
                     <div class="logo">
                         <img src="~/Content/img/logo.jpg" alt="AH Logo">
                     </div>
-
                     @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
-                </div>
+                </a>
             </div>
 
 
@@ -68,16 +67,11 @@
                             <a>Ha iniciado sesion como @Session["nombre"].ToString()</a>
                         }
                     </li>
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Nuevo Usuario", "Register", "Account")</li>
+                    @*<li>@Html.ActionLink("Nuevo Usuario", "Register", "Account")</li>*@
                     @if (Session["userid"] != null)
                     {
                         <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
                     }
-                    @*<li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>*@
                 </ul>
 
             </div>

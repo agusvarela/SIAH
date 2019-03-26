@@ -23,13 +23,14 @@ namespace SIAH.Controllers
         public ActionResult Register()
         {
             ViewBag.rolID = new SelectList(db.Roles, "id", "nombre");
+            ViewBag.hospitalID = new SelectList(db.Hospitales, "id", "nombre");
             return View();
         }
         
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register([Bind(Include = "nombre, apellido, email, rolID, password, confirmPassword")]UserAccount account)
+        public ActionResult Register([Bind(Include = "nombre, apellido, email, rolID, password, confirmPassword, hospitalID")]UserAccount account)
         {
             if (ModelState.IsValid)
             {

@@ -21,65 +21,7 @@
 <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
     <div class="row">
         <div class="col-md-12">
-            <div class="col-md-6">
-                <div id="alertArea  animated zoomIn">
-                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
-                        <i class="fa fa-arrow-right tituloPanel"></i>
-                        <span class="tituloPanel">Stock</span>
-                    </div>
-                </div>
-                <div class="col-md-6 animated zoomIn">
-                    <div class="card card-project">
 
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-success">
-                                    <i class="material-icons">equalizer</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a>Control de Stock</a>
-                                </h4>
-                                <p>Controle la Base de Datos de SIAH y actualice el Stock de Insumos.</p>
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Ir a control de Stock</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 animated zoomIn">
-                    <div class="card card-project">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-info">
-                                    <i class="material-icons">storage</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a>Stock de Insumos</a>
-                                </h4>
-                                <p>Listado de Insumos Médicos y su Stock disponible en este momento.</p>
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Ir a la tabla de Stock</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 animated zoomIn">
-                    <div class="card card-project">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-info">
-                                    <i class="material-icons">work</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a>Administrar compras</a>
-                                </h4>
-                                <p>Cargue remitos de compra de insumos</p>
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Compras")'">Ir a Compras</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-md-6">
                 <div id="alertArea  animated zoomIn">
                     <div class="alert alert-info pq-alert  degradado animated zoomIn">
@@ -121,6 +63,15 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-md-6">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right"></i>
+                        <span class="tituloPanel">Reclamos y Usuarios</span>
+                    </div>
+                </div>
                 <div class="col-md-6 animated zoomIn">
                     <div class="card card-project">
 
@@ -138,8 +89,84 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-info">
+                                    <i class="material-icons">person</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a href="">Usuarios</a>
+                                </h4>
+                                <p>Gestione los usuarios que tienen acceso al sistema, cada rol tiene los permisos correspondientes.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Account")'">Ir a Gestión de Usuarios</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="col-md-12">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right tituloPanel"></i>
+                        <span class="tituloPanel">Stock</span>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-success">
+                                    <i class="material-icons">equalizer</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Control de Stock</a>
+                                </h4>
+                                <p>Controle la Base de Datos de SIAH y actualice el Stock de Insumos.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Ir a control de Stock</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-info">
+                                    <i class="material-icons">storage</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Stock de Insumos</a>
+                                </h4>
+                                <p>Listado de Insumos Médicos y su Stock disponible en este momento.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Ir a la tabla de Stock</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-info">
+                                    <i class="material-icons">work</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Administrar compras</a>
+                                </h4>
+                                <p>Cargue remitos de compra de insumos</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Compras")'">Ir a Compras</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
         </div>
 </div>
 
