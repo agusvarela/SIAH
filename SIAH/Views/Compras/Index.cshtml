@@ -12,7 +12,7 @@
         <div class="container">
             <div class="col-sm-12">
                 <h1>Remitos de Compra Cargados</h1>
-                <div class="banner-catalog__content"> Aqui Varela tiene que poner una descripcion</div>
+                <div class="banner-catalog__content">Listado de los remitos de compra.</div>
             </div>
         </div>
     </div>
@@ -38,6 +38,7 @@
                                                 <tr style="font-weight:bold">
                                                     <th style="width:30%; font-weight:bold ">Número de Compra</th>
                                                     <th style="width:16%; font-weight:bold">Fecha de Compra</th>
+                                                    <th style="width:16%; font-weight:bold">Acciones</th>
                                                 </tr>
                                             </thead>
 
@@ -51,6 +52,10 @@
                                                         <td>
                                                             @Html.DisplayFor(modelItem => item.fechaEntregaEfectiva)
                                                         </td>
+                                                        <td class="text-center">
+                                                            @Html.ActionLink("Remito", "Remito", new { id = item.id, fechaEntregaEfectiva = item.fechaEntregaEfectiva })
+                                                        </td>
+
                                                     </tr>
                                                 }
                                             </tbody>
