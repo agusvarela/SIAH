@@ -17,9 +17,9 @@
 <div class="banner-catalog">
     <div class="container">
         <div class="col-lg-12">
-            <h1>Control de Stock diario</h1>
+            <h1>Control de Stock</h1>
             <div class="banner-catalog__content">
-                Listado de Pedidos.
+                Aqui encontrara el listado de pedidos con sus remitos correspondientes.
             </div>
         </div>
     </div>
@@ -211,6 +211,8 @@
             $("#maintable").DataTable({
                 "order": [[0, "desc"]]
             });;
+
+            sessionStorage.setItem("From", "Remitos");
         });
 
 

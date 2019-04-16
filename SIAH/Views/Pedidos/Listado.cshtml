@@ -171,7 +171,7 @@
                                                 switch (item.estadoId)
                                                 {
                                                     case 1:
-                                                        <tr class="">
+                                                        <tr class="" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
                                                             <td class="text-center">
                                                                 @Html.DisplayFor(modelItem => item.id)
@@ -193,7 +193,7 @@
                                                             </td>
                                                             <td class="text-center">
 
-                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                 
                                                                 @Html.ActionLink("Autorizar", "Autorizacion", new { id = item.id })
 
                                                             </td>
@@ -202,7 +202,7 @@
                                                         </tr>
                                                         break;
                                                     case 2:
-                                                        <tr class="list-group-item-warning">
+                                                        <tr class="list-group-item-warning" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
                                                             <td class="text-center">
                                                                 @Html.DisplayFor(modelItem => item.id)
@@ -223,14 +223,14 @@
                                                                 <i class="icon-warning material-icons">spellcheck</i>
                                                             </td>
                                                             <td class="text-center">
-                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                 
                                                                 <a href="#" class="escondido">Autorizar</a>
 
                                                             </td>
                                                         </tr>
                                                         break;
                                                     case 3:
-                                                        <tr class="list-group-item-orange">
+                                                        <tr class="list-group-item-orange" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
                                                             <td class="text-center">
                                                                 @Html.DisplayFor(modelItem => item.id)
@@ -251,14 +251,14 @@
                                                                 <i class="material-icons">local_shipping</i>
                                                             </td>
                                                             <td class="text-center">
-                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                 
                                                                 <a href="#" class="escondido">Autorizar</a>
 
                                                             </td>
                                                         </tr>
                                                         break;
                                                     case 4:
-                                                        <tr class="list-group-item-grey">
+                                                        <tr class="list-group-item-grey" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
                                                             <td class="text-center">
                                                                 @Html.DisplayFor(modelItem => item.id)
@@ -279,14 +279,14 @@
                                                                 <i class="material-icons">clear</i>
                                                             </td>
                                                             <td class="text-center">
-                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                 
                                                                 <a href="#" class="escondido">Autorizar</a>
 
                                                             </td>
                                                         </tr>
                                                         break;
                                                     case 5:
-                                                        <tr class="list-group-item-success">
+                                                        <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
                                                             <td class="text-center">
                                                                 @Html.DisplayFor(modelItem => item.id)
@@ -307,14 +307,14 @@
                                                                 <i class="material-icons">check_circle</i>
                                                             </td>
                                                             <td class="text-center">
-                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                 
                                                                 <a href="#" class="escondido">Autorizar</a>
 
                                                             </td>
                                                         </tr>
                                                         break;
                                                     case 6:
-                                                        <tr class="list-group-item-info">
+                                                        <tr class="list-group-item-info" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
                                                             <td class="text-center">
                                                                 @Html.DisplayFor(modelItem => item.id)
@@ -335,14 +335,14 @@
                                                                 <i class="icon-info  material-icons">markunread</i>
                                                             </td>
                                                             <td class="text-center">
-                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                 
                                                                 <a href="#" class="escondido">Autorizar</a>
 
                                                             </td>
                                                         </tr>
                                                         break;
                                                     case 7:
-                                                        <tr class="list-group-item-danger">
+                                                        <tr class="list-group-item-danger" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
                                                             <td class="text-center">
                                                                 @Html.DisplayFor(modelItem => item.id)
@@ -363,14 +363,14 @@
                                                                 <i class="material-icons">error_outline</i>
                                                             </td>
                                                             <td class="text-center">
-                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                 
                                                                 <a href="#" class="escondido">Autorizar</a>
 
                                                             </td>
                                                         </tr>
                                                         break;
                                                     case 8:
-                                                        <tr class="list-group-item-success">
+                                                        <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
                                                             <td class="text-center">
                                                                 @Html.DisplayFor(modelItem => item.id)
@@ -391,7 +391,7 @@
                                                                 <i class="material-icons">check_circle</i>
                                                             </td>
                                                             <td class="text-center">
-                                                                @Html.ActionLink("Ver detalle", "Details", new { id = item.id }) |
+                                                                 
                                                                 <a href="#" class="escondido">Autorizar</a>
 
                                                             </td>
@@ -427,6 +427,7 @@
             setTimeout(function () { location.reload() }, 2000);
         });
         $(document).ready(function () {
+            sessionStorage.setItem("From", "Pedidos");
             if (@ViewBag.success.ToString().ToLower() ===true) {
                     $.notify({
                         title: '<strong>Aviso!</strong><br/>',

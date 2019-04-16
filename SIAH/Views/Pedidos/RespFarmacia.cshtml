@@ -346,6 +346,7 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
+            sessionStorage.setItem("User", "RespFarmacia");
             if (@ViewBag.success.ToString().ToLower() ===true) {
                     $.notify({
                         title: '<strong>Aviso!</strong><br/>',

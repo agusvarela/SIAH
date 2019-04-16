@@ -733,7 +733,9 @@
 <div class="container">
     @if (Session["rol"].ToString() == "RespAutorizacion")
     {
-        @Html.ActionLink("Volver al Listado", "Listado", "Pedidos")
+        <a id="BackToList">
+            Volver al Listado
+        </a>
     }
     @if (Session["rol"].ToString() == "RespFarmacia")
     {
@@ -744,7 +746,9 @@
 @section Scripts {
     <script type="text/javascript">
 
+
         $(document).ready(function () {
+
             var idHospital = $('#idHospital').val();
             //console.log(idHospital);
             var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
@@ -755,6 +759,15 @@
                 var $presupuestoAMostrar = new Intl.NumberFormat('de-DE').format($presupuesto);
                 $('#presupuesto').val("$" + $presupuestoAMostrar);
             });
+        })
+        $(document).on('click', '#BackToList', function (event) {
+            var from = sessionStorage.getItem("From");
+            if (from == "Remitos") {
+                location.href = '/Remitos/ListadoPedidos'
+            }
+            else {
+                location.href = '/Pedidos/Listado'
+            }
         })
         //Función boton confirmación de recepción (Cambio a Enviado y Recibido)
         $(document).on('click', '#yes', function (event) {
