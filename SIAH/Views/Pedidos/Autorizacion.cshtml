@@ -123,8 +123,8 @@
                                         <div> <span id="presuSpan" name="presuSpan" class="text-danger"></span></div>
                                         <div><span id="autoSpan" name="autosSpan" class="text-success"></span></div>
                                         @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })
-                                            <text id="presupuesto" class="form-control"></text>
-                                            @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
+                    <text id="presupuesto" class="form-control"></text>
+                    @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
                                     </div>
                                 </div>
                             </div>
@@ -197,10 +197,30 @@
                         </div>
                     </div>
                     <div class="form-card__content group">
+                        <div id="cuadritos" class="container col-md-12">
+                            <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                                <li class="text-info">
+                                    <a class="list-group-item-success soft-success" style="vertical-align:central">
+                                        <i class="material-icons " style="padding:0px">spellcheck</i>
+                                        Stock Suficiente
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                                <li class="text-info">
+                                    <a class="list-group-item-danger soft-danger">
+                                        <i class="material-icons " style="padding:0px">warning</i>
+                                        Stock Insuficiente
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
                         <div class="form-group">
                             @*<h3 class="col-sm-7"><strong>Listado de Insumos</strong></h3>*@
                             <div class="row">
                                 <div class="col-sm-12">
+                                    <hr />
                                     <table id="detalles" class=" table table-hover">
                                         <thead>
                                             <tr>
@@ -218,37 +238,37 @@
                                         @{ var subtotal = "";}
                                         <tbody name="detallesPedido" id="detallesPedido">
                                             @*@foreach (var item in detallesPedido)
-                        {
-                            <tr>
-                                <td>
-                                    <input type="hidden" name="@item.pedidoId" value="@item.pedidoId">
-                                    @item.pedidoId;
-                                    <input type="hidden" name="@item.insumoId" value="@item.insumoId">
-                                    <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
-                                    @item.insumo.nombre;
-                                </td>
-                                <td>
-                                    <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
-                                    @item.insumo.tiposInsumo.nombre;
-                                </td>
-                                <td>
-                                    <input type="hidden" name="@item.cantidad" value="@item.cantidad">
-                                    @item.cantidad;
-                                </td>
-                                <td>
-                                    <input type="number" name="@item.cantidadAutorizada" min="0" max="@item.cantidad" value="@item.cantidad">
-                                    @item.cantidadAutorizada;
-                                </td>
-                                <td>
-                                    <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
-                                    @item.insumo.precioUnitario;
-                                </td>
-                                <td>
-                                    <input type="hidden" name="subtotal" value="subtotal">
-                                    @subtotal;
-                                </td>
-                            </tr>
-                        }*@
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="hidden" name="@item.pedidoId" value="@item.pedidoId">
+                                        @item.pedidoId;
+                                        <input type="hidden" name="@item.insumoId" value="@item.insumoId">
+                                        <input type="hidden" name="@item.insumo.nombre" value="@item.insumo.nombre">
+                                        @item.insumo.nombre;
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="@item.insumo.tiposInsumo.nombre" value="@item.insumo.tiposInsumo.nombre">
+                                        @item.insumo.tiposInsumo.nombre;
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="@item.cantidad" value="@item.cantidad">
+                                        @item.cantidad;
+                                    </td>
+                                    <td>
+                                        <input type="number" name="@item.cantidadAutorizada" min="0" max="@item.cantidad" value="@item.cantidad">
+                                        @item.cantidadAutorizada;
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="@item.insumo.precioUnitario" value="@item.insumo.precioUnitario">
+                                        @item.insumo.precioUnitario;
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="subtotal" value="subtotal">
+                                        @subtotal;
+                                    </td>
+                                </tr>
+                            }*@
 
                                     </table>
                                     @*<div class="form-group">*@

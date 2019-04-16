@@ -55,11 +55,17 @@ namespace SIAH.Controllers
         }
 
         //GET: Remito
-        public ActionResult Remito()
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
+        public ActionResult Remito([Bind(Include = "id")] String id, [Bind(Include = "fechaEntregaEfectiva")] DateTime fechaEntregaEfectiva)
         {
+            String fechaEfectivaCompra = fechaEntregaEfectiva.Day + "_" + fechaEntregaEfectiva.Month + "_" + fechaEntregaEfectiva.Year;
+            String nombreArchivo = id + "_RemitoOcasa_" + fechaEfectivaCompra + ".csv";
+
             String ultimo_archivo = (from f in System.IO.Directory.GetFiles(Server.MapPath("~/CargaRemitosCSV"))
-                                  orderby f descending
-                                  select f).First();
+                                     orderby f descending
+                                     select f)
+                                  .First(nombre =>
+                                  nombre.Contains(nombreArchivo));
 
             List<Insumo> compraInsumos = new List<Insumo>();
             Boolean bandera = true;
@@ -74,7 +80,7 @@ namespace SIAH.Controllers
 
                     if (bandera == true)
                     {
-                        compraInsumos.Add( new Insumo { id = Int32.Parse(values[0]) } );
+                        compraInsumos.Add(new Insumo { id = Int32.Parse(values[0]) });
                         bandera = false;
                     }
 

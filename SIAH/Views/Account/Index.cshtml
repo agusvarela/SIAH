@@ -2,58 +2,82 @@
 
 @{
     ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<h2>Listado de usuarios</h2>
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-12">
+            <h1>Gestión de usuarios</h1>
+            <div class="banner-catalog__content">
+                Aqui encontrará los usuarios registrados en el sistema y también puede
+                @Html.ActionLink("registrar un nuevo usuario", "Register")
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+            <div class="form-card__content group">
+                <div class="form-group">
 
-<p>
-    @Html.ActionLink("Registrar nuevo usuario", "Register")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.Name("Nombre de Usuario")
-        </th>
-        <th>
-            @Html.Name("Apellido")
-        </th>
-        <th>
-            @Html.Name("Email")
-        </th>
-        <th>
-            @Html.Name("Contraseña")
-        </th>
-        <th>
-            @Html.Name("Rol")
-        </th>
-        @*<th></th>*@
-    </tr>
+                    <div id="contenedor" class="col-md-12">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.apellido)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.password)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.rol.nombre)
-        </td>
-        @*<td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>*@
-    </tr>
-}
+                        <div id="table-container">
+                            <table id="maintable" class="table table-condensed">
+                                <tr class="list-group-item-info" style="border-bottom: solid">
+                                    <th class="text-center">
+                                        @Html.Name("Nombre de Usuario")
+                                    </th>
+                                    <th class="text-center">
+                                        @Html.Name("Apellido")
+                                    </th>
+                                    <th class="text-center">
+                                        @Html.Name("Email")
+                                    </th>
+                                    <th class="text-center">
+                                        @Html.Name("Contraseña (encriptada)")
+                                    </th>
+                                    <th class="text-center">
+                                        @Html.Name("Rol")
+                                    </th>
+                                    @*<th></th>*@
+                                </tr>
 
-</table>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="list-group-item-grey">
+                                            @Html.DisplayFor(modelItem => item.nombre)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.apellido)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.email)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.password)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.DisplayFor(modelItem => item.rol.nombre)
+                                        </td>
+                                        @*<td>
+                                                @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                                                @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                                                @Html.ActionLink("Delete", "Delete", new { id=item.id })
+                                            </td>*@
+                                    </tr>
+                                }
 
+                            </table>
+                            <div id="bottom_anchor"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
