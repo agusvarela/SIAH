@@ -4,25 +4,60 @@
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<h2>Actualizar Stock</h2>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-group">
 
-    @Html.Label("Insumo", "Insumo", htmlAttributes: new { @class = "control-label col-md-2" })
-
-    <div class="col-md-10">
-        @Html.TextBoxFor(model => model.insumo.nombre, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-sm-12">
+                <h1>Editar cantidad de stock del insumo @Html.DisplayFor(model => model.insumo.nombre)</h1>
+                <div class="banner-catalog__content"> Aqui puede modificar el stock actual disponible para reaprovisionamiento.</div>
+            </div>
+        </div>
     </div>
-</div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.stockFarmacia, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.stockFarmacia, new { htmlAttributes = new { @id = "stockFarmacia", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.stockFarmacia, "", new { @class = "text-danger" })
+    <br />
+
+    <div class="container" style=" padding-bottom: 30px;">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info_outline</i>
+                                <strong>Información general del Insumo</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.insumo.nombre, "Nombre Insumo", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
+                                    <div class="col-sm-12">
+                                        @Html.TextBox("nombre", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.insumo.nombre, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.stockFarmacia, "Stock Farmacia", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
+                                    <div class="col-sm-12">
+                                        @Html.TextBox("stockFarmacia", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.stockFarmacia, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -30,12 +65,14 @@
     @Html.TextBoxFor(model => model.hospitalId, htmlAttributes: new { @id = "hospitalId", @class = "form-control", @readonly = "readonly", @type = "hidden" })
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="col-md-3">
             <input type="submit" value="Guardar" class="btn btn-success" />
+        </div>
+        <div class="col-md-3 ">
+            @Html.ActionLink("Volver al listado", "Index", new { hospitalId = Session["hospitalId"] })
         </div>
     </div>
 }
-<div>
-    @Html.ActionLink("Volver al listado", "Index", new { hospitalId = Session["hospitalId"] })
-</div>
+
+
 
