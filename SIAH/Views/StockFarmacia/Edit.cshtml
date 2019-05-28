@@ -12,7 +12,7 @@
         <div class="container">
             <div class="col-sm-12">
                 <h1>Editar cantidad de stock del insumo @Html.DisplayFor(model => model.insumo.nombre)</h1>
-                <div class="banner-catalog__content"> Aqui puede modificar el stock actual disponible para reaprovisionamiento.</div>
+                <div class="banner-catalog__content"> Aquí puede modificar el stock actual disponible para reaprovisionamiento.</div>
             </div>
         </div>
     </div>
@@ -32,31 +32,27 @@
                         </div>
                         <div class="form-card__content group">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.insumoId, "Nombre Insumo", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
-                                        <div class="col-sm-12">
-                                            @Html.TextBox("nombreInsumo", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                                            @Html.ValidationMessageFor(model => model.insumo.nombre, "", new { @class = "text-danger" })
-                                        </div>
+                                        @Html.LabelFor(model => model.insumoId, "Nombre Insumo", htmlAttributes: new { @class = "control-label" })
+                                        @Html.TextBox("nombreInsumo", Model.insumo.nombre, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.insumo.nombre, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-sm-6">
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.stockFarmacia, "Stock Farmacia", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
-                                        <div class="col-sm-12">
-                                            @Html.TextBox("stockFarmacia", null, htmlAttributes: new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(model => model.stockFarmacia, "", new { @class = "text-danger" })
-                                        </div>
+                                        @Html.LabelFor(model => model.stockFarmacia, "Stock Farmacia", htmlAttributes: new { @class = "control-label" })
+                                        @Html.TextBox("stockFarmacia", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.stockFarmacia, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-md-6">
                                     @Html.ActionLink("Volver al listado", "Index", new { hospitalId = Session["hospitalId"] })
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="submit" value="Guardar" class="btn btn-success" />
+                                    <input type="submit" value="Guardar" class="btn btn-success pull-right" />
                                 </div>
 
                             </div>
