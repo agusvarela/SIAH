@@ -9,7 +9,7 @@
         <div class="col-lg-12">
             <h1>Mis Reclamos</h1>
             <div class="banner-catalog__content">
-                Aqui encontrará sus reclamos pendientes e históricos
+                Aqui encontrará el histórico de reclamos y los reclamos en curso para los pedidos de su hospital
             </div>
         </div>
     </div>
@@ -19,8 +19,6 @@
         <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
             <div class="form-card__content group">
                 <div class="form-group">
-                    @*<h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>
-                        <div class="row">*@
 
                     <div id="contenedor" class="col-md-12">
 
@@ -29,10 +27,7 @@
                                 <thead>
                                     <tr class="list-group-item-info" style="border-bottom: solid">
                                         <th class="text-center">
-                                            <strong>@Html.DisplayNameFor(model => model.pedidoId)</strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong> @Html.DisplayNameFor(model => model.hospital.nombre)</strong>
+                                            <strong>@Html.DisplayName("Id Pedido")</strong>
                                         </th>
                                         <th class="text-center">
                                             <strong>
@@ -41,12 +36,7 @@
                                         </th>
                                         <th class="text-center">
                                             <strong>
-                                                @Html.DisplayNameFor(model => model.fechaFinReclamo)
-                                            </strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong>
-                                                @Html.DisplayNameFor(model => model.tipoReclamo.tipo)
+                                                @Html.DisplayName("Responsable Asignado")
                                             </strong>
                                         </th>
                                         <th class="text-center">
@@ -55,54 +45,93 @@
                                             </strong>
                                         </th>
                                         <th class="text-center">
-                                            <strong>  @Html.DisplayNameFor(model => model.observacionFamacia)</strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong>  @Html.DisplayNameFor(model => model.responsableAsignado)</strong>
-                                        </th>
-                                        <th class="text-center">
                                             <strong>  @Html.Name("Acciones")</strong>
                                         </th>
                                     </tr>
                                 </thead>
                                 @foreach (var item in Model)
                                 {
-                                <tr>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.pedidoId)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.fechaFinReclamo)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.tipoReclamo.tipo)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.observacionFamacia)
-                                    </td>
-                                    <td class="text-center">
-                                        @Html.DisplayFor(modelItem => item.responsableAsignado.nombre)
-                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Detalles", "Details", new { id = item.pedidoId })
-                                    </td>
-                                </tr>
+                                    switch (item.estadoReclamoId)
+                                    {
+                                        case 1:
+                                            <tr class="list-group-item-grey">
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.pedidoId)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (item.responsableAsignado != null)
+                                                    {
+                                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                    }
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId })
+                                                </td>
+                                            </tr>
+                                            break;
+
+                                        case 2:
+
+                                            <tr class="list-group-item-orange">
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.pedidoId)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (item.responsableAsignado != null)
+                                                    {
+                                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                    }
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId })
+                                                </td>
+                                            </tr>
+
+                                            break;
+
+                                        case 3:
+
+                                            <tr class="list-group-item-success">
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.pedidoId)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (item.responsableAsignado != null)
+                                                    {
+                                                        @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                    }
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId })
+                                                </td>
+                                            </tr>
+
+                                            break;
+                                    }
+
                                 }
                             </table>
                             <div id="bottom_anchor"></div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
