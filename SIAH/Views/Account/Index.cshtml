@@ -28,21 +28,17 @@
                             <table id="maintable" class="table table-condensed">
                                 <tr class="list-group-item-info" style="border-bottom: solid">
                                     <th class="text-center">
-                                        @Html.Name("Nombre de Usuario")
-                                    </th>
-                                    <th class="text-center">
-                                        @Html.Name("Apellido")
+                                        @Html.Name("Nombre")
                                     </th>
                                     <th class="text-center">
                                         @Html.Name("Email")
                                     </th>
                                     <th class="text-center">
-                                        @Html.Name("Contraseña (encriptada)")
-                                    </th>
-                                    <th class="text-center">
                                         @Html.Name("Rol")
                                     </th>
-                                    @*<th></th>*@
+                                    <th class="text-center">
+                                        @Html.Name("Eliminar")
+                                    </th>
                                 </tr>
 
                                 @foreach (var item in Model)
@@ -50,24 +46,18 @@
                                     <tr>
                                         <td class="list-group-item-grey">
                                             @Html.DisplayFor(modelItem => item.nombre)
-                                        </td>
-                                        <td class="text-center">
+
                                             @Html.DisplayFor(modelItem => item.apellido)
                                         </td>
                                         <td class="text-center">
                                             @Html.DisplayFor(modelItem => item.email)
                                         </td>
                                         <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.password)
-                                        </td>
-                                        <td class="text-center">
                                             @Html.DisplayFor(modelItem => item.rol.nombre)
                                         </td>
-                                        @*<td>
-                                                @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-                                                @Html.ActionLink("Details", "Details", new { id=item.id }) |
-                                                @Html.ActionLink("Delete", "Delete", new { id=item.id })
-                                            </td>*@
+                                        <td class="text-center">
+                                            @Html.ActionLink("X", "Delete", new { id=item.id })
+                                        </td>
                                     </tr>
                                 }
 
