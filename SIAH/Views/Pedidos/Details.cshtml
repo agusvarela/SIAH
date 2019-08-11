@@ -59,8 +59,25 @@
     <div class="container" style=" padding-bottom: 30px;">
 
         <div class="form-horizontal">
+
+            @if (Model.esUrgente)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                            <div class="form-card__title alert-header">
+                                <div class="alert-icon text-center">
+                                    <i class="material-icons">warning</i>
+                                    <strong>Pedido Urgente!</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="no-margin-bottom"/>
+            }
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="form-card form-card--purple form-card--tight animated zoomIn">
                         <div class="form-card__title info-header">
                             <div class="alert-icon">
@@ -95,8 +112,8 @@
                                         <div> <span id="presuSpan" name="presuSpan" class="text-danger"></span></div>
                                         <div><span id="autoSpan" name="autosSpan" class="text-success"></span></div>
                                         @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })
-                                            <text id="presupuesto" class="form-control"></text>
-                                            @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
+                                    <text id="presupuesto" class="form-control"></text>
+                                    @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
                                     </div>
                                 </div>
                             </div>
@@ -127,30 +144,6 @@
                                 </div>
                             </div>
 
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
-                        <div class="form-card__title alert-header">
-                            <div class="alert-icon">
-                                <i class="material-icons">warning</i>
-                                <strong>Pedido Urgente!</strong>
-                            </div>
-                        </div>
-
-                        <div class="form-card__content group">
-                            <div class="form-group text-center">
-                                @if (Model.esUrgente)
-                                {
-                                    <h4 class="text-danger"><strong>Este pedido es Urgente </strong></h4>
-                                }
-                                else
-                                {
-                                    <h4><strong>Este pedido no es Urgente </strong></h4>
-                                }
-
-                            </div>
                         </div>
                     </div>
                 </div>

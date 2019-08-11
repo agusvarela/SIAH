@@ -192,13 +192,8 @@
                                                                 <i class="material-icons">send</i>
                                                             </td>
                                                             <td class="text-center">
-
-                                                                 
-                                                                @Html.ActionLink("Autorizar", "Autorizacion", new { id = item.id })
-
+                                                                <input type="button" id="volver" value="Autorizar" class="btn btn-round btn-primary" onclick="location.href =  '/Pedidos/Autorizar/' + @{item.id.ToString();}" />
                                                             </td>
-
-
                                                         </tr>
                                                         break;
                                                     case 2:
