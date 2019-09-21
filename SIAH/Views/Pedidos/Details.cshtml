@@ -666,8 +666,8 @@
 
                                         <tbody name="detallesPedido" id="detallesPedido">
                                             @*<tr class="empty well text-center">
-                                                    <td colspan="6">Aun no se han agregado insumos</td>
-                                                </tr>*@
+                            <td colspan="6">Aun no se han agregado insumos</td>
+                        </tr>*@
                                         </tbody>
                                     </table>
 
@@ -706,6 +706,15 @@
                                     <input type="button" id="btn_reclamo" value="Ir al Reclamo" class="btn pull-right btn-primary" />
                                 </div>
                             }
+
+                            @if (Model.estadoId == 1 && Session["rol"].ToString() == "RespAutorizacion")
+                            {
+                                <div class="col-xs-12">
+                                    <br />
+                                    <a type="button" id="volver" class="btn btn-round btn-primary" href="/Pedidos/Autorizacion/@Model.id">Autorizar</a>
+                                </div>
+                            }
+
                             <div class="col-md-12">
                                 @if (Session["rol"].ToString() == "RespFarmacia" && Model.estadoId == 6)
                                 {
