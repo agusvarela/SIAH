@@ -11,6 +11,7 @@ using System.Net.Http;
 using SIAH.Context;
 using SIAH.Models.Insumos;
 using System.Dynamic;
+using SIAH.Models;
 
 namespace SIAH.Controllers
 {
@@ -115,13 +116,41 @@ namespace SIAH.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Insumos.Add(insumo);
+                //TODO: mejorar este comportamiento
+                int nextId = 0;
+                try
+                {
+                    nextId = db.Insumos.ToList().Last().id + 1;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                insumo.id = nextId;
+                db.Database.ExecuteSqlCommand(" INSERT INTO[dbo].[Insumo] " +
+                    "([id], [nombre], [precioUnitario], [tipoInsumoId], [stock], [stockFisico])" +
+                    " VALUES({0}, {1}, {2}, {3}, {4}, {5})",
+                    insumo.id, insumo.nombre, insumo.precioUnitario, insumo.tipoInsumoId, insumo.stock, insumo.stockFisico);
+                AddToStockFarmacia(insumo.id);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo, "id", "nombre", insumo.tipoInsumoId);
             return View(insumo);
+        }
+
+        private void AddToStockFarmacia(int idInsumo)
+        {
+            var hospitalesList = db.Hospitales.Select(x => x.id).ToList();
+            foreach ( int idHospital in hospitalesList)
+            {
+                StockFarmacia stockFarmacia = new StockFarmacia();
+                stockFarmacia.insumoId = idInsumo;
+                stockFarmacia.hospitalId = idHospital;
+                stockFarmacia.stockFarmacia = 0;
+                db.StockFarmacias.Add(stockFarmacia);
+            }
         }
 
         // GET: Insumos/Edit/5
