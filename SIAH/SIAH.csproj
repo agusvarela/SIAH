@@ -20,10 +20,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -292,6 +290,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
+    <Compile Include="Models\Enums\DefaultRoles.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\InsumoOcasa.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />

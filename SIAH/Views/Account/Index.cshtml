@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SIAH.Models.UserAccount>
+﻿@using SIAH.Models.Enums
+@model IEnumerable<SIAH.Models.UserAccount>
 
 @{
     ViewBag.Title = "Usuarios";
@@ -10,59 +11,92 @@
         <div class="col-lg-12">
             <h1>Gestión de usuarios</h1>
             <div class="banner-catalog__content">
-                Aqui encontrará los usuarios registrados en el sistema y también puede
-                @Html.ActionLink("registrar un nuevo usuario", "Register")
+                Aqui encontrará los usuarios registrados en el sistema y podrá registrar nuevos usuarios.
             </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
-            <div class="form-card__content group">
-                <div class="form-group">
+<div id="page" style="min-height: 363px;">
+    <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class=" col-sm-10">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Usuarios registrados</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-2">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="alertArea  animated zoomIn">
+                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" onclick="location.href='@Url.Action("Register", "Account")'">
+                                    <strong>Registrar usuario</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                    <div class="form-card__content group">
+                        <div class="form-group">
 
-                    <div id="contenedor" class="col-md-12">
+                            <div id="contenedor" class="col-md-12">
 
-                        <div id="table-container">
-                            <table id="maintable" class="table table-condensed">
-                                <tr class="list-group-item-info" style="border-bottom: solid">
-                                    <th class="text-center">
-                                        @Html.Name("Nombre")
-                                    </th>
-                                    <th class="text-center">
-                                        @Html.Name("Email")
-                                    </th>
-                                    <th class="text-center">
-                                        @Html.Name("Rol")
-                                    </th>
-                                    <th class="text-center">
-                                        @Html.Name("Eliminar")
-                                    </th>
-                                </tr>
+                                <div id="table-container">
+                                    <table id="maintable" class="table table-condensed">                                    
+                                        <thead class="listado">
 
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td class="list-group-item-grey">
-                                            @Html.DisplayFor(modelItem => item.nombre)
+                                            <tr class="list-group-item-info" style="border-bottom: solid">
+                                                <th class="text-center">
+                                                    @Html.Name("Nombre")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Email")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Rol")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Acciones")
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td class="list-group-item-grey">
+                                                    @Html.DisplayFor(modelItem => item.nombre)
 
-                                            @Html.DisplayFor(modelItem => item.apellido)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.email)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.rol.nombre)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.ActionLink("X", "Delete", new { id=item.id })
-                                        </td>
-                                    </tr>
-                                }
+                                                    @Html.DisplayFor(modelItem => item.apellido)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.email)
+                                                </td>
+                                                <td class="text-center">
+                                                    @{string rol = ((DefaultRoles)item.rolID).ToString();}
+                                                    @Html.DisplayFor(modelItem => rol)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.ActionLink("Eliminar", "Delete", new { id = item.id }) |
+                                                    @Html.ActionLink("Editar", "Delete", new { id = item.id }) |
+                                                    @Html.ActionLink("Detalles", "Delete", new { id = item.id })
+                                                </td>
+                                            </tr>
+                                        }
 
-                            </table>
-                            <div id="bottom_anchor"></div>
+                                    </table>
+                                    <div id="bottom_anchor"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
