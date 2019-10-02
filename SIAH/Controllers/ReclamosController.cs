@@ -232,7 +232,7 @@ namespace SIAH.Controllers
             return View(reclamoes.ToList());
 
         }
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         public ActionResult ListadoReclamos()
         {
             var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.Pedido).

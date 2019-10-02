@@ -14,7 +14,7 @@
     <div class="container">
         <div class="col-md-12">
             <h1>Director de Área</h1>
-            <div class="banner-catalog__content">Realice diferentes acciones de control y genere reportes para la toma de decisiones.</div>
+            <div class="banner-catalog__content">Como director tiene acceso a diversas funcionalidades detalladas en ésta página.</div>
         </div>
     </div>
 </div>
@@ -22,14 +22,14 @@
     <div class="row">
         <div class="col-md-12">
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div id="alertArea  animated zoomIn">
                     <div class="alert alert-info pq-alert  degradado animated zoomIn">
                         <i class="fa fa-arrow-right"></i>
-                        <span class="tituloPanel">Reportes y Pedidos</span>
+                        <span class="tituloPanel">Gestión de pedidos</span>
                     </div>
                 </div>
-                <div class="col-md-6 animated zoomIn">
+                <div class="col-md-4 animated zoomIn">
                     <div class="card card-project">
 
                         <div class="content text-center">
@@ -38,15 +38,15 @@
                                     <i class="material-icons">timeline</i>
                                 </div>
                                 <h4 class="info-title">Reportes</h4>
-                                <p>Visualice un reporte con la cantidad de insumos pedida por cada hospital</p>
-
-                                <a id="reporte" class="btn btn-round btn-softPurple" @*onclick="location.href='@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = new DateTime(2017, 2, 2), fechaFin = new DateTime(2017, 11, 1) })'"*@>Generar Reporte</a>
+                                <p>Visualice reportes de pedidos actualizados en tiempo real.</p>
+                                <br />
+                                <a id="reporte" class="btn btn-round btn-softPurple">Ir a Reportes</a>
                             </div>
 
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 animated zoomIn">
+                <div class="col-md-4 animated zoomIn">
                     <div class="card card-project">
 
                         <div class="content text-center">
@@ -57,22 +57,16 @@
                                 <h4 class="info-title">
                                     <a>Administrar Pedidos</a>
                                 </h4>
-                                <p>Controle y Autorice Pedidos de Insumos</p>
+                                <p>Controle y autorice pedidos de insumos.</p>
+                                <br />
+                                <br />
                                 <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Listado", "Pedidos")'">Ir a Pedidos</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-6">
-                <div id="alertArea  animated zoomIn">
-                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
-                        <i class="fa fa-arrow-right"></i>
-                        <span class="tituloPanel">Reclamos y Usuarios</span>
-                    </div>
-                </div>
-                <div class="col-md-6 animated zoomIn">
+                <div class="col-md-4 animated zoomIn">
                     <div class="card card-project">
 
                         <div class="content text-center">
@@ -83,25 +77,8 @@
                                 <h4 class="info-title">
                                     <a href="">Reclamos</a>
                                 </h4>
-                                <p>Gestione, asigne, y vea el historial de los reclamos realizados sobre pedidos de insumos</p>
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Ir a Gestión de Reclamos</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 animated zoomIn">
-                    <div class="card card-project">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-info">
-                                    <i class="material-icons">person</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a href="">Usuarios</a>
-                                </h4>
-                                <p>Gestione los usuarios que tienen acceso al sistema, cada rol tiene los permisos correspondientes.</p>
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Account")'">Ir a Gestión de Usuarios</div>
+                                <p>Gestione, asigne, y vea el historial de los reclamos realizados sobre pedidos de insumos.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Ir a Reclamos</div>
                             </div>
                         </div>
                     </div>
@@ -111,7 +88,7 @@
                 <div id="alertArea  animated zoomIn">
                     <div class="alert alert-info pq-alert  degradado animated zoomIn">
                         <i class="fa fa-arrow-right tituloPanel"></i>
-                        <span class="tituloPanel">Stock</span>
+                        <span class="tituloPanel">Gestión de inventario</span>
                     </div>
                 </div>
                 <div class="col-md-4 animated zoomIn">
@@ -125,7 +102,10 @@
                                 <h4 class="info-title">
                                     <a>Control de Stock</a>
                                 </h4>
-                                <p>Controle la Base de Datos de SIAH y actualice el Stock de Insumos.</p>
+                                <p>Controle las diferencias entre el stock en OCASA y el stock del sistema.</p>
+                                <br />
+                                <br />
+
                                 <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Ir a control de Stock</div>
                             </div>
                         </div>
@@ -137,12 +117,13 @@
                         <div class="content text-center">
                             <div class="info">
                                 <div class="icon icon-info">
-                                    <i class="material-icons">storage</i>
+                                    <i class="material-icons">view_module</i>
                                 </div>
                                 <h4 class="info-title">
                                     <a>Stock de Insumos</a>
                                 </h4>
-                                <p>Listado de Insumos Médicos y su Stock disponible en este momento.</p>
+                                <p>Gestione los insumos disponibles para pedidos con la posibilidad de controlar el stock disponible</p>
+                                <br/>
                                 <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Ir a la tabla de Stock</div>
                             </div>
                         </div>
@@ -153,21 +134,66 @@
 
                         <div class="content text-center">
                             <div class="info">
-                                <div class="icon icon-info">
+                                <div class="icon icon-success">
                                     <i class="material-icons">work</i>
                                 </div>
                                 <h4 class="info-title">
                                     <a>Administrar compras</a>
                                 </h4>
-                                <p>Cargue remitos de compra de insumos</p>
+                                <p>Cargue remitos de compra de insumos. Requiere un documento de compra en cierto formato.</p>
+                                <br />
                                 <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Compras")'">Ir a Compras</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-12">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right"></i>
+                        <span class="tituloPanel">Gestión de usuarios</span>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-info">
+                                    <i class="material-icons">person</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a href="">Usuarios</a>
+                                </h4>
+                                <p>Gestione los usuarios que tienen acceso al sistema, cada rol tiene los permisos correspondientes.</p>
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Account")'">Ir a Usuarios</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn">
+                    <div class="card card-project">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="material-icons">local_hospital</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a href="">Hospitales</a>
+                                </h4>
+                                <p>Puede visualizar y editar la información de cada hospital.</p>
+                                <br />
+                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Hospitales")'">Ir a Hospitales</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        </div>
+    </div>
 </div>
 
 @section Scripts{
