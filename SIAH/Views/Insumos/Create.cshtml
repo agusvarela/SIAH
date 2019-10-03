@@ -1,64 +1,95 @@
 ﻿@model SIAH.Models.Insumos.Insumo
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Nuevo insumo";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<h2>Create</h2>
-
-
-@using (Html.BeginForm()) 
-{
+@using (Html.BeginForm("Create", "Insumos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{    
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Insumo</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.precioUnitario, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.precioUnitario, new { htmlAttributes = new { @type = "number", @step = ".01", @class = "form-control" } })*@
-                <input type="text" name="precioUnitario" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44"/>
-                @Html.ValidationMessageFor(model => model.precioUnitario, "", new { @class = "text-danger" })
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-sm-12">
+                <h1>Cargar nuevo insumo</h1>
+                <div class="banner-catalog__content">Carga de los datos iniciales de un nuevo insumo que estará disponible para la generación de pedidos.</div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.stock, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="number" name="stock" class="form-control" min="0"/>
-                @Html.ValidationMessageFor(model => model.stock, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    </div>
+    <br />
+    <div class="container" style=" padding-bottom: 30px;">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.tipoInsumoId, "tipoInsumoId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("tipoInsumoId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.tipoInsumoId, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title  purple-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">add</i>
+                                <strong>Información del insumo</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.Label("Insumo", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.Label("Costo", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            <input type="text" name="precioUnitario" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.Label("Stock", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            <input type="number" name="stock" class="form-control" min="0" />
+                                            @Html.ValidationMessageFor(model => model.stock, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.Label("Tipo de insumo", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownList("tipoInsumoId", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.tipoInsumoId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <input type="submit" value="Cargar insumo" class="btn btn-round btn-success pull-right" />
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

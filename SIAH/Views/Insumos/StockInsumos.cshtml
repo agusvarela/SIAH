@@ -7,85 +7,94 @@
 <div class="banner-catalog">
     <div class="container">
         <div class="col-lg-12">
-            <h1>Control de Stock diario</h1>
+            <h1>Inventario de insumos disponibles</h1>
             <div class="banner-catalog__content">
-                Listado de Stock por Insumo.
+                <p>Aquí puede visualizar los insumos disponibles en el sistema y su correspondiente stock actual en el sistema.</p>
+                <strong>El stock real en el depósito de OCASA puede variar respecto al que figura en este listado.</strong>
             </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
-            <div class="form-card__content group">
-                <div class="form-group">
-                    @*<h3 class="col-md-7"><strong>Listado de Insumos</strong></h3>
-                        <div class="row">*@
 
-                    <div id="contenedor" class="col-md-12">
+<div class="container" style=" padding-bottom: 30px;">
 
-                        <div id="table-container">
-                            <table id="maintable" class="table table-condensed">
-                                <thead>
-                                    <tr class="list-group-item-info" style="border-bottom: solid">
+    <div class="form-horizontal">
 
-                                        <th class="text-center">
-                                            @Html.Name("Id Insumo")
-                                        </th>
-                                        <th class="text-center">
-                                            @Html.Name("Nombre")
-                                        </th>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                    <div class="form-card__content group">
+                        <div class="form-group">
 
-                                        <th class="text-center">
-                                            @Html.Name("Stock")
-                                        </th>
-                                        <th class="text-center">
-                                            @Html.Name("Tipo")
-                                        </th>
+                            <div id="contenedor" class="col-md-12">
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{int i = 0;
-                                        foreach (var item in Model)
-                                        {
+                                <div id="table-container">
+                                    <table id="maintable" class="table table-condensed">
+                                        <thead>
+                                            <tr class="list-group-item-info" style="border-bottom: solid">
 
+                                                <th class="text-center">
+                                                    @Html.Name("Insumo")
+                                                </th>
 
+                                                <th class="text-center">
+                                                    @Html.Name("Stock")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Precio unitario")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Tipo")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Acciones")
+                                                </th>
 
-                                            <tr class="text-center  ">
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.id)
-                                                </td>
-                                                <td>
-                                                    <strong>@Html.DisplayFor(modelItem => item.nombre)</strong>
-                                                </td>
-
-
-                                                <td>
-                                                    <strong>@Html.DisplayFor(modelItem => item.stock)</strong>
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
-                                                </td>
                                             </tr>
-                                        }
-                                    }
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                                {
+                                                    <tr class="text-center  ">
+                                                        <td>
+                                                            <strong>@Html.DisplayFor(modelItem => item.nombre)</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong>@Html.DisplayFor(modelItem => item.stock)</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong>$ @Html.DisplayFor(modelItem => item.precioUnitario)</strong>
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
+                                                        </td>
+                                                        <td>
+                                                            @Html.ActionLink("Editar", "Edit", new { id = item.id })
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                        </tbody>
+                                    </table>
+                                    <div id="bottom_anchor"></div>
+                                </div>
 
 
-                                    @*<tr class="empty well text-center">
-                        <td colspan="6">Aun no se han agregado insumos</td>
-                    </tr>*@
-                                </tbody>
-                            </table>
-                            <div id="bottom_anchor"></div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button class="btn btn-round btn-success btn-lg pull-right animated zoomIn" onclick="location.href='@Url.Action("Create", "Insumos")'">
+                                    <strong class="">+ Nuevo insumo</strong>
+                                </button>
+                            </div>
                         </div>
 
+                    </div>
 
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>
 @section Scripts {

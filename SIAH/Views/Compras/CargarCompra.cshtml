@@ -1,7 +1,7 @@
 ﻿@model SIAH.Models.Compras.Compra
 
 @{
-    ViewBag.Title = "Cargar Compra";
+    ViewBag.Title = "Cargar compra";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 @using (Html.BeginForm("CargarCompra", "Compras", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -9,8 +9,8 @@
     <div class="banner-catalog">
         <div class="container">
             <div class="col-sm-12">
-                <h1>Cargar Remito de Compra</h1>
-                <div class="banner-catalog__content">Carga de archivos de los remitos de compras.</div>
+                <h1>Cargar remito de compra</h1>
+                <div class="banner-catalog__content">Carga de archivos de remito de compra.</div>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
                         <div class="form-card__title  purple-header">
                             <div class="alert-icon">
                                 <i class="material-icons">add</i>
-                                <strong>Carga de Archivo</strong>
+                                <strong>Carga de archivo</strong>
                             </div>
                         </div>
                         <div class="form-card__content group">
@@ -33,7 +33,7 @@
                                     <div class="col-md-12">
                                         @Html.TextBox("file", "", new { type = "file" }) <br />
 
-                                        <input type="submit" value="Cargar Compra" class="btn btn-round btn-success pull-right" data-toggle="modal" data-target="#myModal" />
+                                        <input type="submit" value="Cargar compra" class="btn btn-round btn-success pull-right" data-toggle="modal" data-target="#myModal" />
 
                                         @ViewBag.Message
                                     </div>

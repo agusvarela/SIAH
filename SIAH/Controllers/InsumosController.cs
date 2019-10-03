@@ -18,14 +18,7 @@ namespace SIAH.Controllers
     public class InsumosController : Controller
     {
         private SIAHContext db = new SIAHContext();
-
-        // GET: Insumos
-        public ActionResult Index()
-        {
-            var insumos = db.Insumos.Include(i => i.tiposInsumo);
-            return View(insumos.ToList());
-        }
-
+        
         // GET: Insumos/Details/5
         public ActionResult Details(int? id)
         {
@@ -133,7 +126,7 @@ namespace SIAH.Controllers
                     insumo.id, insumo.nombre, insumo.precioUnitario, insumo.tipoInsumoId, insumo.stock, insumo.stockFisico);
                 AddToStockFarmacia(insumo.id);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("StockInsumos");
             }
 
             ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo, "id", "nombre", insumo.tipoInsumoId);
@@ -180,7 +173,7 @@ namespace SIAH.Controllers
             {
                 db.Entry(insumo).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("StockInsumos");
             }
             ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo, "id", "nombre", insumo.tipoInsumoId);
             return View(insumo);
@@ -209,7 +202,7 @@ namespace SIAH.Controllers
             Insumo insumo = db.Insumos.Find(id);
             db.Insumos.Remove(insumo);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("StockInsumos");
         }
 
         protected override void Dispose(bool disposing)
