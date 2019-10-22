@@ -52,7 +52,7 @@
                             <div id="contenedor" class="col-md-12">
 
                                 <div id="table-container">
-                                    <table id="maintable" class="table table-condensed">                                    
+                                    <table id="maintable" class="table table-condensed">
                                         <thead class="listado">
 
                                             <tr class="list-group-item-info" style="border-bottom: solid">
@@ -65,15 +65,12 @@
                                                 <th class="text-center">
                                                     @Html.Name("Rol")
                                                 </th>
-                                                <th class="text-center">
-                                                    @Html.Name("Acciones")
-                                                </th>
                                             </tr>
                                         </thead>
                                         @foreach (var item in Model)
                                         {
                                             <tr>
-                                                <td class="list-group-item-grey">
+                                                <td class="text-center">
                                                     @Html.DisplayFor(modelItem => item.nombre)
 
                                                     @Html.DisplayFor(modelItem => item.apellido)
@@ -84,11 +81,6 @@
                                                 <td class="text-center">
                                                     @{string rol = ((DefaultRoles)item.rolID).ToString();}
                                                     @Html.DisplayFor(modelItem => rol)
-                                                </td>
-                                                <td class="text-center">
-                                                    @Html.ActionLink("Eliminar", "Delete", new { id = item.id }) |
-                                                    @Html.ActionLink("Editar", "Delete", new { id = item.id }) |
-                                                    @Html.ActionLink("Detalles", "Delete", new { id = item.id })
                                                 </td>
                                             </tr>
                                         }
@@ -104,4 +96,60 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var myNewURL = refineURL();
+            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
+            window.history.pushState("object or string", "Title", "/" + myNewURL);
+            //Helper function to extract the URL between the last '/' and before '?'
+            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+            //pseudo code: edit to match your URL settings
+            function refineURL() {
+                //get full URL
+                var currURL = window.location.href; //get current address
+
+                //Get the URL between what's after '/' and befor '?'
+                //1- get URL after'/'
+                var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
+                //2- get the part before '?'
+                var beforeQueryString = afterDomain.split("?")[0];
+
+                return beforeQueryString;
+            }
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+
+            $(window).scroll(moveScroll);
+
+            $("#clone").DataTable();
+
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]]
+            });
+        });
+    </script>
+}
 
