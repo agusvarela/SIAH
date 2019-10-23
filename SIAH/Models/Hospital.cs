@@ -19,6 +19,16 @@ namespace SIAH.Models
         public Localidad localidad { get; set; }
 
         public Decimal presupuesto { get; set; }
+
+        [Display(Name = "Latitud")]
+        public String latitud { get; set; }
+        
+        [Display(Name = "Longitud")]
+        public String longitud { get; set; }
+
+        [Display(Name = "Teléfono")]
+        public String telefono { get; set; }
+
         public ICollection<Pedidos.Pedido> Pedidos { get; set; }
 
         public ICollection<StockFarmacia> StockFarmacias { get; set; }

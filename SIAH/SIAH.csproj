@@ -287,6 +287,10 @@
     <Compile Include="Migrations\201808252252318_create_table_stockFarmacia.Designer.cs">
       <DependentUpon>201808252252318_create_table_stockFarmacia.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910222114294_alter_table_hospital.cs" />
+    <Compile Include="Migrations\201910222114294_alter_table_hospital.Designer.cs">
+      <DependentUpon>201910222114294_alter_table_hospital.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
@@ -654,6 +658,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808252252318_create_table_stockFarmacia.resx">
       <DependentUpon>201808252252318_create_table_stockFarmacia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910222114294_alter_table_hospital.resx">
+      <DependentUpon>201910222114294_alter_table_hospital.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

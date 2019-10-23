@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="alertArea  animated zoomIn">
-                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" onclick="location.href='@Url.Action("Register", "Account")'">
+                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" onclick="location.href='@Url.Action("Create", "Hospitales")'">
                                     <strong>Registrar hospital</strong>
                                 </button>
                             </div>
@@ -58,28 +58,29 @@
                                 <div id="table-container">
                                     <table id="maintable" class="table table-condensed">
                                         <thead class="listado">
-                                            <tr>
+                                            <tr class="list-group-item-info" style="border-bottom: solid">
                                                 <th class="text-center">
-                                                    @Html.Name("Nombre")
+                                                    @Html.Name("Hospital")
                                                 </th>
                                                 <th class="text-center">
                                                     @Html.Name("Localidad")
                                                 </th>
                                                 <th class="text-center">
-                                                    @Html.Name("TODO: MORE DATA")
+                                                    @Html.Name("Acciones")
                                                 </th>
                                             </tr>
                                         </thead>
                                         @foreach (var item in Model)
                                         {
                                             <tr onclick="location.href='@Url.Action("Details", "Hospitales", new { id = item.id })'">
-                                                <td class="text-center list-group-item-grey">
-                                                    @Html.DisplayFor(modelItem => item.nombre)
+                                                <td class="text-center">
+                                                    <p style="font-weight: bold">@Html.DisplayFor(modelItem => item.nombre)</p>
                                                 </td>
                                                 <td class="text-center">
                                                     @Html.DisplayFor(modelItem => item.localidad.nombre)
                                                 </td>
                                                 <td class="text-center">
+                                                    <a type="button" id="edit" class="btn btn-round btn-primary" href="/Hospitales/Edit/@item.id.ToString()">Editar</a>
                                                 </td>
                                             </tr>
                                         }
