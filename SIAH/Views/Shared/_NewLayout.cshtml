@@ -122,15 +122,15 @@
                     {
                         if (Session["rol"].ToString() == "RespAutorizacion")
                         {
-                            <li>@Html.ActionLink("Ir al Dashboard", "RespAutorizacion", "Home")</li>
+                            <li>@Html.ActionLink("Ir al Inicio", "RespAutorizacion", "Home")</li>
                         }
                         if (Session["rol"].ToString() == "DirectorArea")
                         {
-                            <li>@Html.ActionLink("Ir al Dashboard", "DirectorArea", "Home")</li>
+                            <li>@Html.ActionLink("Ir al Inicio", "DirectorArea", "Home")</li>
                         }
                         if (Session["rol"].ToString() == "RespFarmacia")
                         {
-                            <li>@Html.ActionLink("Ir al Dashboard", "RespFarmaciaDashboard", "Home")</li>
+                            <li>@Html.ActionLink("Ir al Inicio", "RespFarmaciaDashboard", "Home")</li>
                         }
                         if (Session["userid"] != null)
                         {
