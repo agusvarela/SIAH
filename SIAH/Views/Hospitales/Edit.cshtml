@@ -1,7 +1,7 @@
 ﻿@model SIAH.Models.Hospital
 
 @{
-    ViewBag.Title = "Editar hospital";
+    ViewBag.Title = "Actualizar hospital";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
@@ -12,7 +12,7 @@
     <div class="banner-catalog">
         <div class="container">
             <div class="col-sm-9">
-                <h1>Editar hospital</h1>
+                <h1>Actualizar hospital</h1>
                 <div class="banner-catalog__content">Edite los campos del hospital que desea modificar.</div>
             </div>
             <div class="col-lg-3">
@@ -38,54 +38,46 @@
                         <div class="form-card__content group">
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.Label("Nombre", "Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-8">
+                                        <div class="col-md-12">
                                             @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.Label("Localidad", "Localidad", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-8">
+                                        <div class="col-md-12">
                                             @Html.DropDownList("localidadId", null, htmlAttributes: new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.localidadId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <br />
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.Label("Presupuesto", "Presupuesto", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-8">
+                                        <div class="col-md-12">
                                             @Html.EditorFor(model => model.presupuesto, new { htmlAttributes = new { @class = "form-control", @Name = "presupuesto", @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44", data_val = "false" } })
                                             @Html.ValidationMessageFor(model => model.presupuesto, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <br />
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.Label("Telefono", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-8">
+                                        <div class="col-md-12">
                                             @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.telefono, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <br />
                             <div class="row">
                                 <div class="col-md-12">
 
