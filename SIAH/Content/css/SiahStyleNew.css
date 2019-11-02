@@ -11,7 +11,8 @@
 
 body {
     height: initial !important;
-    width: initial !important
+    width: initial !important;
+    padding-top: 70px;
 }
 
 html {
@@ -11855,5 +11856,13 @@ table tr:hover[onclick] {
 }
 .logo-container{
     cursor: pointer;
+}
+.nav.navbar-nav.nav-pills {
+    padding-left: 55px
+}
+#mydd {
+    background-color: hsla(0,0%,100%,.2);
+    word-wrap: break-word;
+    margin-top: 5px
 }
 

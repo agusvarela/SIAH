@@ -29,13 +29,13 @@
     @Styles.Render("~/Content/app.css")
     @RenderSection("scripts", required: false)
     <!-- CSS Files -->
-        @Scripts.Render("~/bundles/modernizr")
-        <script src="~/Content/js/jquery.TablaDatos.min.js"></script>
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Content/js/jquery.TablaDatos.min.js"></script>
     @Styles.Render("~/Content/css/bootstrap.min.css")
     @Styles.Render("~/Content/css/SiahStyleNew.css")
     @Styles.Render("~/Content/css/SIAHStyle.css")
-        @Styles.Render("~/Content/css/demo.css")
-        <link href="~/Content/css/animate.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css/demo.css")
+    <link href="~/Content/css/animate.css" rel="stylesheet" />
     <link href="~/Content/css/jquery.TablaDatos.min.css" rel="stylesheet" />
     <script src="~/Content/js/material.min.js"></script>
     <script src="~/Content/js/material-kit.js"></script>
@@ -48,7 +48,7 @@
 
 </head>
 <body>
-    <div class="navbar navbar-default" role="navigation">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -76,6 +76,25 @@
                             </div>
                             @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
                         </a>
+                        <ul class="nav navbar-nav nav-pills">
+                            <li class="dropdown">
+                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Mis Vistas <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Reportes</a></li>
+                                    <li><a href="#">Administrar Pedidos</a></li>
+                                    <li><a href="#">Reclamos</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">Stock</a></li>
+                                    <li><a href="#">Control de Stock</a></li>
+                                    <li><a href="#">Administrar Compras</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a onclick="location.href='@Url.Action("Index", "Account")'">Usuarios</a></li>
+                                    <li><a href="#">Hospitales</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     }
                     if (Session["rol"].ToString() == "RespFarmacia")
                     {
