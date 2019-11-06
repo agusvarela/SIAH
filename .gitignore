@@ -258,3 +258,4 @@ paket-files/
 __pycache__/
 *.pyc
 SIAH/connection\.config
+SIAH/appSettings\.config
