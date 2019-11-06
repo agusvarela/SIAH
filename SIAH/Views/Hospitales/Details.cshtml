@@ -97,7 +97,7 @@
         var longitud = '@longitud';
         if (latitud == '') { latitud = '0'; alert('El hospital no tiene cargada su ubicación');}
         if (longitud == '') { longitud = '0'; }
-        var query = 'https://www.google.com/maps/embed/v1/view?key=@System.Configuration.ConfigurationManager.AppSettings["googleApiKey"]Y&center='
+        var query = "https://www.google.com/maps/embed/v1/view?key=@System.Configuration.ConfigurationManager.AppSettings["googleApiKey"]&center="
             + latitud + ', ' + longitud + '&zoom=17&maptype=roadmap';
         document.getElementById('map').setAttribute('src', query);
     });
