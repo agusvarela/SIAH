@@ -140,7 +140,7 @@ namespace SIAH.Controllers
                 db.Entry(reclamo).State = EntityState.Modified;
                 db.Entry(p).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("ListadoReclamos");
+                return RedirectToAction("ListadoReclamos", "Reclamos");
             }
             ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", reclamo.hospitalId);

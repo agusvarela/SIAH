@@ -57,8 +57,13 @@ namespace SIAH.Controllers
                 {
                     var insumoActual = db.Insumos.Find(item.id);
                     if (insumoActual != null)
-                    {
+                    {   //Asumimos que el Stock Fisico (entregado) es mayor al stock (comprometido por las autorizaciones)
+                        //por lo tanto calculamos la diferencia para mantener la misma respecto al nuevo stock
+                        //Ej: Stock fisico = 100; Stock comprometido = 30; Stock Ocasa = 90
+                        //Resultado -> Stock fisico 90; Stock comprometido = 20
+                        var diff = insumoActual.stockFisico - insumoActual.stock; 
                         insumoActual.stockFisico = item.stockOcasa;
+                        insumoActual.stock = item.stockOcasa - diff;
                         db.Entry(insumoActual).State = EntityState.Modified;
                     }
 

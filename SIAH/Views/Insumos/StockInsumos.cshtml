@@ -27,6 +27,32 @@
 
         <br>
         <div class="row">
+
+            <div class="col-md-12">
+                <div class=" col-sm-10">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Insumos registrados</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-2">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="alertArea  animated zoomIn">
+                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" onclick="location.href='@Url.Action("Create", "Insumos")'">
+                                    <strong>Registrar insumo</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-12">
                 <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
                     <div class="form-card__content group">
@@ -60,25 +86,25 @@
                                         </thead>
                                         <tbody>
                                             @foreach (var item in Model)
-                                                {
-                                                    <tr class="text-center  ">
-                                                        <td>
-                                                            <strong>@Html.DisplayFor(modelItem => item.nombre)</strong>
-                                                        </td>
-                                                        <td>
-                                                            <strong>@Html.DisplayFor(modelItem => item.stock)</strong>
-                                                        </td>
-                                                        <td>
-                                                            <strong>$ @Html.DisplayFor(modelItem => item.precioUnitario)</strong>
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
-                                                        </td>
-                                                        <td>
-                                                            <a type="button" id="edit" class="btn btn-round btn-primary" href="/Insumos/Edit/@item.id.ToString()">Actualizar</a>
-                                                        </td>
-                                                    </tr>
-                                                }
+                                            {
+                                                <tr class="text-center  ">
+                                                    <td>
+                                                        <strong>@Html.DisplayFor(modelItem => item.nombre)</strong>
+                                                    </td>
+                                                    <td>
+                                                        <strong>@Html.DisplayFor(modelItem => item.stock)</strong>
+                                                    </td>
+                                                    <td>
+                                                        <strong>$ @Html.DisplayFor(modelItem => item.precioUnitario)</strong>
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
+                                                    </td>
+                                                    <td>
+                                                        <a type="button" id="edit" class="btn btn-round btn-primary" href="/Insumos/Edit/@item.id.ToString()">Actualizar</a>
+                                                    </td>
+                                                </tr>
+                                            }
 
                                         </tbody>
                                     </table>
@@ -88,11 +114,6 @@
 
                             </div>
 
-                            <div class="col-md-12">
-                                <button class="btn btn-round btn-success btn-lg pull-right animated zoomIn" onclick="location.href='@Url.Action("Create", "Insumos")'">
-                                    <strong class="">+ Nuevo insumo</strong>
-                                </button>
-                            </div>
                         </div>
 
                     </div>

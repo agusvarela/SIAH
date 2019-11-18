@@ -6,166 +6,171 @@
 }
 <div class="banner-catalog">
     <div class="container">
-        <div class="col-lg-12">
+        <div class="col-lg-9">
             <h1>Listado de Reclamos</h1>
             <div class="banner-catalog__content">
-                Aqui encontrará los reclamos pendientes de asignación e históricos
+                Aquí encontrará los reclamos pendientes de asignación e históricos
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-danger">
+                <i class="material-icons pull-right" style="font-size: 100px">report</i>
             </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
-            <div class="form-card__content group">
-                <div class="form-group">
 
-                    <div id="contenedor" class="col-md-12">
+<div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                <div class="form-card__content group">
+                    <div class="form-group">
 
-                        <div id="table-container">
-                            <table id="maintable" class="table table-condensed">
-                                <thead>
-                                    <tr class="list-group-item-info" style="border-bottom: solid">
-                                        <th class="text-center">
-                                            <strong>@Html.DisplayName("Id Pedido")</strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong> @Html.DisplayNameFor(model => model.hospital.nombre)</strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong>
-                                                @Html.DisplayNameFor(model => model.fechaInicioReclamo)
-                                            </strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong>
-                                                @Html.DisplayName("Responsable Asignado")
-                                            </strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong>
-                                                @Html.DisplayNameFor(model => model.estadoReclamo.nombreEstado)
-                                            </strong>
-                                        </th>
-                                        <th class="text-center">
-                                            <strong>  @Html.Name("Acciones")</strong>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                @foreach (var item in Model)
-                                {
-                                switch (item.estadoReclamoId)
+                        <div id="contenedor" class="col-md-12">
+
+                            <div id="table-container">
+                                <table id="maintable" class="table table-condensed">
+                                    <thead>
+                                        <tr class="list-group-item-info" style="border-bottom: solid">
+                                            <th class="text-center">
+                                                <strong>@Html.DisplayName("Id Pedido")</strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong> @Html.DisplayNameFor(model => model.hospital.nombre)</strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong>
+                                                    @Html.DisplayNameFor(model => model.fechaInicioReclamo)
+                                                </strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong>
+                                                    @Html.DisplayName("Responsable Asignado")
+                                                </strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong>
+                                                    @Html.DisplayNameFor(model => model.estadoReclamo.nombreEstado)
+                                                </strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong>  @Html.Name("Acciones")</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var item in Model)
                                     {
-                                        case 1:
-                                        <tr class="list-group-item-grey">
-                                                <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.pedidoId)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
-                                        </td>
-                                        <td class="text-center">
-                                            @if (item.responsableAsignado != null)
-                                            {
-                                                @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
-                                            }
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId }) |
-                                            @if (item.estadoReclamoId == 1)
-                                            {
-                                                @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
-                                            }
-                                            @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
-                                            {
-                                                @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
-                                            }
-                                        </td>
-                                        </tr>
-                                        break;
+                                        switch (item.estadoReclamoId)
+                                        {
+                                            case 1:
+                                                <tr class="list-group-item-grey" onclick="location.href='@Url.Action("Details", "Reclamos", new { id = item.pedidoId })'">
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.pedidoId)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.responsableAsignado != null)
+                                                        {
+                                                            @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.estadoReclamoId == 1)
+                                                        {
+                                                            @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
+                                                        }
+                                                        @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
+                                                        {
+                                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
+                                                        }
+                                                    </td>
+                                                </tr>
+                                                break;
 
-                                        case 2:
+                                            case 2:
 
-                                        <tr class="list-group-item-orange">
-                                                <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.pedidoId)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
-                                        </td>
-                                        <td class="text-center">
-                                            @if (item.responsableAsignado != null)
-                                            {
-                                                @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
-                                            }
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId }) |
-                                            @if (item.estadoReclamoId == 1)
-                                            {
-                                                @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
-                                            }
-                                            @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
-                                            {
-                                                @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
-                                            }
-                                        </td>
-                                        </tr>
+                                                <tr class="list-group-item-orange" onclick="location.href='@Url.Action("Details", "Reclamos", new { id = item.pedidoId })'">
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.pedidoId)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.responsableAsignado != null)
+                                                        {
+                                                            @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.estadoReclamoId == 1)
+                                                        {
+                                                            @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
+                                                        }
+                                                        @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
+                                                        {
+                                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
+                                                        }
+                                                    </td>
+                                                </tr>
 
-                                        break;
+                                                break;
 
-                                        case 3:
+                                            case 3:
 
-                                        <tr class="list-group-item-success">
-                                                <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.pedidoId)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
-                                        </td>
-                                        <td class="text-center">
-                                            @if (item.responsableAsignado != null)
-                                            {
-                                                @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
-                                            }
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.ActionLink("Detalle", "Details", new { id = item.pedidoId }) |
-                                            @if (item.estadoReclamoId == 1)
-                                            {
-                                                @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
-                                            }
-                                            @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
-                                            {
-                                                @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
-                                            }
-                                        </td>
-                                        </tr>
+                                                <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", "Reclamos", new { id = item.pedidoId })'">
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.pedidoId)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.responsableAsignado != null)
+                                                        {
+                                                            @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.estadoReclamoId == 1)
+                                                        {
+                                                            @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
+                                                        }
+                                                        @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
+                                                        {
+                                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
+                                                        }
+                                                    </td>
+                                                </tr>
 
-                                        break;
+                                                break;
+                                        }
+
                                     }
-                                    
-                                }
-                            </table>
-                            <div id="bottom_anchor"></div>
+                                </table>
+                                <div id="bottom_anchor"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -173,3 +178,59 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var myNewURL = refineURL();
+            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
+            window.history.pushState("object or string", "Title", "/" + myNewURL);
+            //Helper function to extract the URL between the last '/' and before '?'
+            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+            //pseudo code: edit to match your URL settings
+            function refineURL() {
+                //get full URL
+                var currURL = window.location.href; //get current address
+
+                //Get the URL between what's after '/' and befor '?'
+                //1- get URL after'/'
+                var afterDomain = currURL.substring(currURL.lastIndexOf('/Reclamos/') + 1);
+                //2- get the part before '?'
+                var beforeQueryString = afterDomain.split("?")[0];
+
+                return beforeQueryString;
+            }
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+
+            $(window).scroll(moveScroll);
+
+            $("#clone").DataTable();
+
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]]
+            });
+        });
+    </script>
+}
