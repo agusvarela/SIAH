@@ -147,20 +147,14 @@
             <div class="row ">
                 <div class="col-md-12">
                     @if (Model.estadoReclamoId == 1 && Session["rol"].ToString() == "RespAutorizacion")
-    {
-
-                <input type="button" id="btn_assign" value="Asignarme" class="btn pull-right btn-success" />
-
-}
-
+                    {
+                        <input type="button" id="btn_assign" value="Asignarme" class="btn pull-right btn-success" />
+                    }
                     @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion")
-    {
-
-                <input type="button" id="btn_solve" value="Resolver" class="btn pull-right btn-success" />
-
-}
-
-                    <input type="button" id="btn_pedido" value="Ir al Pedido" class="btn pull-left btn-primary" />
+                    {
+                        <input type="button" id="btn_solve" value="Resolver" class="btn pull-right btn-success" />
+                    }
+                    <input type="button" id="btn_pedido" value="Ir al Pedido Reclamado" class="btn pull-left btn-primary" />
                 </div>
             </div>
         </div>
@@ -172,7 +166,7 @@
         }
         @if (Session["rol"].ToString() == "RespFarmacia")
         {
-            @Html.ActionLink("Volver al listado", "ReclamosRespFarmacia")
+            <input type="button" id="volver" value="Volver al listado de Reclamos" class="btn pull-left btn-primary" onclick="location.href = '/Reclamos/ReclamosRespFarmacia'" />
         }
     </div>
     @Html.HiddenFor(model => model.pedidoId, htmlAttributes: new { @id = "idPedido" })

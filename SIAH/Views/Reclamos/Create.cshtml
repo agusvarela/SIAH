@@ -11,13 +11,13 @@
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Reclamos", FormMethod.Post, new { id = "reclamoForm" }))
 {
     <div class="banner-catalog">
         <div class="container">
             <div class="col-lg-12">
                 <h1>Generar Reclamo de Pedido</h1>
-                <div class="banner-catalog__content">  En este formulario puede generar un reclamo en caso de que su pedido haya llegado en un estado incorrecto</div>
+                <div class="banner-catalog__content">  En este formulario puede generar un reclamo en caso de que su pedido haya llegado en un estado incorrecto.</div>
             </div>
         </div>
     </div>
@@ -42,19 +42,20 @@
                         <div class="form-card__content group">
                             <div class="col-md-12">
                                 <div class="form-group">
-
                                     @Html.LabelFor(model => model.fechaInicioReclamo, htmlAttributes: new { @class = "control-label col-md-7 " })
                                     <div class="col-md-5">
-                                        @Html.TextBox("fechaInicioReclamo", DateTime.Today.ToString("yyyy-MM-dd"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                                        @Html.TextBox("fechaInicioReclamo", DateTime.Today.ToString("yyyy-MM-dd"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today, @type = "hidden" })
+                                        <text class="form-control"><strong> @DateTime.Today.ToString("yyyy-MM-dd") </strong></text>
                                         @Html.ValidationMessageFor(model => model.fechaInicioReclamo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.pedidoId, "Id Pedido", htmlAttributes: new { @class = "control-label col-md-7 " })
+                                    @Html.LabelFor(model => model.pedidoId, "Número de Pedido", htmlAttributes: new { @class = "control-label col-md-7 " })
                                     <div class="col-md-5">
-                                        @Html.TextBox("pedidoId", pedidoId, htmlAttributes: new { @class = "form-control pull-left", @readonly = "readonly" })
+                                        @Html.TextBox("pedidoId", pedidoId, htmlAttributes: new { @class = "form-control pull-left", @readonly = "readonly", @type = "hidden" })
+                                        <text class="form-control"><strong> @pedidoId </strong></text>
                                     </div>
                                 </div>
                             </div>
@@ -74,8 +75,6 @@
                             </div>
                         </div>
                         <div class="form-card__content group">
-                            @*<div class="panel-heading">INSUMOS</div>*@
-
                             <div class="col-sm-8">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.tipoReclamoId, "Tipo Reclamo", htmlAttributes: new { @class = "control-label col-md-3" })
@@ -85,13 +84,12 @@
                                     </div>
                                 </div>
 
-
-
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-md-9">
-                                        @Html.TextBox("hospital", hospital, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextBox("hospital", hospital, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
                                         @Html.TextBox("hospitalId", hospitalId, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                        <text class="form-control">@hospital</text>
                                     </div>
                                 </div>
 
@@ -106,7 +104,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <div class="pull-right col-md-2">
-                                    <input type="submit" value="Generar Reclamo" class="btn pull-right btn-primary" />
+                                    <input id="btn_reclamar" type="button" value="Generar Reclamo" class="btn pull-right btn-primary" />
                                 </div>
                             </div>
                         </div>
@@ -123,10 +121,51 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 }
 
-<div class="container">
-    @Html.ActionLink("Cancelar", "../Home/RespFarmaciaDashboard")
-</div>
+    <div class="container">
+        <input id="btn_cancelar" type="button" value="Cancelar" class="btn pull-left btn-primary" />
+    </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).on('click', '#btn_reclamar', function () {
+            Swal.fire({
+                title: 'Se generará su reclamo',
+                text: "¿Está seguro que desea continuar?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                confirmButtonText: 'Aceptar',
+                cancelButtonColor: "#dc3545",
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    $('#reclamoForm').submit();
+                }
+            })
+        });
+
+        $(document).on('click', '#btn_cancelar', function () {
+            Swal.fire({
+                title: 'Cancelar!',
+                text: "¿Está seguro que desea continuar?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                confirmButtonText: 'Aceptar',
+                cancelButtonColor: "#dc3545",
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    event.preventDefault();
+                    var idPedido = $('#pedidoId').val();
+                    var urlRecibido = '/Pedidos/Details/' + idPedido;
+                    location.href = urlRecibido;
+                }
+            })
+        });
+    </script>
 }
