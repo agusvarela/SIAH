@@ -67,6 +67,23 @@
                             </div>
                             @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
                         </a>
+                        <ul class="nav navbar-nav nav-pills">
+                            <li class="dropdown">
+                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Mis Vistas <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Autorizaciones</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">Remitos</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a id="reporte">Reportes</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
                     }
                     if (Session["rol"].ToString() == "DirectorArea")
                     {
@@ -83,15 +100,15 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Reportes</a></li>
-                                    <li><a href="#">Administrar Pedidos</a></li>
-                                    <li><a href="#">Reclamos</a></li>
+                                    <li><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Administrar Pedidos</a></li>
+                                    <li><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#">Stock</a></li>
-                                    <li><a href="#">Control de Stock</a></li>
-                                    <li><a href="#">Administrar Compras</a></li>
+                                    <li><a onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Stock</a></li>
+                                    <li><a onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Control de Stock</a></li>
+                                    <li><a onclick="location.href='@Url.Action("Index", "Compras")'">Administrar Compras</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a onclick="location.href='@Url.Action("Index", "Account")'">Usuarios</a></li>
-                                    <li><a href="#">Hospitales</a></li>
+                                    <li><a onclick="location.href='@Url.Action("Index", "Hospitales")'">Hospitales</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -104,6 +121,20 @@
                             </div>
                             @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
                         </a>
+                        <ul class="nav navbar-nav nav-pills">
+                            <li class="dropdown">
+                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Mis Vistas <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Gstionar Pedidos</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Stock</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     }
                 }
                 catch (Exception e)
@@ -177,3 +208,30 @@
 
 </body>
 </html>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).on('click', '#reporte', function (event)
+        {
+            event.preventDefault();
+            var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
+
+            var nd = new Date();
+            nd.setDate(nd.getDate() - 30); // minus the date
+            var month = nd.getUTCMonth() + 1; //months from 1-12
+            var day = nd.getUTCDate();
+            var year = nd.getUTCFullYear();
+            start = year + "-" + month + "-" + day;
+
+            var dateObj = new Date();
+            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+            var day = dateObj.getUTCDate();
+            var year = dateObj.getUTCFullYear();
+            end = year + "-" + month + "-" + day;
+
+            url = url.replace("START", start);
+            url = url.replace("END",end);
+            url = url.replace("amp;", "");
+            location.href = url;
+        });
+    </script>
+}
