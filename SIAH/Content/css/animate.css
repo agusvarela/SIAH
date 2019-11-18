@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 
 /*!
  * animate.css -http://daneden.me/animate
@@ -134,6 +134,10 @@
   20%, 40%, 60%, 80% {
     transform: translate3d(10px, 0, 0);
   }
+}
+
+.swal2-popup {
+    font-size: 1.5rem !important;
 }
 
 .shake {

@@ -25,6 +25,7 @@
         </div>
     </div>
 </div>
+
 @using (Html.BeginForm())
 {<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog confirm">
@@ -50,7 +51,7 @@
         <div class="container">
             <div class="col-lg-9">
                 <h1>Detalle del pedido Nº: @Html.DisplayFor(model => model.id)</h1>
-                <div class="banner-catalog__content"> Información general del pedido.</div>
+                <div class="banner-catalog__content"> Descripción detallada del pedido.</div>
             </div>
             <div class="col-lg-3">
                 <div class="icon icon-success">
@@ -62,7 +63,6 @@
     <br />
 
     <div class="container" style=" padding-bottom: 30px;">
-
         <div class="form-horizontal">
 
             @if (Model.esUrgente)

@@ -15,10 +15,8 @@
 <div class="banner-catalog">
     <div class="container">
         <div class="col-lg-12">
-            <h1>
-                Listado de Insumos del Hospital @nombreHospital
-            </h1>
-            <div class="banner-catalog__content"> Actualice el stock de los insumos utilizados</div>
+            <h1>Insumos del Hospital @nombreHospital</h1>
+            <div class="banner-catalog__content"> Actualice el stock de los insumos utilizados.</div>
         </div>
     </div>
 </div>
@@ -26,62 +24,100 @@
 <div class="container" style=" padding-bottom: 30px;">
     <div class="form-horizontal">
         <br>
-        @*@grid.GetHtml();*@
+
         <div class="row">
             <div class="col-lg-12">
-                <div id="alertArea  animated zoomIn">
-                    <div class="alert alert-info pq-alert  animated zoomIn">
-                        <i class="fa fa-arrow-right"></i>
-                        <span>Seleccione un insumo para actualizar el stock disponible</span>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
-                        <div class="form-card__content group">
-                            <div class="animated zoomIn">
-                                <div class="col-md-12">
-                                    <hr />
-                                    <div id="table-container">
-                                        <table id="maintable" class="table table-condensed">
-                                            <thead class="listado">
-                                                <tr>
-                                                    <th class="text-center">
-                                                        <strong> @Html.Name("Nombre de Insumo")</strong>
-                                                    </th>
-                                                    <th class="text-center">
-                                                        <strong> @Html.Name("Cantidad Disponible")</strong>
-                                                    </th>
-                                                    <th class="text-center">
-                                                        <strong> @Html.Name("Acciones")</strong>
-                                                    </th>
-                                                </tr>
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                    <div class="form-card__content group">
 
-                                                @foreach (var item in Model)
-                                                {
-                                                    <tr>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.insumo.nombre)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.DisplayFor(modelItem => item.stockFarmacia)
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @Html.ActionLink("Actualizar Stock", "Edit", new { id = item.id })
-                                                        </td>
-                                                    </tr>
-                                                }
-                                        </table>
-                                        <div id="bottom_anchor"></div>
-                                    </div>
-                                </div>
-                                <br><br>
+                        <div id="alertArea  animated zoomIn">
+                            <div class="alert alert-info pq-alert  animated zoomIn">
+                                <i class="fa fa-arrow-right"></i>
+                                <span>Seleccione un insumo para actualizar el stock disponible</span>
                             </div>
-                            <br />
-                           
                         </div>
+
+                        <div class="animated zoomIn">
+                            <div class="col-md-12">
+                                <hr />
+                                <div id="table-container">
+                                    <table id="maintable" class="table table-condensed">
+                                        <thead class="listado">
+                                            <tr class="list-group-item-info" style="border-bottom: solid">
+                                                <th class="text-center">
+                                                    <strong> @Html.Name("Nombre de Insumo")</strong>
+                                                </th>
+                                                <th class="text-center">
+                                                    <strong> @Html.Name("Cantidad Disponible")</strong>
+                                                </th>
+                                                <th class="text-center">
+                                                    <strong> @Html.Name("Acciones")</strong>
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.insumo.nombre)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.stockFarmacia)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a type="button" class="btn btn-round btn-primary" href="/StockFarmacia/Edit/@item.id.ToString()">Actualizar Stock</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                    </table>
+                                    <div id="bottom_anchor"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                        </div>
+                        <br />
+
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            $("#maintable").DataTable({
+                "order": [[0, "asc"]]
+            });
+        });
+    </script>
+}

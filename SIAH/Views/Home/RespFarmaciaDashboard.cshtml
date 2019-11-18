@@ -7,19 +7,18 @@
 <div class="banner-catalog">
     <div class="container">
         <div class="col-lg-12">
-            <h1>Dashboard</h1>
-            <div class="banner-catalog__content">Gestión de pedidos, stock de farmacia y reclamos del hospital @Session["hospital"].</div>
+            <h1>Inicio</h1>
+            <div class="banner-catalog__content">Acciones disponibles del hospital @Session["hospital"].</div>
         </div>
     </div>
 </div>
 <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
 
-
     <div class="row">
         <div class="col-sm-12  col-container">
+
             <div class="col-sm-4 animated zoomIn col">
                 <div class="card card-project">
-
                     <div class="content text-center">
                         <div class="info">
                             <div class="icon icon-success">
@@ -71,36 +70,6 @@
                 </div>
             </div>
 
-
         </div>
     </div>
 </div>
-
-@section Scripts{
-    <script type="text/javascript">
-        $(document).on('click', '#reporte', function (event)
-        {
-            event.preventDefault();
-            var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
-
-            var nd = new Date();
-            nd.setDate(nd.getDate() - 30); // minus the date
-            var month = nd.getUTCMonth() + 1; //months from 1-12
-            var day = nd.getUTCDate();
-            var year = nd.getUTCFullYear();
-            start = year + "-" + month + "-" + day;
-
-            var dateObj = new Date();
-            var month = dateObj.getUTCMonth() + 1; //months from 1-12
-            var day = dateObj.getUTCDate();
-            var year = dateObj.getUTCFullYear();
-            end = year + "-" + month + "-" + day;
-
-            url = url.replace("START", start);
-            url = url.replace("END",end);
-            url = url.replace("amp;", "");
-            location.href = url;
-        });
-    </script>
-}
-

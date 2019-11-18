@@ -17,6 +17,10 @@ namespace SIAH
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
+            bundles.Add(new ScriptBundle("~/SweetAlert2/sweetalert2").Include(
+                       "~/SweetAlert2/dist/sweetalert2.all.min.js",
+                       "~/SweetAlert2/dist/sweetalert2.min.js"));
+
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información. De este modo, estará
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -39,6 +43,8 @@ namespace SIAH
                       "~/Content/themes/base/jquery.ui.theme.css"));
 
             bundles.Add(new StyleBundle("~/Content/app.css"));
+
+            bundles.Add(new StyleBundle("~/SweetAlert2/dist/sweetalert2.min.css"));
         }
     }
 }
