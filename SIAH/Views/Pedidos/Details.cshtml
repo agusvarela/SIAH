@@ -4,49 +4,8 @@
     ViewBag.Title = "Detalle del pedido";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
-
-<div class="modal fade" id="myModalReclamo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog confirm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
-            </div>
-            <div class="modal-body text-center">
-
-                <h5> ¿Está seguro que desea reclamar el pedido? </h5>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                <input id="btn_reclamar" type="submit" class="btn btn-info btn-simple" value="Aceptar">
-            </div>
-        </div>
-    </div>
-</div>
-
-@using (Html.BeginForm())
-{<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog confirm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
-                </div>
-                <div class="modal-body text-center">
-
-                    <h5> ¿Desea confirmar que recibió el pedido? </h5>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                    <input id="yes" type="button" class="btn btn-info btn-simple" value="Aceptar">
-                </div>
-            </div>
-        </div>
-    </div>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "detailsForm" }))
+{
     <div class="banner-catalog">
         <div class="container">
             <div class="col-lg-9">
@@ -95,7 +54,12 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                                        @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today, @type = "hidden" })
+                                        @{
+                                            string period = DateTime.Today.ToString("MMMM - yyyy");
+                                            period = char.ToUpper(period[0]).ToString() + period.Substring(1);
+                                        }
+                                        <text class="form-control">@period</text>
                                         @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -104,8 +68,8 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.hospital.nombre, "", new { @class = "text-danger" })
+                                        @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @type = "hidden" })
+                                        <text class="form-control">@DateTime.Today.ToShortDateString()</text>
                                     </div>
                                 </div>
                             </div>
@@ -113,12 +77,10 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div id="container" class="col-md-12">
-                                        @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
+                                        @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto", @type = "hidden" })
+                                        <text id="presupuestoAMostrar" class="form-control"></text>
                                         <div> <span id="presuSpan" name="presuSpan" class="text-danger"></span></div>
                                         <div><span id="autoSpan" name="autosSpan" class="text-success"></span></div>
-                                        @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })
-                                    <text id="presupuesto" class="form-control"></text>
-                                    @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
                                     </div>
                                 </div>
                             </div>
@@ -126,8 +88,8 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBoxFor(model => model.fechaGeneracion, Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                                        @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
+                                        @Html.TextBoxFor(model => model.fechaGeneracion, Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                        <text class="form-control">@DateTime.Today.ToShortDateString()</text>
                                     </div>
                                 </div>
                             </div>
@@ -137,12 +99,14 @@
                                     <div class="col-md-12">
                                         @if (Model.fechaEntrega != null)
                                         {
-                                            @Html.TextBoxFor(model => model.fechaEntrega, Model.fechaEntrega.Value.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.TextBoxFor(model => model.fechaEntrega, Model.fechaEntrega.Value.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                            @:<text class="form-control">@Model.fechaEntrega.Value.ToShortDateString()</text>
                                             @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
                                         }
                                         else
                                         {
-                                            @Html.TextBox("fechaEntrega", "Pedido No Autorizado", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.TextBox("fechaEntrega", "Pedido No Autorizado", htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                            @:<text class="form-control">Pedido No Autorizado</text>
                                         }
 
                                     </div>
@@ -658,21 +622,18 @@
                                 <div class="col-md-12">
                                     <table id="detalles" class=" table table-hover table-condensed">
                                         <thead>
-                                            <tr style="font-weight:bold">
-                                                <th style="width:30%; font-weight:bold ">Nombre</th>
-                                                <th style="width:16%; font-weight:bold">Tipo </th>
-                                                <th style="width:17%; font-weight:bold" class="text-center">Cantidad Solicitada</th>
-                                                <th style="width:17%; font-weight:bold" class="text-center">Cantidad Autorizada</th>
-                                                <th style="width:15%; font-weight:bold" class="text-center">Precio Unitario</th>
+                                            <tr style="font-weight:bold" class="text-center list-group-item-info">
+                                                <th class="text-center">Nombre</th>
+                                                <th class="text-center">Tipo </th>
+                                                <th class="text-center">Cantidad Solicitada</th>
+                                                <th class="text-center">Cantidad Autorizada</th>
+                                                <th class="text-center">Precio Unitario</th>
                                                 @*<th style="width:13%">Subtotal</th>*@
-                                                <th style="width:15%; font-weight:bold" text-align="center">Subtotal Autorizado</th>
+                                                <th class="text-center">Subtotal Autorizado</th>
                                             </tr>
                                         </thead>
 
                                         <tbody name="detallesPedido" id="detallesPedido">
-                                            @*<tr class="empty well text-center">
-                            <td colspan="6">Aun no se han agregado insumos</td>
-                        </tr>*@
                                         </tbody>
                                     </table>
 
@@ -680,11 +641,11 @@
                                     <div class="form-group ">
                                         <div class="pull-right" id="cuadritos1" style="width: 13%; height:116px">
                                             <div class="panel panel-DEFAULT text-center">
-                                                @*<div class="panel-heading">INSUMOS</div>*@
                                                 <div class="panel-body">
                                                     @Html.Label(" Total Autorizado", null, htmlAttributes: new { @class = "control-label" })
                                                     <strong>
-                                                        @Html.TextBox("totalAutorizado", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
+                                                        @Html.TextBox("totalAutorizado", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot", @type = "hidden" })
+                                                        <text id="totalAturizadoText" class="form-control" style="font-size:18px;"></text>
                                                     </strong>
                                                 </div>
                                             </div>
@@ -692,11 +653,11 @@
                                         &nbsp &nbsp
                                         <div class="pull-rigth" id="cuadritos1" style="width: 13%; padding-right:10px">
                                             <div class="panel panel-DEFAULT text-center">
-                                                @*<div class="panel-heading">INSUMOS</div>*@
                                                 <div class="panel-body">
                                                     @Html.Label("Total Solicitado", null, htmlAttributes: new { @class = "control-label" })
                                                     <strong>
-                                                        @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
+                                                        @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot", @type = "hidden"})
+                                                        <text id="totalText" class="form-control" style="font-size:18px;"></text>
                                                     </strong>
                                                 </div>
                                             </div>
@@ -724,8 +685,8 @@
                                 @if (Session["rol"].ToString() == "RespFarmacia" && Model.estadoId == 6)
                                 {
                                     <br />
-                                    <input type="button" id="btn_recibido" value="Recibir Pedido" class="btn pull-right btn-success" data-toggle="modal" data-target="#myModal" />
-                                    <input type="button" id="btn_reclamar1" value="Reclamar Pedido" class="btn pull-left btn-danger" data-toggle="modal" data-target="#myModalReclamo" />
+                                    <input type="button" id="btn_recibido" value="Recibir Pedido" class="btn pull-right btn-success"/>
+                                    <input type="button" id="btn_reclamar1" value="Reclamar Pedido" class="btn pull-left btn-danger" />
                                 }
                             </div>
                         </div>
@@ -746,7 +707,7 @@
     }
     @if (Session["rol"].ToString() == "RespFarmacia")
     {
-        @Html.ActionLink("Volver al Listado", "RespFarmacia", "Pedidos")
+        <input type="button" id="volver" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/RespFarmacia'" />
     }
 </div>
 
@@ -757,16 +718,60 @@
         $(document).ready(function () {
 
             var idHospital = $('#idHospital').val();
-            //console.log(idHospital);
             var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
+
             $.get(urlHospital, null, function (data) {
-                //console.log(data);
                 $('#nombreHospital').val(data[0]);
                 var $presupuesto = parseFloat(data[1]);
                 var $presupuestoAMostrar = new Intl.NumberFormat('de-DE').format($presupuesto);
                 $('#presupuesto').val("$" + $presupuestoAMostrar);
+                $('#presupuestoAMostrar').html("$" + $presupuestoAMostrar);
+            });
+
+            $('#btn_reclamar1').on('click', function () {
+                Swal.fire({
+                    title: 'Confirmación!',
+                    text: "¿Está seguro que desea reclamar el pedido?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        event.preventDefault();
+                        var idPedido = $('#idPedido').val();
+                        var idHospital = $('#idHospital').val();
+                        var urlRecibido = '/Reclamos/Create' + '?pedidoId=' + idPedido + '&hospitalId=' + idHospital;
+                        location.href = urlRecibido;
+                    }
+                })
+            });
+
+            $('#btn_recibido').on('click', function () {
+                Swal.fire({
+                    title: 'Confirmación!',
+                    text: "¿Desea confirmar que recibió el pedido?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        event.preventDefault();
+                        var idPedido = $('#idPedido').val();
+                        var urlRecibido = '/Pedidos/Recibido' + '?pedidoId=' + idPedido;
+                        location.href = urlRecibido;
+                    }
+                })
             });
         })
+
         $(document).on('click', '#BackToList', function (event) {
             event.preventDefault();
             var from = sessionStorage.getItem("From");
@@ -776,21 +781,6 @@
             else {
                 location.href = '/Pedidos/Listado'
             }
-        })
-        //Función boton confirmación de recepción (Cambio a Enviado y Recibido)
-        $(document).on('click', '#yes', function (event) {
-            event.preventDefault();
-            var idPedido = $('#idPedido').val();
-            var urlRecibido = '/Pedidos/Recibido' + '?pedidoId=' + idPedido;
-            location.href = urlRecibido;
-        })
-        //Función reclamar pedido
-        $(document).on('click', '#btn_reclamar', function (event) {
-            event.preventDefault();
-            var idPedido = $('#idPedido').val();
-            var idHospital = $('#idHospital').val();
-            var urlRecibido = '/Reclamos/Create' + '?pedidoId=' + idPedido + '&hospitalId=' + idHospital;
-            location.href = urlRecibido;
         })
         //Funcion para ir al Reclamo
         $(document).on('click', '#btn_reclamo', function (event) {
@@ -803,47 +793,44 @@
         $(document).ready(function () {
             var table = $("#detalles").DataTable();
             var idPedido = $('#idPedido').val();
-            console.log(idPedido);
             var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
             $.get(urlDetalle, null, function (lista) {
                 var total = 0;
                 var totalAutorizado = 0;
                 for (var i = 0, len = lista.length; i < len; i++) {
                     var item = lista[i];
-                    //console.log(item);
-                    var $tdInsumo = $('<td  style="width:30%">').append(item.nombre);
+                    var $tdInsumo = $('<td class="text-center">').append(item.nombre);
 
-                    var $tdTipo = $('<td  style="width:16%">').append(item.tipo);
+                    var $tdTipo = $('<td class="text-center">').append(item.tipo);
 
-                    var $tdCantidad = $('<td  style="width:17%" align="center">').append(item.cantidad);
-                    var $tdCantidadAutorizada = $('<td align="center">').append(item.cantidadAutorizada);
+                    var $tdCantidad = $('<td class="text-center">').append(item.cantidad);
+                    var $tdCantidadAutorizada = $('<td class="text-center">').append(item.cantidadAutorizada);
 
                     var $precioAMostrar = new Intl.NumberFormat('de-DE').format(item.precioUnitario);
-                    var $tdPrecioUnitario = $('<td  style="width:17%" align="center">').append("$" + $precioAMostrar);
+                    var $tdPrecioUnitario = $('<td class="text-center">').append("$" + $precioAMostrar);
 
                     var $subtotalCalculado = item.precioUnitario * item.cantidad;
                     var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
 
-                    //var $tdSubtotal = $('<td  style="width:15%" align="center">').html('$' + $subtotalAMostrar)
-
                     var $subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
                     var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
-                    var $tdSubtotalAutorizado = $('<td  style="width:15%" align="center">').append("$" + $subtotalAutAMostrar);
+                    var $tdSubtotalAutorizado = $('<td class="text-center">').append("$" + $subtotalAutAMostrar);
 
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotalAutorizado);
                     total += $subtotalCalculado;
                     totalAutorizado += $subtotalAutorizado;
-                    //$('#detalles').append($tr);
+
                     table.row.add($tr);
                     table.draw();
                 }
                 var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
                 var $totalAutorizadoAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(totalAutorizado).toFixed(2));
                 $('#total').val("$" + $totalAMostrar);
+                $('#totalText').html("$" + $totalAMostrar);
                 $('#totalAutorizado').val("$" + $totalAutorizadoAMostrar);
+                $('#totalAturizadoText').html("$" + $totalAutorizadoAMostrar);
                 if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) < total) {
                     $('#presuSpan').text("El costo del pedido supera el presupuesto");
-                    //console.log($('#presupuesto').val().replace("$", ""));
                 }
                 if (totalAutorizado > 0) {
                     if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) > totalAutorizado) {

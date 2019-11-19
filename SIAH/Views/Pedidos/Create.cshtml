@@ -11,26 +11,6 @@
 
 @using (Html.BeginForm("Create", "Pedidos", FormMethod.Post, new { id = "pedidoForm" }))
 {
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog confirm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
-                </div>
-                <div class="modal-body text-center">
-
-                    <h5> ¿Desea enviar el pedido? </h5>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                    <input id="yes" type="submit" class="btn btn-info btn-simple" value="Aceptar">
-                </div>
-            </div>
-        </div>
-    </div>
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="banner-catalog">
@@ -271,7 +251,7 @@
 
             Swal.fire({
                 title: 'Se enviará su pedido',
-                text: "¿Esta seguro que desea continuar?",
+                text: "¿Está seguro que desea continuar?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: "#28a745",
