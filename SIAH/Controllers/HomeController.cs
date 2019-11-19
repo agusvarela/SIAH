@@ -18,6 +18,11 @@ namespace SIAH.Controllers
             return View();
         }
 
+        public ActionResult Home()
+        {
+            return RedirectToAction((String)Session["rol"]);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
