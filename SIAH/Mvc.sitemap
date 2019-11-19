@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
+            xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
+
+  <mvcSiteMapNode title="Home" controller="Home" action="Home">
+    <mvcSiteMapNode title="Listado Pedidos" controller="Pedidos" action="Listado">
+      <mvcSiteMapNode title="Nuevo Pedido" controller="Pedidos" action="Create"/>
+    </mvcSiteMapNode>
+    <mvcSiteMapNode title="Listado Reclamos" controller="Reclamos" action="ListadoReclamos"/>
+    <mvcSiteMapNode title="Listado Remitos" controller="Remitos" action="ListadoPedidos"/>
+    <mvcSiteMapNode title="Mis Pedidos" controller="Pedidos" action="RespFarmacia"/>
+    <mvcSiteMapNode title="Stock Insumos" controller="Insumos" action="StockInsumos"/>
+    <mvcSiteMapNode title="Control Stock" controller="Insumos" action="ControlStock"/>
+    <mvcSiteMapNode title="Compras" controller="Compras" action="Index"/>
+    <mvcSiteMapNode title="Usuarios" controller="Account" action="Index"/>
+    <mvcSiteMapNode title="Hospitales" controller="Hospitales" action="Index"/>
+  </mvcSiteMapNode>
+
+</mvcSiteMap>
