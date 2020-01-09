@@ -198,6 +198,7 @@
     <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\ReclamosController.cs" />
     <Compile Include="Controllers\RemitosController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\StockFarmaciaController.cs" />
     <Compile Include="Controllers\TipoReclamosController.cs" />
@@ -516,7 +517,6 @@
     <Content Include="Views\Account\LoggedIn.cshtml" />
     <Content Include="Views\Account\Logout.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
-    <Content Include="Views\DetallesPedido\ReporteConsolidado.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Roles\Details.cshtml" />
     <Content Include="Views\Roles\Create.cshtml" />
@@ -540,7 +540,6 @@
     <Content Include="Views\Remitos\Details.cshtml" />
     <Content Include="Views\Remitos\Edit.cshtml" />
     <Content Include="Views\Remitos\Index.cshtml" />
-    <Content Include="Views\DetallesPedido\ReporteComparacion.cshtml" />
     <Content Include="Views\Remitos\ListadoPedidos.cshtml" />
     <Content Include="Views\EstadosRemito\Create.cshtml" />
     <Content Include="Views\EstadosRemito\Delete.cshtml" />
@@ -592,6 +591,9 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
+    <Content Include="Views\Reportes\Index.cshtml" />
+    <Content Include="Views\Reportes\ReporteConsolidado.cshtml" />
+    <Content Include="Views\Reportes\ReporteComparacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

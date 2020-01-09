@@ -40,7 +40,7 @@
                                 <h4 class="info-title">Reportes</h4>
                                 <p>Visualice reportes de pedidos actualizados en tiempo real.</p>
                                 <br />
-                                <a id="reporte" class="btn btn-round btn-softPurple">Ir a Reportes</a>
+                                <a id="reporte" class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Reportes")'">Ir a Reportes</a>
                             </div>
 
                         </div>
@@ -249,28 +249,5 @@
             }
         });
 
-        $(document).on('click', '#reporte', function (event)
-        {
-            event.preventDefault();
-            var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
-
-            var nd = new Date();
-            nd.setDate(nd.getDate() - 30); // minus the date
-            var month = nd.getUTCMonth() + 1; //months from 1-12
-            var day = nd.getUTCDate();
-            var year = nd.getUTCFullYear();
-            start = year + "-" + month + "-" + day;
-
-            var dateObj = new Date();
-            var month = dateObj.getUTCMonth() + 1; //months from 1-12
-            var day = dateObj.getUTCDate();
-            var year = dateObj.getUTCFullYear();
-            end = year + "-" + month + "-" + day;
-
-            url = url.replace("START", start);
-            url = url.replace("END", end);
-            url = url.replace("amp;", "");
-            location.href = url;
-            });
     </script>
 }
