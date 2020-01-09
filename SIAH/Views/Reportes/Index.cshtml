@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Reportes";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+}
+
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Reportes</h1>
+            <div class="banner-catalog__content">
+                Aquí podrá acceder a los diversos reportes que pueden ser generados con los datos de pedidos y autorizaciones.
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-danger">
+                <i class="material-icons pull-right" style="font-size: 100px">timeline</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="page" style="min-height: 363px;">
+    <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="col-md-12">
+                    <div class="col-md-4 animated zoomIn">
+                        <div class="card card-project">
+
+                            <div class="content text-center">
+                                <div class="info">
+                                    <div class="icon icon-danger">
+                                        <i class="material-icons">timeline</i>
+                                    </div>
+                                    <h4 class="info-title">Reporte consolidado</h4>
+                                    <p>
+                                        Este reporte muestra la cantidad de insumos que han sido autorizados,
+                                        por cada hospital.
+                                    </p>
+                                    <br />
+                                    <a id="reporte" class="btn btn-round btn-softPurple">Ir a Reporte consolidado</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 animated zoomIn">
+                        <div class="card card-project">
+
+                            <div class="content text-center">
+                                <div class="info">
+                                    <div class="icon icon-danger">
+                                        <i class="material-icons">timeline</i>
+                                    </div>
+                                    <h4 class="info-title">Reporte comparación</h4>
+                                    <p>
+                                        Este reporte muestra la cantidad de insumos autorizada contrastandola con la cantidad de productos solicitada.
+                                    </p>
+                                    <br />
+                                    <a class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ReporteComparacion", "Reportes")'">Ir a Reporte de comparación</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+          $(document).on('click', '#reporte', function (event)
+        {
+            event.preventDefault();
+            var url = '@Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = "START" , fechaFin = "END" })';
+
+            var nd = new Date();
+            nd.setDate(nd.getDate() - 30); // minus the date
+            var month = nd.getUTCMonth() + 1; //months from 1-12
+            var day = nd.getUTCDate();
+            var year = nd.getUTCFullYear();
+            start = year + "-" + month + "-" + day;
+
+            var dateObj = new Date();
+            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+            var day = dateObj.getUTCDate();
+            var year = dateObj.getUTCFullYear();
+            end = year + "-" + month + "-" + day;
+
+            url = url.replace("START", start);
+            url = url.replace("END", end);
+            url = url.replace("amp;", "");
+            location.href = url;
+            });
+    </script>
+}

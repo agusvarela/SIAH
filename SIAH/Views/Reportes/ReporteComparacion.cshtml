@@ -1,0 +1,73 @@
+﻿@model IEnumerable<String[]>
+
+@{
+    ViewBag.Title = "Reporte comparativo";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Reporte comparativo</h1>
+            <div class="banner-catalog__content">
+                Este reporte muestra la cantidad de insumos autorizada contrastandola con la cantidad de productos solicitada.
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-danger">
+                <i class="material-icons pull-right" style="font-size: 100px">timeline</i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="page" style="min-height: 363px;">
+    <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                    <div class="form-card__content group">
+                        <div class="form-group">
+
+                            <div id="contenedor" class="col-md-12">
+
+                                <div id="table-container">
+                                    <table id="maintable" class="table table-condensed">
+                                        <thead class="listado">
+                                            <tr class="list-group-item-info" style="border-bottom: solid">
+                                                <th class="text-center">
+                                                    @Html.Name("Insumo")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Cantidad")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Cantidad Autorizada")
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item[0]
+                                                </td>
+                                                <td>
+                                                    @item[1]
+                                                </td>
+                                                <td>
+                                                    @item[2]
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
