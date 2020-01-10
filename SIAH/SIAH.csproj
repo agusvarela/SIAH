@@ -594,6 +594,7 @@
     <Content Include="Views\Reportes\Index.cshtml" />
     <Content Include="Views\Reportes\ReporteConsolidado.cshtml" />
     <Content Include="Views\Reportes\ReporteComparacion.cshtml" />
+    <Content Include="Views\Reportes\ReporteBI.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -153,5 +153,11 @@ namespace SIAH.Controllers
             return list;
         }
 
+        //GET Reportes/ReporteBI
+        public ActionResult ReporteBI()
+        {
+            return View();
+        }
+
     }
 }
