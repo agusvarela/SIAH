@@ -11874,4 +11874,8 @@ table tr:hover[onclick] {
     background-color: #f5f5f5;
     border-radius: 4px;
 }
+.breadcrumb-item + .breadcrumb-item::before {
+    font-family: 'FontAwesome';
+    content: "\f101" !important;
+}
 
