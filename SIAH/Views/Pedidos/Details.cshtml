@@ -701,9 +701,7 @@
 <div class="container">
     @if (Session["rol"].ToString() == "RespAutorizacion")
     {
-        <a id="BackToList" href="#">
-            Volver al Listado
-        </a>
+        <input type="button" id="volver" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/Listado'" />
     }
     @if (Session["rol"].ToString() == "RespFarmacia")
     {

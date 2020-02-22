@@ -353,6 +353,8 @@ namespace SIAH.Controllers
             return RedirectToAction("Index");
         }
 
+
+        //GET: Pedidos/Autorizacion
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         public ActionResult Autorizacion(int? id)
         {
@@ -361,6 +363,7 @@ namespace SIAH.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pedido pedido = db.Pedidos.Find(id);
+            ViewBag.hospital = db.Hospitales.Include(hospital => hospital.nombre).Where(hospital => hospital.id == pedido.hospitalId).Select(r => new { hospital = r.nombre }).First().hospital;
             Session["pedido"] = pedido;
             if (pedido == null)
             {
@@ -369,6 +372,7 @@ namespace SIAH.Controllers
             return View(pedido);
         }
 
+        //POST: Pedidos/Autorizacion
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
