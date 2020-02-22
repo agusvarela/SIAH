@@ -124,9 +124,9 @@ namespace SIAH.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "presupuesto");
             ViewBag.estado = db.Pedidos.Include(p => p.estado).Where(x => x.id == id).Select(r => new { estado = r.estado.nombreEstado }).First().estado;
             Pedido pedido = db.Pedidos.Find(id);
+            ViewBag.hospital = db.Hospitales.Include(hospital => hospital.nombre).Where(hospital => hospital.id == pedido.hospitalId ).Select(r => new { hospital = r.nombre }).First().hospital;
             if (pedido == null)
             {
                 return HttpNotFound();

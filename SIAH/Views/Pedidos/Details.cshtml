@@ -69,7 +69,7 @@
                                     @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @type = "hidden" })
-                                        <text class="form-control">@DateTime.Today.ToShortDateString()</text>
+                                        <text class="form-control">@ViewBag.hospital</text>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                                     @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.TextBoxFor(model => model.fechaGeneracion, Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
-                                        <text class="form-control">@DateTime.Today.ToShortDateString()</text>
+                                        <text class="form-control">@Model.fechaGeneracion.ToShortDateString()</text>
                                     </div>
                                 </div>
                             </div>
