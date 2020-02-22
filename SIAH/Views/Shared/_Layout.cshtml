@@ -8,21 +8,13 @@
     <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
 
     <title>@ViewBag.Title - SIAH</title>
-    <!--     Fonts and icons     -->
-    @*<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>*@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    @*<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />*@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    @*@Scripts.Render("https://code.jquery.com/jquery-3.2.1.js")*@
-    @*@Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.js")*@
-    @*@Scripts.Render("https://code.jquery.com/jquery-3.2.1.min.js")*@
-    @*@Scripts.Render("~/bundles/bootstrap")*@
-    @*@Styles.Render("~/Content/themes/base/css")*@
-    @*@Scripts.Render("~/bundles/jquery")*@
+
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/app.css")
     @RenderSection("scripts", required: false)
@@ -66,30 +58,21 @@
                         <a>Ha iniciado sesion como @Session["nombre"].ToString()</a>
                     }
                 </li>
-                @*<li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                <li>@Html.ActionLink("Listado De Pedidos", "Listado", "Pedidos")</li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agregar<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/Insumos/Index">Insumo</a></li>
-                        <li><a href="/Hospitales/Index">Hospital</a></li>
-                        <li><a href="/Localidades/Index">Localidad</a></li>
-                        <li><a href="/TiposInsumo/Index">Tipo Insumo</a></li>
-                    </ul>
-                </li>*@
+
               @try
               {
+                  String irAlInicio = "Ir al Inicio";
                   if (Session["rol"].ToString() == "RespAutorizacion")
                   {
-                    <li>@Html.ActionLink("Ir al Dashboard", "RespAutorizacion", "Home")</li>
+                    <li>@Html.ActionLink(irAlInicio, "RespAutorizacion", "Home")</li>
                   }
                   if (Session["rol"].ToString() == "DirectorArea")
                   {
-                    <li>@Html.ActionLink("Ir al Dashboard", "DirectorArea", "Home")</li>
+                    <li>@Html.ActionLink(irAlInicio, "DirectorArea", "Home")</li>
                   }
                   if (Session["rol"].ToString() == "RespFarmacia")
                   {
-                    <li>@Html.ActionLink("Ir al Dashboard", "RespFarmaciaDashboard", "Home")</li>
+                    <li>@Html.ActionLink(irAlInicio, "RespFarmaciaDashboard", "Home")</li>
                   }
                   if (Session["userid"] != null)
                   {

@@ -17,13 +17,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    @*@Scripts.Render("https://code.jquery.com/jquery-3.2.1.js")*@
-    @*@Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.js")*@
-    @*@Scripts.Render("https://code.jquery.com/jquery-3.2.1.min.js")*@
-    @*@Scripts.Render("~/bundles/bootstrap")*@
-    @*@Styles.Render("~/Content/themes/base/css")*@
-    @*@Scripts.Render("~/bundles/jquery")*@
-    <!--     Fonts and icons     -->
+
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
     <script src="../../Scripts/jquery-1.12.4.js" type="text/javascript"></script>
     <script src="../../Scripts/jquery-1.12.4.min.js" type="text/javascript"></script>
@@ -71,23 +65,18 @@
 
                         }
                     </li>
-                    @*<li>@Html.ActionLink("Listado De Pedidos", "Listado", "Pedidos")</li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrar<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../Insumos/Index">Insumo</a></li>
-                            <li><a href="../Hospitales/Index">Hospital</a></li>
-                            <li><a href="../Localidades/Index">Localidad</a></li>
-                            <li><a href="../TiposInsumo/Index">Tipo Insumo</a></li>
-                        </ul>
-                    </li>*@
-                    @if (Session["rol"].ToString() == "RespAutorizacion")
+                    @{ String irAlInicio = "Ir al Inicio";
+                        String respAutorizacion = "RespAutorizacion";
+                        String home = "Home";
+                        String rol = "rol";
+                        }
+                    @if (Session[rol].ToString() == respAutorizacion)
                     {
-                        <li>@Html.ActionLink("Ir al Dashboard", "RespAutorizacion", "Home")</li>
+                    <li>@Html.ActionLink(irAlInicio, respAutorizacion, home)</li>
                     }
-                    @if (Session["rol"].ToString() == "RespFarmacia")
+                    @if (Session[rol].ToString() == "RespFarmacia")
                     {
-                        <li>@Html.ActionLink("Ir al Dashboard", "RespFarmaciaDashboard", "Home")</li>
+                        <li>@Html.ActionLink(irAlInicio, "RespFarmaciaDashboard", home)</li>
                     }
                     @if (Session["userid"] != null)
                     {
