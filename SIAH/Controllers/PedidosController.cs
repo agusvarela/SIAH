@@ -1,19 +1,16 @@
-﻿using System;
+﻿using SIAH.Context;
+using SIAH.Models;
+using SIAH.Models.Insumos;
+using SIAH.Models.Pedidos;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using SIAH.Context;
-using SIAH.Models.Pedidos;
-using SIAH.Models.Insumos;
-using SIAH.Models;
-using System.Globalization;
-using System.IO;
 using System.Net.Http;
-using System.Net.Http.Formatting;
+using System.Web.Mvc;
 namespace SIAH.Controllers
 {
     public class PedidosController : Controller
@@ -322,42 +319,6 @@ namespace SIAH.Controllers
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", pedido.hospitalId);
             return View(pedido);
         }
-
-        // GET: Pedidos/Edit/5
-        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Pedido pedido = db.Pedidos.Find(id);
-            if (pedido == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", pedido.hospitalId);
-            return View(pedido);
-        }
-
-        // POST: Pedidos/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
-        public ActionResult Edit([Bind(Include = "id,periodo,fechaGeneracion,fechaEntrega,esUrgente,estaAutorizado, hospitalId")] Pedido pedido)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(pedido).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Listado");
-            }
-            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", pedido.hospitalId);
-            return View(pedido);
-        }
-
 
         // GET: Pedidos/Delete/5
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
