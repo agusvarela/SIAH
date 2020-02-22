@@ -77,7 +77,7 @@
                             </div>
                             <h4 class="info-title">Reportes</h4>
                             <p>Genere reportes que lo ayudarán a la toma de decisiones a la hora de Autorizar.</p>
-                            <a id="reporte" class="btn btn-round btn-primary" @*onclick="location.href='@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = new DateTime(2017, 2, 2), fechaFin = new DateTime(2017, 11, 1) })'"*@>Ir al Reporte</a>
+                            <a id="reporte" class="btn btn-round btn-primary" @*onclick="location.href='@Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = new DateTime(2017, 2, 2), fechaFin = new DateTime(2017, 11, 1) })'"*@>Ir al Reporte</a>
                         </div>
 
                     </div>
@@ -92,7 +92,7 @@
         $(document).on('click', '#reporte', function (event)
         {
             event.preventDefault();
-            var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
+            var url = '@Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = "START" , fechaFin = "END" })';
 
             var nd = new Date();
             nd.setDate(nd.getDate() - 30); // minus the date

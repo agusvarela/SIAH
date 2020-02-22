@@ -3,12 +3,14 @@
             xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
             xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
 
-  <mvcSiteMapNode title="Home" controller="Home" action="Home">
+  <mvcSiteMapNode title="Home" controller="Home" action="Home"  preservedRouteParameters="param">
     <mvcSiteMapNode title="Listado Pedidos" controller="Pedidos" action="Listado">
       <mvcSiteMapNode title="Nuevo Pedido" controller="Pedidos" action="Create"/>
       <mvcSiteMapNode title="Detalle Pedido" controller="Pedidos" action="Details" preservedRouteParameters="id"/>
     </mvcSiteMapNode>
-    <mvcSiteMapNode title="Listado Reclamos" controller="Reclamos" action="ListadoReclamos"/>
+    <mvcSiteMapNode title="Listado Reclamos" controller="Reclamos" action="ListadoReclamos">
+      <mvcSiteMapNode title="Detalle Reclamo" controller="Reclamos" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
     <mvcSiteMapNode title="Listado Remitos" controller="Remitos" action="ListadoPedidos"/>
     <mvcSiteMapNode title="Mis Pedidos" controller="Pedidos" action="RespFarmacia">
       <mvcSiteMapNode title="Detalle Pedido" controller="Pedidos" action="Details" preservedRouteParameters="id"/>
