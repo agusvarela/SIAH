@@ -6,6 +6,7 @@
   <mvcSiteMapNode title="Home" controller="Home" action="Home">
     <mvcSiteMapNode title="Listado Pedidos" controller="Pedidos" action="Listado">
       <mvcSiteMapNode title="Nuevo Pedido" controller="Pedidos" action="Create"/>
+      <mvcSiteMapNode title="Detalle Pedido" controller="Pedidos" action="Details"/>
     </mvcSiteMapNode>
     <mvcSiteMapNode title="Listado Reclamos" controller="Reclamos" action="ListadoReclamos"/>
     <mvcSiteMapNode title="Listado Remitos" controller="Remitos" action="ListadoPedidos"/>
@@ -15,6 +16,8 @@
     <mvcSiteMapNode title="Compras" controller="Compras" action="Index"/>
     <mvcSiteMapNode title="Usuarios" controller="Account" action="Index"/>
     <mvcSiteMapNode title="Hospitales" controller="Hospitales" action="Index"/>
+    <mvcSiteMapNode title="Remitos" controller="Remitos" action="Index"/>
+    <mvcSiteMapNode title="Stock de Farmacia" controller="StockFarmacia" action="Index"/>
   </mvcSiteMapNode>
 
 </mvcSiteMap>

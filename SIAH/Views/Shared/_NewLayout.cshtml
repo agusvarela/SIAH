@@ -79,13 +79,13 @@
                                     Mis Vistas <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Autorizaciones</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Autorizaciones</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">Remitos</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">Remitos</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a id="reporte">Reportes</a></li>
+                                    <li class="hover-pointer"><a id="reporte">Reportes</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -105,16 +105,16 @@
                                     Mis Vistas <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Reportes</a></li>
-                                    <li><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Administrar Pedidos</a></li>
-                                    <li><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Reportes")'">Reportes</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Administrar Pedidos</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Stock</a></li>
-                                    <li><a onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Control de Stock</a></li>
-                                    <li><a onclick="location.href='@Url.Action("Index", "Compras")'">Administrar Compras</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Stock</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Control de Stock</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Compras")'">Administrar Compras</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a onclick="location.href='@Url.Action("Index", "Account")'">Usuarios</a></li>
-                                    <li><a onclick="location.href='@Url.Action("Index", "Hospitales")'">Hospitales</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Account")'">Usuarios</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Hospitales")'">Hospitales</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -133,11 +133,11 @@
                                     Mis Vistas <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">Gestionar Pedidos</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">Gestionar Pedidos</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a onclick="location.href='@Url.Action("Index", "StockFarmacia",  new { hospitalId = Session["hospitalId"]})'">Stock Farmacia</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "StockFarmacia",  new { hospitalId = Session["hospitalId"]})'">Stock Farmacia</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">Reclamos Realizados</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">Reclamos Realizados</a></li>
                                 </ul>
                             </li>
                         </ul>
