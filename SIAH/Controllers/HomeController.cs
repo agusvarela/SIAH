@@ -44,6 +44,13 @@ namespace SIAH.Controllers
             return View();
         }
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
+        public ActionResult RespFarmacia()
+        {
+            ViewBag.Message = "Your index Page.";
+
+            return RedirectToAction("RespFarmaciaDashboard");
+        }
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult RespFarmaciaDashboard()
         {
             ViewBag.Message = "Your index Page.";

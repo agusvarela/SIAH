@@ -208,9 +208,14 @@ namespace SIAH.Controllers
         //    return View(pedidos.ToList());
         //}
       
-        [AuthorizeUserAccessLevel (UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
+        [AuthorizeUserAccessLevel (UserRole = "RespAutorizacion", UserRole2 = "DirectorArea", UserRole3 = "RespFarmacia")]
         public ActionResult Listado(String param)
         {
+            if (Session["rol"].ToString() == "RespFarmacia")
+            {
+                return RedirectToAction("RespFarmacia", "Pedidos"); Session["rol"] = "Admin";
+            }
+           
             if (param != null)
             {
                 if (param.CompareTo("Success") == 0)
