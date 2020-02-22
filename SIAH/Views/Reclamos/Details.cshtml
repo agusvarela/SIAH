@@ -52,16 +52,17 @@
                                 </div>
                             </div>
                             @if (Model.responsableAsignado != null)
-    {
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.responsableAsignado.nombre, "Responsable asignado", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                <div class="col-md-10">
-                                    <text class="form-control">@Model.responsableAsignado.nombre + " " + Model.responsableAsignado.apellido</text>
+                            {
+                            var nombre = $"{Model.responsableAsignado.nombre} {Model.responsableAsignado.apellido}";
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.responsableAsignado.nombre, "Responsable asignado", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-10">
+                                        <text class="form-control">@nombre</text>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-}
+                            }
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.tipoReclamo.tipo, "Tipo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
@@ -132,7 +133,10 @@
                         </div>
                         <div class="form-card__content group">
                             <div class="col-sm-12">
-                                <div class="form-group" style="padding-bottom: 87px">
+                            @{
+                                var padding = Model.fechaFinReclamo.HasValue ? "padding-bottom: 87px" : string.Empty;
+                            }
+                                <div class="form-group" style="@padding">
                                     @Html.LabelFor(model => model.respuesta, "Respuesta", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.TextAreaFor(model => model.respuesta, 5, 10, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
@@ -146,28 +150,19 @@
             <br />
             <div class="row ">
                 <div class="col-md-12">
-                    @if (Model.estadoReclamoId == 1 && Session["rol"].ToString() == "RespAutorizacion")
-                    {
-                        <input type="button" id="btn_assign" value="Asignarme" class="btn pull-right btn-success" />
-                    }
-                    @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion")
-                    {
-                        <input type="button" id="btn_solve" value="Resolver" class="btn pull-right btn-success" />
-                    }
                     <div class="col-md-6" style="padding: 0">
                         <input type="button" id="btn_pedido" value="Ir al Pedido Reclamado" class="btn pull-left btn-primary" />
                     </div>
                     <div class="col-md-6" style="padding: 0">
-                        @if (Session["rol"].ToString() == "RespAutorizacion")
+                        @if (Model.estadoReclamoId == 1 && Session["rol"].ToString() == "RespAutorizacion")
                         {
-                            <input type="button" id="volver" value="Volver al listado de Reclamos" class="btn pull-right btn-primary" onclick="location.href = '/Reclamos/ListadoReclamos'" />
+                            <input type="button" id="btn_assign" value="Asignarme" class="btn pull-right btn-success" />
                         }
-                        @if (Session["rol"].ToString() == "RespFarmacia")
+                        @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion")
                         {
-                            <input type="button" id="volver" value="Volver al listado de Reclamos" class="btn pull-right btn-primary" onclick="location.href = '/Reclamos/ReclamosRespFarmacia'" />
+                            <input type="button" id="btn_solve" value="Resolver" class="btn pull-right btn-success" />
                         }
                     </div>
-
                 </div>
             </div>
         </div>

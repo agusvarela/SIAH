@@ -86,11 +86,13 @@
                                                     <td class="text-center">
                                                         @if (item.estadoReclamoId == 1)
                                                         {
-                                                            @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
+                                                            var redirectUrl = $"/Reclamos/AutoAsignacion?idReclamo={item.pedidoId}&idResponsable={Session["userId"]}";
+                                                            <input type="button" id="volver" value="Asignarme" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
                                                         }
                                                         @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
                                                         {
-                                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
+                                                            var redirectUrl = $"/Reclamos/Resolucion?id={item.pedidoId}";
+                                                            <input type="button" id="volver" value="Resolver" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
                                                         }
                                                     </td>
                                                 </tr>
@@ -120,11 +122,13 @@
                                                     <td class="text-center">
                                                         @if (item.estadoReclamoId == 1)
                                                         {
-                                                            @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
+                                                            var redirectUrl = $"/Reclamos/AutoAsignacion?idReclamo={item.pedidoId}&idResponsable={Session["userId"]}";
+                                                            <input type="button" id="volver" value="Asignarme" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
                                                         }
                                                         @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
                                                         {
-                                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
+                                                            var redirectUrl = $"/Reclamos/Resolucion?id={item.pedidoId}";
+                                                            <input type="button" id="volver" value="Resolver" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
                                                         }
                                                     </td>
                                                 </tr>
@@ -155,11 +159,13 @@
                                                     <td class="text-center">
                                                         @if (item.estadoReclamoId == 1)
                                                         {
-                                                            @Html.ActionLink("Asignarme", "AutoAsignacion", new { idReclamo = item.pedidoId, idResponsable = Session["userId"] })
+                                                            var redirectUrl = $"/Reclamos/AutoAsignacion?idReclamo={item.pedidoId}&idResponsable={Session["userId"]}";
+                                                            <input type="button" id="volver" value="Asignarme" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
                                                         }
                                                         @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
                                                         {
-                                                            @Html.ActionLink("Resolver", "Resolucion", new { id = item.pedidoId })
+                                                            var redirectUrl = $"/Reclamos/Resolucion?id={item.pedidoId}";
+                                                            <input type="button" id="volver" value="Resolver" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
                                                         }
                                                     </td>
                                                 </tr>
