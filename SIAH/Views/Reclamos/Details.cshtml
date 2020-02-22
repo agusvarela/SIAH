@@ -132,7 +132,7 @@
                         </div>
                         <div class="form-card__content group">
                             <div class="col-sm-12">
-                                <div class="form-group">
+                                <div class="form-group" style="padding-bottom: 87px">
                                     @Html.LabelFor(model => model.respuesta, "Respuesta", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
                                         @Html.TextAreaFor(model => model.respuesta, 5, 10, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
@@ -154,20 +154,25 @@
                     {
                         <input type="button" id="btn_solve" value="Resolver" class="btn pull-right btn-success" />
                     }
-                    <input type="button" id="btn_pedido" value="Ir al Pedido Reclamado" class="btn pull-left btn-primary" />
+                    <div class="col-md-6" style="padding: 0">
+                        <input type="button" id="btn_pedido" value="Ir al Pedido Reclamado" class="btn pull-left btn-primary" />
+                    </div>
+                    <div class="col-md-6" style="padding: 0">
+                        @if (Session["rol"].ToString() == "RespAutorizacion")
+                        {
+                            <input type="button" id="volver" value="Volver al listado de Reclamos" class="btn pull-right btn-primary" onclick="location.href = '/Reclamos/ListadoReclamos'" />
+                        }
+                        @if (Session["rol"].ToString() == "RespFarmacia")
+                        {
+                            <input type="button" id="volver" value="Volver al listado de Reclamos" class="btn pull-right btn-primary" onclick="location.href = '/Reclamos/ReclamosRespFarmacia'" />
+                        }
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
     <div class="container">
-        @if (Session["rol"].ToString() == "RespAutorizacion")
-        {
-            @Html.ActionLink("Volver al listado", "ListadoReclamos")
-        }
-        @if (Session["rol"].ToString() == "RespFarmacia")
-        {
-            <input type="button" id="volver" value="Volver al listado de Reclamos" class="btn pull-left btn-primary" onclick="location.href = '/Reclamos/ReclamosRespFarmacia'" />
-        }
     </div>
     @Html.HiddenFor(model => model.pedidoId, htmlAttributes: new { @id = "idPedido" })
     @Html.Hidden("idResponsable", Session["userId"], htmlAttributes: new { @id = "idResponsable" })
