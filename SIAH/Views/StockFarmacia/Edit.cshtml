@@ -41,7 +41,7 @@
                                 <div class="col-sm-3 col-sm-offset-1">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.stockFarmacia, "Stock Farmacia", htmlAttributes: new { @class = "control-label" })
-                                        <input type="number" maxlength="7" name="stockFarmacia" value="@Model.stockFarmacia" class="form-control" min="0" max="999999" required onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " />
+                                        <input type="number" maxlength="7" name="stockFarmacia" value="@Model.stockFarmacia" class="form-control" min="0" max="@Model.stockFarmacia" required onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " />
                                         @Html.ValidationMessageFor(model => model.stockFarmacia, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
