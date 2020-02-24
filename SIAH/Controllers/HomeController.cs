@@ -11,6 +11,8 @@ namespace SIAH.Controllers
     {
         public ActionResult Index()
         {
+
+            ViewBag.error = TempData["message"];
             if (Session["rol"] == null)
             {
                 Session["rol"] = "Admin";
@@ -20,6 +22,7 @@ namespace SIAH.Controllers
 
         public ActionResult Home()
         {
+            ViewBag.error = TempData["message"].ToString();
             return RedirectToAction((String)Session["rol"]);
         }
 

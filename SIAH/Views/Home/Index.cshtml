@@ -1,7 +1,9 @@
-﻿@{
+﻿@model SIAH.Models.UserAccount
+
+@{
     ViewBag.Title = "Home Page";
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
-
+    String error = ViewBag.error;
 }
 <script type="text/javascript">
     window.addEventListener("load", function () {
@@ -10,22 +12,47 @@
 
 </script>
 <div class="wrapper">
-    <div class="header header-filter" style="background-image: url('../Content/img/back.jpg');">
+    <div class="header header-filter" style="background-image: url('../Content/img/back.jpg'); padding-bottom: 100px;">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <h1 class="title">Bienvenido</h1>
+                <div class="col-md-7">
+                    <h1 class="title">Bienvenido a SIAH</h1>
                     <h4>
-                        SIAH, una plataforma web que permite gestionar los pedidos de la oficina de autorizaciones hospitalarias del Ministerio de Salud
+                        SIAH es una plataforma web que permite gestionar los pedidos de la oficina de autorizaciones hospitalarias del Ministerio de Salud
                         de la provincia de Córdoba.
                     </h4>
                     <br />
-                    @if (Session["userid"] == null)
-                    {
-                    <a class="btn btn-primary btn-raised btn-lg" href="~/Account/Login">
-                        Iniciar Sesión
-                    </a>
-                    }
+                </div>
+                <div class="col-md-5">
+                    <div class="card card-signup animate zoomIn">
+                        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="header header-primary text-center">
+                                <h3>Iniciar Sesión</h3>
+                            </div>
+                            <div class="content">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">face</i>
+                                    </span>
+                                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @placeholder = "E-mail", @type = "text" } })
+                                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">lock_outline</i>
+                                    </span>
+                                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contraseña", @type = "password" } })
+                                    @Html.ValidationMessageFor(model => model.password, error, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="footer text-center">
+                                <input type="submit" value="Ingresar" class="btn btn-round btn-primary" />
+                            </div>
+                            <br />
+                        }
+                    </div>
                 </div>
             </div>
         </div>
