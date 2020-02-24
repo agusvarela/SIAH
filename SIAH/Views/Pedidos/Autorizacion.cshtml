@@ -106,8 +106,12 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
                                     <div class="col-sm-12">
-                                        @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
-                                        @Html.ValidationMessageFor(model => model.periodo, "", new { @class = "text-danger" })
+                                        @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today, @type = "hidden" })
+                                        @{
+                                            string period = DateTime.Today.ToString("MMMM - yyyy");
+                                            period = char.ToUpper(period[0]).ToString() + period.Substring(1);
+                                        }
+                                        <text class="form-control">@period</text>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +119,8 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
                                     <div class="col-sm-12">
-                                        @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
+                                        @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @type = "hidden" })
+                                        <text class="form-control">@ViewBag.hospital</text>
                                         @Html.ValidationMessageFor(model => model.hospital.nombre, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -124,12 +129,10 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
                                     <div id="container" class="col-sm-12">
-                                        @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
+                                        @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto", @type = "hidden" })
+                                        <text id="presupuestoAMostrar" class="form-control"></text>
                                         <div> <span id="presuSpan" name="presuSpan" class="text-danger"></span></div>
                                         <div><span id="autoSpan" name="autosSpan" class="text-success"></span></div>
-                                        @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })
-                    <text id="presupuesto" class="form-control"></text>
-                    @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +140,8 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
                                     <div class="col-sm-12">
-                                        @Html.TextBoxFor(model => model.fechaGeneracion, Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextBoxFor(model => model.fechaGeneracion, Model.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                        <text class="form-control">@Model.fechaGeneracion.ToShortDateString()</text>
                                         @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -152,7 +156,8 @@
                                         }
                                     }
                                     <div class="col-sm-12">
-                                        @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE })
+                                        @Html.TextBox("fechaEntrega", fechaE.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = fechaE, @type = "hidden" })
+                                        <text class="form-control">@fechaE.ToShortDateString()</text>
                                         @Html.ValidationMessageFor(model => model.fechaGeneracion, "", new { @class = "text-danger" })
 
 
@@ -176,14 +181,12 @@
                             <div class="form-group text-center">
                                 @if (Model.esUrgente)
                                 {
-                                    <h4 class="text-danger"><strong>Este pedido es Urgente </strong></h4>
                                     <input type="button" value="Mas info" class="btn btn-simple btn-primary" data-toggle="modal" data-target="#urgente" />
                                 }
                                 else
                                 {
-                                    <h4><strong>Este pedido no es Urgente </strong></h4>
+                                    <h4 style="padding-top:42px; padding-bottom:41px;"  ><strong>Este pedido no es Urgente </strong></h4>
                                 }
-
                             </div>
                         </div>
                     </div>
@@ -298,7 +301,10 @@
 
 <br />
 <div class="container">
-    @Html.ActionLink("Volver al Listado", "Listado")
+    @if (Session["rol"].ToString() == "RespAutorizacion")
+    {
+    <input type="button" id="volver" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/Listado'" />
+    }
 </div>
 
 @section Scripts {
@@ -315,7 +321,7 @@
                 var $presupuesto = parseFloat(data[1]);
                 var $presupuestoAMostrar = new Intl.NumberFormat('de-DE').format($presupuesto);
                 $('#presupuesto').val("$" + $presupuestoAMostrar);
-
+                $('#presupuestoAMostrar').html("$" + $presupuestoAMostrar);
             });
         })
         //Función boton para cancelar el Pedido
@@ -336,18 +342,7 @@
                 //console.log(lista);
                 for (var i = 0, len = lista.length; i < len; i++) {
                     var data = lista[i];
-                    /*Antiguo metodo de mostrar y editar los detalles
-                    var $tdInsumo = $('<td>').append(item.nombre);
-                     var $tdTipo = $('<td>').append(item.tipo);
-                     var $tdCantidad = $('<td>').append(item.cantidad);
-                     var $cantidadAutorizada = $('<input>').attr('type', 'number').attr('min', '0').attr('max', item.cantidad).attr('value', item.cantidad).attr('name', 'cantidadAutorizada[' + i + ']');
-                     var $tdCantidadAutorizada = $('<td>').append($cantidadAutorizada);
-                    var $tdPrecioUnitario = $('<td>').append(item.precio);
-                    var subtotal = item.precio * item.cantidad;
-                    var $tdSubtotal = $('<td>').append(subtotal);
-                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotal);
-                    total += subtotal;
-                    $('#detalles').append($tr);*/
+
                     var $pedidoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][pedidoId]').val(data.pedidoId);
                     var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').val(data.insumoId);
                     var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
@@ -358,7 +353,6 @@
 
                     var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
 
-                    // var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('value', data.precioUnitario).val($precioAMostrar);
                     var $precioUnitario = $('<input>').attr('type', 'hidden').attr('id', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('value', data.precioUnitario);
                     var $tdPrecioUnitario = $('<td align="center">').html("$" + $precioAMostrar).append($precioUnitario);
 
@@ -368,10 +362,7 @@
                     var $cantidadAut = $('<input  style="text-align:center">').attr('type', 'number').attr('min', '0').attr('max', data.cantidad).attr('value', data.cantidad)
                         .attr('onchange', "updateInput(this.value," + indice + ")").attr('name', 'detallesPedido[' + indice + '][cantidadAutorizada]').attr('id', 'detallesPedido[' + indice + '][cantidadAutorizada]');
 
-
                     var $tdCantidadAut = $('<td id="cantAut" align="center">').append($cantidadAut);
-
-
 
                     var $tdStock = $('<td  id="stock" align="center">').html(data.stock).attr('id', 'detallesPedido[' + indice + '][stock]');
                     var $stockFarmacia = data.stockFarmacia
