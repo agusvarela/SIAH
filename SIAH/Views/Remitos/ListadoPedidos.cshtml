@@ -64,14 +64,6 @@
                                 </thead>
                                 @foreach (var item in Model.Item1)
                                 {
-
-
-
-                                    @*@if (Model.Item2.Count == 0)
-                                        {
-                                            @Html.ActionLink("Cargar Remito", "Create", new { id = item.id })
-                                        }
-                                        else*@
                                     bool existeRemito = false;
                                     foreach (var rem in Model.Item2)
                                     {
@@ -214,10 +206,7 @@
             }
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
-            $("#maintable").DataTable({
-                "order": [[0, "desc"]]
-            });;
-
+            $("#maintable").DataTable({ "oLanguage": { "sEmptyTable": "No hay remitos cargados." } });;
             sessionStorage.setItem("From", "Remitos");
         });
 

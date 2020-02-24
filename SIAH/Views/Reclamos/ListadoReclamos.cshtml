@@ -86,13 +86,7 @@
                                                     <td class="text-center">
                                                         @if (item.estadoReclamoId == 1)
                                                         {
-                                                            var redirectUrl = $"/Reclamos/AutoAsignacion?idReclamo={item.pedidoId}&idResponsable={Session["userId"]}";
-                                                            <input type="button" id="volver" value="Asignarme" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
-                                                        }
-                                                        @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
-                                                        {
-                                                            var redirectUrl = $"/Reclamos/Resolucion?id={item.pedidoId}";
-                                                            <input type="button" id="volver" value="Resolver" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
+                                                            <input type="button" id="autoAsignar" value="Asignarme" class="btn btn-round btn-primary pull-center"/>
                                                         }
                                                     </td>
                                                 </tr>
@@ -120,15 +114,9 @@
                                                         @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
                                                     </td>
                                                     <td class="text-center">
-                                                        @if (item.estadoReclamoId == 1)
-                                                        {
-                                                            var redirectUrl = $"/Reclamos/AutoAsignacion?idReclamo={item.pedidoId}&idResponsable={Session["userId"]}";
-                                                            <input type="button" id="volver" value="Asignarme" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
-                                                        }
                                                         @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
                                                         {
-                                                            var redirectUrl = $"/Reclamos/Resolucion?id={item.pedidoId}";
-                                                            <input type="button" id="volver" value="Resolver" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
+                                                            <input type="button" id="resolver" value="Resolver" class="btn btn-round btn-primary pull-center"/>
                                                         }
                                                     </td>
                                                 </tr>
@@ -157,16 +145,6 @@
                                                         @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
                                                     </td>
                                                     <td class="text-center">
-                                                        @if (item.estadoReclamoId == 1)
-                                                        {
-                                                            var redirectUrl = $"/Reclamos/AutoAsignacion?idReclamo={item.pedidoId}&idResponsable={Session["userId"]}";
-                                                            <input type="button" id="volver" value="Asignarme" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
-                                                        }
-                                                        @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
-                                                        {
-                                                            var redirectUrl = $"/Reclamos/Resolucion?id={item.pedidoId}";
-                                                            <input type="button" id="volver" value="Resolver" class="btn btn-round btn-primary pull-center" onclick="location.href = @redirectUrl" />
-                                                        }
                                                     </td>
                                                 </tr>
 
@@ -186,7 +164,21 @@
 </div>
 @section Scripts {
     <script type="text/javascript">
+        $(document).on('click', '#autoAsignar', function (event) {
+            var idPedido = $(this).parents('tr').get(0).children[0].innerText;
+            var idResponsable = '@(Session["userId"])';
+            var urlRecibido = '/Reclamos/AutoAsignacion' + '?idReclamo=' + idPedido + '&idResponsable=' + idResponsable;
+            window.location.href = urlRecibido;
+            event.stopImmediatePropagation();
+        });
+
         $(document).ready(function () {
+            $('#resolver').on('click', function (event) {
+                productoId = parseInt($(this).parents('tr').get(0).children.item(0).innerText);
+                window.location.href = "/Reclamos/Resolucion?id=" + productoId;
+                event.stopImmediatePropagation();
+            });
+
             var myNewURL = refineURL();
             //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
             window.history.pushState("object or string", "Title", "/" + myNewURL);
@@ -234,9 +226,7 @@
 
             $("#clone").DataTable();
 
-            $("#maintable").DataTable({
-                "order": [[0, "desc"]]
-            });
+            $("#maintable").DataTable({ "oLanguage": { "sEmptyTable": "No hay reclamos realizados." }, "order": [[0, "desc"]] });
         });
     </script>
 }

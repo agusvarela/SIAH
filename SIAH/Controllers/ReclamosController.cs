@@ -232,11 +232,14 @@ namespace SIAH.Controllers
             return View(reclamoes.ToList());
 
         }
+
+        //GET:Reclamos/ListadoReclamos
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         public ActionResult ListadoReclamos()
         {
             var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.Pedido).
                 Include(r => r.tipoReclamo).Include(r => r.estadoReclamo).Include(r => r.responsableAsignado);
+            ViewBag.session = Session["userId"].ToString();
             return View(reclamoes.ToList());
         }
     }
