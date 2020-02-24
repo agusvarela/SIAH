@@ -22,7 +22,6 @@ namespace SIAH.Controllers
 
         public ActionResult Home()
         {
-            ViewBag.error = TempData["message"].ToString();
             return RedirectToAction((String)Session["rol"]);
         }
 

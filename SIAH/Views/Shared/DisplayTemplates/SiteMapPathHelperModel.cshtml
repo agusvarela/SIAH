@@ -8,7 +8,7 @@
         <ul class="siteMap breadcrumb mybc">
             @foreach (var node in Model)
             {
-                <li class="breadcrumb-item">
+                <li class="breadcrumb-item hover-pointer">
                     @Html.DisplayFor(m => node)
 
                     @if (node != Model.Last())
