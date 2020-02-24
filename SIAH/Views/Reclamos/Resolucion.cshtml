@@ -11,9 +11,14 @@
 
 <div class="banner-catalog">
     <div class="container">
-        <div class="col-lg-12">
+        <div class="col-lg-9">
             <h1>Resolución de Reclamo Nº: @Html.DisplayFor(model => model.pedidoId)</h1>
-            <div class="banner-catalog__content"> Brinde una respuesta al reclamo en el campo correspondiente</div>
+            <div class="banner-catalog__content"> Brinde una respuesta al reclamo en el campo correspondiente.</div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-success">
+                <i class="material-icons pull-right" style="font-size: 100px">check_circle</i>
+            </div>
         </div>
     </div>
 </div>
@@ -22,98 +27,130 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="container" style=" padding-bottom: 30px;">
-        <div class="form-horizontal">
-            <hr />
-            <div class="row">
-                @Html.HiddenFor(model => model.pedidoId)
-                <div class="col-md-12">
-                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
-                        <div class="form-card__title info-header">
-                            <div class="alert-icon">
-                                <i class="material-icons">info_outline</i>
-                                <strong>Información general del Reclamo</strong>
-                            </div>
+<div class="container" style=" padding-bottom: 30px;">
+    <div class="form-horizontal">
+        <hr />
+        <div class="row">
+            @Html.HiddenFor(model => model.pedidoId)
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                    <div class="form-card__title info-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">info_outline</i>
+                            <strong>Información general del Reclamo</strong>
                         </div>
-                        <div class="form-card__content group">
+                    </div>
+                    <div class="form-card__content group">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.fechaInicioReclamo, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextBox("fechaInicioReclamo", Model.fechaInicioReclamo.ToString("dd/MM/yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.fechaInicioReclamo, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBox("fechaInicioReclamo", Model.fechaInicioReclamo.ToString("dd/MM/yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                    <text class="form-control">@Model.fechaInicioReclamo.ToShortDateString()</text>
                                     @Html.ValidationMessageFor(model => model.fechaInicioReclamo, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.fechaFinReclamo, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextBox("fechaFinReclamo", DateTime.Today.ToString("dd/MM/yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today })
+                                <div class="col-md-6">
+                                    @Html.LabelFor(model => model.fechaFinReclamo, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.TextBox("fechaFinReclamo", DateTime.Today.ToString("dd/MM/yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today, @type = "hidden" })
+                                    <text class="form-control">@DateTime.Today.ToString("dd/MM/yyyy")</text>
                                     @Html.ValidationMessageFor(model => model.fechaFinReclamo, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.tipoReclamoId, "Tipo Reclamo", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextBox("tipo", tipo, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.tipoReclamoId, "Tipo Reclamo", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBox("tipo", tipo, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                    <text class="form-control">@tipo</text>
                                     @Html.TextBox("tipoReclamoId", tipoReclamoId, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextBox("hospital", hospital, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBox("hospital", hospital, htmlAttributes: new { @class = "form-control", @readonly = "readonly", type = "hidden" })
+                                    <text class="form-control">@hospital</text>
                                     @Html.TextBox("hospitalId", hospitalId, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="col-md-12" style="padding-top: 15px;">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.observacionFamacia, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => model.observacionFamacia, htmlAttributes: new { @class = "control-label" })
+                                </div>
                                 <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.observacionFamacia, 5, 100, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.TextAreaFor(model => model.observacionFamacia, 5, 100, htmlAttributes: new { @class = "form-control", @readonly = "readonly"})
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
-                        <div class="form-card__title purple-header">
-                            <div class="alert-icon">
-                                <i class="material-icons">info_outline</i>
-                                <strong>Respuesta para la resolución del reclamo</strong>
-                            </div>
-                        </div>
-                        <div class="form-card__content group">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    @Html.TextAreaFor(model => model.respuesta, 5, 150, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.respuesta, "", new { @class = "text-danger" })
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.HiddenFor(model => model.responsableAsignadoId)
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="pull-right col-md-2">
-                <input type="submit" value="Cerrar reclamo" class="btn pull-right btn-success" />
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                    <div class="form-card__title purple-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">info_outline</i>
+                            <strong>Respuesta para la resolución del reclamo</strong>
+                        </div>
+                    </div>
+                    <div class="form-card__content group">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.TextAreaFor(model => model.respuesta, 5, 150, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.respuesta, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="form-group">
+            @Html.HiddenFor(model => model.responsableAsignadoId)
         </div>
     </div>
 
+    <div class="form-group">
+        <div class="pull-left col-md-2">
+            <input type="button" id="volverAlListado" value="Volver al Listado" class="btn pull-right btn-primary" />
+        </div>
+        <div class= "col-md-offset-8 col-md-2">
+            <input type="submit" value="Cerrar reclamo" class="btn pull-right btn-success" />
+        </div>
+    </div>
+</div>
+
 }
 
-<div class="container">
-    @Html.ActionLink("Volver al listado", "ListadoReclamos")
-</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#volverAlListado').on('click', function (event) {
+                var urlRecibido = '/Reclamos/ListadoReclamos';
+                location.href = urlRecibido;
+                event.stopImmediatePropagation();
+            });
+        })
+    </script>
+}

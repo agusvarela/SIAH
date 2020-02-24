@@ -127,6 +127,8 @@ namespace SIAH.Controllers
             ViewBag.tipoReclamoId = reclamo.tipoReclamoId;
             return View(reclamo);
         }
+
+        //POST: Reclamos/Resolucion
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Resolucion([Bind(Include = "observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId")] Reclamo reclamo)
