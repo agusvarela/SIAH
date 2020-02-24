@@ -1,4 +1,5 @@
-﻿using SIAH.Context;
+﻿using Newtonsoft.Json;
+using SIAH.Context;
 using SIAH.Models;
 using SIAH.Models.Insumos;
 using SIAH.Models.Pedidos;
@@ -10,6 +11,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 namespace SIAH.Controllers
 {
@@ -135,7 +138,7 @@ namespace SIAH.Controllers
         }
 
         //POST: Pedidos/GenerateSendOcasa
-        public ActionResult GenerateSendOcasa()
+        public async Task<ActionResult> GenerateSendOcasa()
         {
             var detalles = db.DetallesPedido.Include(p => p.pedido).Where(x => x.pedido.estadoId == 2);
             //Si no hay Pedidos en estado Autorizado, no se debe cambiar de estado nada ni enviar a OCASA 
@@ -143,27 +146,31 @@ namespace SIAH.Controllers
             {
                 return RedirectToAction("Listado", "Pedidos");
             }
-            StringWriter csv = new StringWriter();
-            csv.WriteLine(string.Format("{0},{1},{2},{3}", "Pedido", "Insumo", "Cantidad", "Hospital"));
-            foreach (var detalle in detalles.ToList())
+            //Listado de pedidos en estado autorizado agregados a un JSON
+            var listPedidos = new List<Pedido>();
+            foreach (var pedido in db.Pedidos.Include(p => p.detallesPedido).Where(x => x.estadoId == 2).ToList())
             {
-                csv.WriteLine(string.Format("{0},{1},{2},{3}", detalle.pedidoId, detalle.insumoId, detalle.cantidadAutorizada,detalle.pedido.hospitalId));
+                listPedidos.Add(pedido);
             }
-            //Body que se enviará a OCASA con los pedidos en formato CSV (podria ser JSON pero no es algo prioritario)
-            var values = new Dictionary<string, string>
-            {
-               { "Pedidos", csv.ToString()}
-            };
-            var content = new FormUrlEncodedContent(values);
-            //LLamada a API ficticia que devuelve siempre un 200 (OK)
-            var response = client.PostAsync("https://1cb7e13b-c3ac-4278-902d-2d4ae786f363.mock.pstmn.io/uploadPedido", content);
-            if (response.Result.IsSuccessStatusCode)
+
+            //Body que se enviará a OCASA con los pedidos en formato JSON 
+            var jsonPedidos = JsonConvert.SerializeObject(listPedidos, Formatting.Indented, new JsonSerializerSettings() { MaxDepth = 1, ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
+            //csv.WriteLine(string.Format("{0},{1},{2},{3}", "Pedido", "Insumo", "Cantidad", "Hospital"));
+            var content = new StringContent(jsonPedidos, Encoding.UTF8, "application/json");
+            //LLamada a API ficticia que devuelve siempre un 200 (OK) con el tracking number de cada pedido
+            var response = await client.PostAsync("http://localhost:3000/envio", content);
+            if (response.IsSuccessStatusCode)
             {
                 try
                 {
-                    foreach (var i in detalles.Select(x => x.pedidoId).ToList())
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var responseArray = JsonConvert.DeserializeAnonymousType(responseContent, new[] { new { idPedido = "sample", tracking = "sample" }, new { idPedido = "sample", tracking = "sample" } });
+                   
+                    foreach (var responseObject in responseArray)
                     {
-                        Pedido pedido = db.Pedidos.Find(i);
+                        int idPedido = int.Parse(responseObject.idPedido);
+                        Pedido pedido = db.Pedidos.Find(idPedido);
+                        pedido.trackingNumber = responseObject.tracking;
                         pedido.estadoId = 3;
                         db.Entry(pedido).State = EntityState.Modified;
                     }

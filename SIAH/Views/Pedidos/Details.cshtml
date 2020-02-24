@@ -112,7 +112,15 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.trackingNumber, "Numero de seguimiento", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.trackingNumber, Model.trackingNumber, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                        <text class="form-control">@Model.trackingNumber</text>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
