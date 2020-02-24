@@ -20,10 +20,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -103,7 +101,7 @@
       <HintPath>..\packages\MvcSiteMapProvider.MVC5.4.6.26\lib\net45\MvcSiteMapProvider.WebActivator.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
@@ -302,6 +300,10 @@
     <Compile Include="Migrations\201910222114294_alter_table_hospital.cs" />
     <Compile Include="Migrations\201910222114294_alter_table_hospital.Designer.cs">
       <DependentUpon>201910222114294_alter_table_hospital.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002241602358_alter_table_pedido.cs" />
+    <Compile Include="Migrations\202002241602358_alter_table_pedido.Designer.cs">
+      <DependentUpon>202002241602358_alter_table_pedido.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
@@ -688,6 +690,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910222114294_alter_table_hospital.resx">
       <DependentUpon>201910222114294_alter_table_hospital.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002241602358_alter_table_pedido.resx">
+      <DependentUpon>202002241602358_alter_table_pedido.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

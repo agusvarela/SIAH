@@ -21,6 +21,9 @@ namespace SIAH.Models.Pedidos
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaGeneracion { get; set; }
 
+        [Display(Name = "Número de seguimiento")]
+        public string trackingNumber { get; set; }
+
         [Display(Name = "Fecha de entrega")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
