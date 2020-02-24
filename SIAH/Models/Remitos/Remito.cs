@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -10,6 +11,7 @@ namespace SIAH.Models.Remitos
     {
         [Display(Name = "Id Remito")]
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
         
         [Display(Name = "Fecha de Entrega Efectiva")]

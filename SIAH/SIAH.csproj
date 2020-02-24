@@ -305,6 +305,10 @@
     <Compile Include="Migrations\202002241602358_alter_table_pedido.Designer.cs">
       <DependentUpon>202002241602358_alter_table_pedido.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002242137108_alter_table_remito_non_incremental_id.cs" />
+    <Compile Include="Migrations\202002242137108_alter_table_remito_non_incremental_id.Designer.cs">
+      <DependentUpon>202002242137108_alter_table_remito_non_incremental_id.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
@@ -693,6 +697,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002241602358_alter_table_pedido.resx">
       <DependentUpon>202002241602358_alter_table_pedido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002242137108_alter_table_remito_non_incremental_id.resx">
+      <DependentUpon>202002242137108_alter_table_remito_non_incremental_id.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

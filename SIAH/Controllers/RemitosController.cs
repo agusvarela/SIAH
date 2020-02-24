@@ -12,6 +12,7 @@ using System.IO;
 using System.Data.SqlClient;
 using SIAH.Models.Pedidos;
 using SIAH.Models.Insumos;
+using System.Net.Http;
 
 namespace SIAH.Controllers
 {
@@ -56,108 +57,28 @@ namespace SIAH.Controllers
             }
             return View(remito);
         }
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
-        // GET: Remitos/Create
-        public ActionResult Create(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Remito remito = new Remito();
-            ViewBag.remitoId = (int) id;
-            ViewBag.pedidoId = (int)id;
-            return View(remito);
-        }
 
-
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         [HttpPost]
-          [ValidateAntiForgeryToken]
-          public ActionResult Create(HttpPostedFileBase file, int remitoId, int pedidoId)
-          {
+        public HttpResponseMessage CargarRemito(Remito remito)
+        {
             try
             {
-                int remitoIdEnArchivo;
-                if (file.ContentLength > 0)
+                remito.id = remito.pedidoId;
+                remito.estadoId = 1;
+                foreach (DetalleRemito detalle in remito.detallesRemito)
                 {
-                    string _FileName = Path.GetFileName(file.FileName);
-                    string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);
-                    file.SaveAs(_path);
-                    string lecturaArchivo;
-                    using (var sr = new StreamReader(_path))
-                    {
-                        lecturaArchivo = sr.ReadLine();
-                        var campos = lecturaArchivo.Split(';');
-                        remitoIdEnArchivo = Int32.Parse(campos[0]);
-                        sr.Close();
-                    }
-                    if (remitoIdEnArchivo == remitoId)
-                    {
-                        ViewBag.remitoId = remitoId;
-                        ViewBag.pedidoId = pedidoId;
-                        ViewBag.Message = "El archivo se cargó correctamente";
-                        ViewBag.path = _path;
-                        
-                    }
-                    else {
-                        ViewBag.Message = "El id de Remito de los detalles no coincide con el Pedido que intenta cargar";
-                        ViewBag.remitoId = remitoId;
-                        ViewBag.pedidoId = pedidoId;
-                        System.IO.File.Delete(_path);
-                        return View();
-                    }
-                    
-
+                    detalle.remitoId = remito.id;
                 }
-                return View();
-
+                db.Remitos.Add(remito);
+                db.SaveChanges();
+                return new HttpResponseMessage(HttpStatusCode.Accepted);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                ViewBag.Message = "Falló la carga del archivo, intentelo nuevamente";
-                ViewBag.remitoId = remitoId;
-                ViewBag.pedidoId = pedidoId;
-                Console.WriteLine(e.Message);
-                return View();
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
         }
 
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
-        public ActionResult CrearRemito(int remitoId, String fechaEntregaEfectiva, int pedidoId, String pathDetalles)
-        {
-            
-            String procedimientoRemito = "INSERT INTO [dbo].[Remito] (id,fechaEntregaEfectiva,estadoId,pedidoId) VALUES ("+remitoId+", "+fechaEntregaEfectiva+", 1, "+pedidoId+")";
-                String procedimientoDetalles;
-                using (var sr = new StreamReader(@"C:/Tesis/SIAH/SIAH/UploadedFiles/ProcedimientoAlmacenadoDetallesRemito.sql"))
-                {
-                     procedimientoDetalles = sr.ReadToEnd();
-                    sr.Close();
-                }
-                procedimientoDetalles = procedimientoDetalles.Replace("PATH", pathDetalles);
-           // procedimientoDetalles.Replace("'PATH'\r\n", "'" + pathDetalles + "'\r\n");
-            string sqlConnectionString = "Data Source=DESKTOP-QAVKP3R;Initial Catalog=SIAHConnection;Integrated Security=True";
-                SqlConnection conn = new SqlConnection(sqlConnectionString);
-                conn.Open();
-                SqlCommand cm1 = new SqlCommand(procedimientoRemito, conn);
-                cm1.ExecuteNonQuery();
-                SqlCommand cm2 = new SqlCommand(procedimientoDetalles, conn);
-                cm2.ExecuteNonQuery();
-                conn.Close();
-               // System.IO.File.Delete(pathDetalles); //Borrar el archivo del Servidor una vez que se cargo en la BD
-                return RedirectToAction("ListadoPedidos","Remitos");
-            
-        }
-
-        private DateTime parseFecha(String fecha)
-        {
-            var fechaArray = fecha.Split('-');
-            var y1 = Int32.Parse(fechaArray[0]);
-            var m1 = Int32.Parse(fechaArray[1]);
-            var d1 = Int32.Parse(fechaArray[2]);
-            DateTime fechaParseada = new DateTime(d1, m1, y1);
-            return fechaParseada;
-        }
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         //GET: Remitos/ControlPedidoRemito
         public ActionResult ControlPedidoRemito(int? id)
@@ -202,11 +123,11 @@ namespace SIAH.Controllers
             {
                 var diff = i.cantidadEntregada - i.cantidadAutorizada;
                 Insumo insumo = db.Insumos.Find(i.insumoId);
-                insumo.stockFisico = i.cantidadEntregada;
-                if ( diff != 0)
-                {
-                    insumo.stock = insumo.stock - diff;
-                }
+                //Check resta de stock fisico
+                insumo.stockFisico -= i.cantidadEntregada;
+                //Si la diferencia existe se debe restar para sumar si fue menor o restar si fue mayor,
+                //Si es 0 no modifica el stock
+                insumo.stock = insumo.stock - diff;
                 db.Entry(insumo).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -254,24 +175,7 @@ namespace SIAH.Controllers
             ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", remito.pedidoId);
             return View(remito);
         }
-
-        // POST: Remitos/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,fechaEntregaEfectiva,pedidoId")] Remito remito)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(remito).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", remito.pedidoId);
-            return View(remito);
-        }
-
+        
         // GET: Remitos/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -285,17 +189,6 @@ namespace SIAH.Controllers
                 return HttpNotFound();
             }
             return View(remito);
-        }
-
-        // POST: Remitos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Remito remito = db.Remitos.Find(id);
-            db.Remitos.Remove(remito);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

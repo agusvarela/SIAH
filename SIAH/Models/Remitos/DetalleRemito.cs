@@ -25,6 +25,11 @@ namespace SIAH.Models.Remitos
 
         public String observacion { get; set; }
 
+        public DetalleRemito()
+        {
+
+        }
+
         public DetalleRemito(int remitoId, int insumoId, int cantidadEntregada)
         {
             this.remitoId = remitoId;
