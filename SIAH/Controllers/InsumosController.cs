@@ -18,7 +18,8 @@ namespace SIAH.Controllers
     public class InsumosController : Controller
     {
         private SIAHContext db = new SIAHContext();
-        
+        private static readonly HttpClient client = new HttpClient();
+
         // GET: Insumos/Details/5
         public ActionResult Details(int? id)
         {
@@ -47,10 +48,15 @@ namespace SIAH.Controllers
             ViewBag.insumos = insumos;
             return View();
         }
+
         public ActionResult ActualizarStock()
         {
             try
             {
+                Uri baseUri = new Uri("http://localhost:3000");
+                Uri myUri = new Uri(baseUri, "/reclamo?name=success");
+                var response = client.GetAsync(myUri);
+                if (response.Result.StatusCode != HttpStatusCode.OK) return RedirectToAction("DirectorArea", "Home", new { param = "Failed" });
                 var insumosOcasa = db.InsumoOcasa.Select(x => new { id = x.id, stockOcasa = x.stockFisico }).ToList();
 
                 foreach (var item in insumosOcasa)

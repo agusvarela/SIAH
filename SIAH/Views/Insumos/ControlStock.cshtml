@@ -209,19 +209,19 @@
                                                     }
                                                 }
 
-                                                @*<tr class="empty well text-center">
-                                                        <td colspan="6">Aun no se han agregado insumos</td>
-                                                    </tr>*@
+                                                <tr class="empty well text-center">
+                                                    <td colspan="7">No hay inconsistencias registradas con OCASA por el momento</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <div id="bottom_anchor"></div>
                                     </div>
-
-                                    @*<input id="btn_export" type="button" value="Exportar Excel" class="btn btn-info btn-round btn_export" onClick="$('#contenedor').tableExport({type:'excel',escape:'false'});" />*@
-
+                                    
+                                    <div class="pull-left">
+                                        <input id="btn_export" type="button" value="Exportar a Excel" class="btn btn-info btn-round btn_export" onClick="$('#contenedor').tableExport({type:'excel',escape:'false'});" />
+                                    </div>
                                     <div class="pull-right">
                                         <input id="btn_pisar" type="button" value="Sincronizar con stock de OCASA" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal" />
-
                                     </div>
 
                                 </div>
@@ -366,10 +366,6 @@
                                                 }
                                             }
                                         }
-
-                                        @*<tr class="empty well text-center">
-                                                <td colspan="6">Aun no se han agregado insumos</td>
-                                            </tr>*@
                                     </tbody>
                                 </table>
                                 <div id="bottom_anchor"></div>
@@ -384,7 +380,7 @@
         </div>
     </div>
 </div>
-            @section Scripts{
+@section Scripts{
                 <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
                 <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
                 <script type="text/javascript">
@@ -455,7 +451,7 @@
             });
             $(document).on('click','#yes',function () {
         console.log(dataTable);
-        $("#table2export").tableExport({ type: 'excel', escape: 'false' });
+        //$("#table2export").tableExport({ type: 'excel', escape: 'false' }); //Deprecado: Antes exportabamos el Excel al confirmar la diferencia de stock
         url = '@Url.Action("ActualizarStock", "Insumos")';
         location.href = url;
 
@@ -463,4 +459,4 @@
         });
 
                 </script>
-            }
+}
