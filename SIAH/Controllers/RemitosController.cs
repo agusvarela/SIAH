@@ -71,6 +71,7 @@ namespace SIAH.Controllers
                 }
                 db.Remitos.Add(remito);
                 db.SaveChanges();
+                ActualizarStockConDetallesRemito(remito.id);
                 return new HttpResponseMessage(HttpStatusCode.Accepted);
             }
             catch (Exception)
@@ -97,7 +98,6 @@ namespace SIAH.Controllers
             remito.estadoId = 2;
             db.Entry(remito).State = EntityState.Modified;
             db.SaveChanges();
-            this.ActualizarStockConDetallesRemito(id);
             return RedirectToAction("ListadoPedidos", "Remitos");
         }
 
