@@ -23,7 +23,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Resolucion", "Reclamos", FormMethod.Post, new { id = "pedidoForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -136,7 +136,7 @@
             <input type="button" id="volverAlListado" value="Volver al Listado" class="btn pull-right btn-primary" />
         </div>
         <div class= "col-md-offset-8 col-md-2">
-            <input type="submit" value="Cerrar reclamo" class="btn pull-right btn-success" />
+            <input type="button" id="cerrarReclamo" value="Cerrar reclamo" class="btn pull-right btn-success" />
         </div>
     </div>
 </div>
@@ -145,6 +145,24 @@
 
 @section Scripts {
     <script type="text/javascript">
+        $(document).on('click', '#cerrarReclamo', function (event) {
+            Swal.fire({
+                title: 'Cerrar Reclamo!',
+                text: "¿Está seguro que desea continuar?",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                confirmButtonText: 'Aceptar',
+                cancelButtonColor: "#dc3545",
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    $('#pedidoForm').submit();
+                }
+            })
+        });
+
         $(document).ready(function () {
             $('#volverAlListado').on('click', function (event) {
                 var urlRecibido = '/Reclamos/ListadoReclamos';

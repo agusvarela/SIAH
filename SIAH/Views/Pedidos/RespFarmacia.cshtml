@@ -53,77 +53,66 @@
             <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                 <div class="form-card__content group">
                     <div id="cuadritos" class="container col-md-12">
-                        <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
                             <li class="text-info">
-                                <a class="list-group-item-grey soft-grey">
-                                    <i class="material-icons " style="padding:0px">clear</i>
-
-                                    Cancelado
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
-                            <li class="text-info">
-                                <a class="list-group-item-success soft-success" style="vertical-align:central">
-                                    <i class="material-icons " style="padding:0px">check_circle</i>
-
-                                    Recibido
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
-                            <li class="text-info">
-                                <a class="list-group-item-danger soft-danger">
-                                    <i class="material-icons " style="padding:0px">error_outline</i>
-
-                                    Reclamado
+                                <a class="list-group-item-grey soft-grey" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue cancelado antes de ser autorizado.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">clear</i>
+                                    <span style="user-select: none">Cancelado</span>
                                 </a>
                             </li>
                         </ul>
                         <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
                             <li class="text-info">
-                                <a class="list-group-item-info soft-info">
-                                    <i class="material-icons " style="padding:0px">markunread</i>
-
-                                    Entregado
+                                <a class="list-group-item-success soft-success" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue recibido por el hospital y confirmado.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">check_circle</i>
+                                    <span style="user-select: none">Recibido</span>
                                 </a>
                             </li>
                         </ul>
                         <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
                             <li class="text-info">
-                                <a class="list-group-item-orange soft-orange">
-
-                                    <i class="material-icons " style="padding:0px">local_shipping</i>
-
-                                    En Proceso de Envío
+                                <a class="list-group-item-danger soft-danger" style="vertical-align:central" data-toggle="tooltip" title="El pedido tiene un reclamo pendiente de resolución.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">error_outline</i>
+                                    <span style="user-select: none">Reclamado</span>
                                 </a>
                             </li>
                         </ul>
-                        <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
                             <li class="text-info">
-                                <a class="list-group-item-warning soft-warning">
-                                    <i class="material-icons " style="padding:0px">spellcheck</i>
-
-                                    Autorizado
+                                <a class="list-group-item-info soft-info" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue entregado al hospital y está pendiente de confirmación por parte del responsable de farmacia.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">markunread</i>
+                                    <span style="user-select: none">Entregado</span>
                                 </a>
                             </li>
                         </ul>
-                        <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
                             <li class="text-info">
-
-                                <a class="list-group-item">
-                                    <i class="material-icons " style="padding:0px">send</i>
-
-
-                                    Generado
+                                <a class="list-group-item-orange soft-orange" style="vertical-align:central" data-toggle="tooltip" title="El pedido está siendo enviado por OCASA al hospital correspondiente.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">local_shipping</i>
+                                    <span style="user-select: none">En Proceso de Envío</span>
                                 </a>
                             </li>
                         </ul>
-
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                            <li class="text-info">
+                                <a class="list-group-item-warning soft-warning" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue autorizado y se encuentra listo para que sus datos sean enviados a OCASA.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">spellcheck</i>
+                                    <span style="user-select: none">Autorizado</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                            <li class="text-info">
+                                <a class="list-group-item" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue generado por el hospital y se encuentra listo para ser autorizado.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">send</i>
+                                    <span style="user-select: none">Generado</span>
+                                </a>
+                            </li>
+                        </ul>
 
                     </div>
 
-                    <div class="animated zoomIn">
+                    <div class="animated zoomIn col-md-12">
 
                         <div class="col-md-12">
                             <hr />
