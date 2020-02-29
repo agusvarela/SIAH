@@ -14,26 +14,6 @@
 
     }
 }
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog confirm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
-            </div>
-            <div class="modal-body text-center">
-
-                <h5> ¿Desea enviar el listado de Pedidos a Ocasa? </h5>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                <a id="enviar" type="button" class="btn btn-info btn-simple" href="@Url.Action("GenerateSendOcasa", "Pedidos")">Aceptar</a>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="banner-catalog">
     <div class="container">
         <div class="col-lg-9">
@@ -415,7 +395,7 @@
 
                                 </div>
                                 <div class="col-md-1 my-auto">
-                                    <a id="sendocasa" class="btn btn-success btn-lg  btn-round btn_export pull-right" data-toggle="modal" data-target="#myModal">Enviar a OCASA</a>
+                                    <a id="sendocasa" class="btn btn-success btn-lg  btn-round btn_export pull-right">Enviar a OCASA</a>
                                 </div>
                             </div>
                         </div>
@@ -434,6 +414,24 @@
             setTimeout(function () { location.reload() }, 2000);
         });
         $(document).ready(function () {
+
+            $('#sendocasa').on('click', function (event) {
+                Swal.fire({
+                    title: 'Enviar listado de pedidos',
+                    text: "¿Desea enviar el listado de Pedidos a Ocasa?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Actualizar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = "/Pedidos/GenerateSendOcasa";
+                    }
+                })
+            });
             sessionStorage.setItem("From", "Pedidos");
             if (@ViewBag.success.ToString().ToLower() ===true) {
                     $.notify({

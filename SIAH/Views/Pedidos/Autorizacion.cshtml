@@ -5,27 +5,7 @@
     var detallesPedido = Model.detallesPedido;
 }
 
-<div class="modal fade" id="myModalCancel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog confirm">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
-        </div>
-        <div class="modal-body text-center">
-
-            <h5> ¿Está seguro que desea cancelar el pedido? </h5>
-
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-            <input id="btn_confirm_cancel" type="submit" class="btn btn-info btn-simple" value="Aceptar">
-        </div>
-    </div>
-</div>
-</div>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Autorizacion", "Pedidos", FormMethod.Post, new { id = "pedidoForm" }))
 {
     @Html.AntiForgeryToken()
     if (Model.estaAutorizado == true)
@@ -50,26 +30,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog confirm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
-                </div>
-                <div class="modal-body text-center">
-
-                    <h5> ¿Desea autorizar el pedido? </h5>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                    <input id="yes" type="submit" class="btn btn-info btn-simple" value="Aceptar">
                 </div>
             </div>
         </div>
@@ -278,13 +238,13 @@
                                 </div>
                             </div>
                             <div class=" pull-right col-sm-2">
-                                <input type="button" value="Autorizar" id="Autorizacion" class="btn btn-round btn-success" data-toggle="modal" data-target="#myModal" />
+                                <input type="button" value="Autorizar" id="autorizacion" class="btn btn-round btn-success" />
                             </div>
                             <div class=" pull-left col-sm-2">
                                 <input type="button" value="Calcular Total Autorizado" id="calcular" class="btn btn-round btn-info" />
                             </div>
                             <div class="pull-left col-sm-12 btn-margin">
-                                <input type="button" id="btn_cancelar" value="Cancelar Pedido" class="btn btn-round btn-danger" data-toggle="modal" data-target="#myModalCancel" />
+                                <input type="button" id="cancelar" value="Cancelar Pedido" class="btn btn-round btn-danger" />
                             </div>
                         </div>
                     </div>
@@ -309,6 +269,44 @@
 
 @section Scripts {
     <script type="text/javascript">
+        $(document).on('click', '#autorizacion', function (event) {
+            Swal.fire({
+                title: 'Autorización',
+                text: "¿Desea autorizar el pedido?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                confirmButtonText: 'Aceptar',
+                cancelButtonColor: "#dc3545",
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    $('#pedidoForm').submit();
+                }
+            })
+        });
+
+        $(document).on('click', '#cancelar', function (event) {
+            Swal.fire({
+                title: 'Cancelar',
+                text: "¿Está seguro que desea cancelar el pedido?",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                confirmButtonText: 'Aceptar',
+                cancelButtonColor: "#dc3545",
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    var idPedido = $('#idPedido').val();
+                    var urlRecibido = '/Pedidos/Cancelar' + '?pedidoId=' + idPedido;
+                    location.href = urlRecibido;
+                }
+            })
+        });
+
         $(document).ready(function () {
 
             var idHospital = $('#hospitalId').val();
@@ -324,13 +322,7 @@
                 $('#presupuestoAMostrar').html("$" + $presupuestoAMostrar);
             });
         })
-        //Función boton para cancelar el Pedido
-        $(document).on('click', '#btn_confirm_cancel', function (event) {
-            event.preventDefault();
-            var idPedido = $('#idPedido').val();
-            var urlRecibido = '/Pedidos/Cancelar' + '?pedidoId=' + idPedido;
-            location.href = urlRecibido;
-        })
+
         $(document).ready(function () {
 
             var indice = $('#detallesPedido > tr').not('.empty').length;
