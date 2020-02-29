@@ -219,7 +219,7 @@ namespace SIAH.Controllers
         {
             if (Session["rol"].ToString() == "RespFarmacia")
             {
-                return RedirectToAction("RespFarmacia", "Pedidos"); Session["rol"] = "Admin";
+                return RedirectToAction("RespFarmacia", "Pedidos");
             }
            
             if (param != null)

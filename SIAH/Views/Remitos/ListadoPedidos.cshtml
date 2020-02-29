@@ -16,10 +16,15 @@
 
 <div class="banner-catalog">
     <div class="container">
-        <div class="col-lg-12">
-            <h1>Control de Stock</h1>
+        <div class="col-lg-9">
+            <h1>Remitos de entrega</h1>
             <div class="banner-catalog__content">
-                Aquí encontrara el listado de pedidos con sus remitos correspondientes.
+                Aquí encontrará el listado de pedidos con sus remitos correspondientes. Al entrar al detalle puede controlar la diferencia entre la cantidad autorizada y la cantidad entregada efectivamente.
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-info">
+                <i class="material-icons pull-right" style="font-size: 100px">assignment</i>
             </div>
         </div>
     </div>
@@ -36,7 +41,7 @@
                         <div id="alertArea  animated zoomIn">
                             <div class="alert alert-info pq-alert  animated zoomIn">
                                 <i class="fa fa-arrow-right"></i>
-                                <span>Verifique el listado de pedidos y cargue el remito correspondiente</span>
+                                <span>Verifique el listado de pedidos y controle el remito correspondiente</span>
                             </div>
                         </div>
 
@@ -64,12 +69,10 @@
                                 </thead>
                                 @foreach (var item in Model.Item1)
                                 {
-                                    bool existeRemito = false;
                                     foreach (var rem in Model.Item2)
                                     {
                                         if (rem.pedidoId == item.id)
                                         {
-                                            existeRemito = true;
                                             switch (rem.estadoId)
                                             {
                                                 case 1:
@@ -133,7 +136,6 @@
                                                     break;
 
                                             }
-                                            break;
                                         }
                                     }
                                 }

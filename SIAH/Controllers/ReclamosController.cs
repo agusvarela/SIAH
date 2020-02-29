@@ -236,11 +236,16 @@ namespace SIAH.Controllers
         }
 
         //GET:Reclamos/ListadoReclamos
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea", UserRole3 = "RespFarmacia")]
         public ActionResult ListadoReclamos()
         {
             var reclamoes = db.Reclamoes.Include(r => r.hospital).Include(r => r.Pedido).
                 Include(r => r.tipoReclamo).Include(r => r.estadoReclamo).Include(r => r.responsableAsignado);
+            var rol = Session["rol"].ToString();
+            if (rol == "RespFarmacia")
+            {
+                return RedirectToAction("ReclamosRespFarmacia", "Reclamos");
+            }
             ViewBag.session = Session["userId"].ToString();
             return View(reclamoes.ToList());
         }
