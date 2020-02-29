@@ -155,7 +155,6 @@ namespace SIAH.Controllers
 
             //Body que se enviará a OCASA con los pedidos en formato JSON 
             var jsonPedidos = JsonConvert.SerializeObject(listPedidos, Formatting.Indented, new JsonSerializerSettings() { MaxDepth = 1, ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
-            //csv.WriteLine(string.Format("{0},{1},{2},{3}", "Pedido", "Insumo", "Cantidad", "Hospital"));
             var content = new StringContent(jsonPedidos, Encoding.UTF8, "application/json");
             //LLamada a API ficticia que devuelve siempre un 200 (OK) con el tracking number de cada pedido
             var response = await client.PostAsync("http://localhost:3000/envio", content);

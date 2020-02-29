@@ -425,6 +425,7 @@
                                                 <th style="width:15%; font-weight:bold" class="text-center">Precio Unitario</th>
                                                 @*<th style="width:13%">Subtotal</th>*@
                                                 <th style="width:15%; font-weight:bold" text-align="center">Subtotal Autorizado</th>
+                                                <th style="width:15%; font-weight:bold" text-align="center">Observación entrega</th>
                                             </tr>
                                         </thead>
 
@@ -539,8 +540,12 @@
                     var $subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
                     var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
                     var $tdSubtotalAutorizado = $('<td  style="width:15%" align="center">').append("$" + $subtotalAutAMostrar);
+                    
+                    var $tdMotivoDiferenciaInternal = $('<a>').append('Ver observación')
+                    var $tdMotivoDiferencia = $('<td align="center">').append($tdMotivoDiferenciaInternal);
+                    $tdMotivoDiferencia.attr('title', item.observacion);
 
-                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidadAutorizada, $tdCantidadEntregada, $tdDiferencia, $tdPrecioUnitario, $tdSubtotalAutorizado);
+                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidadAutorizada, $tdCantidadEntregada, $tdDiferencia, $tdPrecioUnitario, $tdSubtotalAutorizado, $tdMotivoDiferencia);
                 
                     totalAutorizado += $subtotalAutorizado;
                     //$('#detalles').append($tr);

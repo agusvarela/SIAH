@@ -74,7 +74,7 @@
                                             {
                                                 case 1:
 
-                                                    <tr class="list-group-item-warning" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                    <tr class="list-group-item-info" onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
 
 
                                                         <td class="text-center">
@@ -95,7 +95,7 @@
                                                     break;
                                                 case 2:
 
-                                                    <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                    <tr class="list-group-item-success" onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
 
                                                         <td class="text-center">
                                                             @Html.DisplayFor(modelItem => item.id)
@@ -114,7 +114,7 @@
                                                     break;
                                                 case 3:
 
-                                                    <tr class="list-group-item-danger" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                    <tr class="list-group-item-danger" onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
 
                                                         <td class="text-center">
                                                             @Html.DisplayFor(modelItem => item.id)
@@ -135,30 +135,6 @@
                                             }
                                             break;
                                         }
-                                    }
-
-
-                                    if (!existeRemito)
-                                    {
-                                        <tr onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
-
-                                            <td class="text-center">
-                                                @Html.DisplayFor(modelItem => item.id)
-                                            </td>
-                                            <td class="text-center">
-                                                @Html.DisplayFor(modelItem => item.fechaEntrega)
-                                            </td>
-                                            <td class="text-center">
-                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                            </td>
-                                            <td class="text-center">@Html.Label("Sin Remito")</td>
-
-                                            <td class="text-center">
-                                            </td>
-
-
-                                        </tr>
-
                                     }
                                 }
                             </table>
