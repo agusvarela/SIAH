@@ -14,7 +14,6 @@ app.get('/reclamo', (req, res) => {
 
 app.post('/envio', (req, res) => {
   const pedidos = req.body;
-  //console.log(pedidos);
   const trackingNumbers = pedidos.map(element => {
     return { idPedido: element.id, tracking: generateTrackingNumber() };
   });
@@ -29,5 +28,5 @@ const generateTrackingNumber = () => {
 };
 
 app.listen(3000, () => {
-  console.log('Example app listening on port 3000!');
+  console.log('OCASA app listening on port 3000!');
 });

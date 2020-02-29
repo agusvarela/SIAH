@@ -14,11 +14,15 @@
                 <strong>
                     ¿Desea actualizar el stock en el sistema? <br />
                 </strong>
-                <p style="font-style: italic; font-size:x-small">Se generará un reporte en Excel (.xls) para registrar la diferencia.</p>
+                <p style="font-style: italic; font-size:x-small">Se enviarán los datos del reclamo al servicio web de OCASA.</p>
             </div>
             <div class="modal-footer">
+                <button id="updateStock" name="updateStock" type="button" class="btn btn-info btn-simple" data-dismiss="modal" onclick="url = '@Url.Action("ActualizarStock", "Insumos")';
+                    location.href = url;">
+                Aceptar
+                </button>
                 <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                <button id="yes" name="yes" type="button" class="btn btn-info btn-simple" data-dismiss="modal">Aceptar</button>
+                
             </div>
         </div>
     </div>
@@ -95,6 +99,8 @@
                                             </thead>
                                             <tbody>
                                                 @{
+                                                    var counter=0;
+                                                    
                                                     foreach (var item in ViewBag.insumos)
                                                     {
                                                         int p;
@@ -106,6 +112,7 @@
                                                         String nombre = item.GetType().GetProperty("nombre").GetValue(item, null);
                                                         diferencia = Math.Abs(stockOcasa - stock);
                                                         if (diferencia == 0) { break; }
+                                                        counter++;
                                                         if (stock != 0 && stockOcasa != 0) { p = diferencia * 100 / stock; }
                                                         else { p = diferencia; }
 
@@ -207,18 +214,21 @@
                                                             }
                                                         }
                                                     }
+                                                    if (counter == 0)
+                                                    {
+                                                        <tr class="empty well text-center">
+                                                            <td colspan="7">No hay inconsistencias registradas con OCASA por el momento</td>
+                                                        </tr>
+                                                    }
                                                 }
 
-                                                <tr class="empty well text-center">
-                                                    <td colspan="7">No hay inconsistencias registradas con OCASA por el momento</td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                         <div id="bottom_anchor"></div>
                                     </div>
                                     
                                     <div class="pull-left">
-                                        <input id="btn_export" type="button" value="Exportar a Excel" class="btn btn-info btn-round btn_export" onClick="$('#contenedor').tableExport({type:'excel',escape:'false'});" />
+                                        <input id="btn_export" type="button" value="Exportar a Excel" class="btn btn-info btn-round btn_export" onClick="$('#table2Export').tableExport({type:'excel',escape:'false'});" />
                                     </div>
                                     <div class="pull-right">
                                         <input id="btn_pisar" type="button" value="Sincronizar con stock de OCASA" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal" />
@@ -449,14 +459,15 @@
             dataTable = $("#maintable").DataTable({
                 "order": [[6, "desc"]]
             });
-            $(document).on('click','#yes',function () {
-        console.log(dataTable);
-        //$("#table2export").tableExport({ type: 'excel', escape: 'false' }); //Deprecado: Antes exportabamos el Excel al confirmar la diferencia de stock
-        url = '@Url.Action("ActualizarStock", "Insumos")';
-        location.href = url;
+        });
 
-        });
-        });
+        $(document).ready(function () {
+            var counter = @counter;
+            if (counter == 0) {
+                document.getElementById('btn_pisar').setAttribute('style', 'visibility: collapse');
+                document.getElementById('btn_export').setAttribute('style', 'visibility: collapse');
+            }
+        })
 
                 </script>
 }
