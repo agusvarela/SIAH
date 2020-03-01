@@ -348,7 +348,6 @@
     <Content Include="Content\css\jquery.TablaDatos.min.css" />
     <Content Include="Content\css\SIAHStyle.css" />
     <Content Include="Content\css\SiahStyleNew.css" />
-    <Content Include="Content\css\simple.css" />
     <Content Include="Content\img\back.jpg" />
     <Content Include="Content\img\hospital.jpg" />
     <Content Include="Content\img\logo.jpg" />
