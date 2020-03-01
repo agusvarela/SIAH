@@ -16,10 +16,15 @@
 
 <div class="banner-catalog">
     <div class="container">
-        <div class="col-lg-12">
-            <h1>Control de Stock</h1>
+        <div class="col-lg-9">
+            <h1>Remitos de entrega</h1>
             <div class="banner-catalog__content">
-                Aquí encontrara el listado de pedidos con sus remitos correspondientes.
+                Aquí encontrará el listado de pedidos con sus remitos correspondientes. Al entrar al detalle puede controlar la diferencia entre la cantidad autorizada y la cantidad entregada efectivamente.
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-info">
+                <i class="material-icons pull-right" style="font-size: 100px">assignment</i>
             </div>
         </div>
     </div>
@@ -36,7 +41,7 @@
                         <div id="alertArea  animated zoomIn">
                             <div class="alert alert-info pq-alert  animated zoomIn">
                                 <i class="fa fa-arrow-right"></i>
-                                <span>Verifique el listado de pedidos y cargue el remito correspondiente</span>
+                                <span>Verifique el listado de pedidos y controle el remito correspondiente</span>
                             </div>
                         </div>
 
@@ -64,17 +69,17 @@
                                 </thead>
                                 @foreach (var item in Model.Item1)
                                 {
-                                    bool existeRemito = false;
                                     foreach (var rem in Model.Item2)
                                     {
                                         if (rem.pedidoId == item.id)
                                         {
-                                            existeRemito = true;
                                             switch (rem.estadoId)
                                             {
                                                 case 1:
 
-                                                    <tr class="list-group-item-warning" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                    <tr class="list-group-item-info" onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
+
+
                                                         <td class="text-center">
                                                             @Html.DisplayFor(modelItem => item.id)
                                                         </td>
@@ -93,7 +98,7 @@
                                                     break;
                                                 case 2:
 
-                                                    <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                    <tr class="list-group-item-success" onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
 
                                                         <td class="text-center">
                                                             @Html.DisplayFor(modelItem => item.id)
@@ -112,7 +117,7 @@
                                                     break;
                                                 case 3:
 
-                                                    <tr class="list-group-item-danger" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                    <tr class="list-group-item-danger" onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
 
                                                         <td class="text-center">
                                                             @Html.DisplayFor(modelItem => item.id)
@@ -131,32 +136,7 @@
                                                     break;
 
                                             }
-                                            break;
                                         }
-                                    }
-
-
-                                    if (!existeRemito)
-                                    {
-                                        <tr onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
-
-                                            <td class="text-center">
-                                                @Html.DisplayFor(modelItem => item.id)
-                                            </td>
-                                            <td class="text-center">
-                                                @Html.DisplayFor(modelItem => item.fechaEntrega)
-                                            </td>
-                                            <td class="text-center">
-                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                            </td>
-                                            <td class="text-center">@Html.Label("Sin Remito")</td>
-
-                                            <td class="text-center">
-                                            </td>
-
-
-                                        </tr>
-
                                     }
                                 }
                             </table>

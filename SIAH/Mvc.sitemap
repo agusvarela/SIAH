@@ -11,7 +11,7 @@
     <mvcSiteMapNode title="Listado Reclamos" controller="Reclamos" action="ListadoReclamos">
       <mvcSiteMapNode title="Detalle Reclamo" controller="Reclamos" action="Details" preservedRouteParameters="id"/>
     </mvcSiteMapNode>
-    <mvcSiteMapNode title="Control de Stock" controller="Remitos" action="ListadoPedidos"/>
+    <mvcSiteMapNode title="Remitos de entrega" controller="Remitos" action="ListadoPedidos"/>
     <mvcSiteMapNode title="Mis Pedidos" controller="Pedidos" action="RespFarmacia">
       <mvcSiteMapNode title="Detalle Pedido" controller="Pedidos" action="Details" preservedRouteParameters="id"/>
     </mvcSiteMapNode>

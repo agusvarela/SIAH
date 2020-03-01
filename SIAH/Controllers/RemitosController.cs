@@ -77,8 +77,9 @@ namespace SIAH.Controllers
                 ActualizarStockConDetallesRemito(remito.id);
                 return new HttpResponseMessage(HttpStatusCode.Accepted);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.StackTrace);
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
         }
@@ -126,10 +127,12 @@ namespace SIAH.Controllers
                 var diff = i.cantidadEntregada - i.cantidadAutorizada;
                 Insumo insumo = db.Insumos.Find(i.insumoId);
                 //Check resta de stock fisico
-                insumo.stockFisico -= i.cantidadEntregada;
+                var newStockFisico = insumo.stockFisico - i.cantidadEntregada;
+                insumo.stockFisico = newStockFisico > 0 ? newStockFisico : 0;
                 //Si la diferencia existe se debe restar para sumar si fue menor o restar si fue mayor,
                 //Si es 0 no modifica el stock
-                insumo.stock = insumo.stock - diff;
+                var newStock = insumo.stock - diff;
+                insumo.stock = newStock > 0 ? newStock: 0;
                 db.Entry(insumo).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -153,7 +156,7 @@ namespace SIAH.Controllers
                 });
             var detallesRemito = db.DetallesRemito.Include(d => d.remito).
                 Where(d => d.remitoId == idPedido).
-                Select(x => new { remitoId = x.remitoId, insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada });
+                Select(x => new { remitoId = x.remitoId, insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada, observacion = x.observacion });
             var detallesPedidoRemito = detallesPedido.Join(detallesRemito, s => s.insumoId, r => r.insumoRemitoId, (s, r) => new { s, r }).
                 Select(x => new
                 {
@@ -165,7 +168,8 @@ namespace SIAH.Controllers
                     cantidadAutorizada = x.s.cantidadAutorizada,
                     tipo = x.s.tipo,
                     stock = x.s.stock,
-                    cantidadEntregada = x.r.cantidadEntregada
+                    cantidadEntregada = x.r.cantidadEntregada,
+                    observacion = x.r.observacion
                 });
             return Json(detallesPedidoRemito, JsonRequestBehavior.AllowGet);
         }

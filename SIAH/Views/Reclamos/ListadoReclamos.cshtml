@@ -164,13 +164,6 @@
 </div>
 @section Scripts {
     <script type="text/javascript">
-        $(document).on('click', '#autoAsignar', function (event) {
-            var idPedido = $(this).parents('tr').get(0).children[0].innerText;
-            var idResponsable = '@(Session["userId"])';
-            var urlRecibido = '/Reclamos/AutoAsignacion' + '?idReclamo=' + idPedido + '&idResponsable=' + idResponsable;
-            window.location.href = urlRecibido;
-            event.stopImmediatePropagation();
-        });
 
         $(document).ready(function () {
             $('#resolver').on('click', function (event) {
@@ -179,6 +172,28 @@
                 event.stopImmediatePropagation();
             });
 
+            $('#autoAsignar').on('click', function (event) {
+                Swal.fire({
+                    title: 'Asignar Reclamo!',
+                    text: "¿Está seguro que desea asignarse este reclamo?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var idPedido = $(this).parents('tr').get(0).children[0].innerText;
+                        var idResponsable = '@(Session["userId"])';
+                        var urlRecibido = '/Reclamos/AutoAsignacion' + '?idReclamo=' + idPedido + '&idResponsable=' + idResponsable;
+                        window.location.href = urlRecibido;
+                        event.stopImmediatePropagation();
+                    }
+                });
+                event.stopImmediatePropagation();
+            });
             var myNewURL = refineURL();
             //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
             window.history.pushState("object or string", "Title", "/" + myNewURL);
