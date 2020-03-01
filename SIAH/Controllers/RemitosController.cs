@@ -13,6 +13,9 @@ using System.Data.SqlClient;
 using SIAH.Models.Pedidos;
 using SIAH.Models.Insumos;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Net.Mail;
+using SIAH.Models;
 
 namespace SIAH.Controllers
 {
@@ -31,16 +34,16 @@ namespace SIAH.Controllers
         {
             var pedidos = db.Pedidos.Include(r => r.hospital);
             var remitos = db.Remitos.Include(p => p.estado).ToList();
-            var remitosConPedido = db.Remitos.Join(db.Pedidos, s=>s.pedidoId, r=> r.id, (s,r) => new {s,r }).Select(x => new { id = x.s.pedidoId }).ToList();
+            var remitosConPedido = db.Remitos.Join(db.Pedidos, s => s.pedidoId, r => r.id, (s, r) => new { s, r }).Select(x => new { id = x.s.pedidoId }).ToList();
             var pedidosEstadoEntregado = pedidos.Where(x => x.estadoId == 5).ToList();
             /*foreach (var i in remitosConPedido)
             {
                 pedidosEstadoEntregado.Remove(pedidosEstadoEntregado.Find(x => x.id == i.id));
             }*/
-               
+
             var tuplaPedidoRemito = new Tuple<List<Pedido>, List<Remito>>(pedidosEstadoEntregado, remitos);
             return View(tuplaPedidoRemito);
-            
+
         }
 
         // GET: Remitos/Details/5
@@ -95,9 +98,7 @@ namespace SIAH.Controllers
         public ActionResult ControlPedidoRemito(int id)
         {
             Remito remito = db.Remitos.Find(id);
-            remito.estadoId = 2;
-            db.Entry(remito).State = EntityState.Modified;
-            db.SaveChanges();
+            changeRemitoState(remito, 2);
             return RedirectToAction("ListadoPedidos", "Remitos");
         }
 
@@ -105,13 +106,14 @@ namespace SIAH.Controllers
         {
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).
                 Where(d => d.pedidoId == idPedido).
-                Select(x => new {
+                Select(x => new
+                {
                     insumoId = x.insumoId,
                     cantidadAutorizada = x.cantidadAutorizada
                 });
             var detallesRemito = db.DetallesRemito.Include(d => d.remito).
                 Where(d => d.remitoId == idPedido).
-                Select(x => new {  insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada });
+                Select(x => new { insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada });
             var detallesPedidoRemito = detallesPedido.Join(detallesRemito, s => s.insumoId, r => r.insumoRemitoId, (s, r) => new { s, r }).
                 Select(x => new
                 {
@@ -119,7 +121,7 @@ namespace SIAH.Controllers
                     cantidadAutorizada = x.s.cantidadAutorizada,
                     cantidadEntregada = x.r.cantidadEntregada
                 }).ToList();
-            foreach(var i in detallesPedidoRemito)
+            foreach (var i in detallesPedidoRemito)
             {
                 var diff = i.cantidadEntregada - i.cantidadAutorizada;
                 Insumo insumo = db.Insumos.Find(i.insumoId);
@@ -138,10 +140,17 @@ namespace SIAH.Controllers
         {
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).
                 Where(d => d.pedidoId == idPedido).
-                Select(x => new { pedidoId = x.pedidoId, insumoId = x.insumoId, nombre = x.insumo.nombre,
-                                precioUnitario = x.insumo.precioUnitario, cantidad = x.cantidad,
-                                 cantidadAutorizada = x.cantidadAutorizada, tipo = x.insumo.tiposInsumo.nombre,
-                                    stock = x.insumo.stock });
+                Select(x => new
+                {
+                    pedidoId = x.pedidoId,
+                    insumoId = x.insumoId,
+                    nombre = x.insumo.nombre,
+                    precioUnitario = x.insumo.precioUnitario,
+                    cantidad = x.cantidad,
+                    cantidadAutorizada = x.cantidadAutorizada,
+                    tipo = x.insumo.tiposInsumo.nombre,
+                    stock = x.insumo.stock
+                });
             var detallesRemito = db.DetallesRemito.Include(d => d.remito).
                 Where(d => d.remitoId == idPedido).
                 Select(x => new { remitoId = x.remitoId, insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada });
@@ -175,7 +184,7 @@ namespace SIAH.Controllers
             ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", remito.pedidoId);
             return View(remito);
         }
-        
+
         // GET: Remitos/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -199,5 +208,56 @@ namespace SIAH.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public async Task<ActionResult> reclamar(int pedidoId, string obs)
+        {
+            Remito remito = db.Remitos.Find(pedidoId);
+            Pedido pedido = db.Pedidos.Find(pedidoId);
+
+            await sendEmailAsync(pedido, remito, obs);
+
+            changeRemitoState(remito, 3);
+
+            return RedirectToAction("ListadoPedidos");
+        }
+
+        private async Task sendEmailAsync(Pedido pedido, Remito remito, string obs)
+        {
+            var message = new MailMessage();
+            message.To.Add(new MailAddress("ocasa.reclamos@gmail.com"));
+            message.From = new MailAddress("siah.reclamos@gmail.com");
+            message.Subject = string.Format("[RECLAMO SIAH] El Remito nro {0} se encuentra con inconsistencias", remito.id);
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(Server.MapPath("../Views/Shared/EmailReclamo.html")))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("{obs}", obs);
+            body = body.Replace("{remitoId}", remito.id.ToString());
+            body = body.Replace("{pedidoId}", pedido.id.ToString());
+            Hospital hospital = db.Hospitales.Find(pedido.hospitalId);
+            body = body.Replace("{hospitalName}", hospital.nombre);
+            //body = body.Replace("{tn}", pedido.trackingNumber.ToString());
+
+            message.Body = body;
+
+            message.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.SendMailAsync(message);
+
+            }
+        }
+
+        private Remito changeRemitoState(Remito remito, int estadoId)
+        {
+            remito.estadoId = estadoId;
+            db.Entry(remito).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return remito;
+        }
+
     }
 }
