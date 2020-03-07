@@ -84,7 +84,7 @@
                                                         @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
                                                     </td>
                                                     <td class="text-center">
-                                                        @if (item.estadoReclamoId == 1)
+                                                        @if (item.estadoReclamoId == 1 && Session["rol"].ToString() == "RespAutorizacion")
                                                         {
                                                             <input type="button" id="autoAsignar" value="Asignarme" class="btn btn-round btn-primary pull-center"/>
                                                         }
