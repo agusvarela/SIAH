@@ -144,21 +144,12 @@
                     }
                     if (Session["rol"].ToString() == "Compras")
                     {
-                        <a class="logo-container" href="@Url.Action("CargarCompra  ", "Compras", null)">
+                        <a class="logo-container" href="@Url.Action("CargarCompra", "Compras", null)">
                             <div class="logo">
                                 <img src="~/Content/img/logo.jpg" alt="AH Logo">
                             </div>
                             @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
                         </a>
-                        <ul class="nav navbar-nav nav-pills">
-                            <li class="dropdown">
-                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Mis Vistas <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("CargarCompra", "Compra")'">Cargar Compra</a></li></ul>
-                            </li>
-                        </ul>
                     }
                 }
                 catch (Exception e)
