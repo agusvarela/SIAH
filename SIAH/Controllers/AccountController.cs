@@ -116,6 +116,8 @@ namespace SIAH.Controllers
                                 return RedirectToAction("../Home/RespAutorizacion");
                             case "DirectorArea":
                                 return RedirectToAction("../Home/DirectorArea");
+                            case "Compras":
+                                return RedirectToAction("../Compras/CargarCompra");
                             default:
                                 return RedirectToAction("LoggedIn");
                         }

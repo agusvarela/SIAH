@@ -13,6 +13,7 @@ namespace SIAH.Models.Enums
         Director,
         Reportes,
         Administrador,
-        Invitado
+        Invitado,
+        Compras
     }
 }

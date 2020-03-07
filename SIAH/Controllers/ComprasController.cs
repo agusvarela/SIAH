@@ -29,8 +29,8 @@ namespace SIAH.Controllers
             return View();
         }
 
+        [AuthorizeUserAccessLevel(UserRole = "Compras")]
         [HttpPost]
-
         public ActionResult CargarCompra(HttpPostedFileBase file)
         {
             try
@@ -55,7 +55,7 @@ namespace SIAH.Controllers
         }
 
         //GET: Remito
-        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
+        [AuthorizeUserAccessLevel(UserRole = "Compras")]
         public ActionResult Remito([Bind(Include = "id")] String id, [Bind(Include = "fechaEntregaEfectiva")] DateTime fechaEntregaEfectiva)
         {
             String fechaEfectivaCompra = fechaEntregaEfectiva.Day + "_" + fechaEntregaEfectiva.Month + "_" + fechaEntregaEfectiva.Year;
