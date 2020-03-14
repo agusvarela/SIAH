@@ -53,16 +53,24 @@
                             </div>
                             @if (Model.responsableAsignado != null)
                             {
-                            var nombre = $"{Model.responsableAsignado.nombre} {Model.responsableAsignado.apellido}";
+                                var nombre = $"{Model.responsableAsignado.nombre} {Model.responsableAsignado.apellido}";
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.responsableAsignado.nombre, "Responsable asignado", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                        <div class="col-md-10">
+                                            <text class="form-control">@nombre</text>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.responsableAsignado.nombre, "Responsable asignado", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @Html.LabelFor(model => model.fechaInicioReclamo, "Fecha inicio reclamo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-10">
-                                        <text class="form-control">@nombre</text>
+                                        <text class="form-control">@Model.fechaInicioReclamo.ToShortDateString()</text>
                                     </div>
                                 </div>
                             </div>
-                            }
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.tipoReclamo.tipo, "Tipo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
@@ -76,9 +84,9 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.fechaInicioReclamo, "Fecha inicio reclamo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-10">
-                                        <text class="form-control">@Model.fechaInicioReclamo.ToShortDateString()</text>
+                                    @Html.LabelFor(model => model.Pedido, $"Pedido N°: {Model.pedidoId}", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-10"  style="padding: 10px 0px 0px 15px" >
+                                        <input type="button" id="btn_pedido" value="DETALLE DEL PEDIDO RECLAMADO" class="btn-info btn-sm bold"/>
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +106,7 @@
                             </div>
                         </div>
                         <div class="form-card__content group">
-                           
+
                             @if (Model.fechaFinReclamo.HasValue)
                             {
                                 <div class="col-sm-9">
@@ -114,14 +122,14 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.observacionFamacia, "Observación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 10, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 10, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @placeholder = "Sin observación" })
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="col-md-6">
 
                     <div class="form-card form-card--purple form-card--tight  animated zoomIn">
@@ -133,13 +141,13 @@
                         </div>
                         <div class="form-card__content group">
                             <div class="col-sm-12">
-                            @{
-                                var padding = Model.fechaFinReclamo.HasValue ? "padding-bottom: 5px" : string.Empty;
-                            }
-                                <div class="form-group" style="@padding">
+                                @{
+                                    var textAreaRows = Model.fechaFinReclamo.HasValue ? 9 : 5;
+                                }
+                                <div class="form-group">
                                     @Html.LabelFor(model => model.respuesta, "Respuesta", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextAreaFor(model => model.respuesta, 5, 10, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @style= "padding-top: 89px" })
+                                        @Html.TextAreaFor(model => model.respuesta, textAreaRows, 10, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @placeholder = "Sin respuesta" })
                                     </div>
                                 </div>
                             </div>
@@ -151,10 +159,14 @@
             <div class="row ">
                 <div class="col-md-12">
                     <div class="col-md-6" style="padding: 0">
-                        <input type="button" id="btn_pedido" value="Ir al Pedido Reclamado" class="btn pull-left btn-primary" />
+                        @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion"
+                            || Model.estadoReclamoId == 2 && Session["rol"].ToString() == "DirectorArea")
+                        {
+                            <input type="button" id="btn_quitar" value="Quitar asignación" class="btn pull-left btn-danger" />
+                        }
                     </div>
                     <div class="col-md-6" style="padding: 0">
-                        @if (Model.estadoReclamoId == 1 && Session["rol"].ToString() == "RespAutorizacion")
+                        @if (Model.estadoReclamoId == 1 && Session["rol"]?.ToString() == "RespAutorizacion")
                         {
                             <input type="button" id="btn_assign" value="Asignarme" class="btn pull-right btn-success" />
                         }
@@ -181,8 +193,15 @@
             event.preventDefault();
             var idPedido = $('#idPedido').val();
             var idResponsable = $('#idResponsable').val();
-            var urlRecibido = '/Reclamos/AutoAsignacion' + '?idReclamo=' + idPedido + '&idResponsable=' + idResponsable;
-            location.href = urlRecibido;
+            var urlAsignar = '/Reclamos/AutoAsignacion' + '?idReclamo=' + idPedido + '&idResponsable=' + idResponsable;
+            location.href = urlAsignar;
+        });
+        //Funcion para quitar la asignacion
+        $(document).on('click', '#btn_quitar', function (event) {
+            event.preventDefault();
+            var idPedido = $('#idPedido').val();
+            var urlQuitar = '/Reclamos/Unassign?idReclamo=' + idPedido;
+            location.href = urlQuitar;
         });
         //Funcion para resolver el reclamo
         $(document).on('click', '#btn_solve', function (event) {

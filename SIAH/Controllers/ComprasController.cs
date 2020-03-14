@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Office.Interop.Excel;
 
 namespace SIAH.Controllers
 {
@@ -31,20 +32,20 @@ namespace SIAH.Controllers
 
         [AuthorizeUserAccessLevel(UserRole = "Compras")]
         [HttpPost]
-        public ActionResult CargarCompra(HttpPostedFileBase file)
+        public ActionResult CargarCompra(HttpPostedFileBase file, DateTime fechaEntregaEfectiva)
         {
             try
             {
-                if (file.ContentLength > 0)
-                {
-                    string _FileName = Path.GetFileName(file.FileName);
-                    string _path = Path.Combine(Server.MapPath("~/CargaRemitosCSV"), _FileName);
-                    file.SaveAs(_path);
-                }
+                string fileName = Path.GetFileName(file.FileName);
+                string path = Path.Combine(Server.MapPath("~/CargaRemitosCSV"), fileName);
+                file.SaveAs(path);
 
                 ViewBag.Message = "Archivo Subido";
-                Session.Add("archivo","_path");
-                return Redirect("Remito");
+                ExportToCSV(path);
+                System.IO.File.Delete(path);
+                CargarRemitoCompra(fechaEntregaEfectiva);
+                System.IO.File.Delete($"{Server.MapPath("~/CargaRemitosCSV")}/RemitoCompra.csv");
+                return View();
             }
             catch (Exception e)
             {
@@ -52,6 +53,40 @@ namespace SIAH.Controllers
                 Console.WriteLine(e.Message);
                 return View();
             }
+        }
+
+        private void ExportToCSV(string path)
+        {
+            Application xlApp = new Application();
+            Workbook xlWorkBook = xlApp.Workbooks.Open(path, 0, true, 5, "", "", true, XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+            Worksheet xlWorkSheet = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
+            xlWorkBook.SaveAs($"{Server.MapPath("~/CargaRemitosCSV")}/RemitoCompra.csv", XlFileFormat.xlCSV);
+            xlWorkBook.Close(false, "", true);
+        }
+
+        private void CargarRemitoCompra(DateTime fechaEntregaEfectiva)
+        {
+            Compra compra = new Compra();
+            compra.fechaEntregaEfectiva = fechaEntregaEfectiva;
+            db.Compras.Add(compra);
+            db.SaveChanges();
+            var compraId = compra.id;
+            using (var reader = new StreamReader($"{Server.MapPath("~/CargaRemitosCSV")}/RemitoCompra.csv"))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(',');
+                    DetalleCompra detalleCompra = new DetalleCompra();
+                    detalleCompra.compraId = compraId;
+                    detalleCompra.insumoId = int.Parse(values[0]);
+                    detalleCompra.cantidadComprada = int.Parse(values[1]);
+                    db.DetallesCompra.Add(detalleCompra);
+                    //TODO: Add stock update
+                }
+            }
+
+            db.SaveChanges();
         }
 
         //GET: Remito

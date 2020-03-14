@@ -24,6 +24,7 @@ namespace SIAH.Controllers
         }
 
         // GET: Reclamos/Details/5
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -188,6 +189,18 @@ namespace SIAH.Controllers
             reclamo.estadoReclamoId = 2; //En Revision
             db.Entry(reclamo).State = EntityState.Modified;
             db.SaveChanges();
+            return RedirectToAction("ListadoReclamos", "Reclamos");
+        }
+
+        public ActionResult Unassign(int idReclamo)
+        {
+            Reclamo reclamo = db.Reclamoes.Find(idReclamo);
+            reclamo.responsableAsignadoId = null;
+            reclamo.responsableAsignado = null;
+            reclamo.estadoReclamoId = 1; //Generado
+            db.Entry(reclamo).State = EntityState.Modified;
+            db.SaveChanges();
+
             return RedirectToAction("ListadoReclamos", "Reclamos");
         }
 
