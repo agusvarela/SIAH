@@ -124,7 +124,7 @@ namespace SIAH.Controllers
                     }
                     else
                     {
-                        TempData["message"] = "Contraseña incorrecta";
+                        TempData["PassMessage"] = "Contraseña incorrecta";
                         return RedirectToAction("Index", "Home");
 
                     }
@@ -132,12 +132,11 @@ namespace SIAH.Controllers
                 else
                 {
                     //ModelState.AddModelError("", "Usuario y/o contraseña incorrecto");
-                    ViewBag.error = "Usuario  incorrecto";
+                    TempData["UserMessage"] = "Usuario  incorrecto";
                     return RedirectToAction("Index", "Home");
 
                 }
             }
-            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult LoggedIn()

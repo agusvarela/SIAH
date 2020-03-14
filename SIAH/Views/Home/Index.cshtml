@@ -3,7 +3,8 @@
 @{
     ViewBag.Title = "Home Page";
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
-    String error = ViewBag.error;
+    String UserError = ViewBag.UserError;
+    String PassError = ViewBag.PassError;
 }
 <script type="text/javascript">
     window.addEventListener("load", function () {
@@ -37,14 +38,14 @@
                                         <i class="material-icons">face</i>
                                     </span>
                                     @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @placeholder = "E-mail", @type = "text" } })
-                                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.email, UserError, new { @class = "text-danger" })
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="material-icons">lock_outline</i>
                                     </span>
                                     @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contraseña", @type = "password" } })
-                                    @Html.ValidationMessageFor(model => model.password, error, new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.password, PassError, new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="footer text-center">

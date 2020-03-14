@@ -12,7 +12,9 @@ namespace SIAH.Controllers
         public ActionResult Index()
         {
 
-            ViewBag.error = TempData["message"];
+            ViewBag.UserError = TempData["UserMessage"];
+            ViewBag.PassError = TempData["PassMessage"];
+
             if (Session["rol"] == null)
             {
                 Session["rol"] = "Admin";
