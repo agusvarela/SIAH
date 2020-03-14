@@ -53,22 +53,22 @@ namespace SIAH.Controllers
         // GET: Reportes/ReporteConsolidado
         public ActionResult ReporteConsolidado(String fechaInicio, String fechaFin)
         {
-            var start = fechaInicio.Split('-');
-            var end = fechaFin.Split('-');
+            var start = fechaInicio.Split('/');
+            var end = fechaFin.Split('/');
 
-            var y1 = Int32.Parse(start[0]);
+            var d1 = Int32.Parse(start[0]);
             var m1 = Int32.Parse(start[1]);
-            var d1 = Int32.Parse(start[2]);
+            var y1 = Int32.Parse(start[2]);
 
-            var y2 = Int32.Parse(end[0]);
+            var d2 = Int32.Parse(end[0]);
             var m2 = Int32.Parse(end[1]);
-            var d2 = Int32.Parse(end[2]);
+            var y2 = Int32.Parse(end[2]);
 
             var fInicio = new DateTime(y1, m1, d1);
             var fFin = new DateTime(y2, m2, d2);
             var datos = this.GenerarReporte(fInicio, fFin);
-            ViewBag.fechaInicio = d1 + "/" + m1 + "/" + y1;
-            ViewBag.fechaFin = d2 + "/" + m2 + "/" + y2;
+            ViewBag.fechaInicio = fechaInicio;
+            ViewBag.fechaFin = fechaFin;
             return View(datos);
             //return View();
         }
