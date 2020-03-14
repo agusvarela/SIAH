@@ -555,7 +555,7 @@
     <Content Include="Views\EstadosRemito\Index.cshtml" />
     <Content Include="Views\Remitos\ControlPedidoRemito.cshtml" />
     <Content Include="Views\Compras\CargarCompra.cshtml" />
-    <Content Include="Views\Compras\Remito.cshtml" />
+    <Content Include="Views\Compras\Details.cshtml" />
     <Content Include="Views\Compras\Index.cshtml" />
     <Content Include="Views\Home\RespFarmaciaDashboard.cshtml" />
     <Content Include="Views\Reclamos\ReclamosRespFarmacia.cshtml" />
