@@ -12,6 +12,10 @@ using SIAH.Context;
 using SIAH.Models.Insumos;
 using System.Dynamic;
 using SIAH.Models;
+using System.Threading.Tasks;
+using System.Net.Mail;
+using System.IO;
+using System.Reflection;
 
 namespace SIAH.Controllers
 {
@@ -49,8 +53,9 @@ namespace SIAH.Controllers
             return View();
         }
 
-        public ActionResult ActualizarStock()
+        public async Task<ActionResult> ActualizarStock()
         {
+            await sendEmailAsync();
             try
             {
                 Uri baseUri = new Uri("http://localhost:3000");
@@ -58,7 +63,7 @@ namespace SIAH.Controllers
                 var response = client.GetAsync(myUri);
                 if (response.Result.StatusCode != HttpStatusCode.OK) return RedirectToAction("DirectorArea", "Home", new { param = "Failed" });
                 var insumosOcasa = db.InsumoOcasa.Select(x => new { id = x.id, stockOcasa = x.stockFisico }).ToList();
-
+               
                 foreach (var item in insumosOcasa)
                 {
                     var insumoActual = db.Insumos.Find(item.id);
@@ -86,6 +91,70 @@ namespace SIAH.Controllers
                 });
             }
 
+        }
+        private async Task sendEmailAsync()
+        {
+
+            var insumos = db.Insumos.Include(i => i.tiposInsumo).Join(db.InsumoOcasa, d => d.id, s => s.id, (d, s) => new { d, s }).
+            Select(x => new { id = x.d.id, nombre = x.d.nombre, tipo = x.d.tiposInsumo.nombre, stock = x.d.stockFisico, stockOcasa = x.s.stockFisico, diferencia = x.s.stockFisico - x.d.stockFisico })
+            .Where( x => x.diferencia != 0)
+            .ToList();
+
+            var message = new MailMessage();
+            message.To.Add(new MailAddress("ocasa.reclamos@gmail.com"));
+            message.From = new MailAddress("siah.reclamos@gmail.com");
+            string date = DateTime.Now.ToString("dd'-'MM'-'yyyy");
+            message.Subject = string.Format("[RECLAMO SIAH] [{0}] Encontramos inconsistencias en el Stock de Insumos",date);
+            string body = string.Empty;
+            string table = string.Empty;
+            string tablesample = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>";
+            using (StreamReader reader = new StreamReader(Server.MapPath("../Views/Shared/EmailDiferenciaStock.html")))
+            {
+                body = reader.ReadToEnd();
+            }
+            foreach (var insumo in insumos)
+            {
+                table += string.Format(tablesample, insumo.id, insumo.nombre, insumo.tipo, insumo.stock, insumo.stockOcasa,insumo.diferencia);
+            }
+            body = body.Replace("{table}", table);
+
+            string path = string.Format(Server.MapPath("../DiferenciaOcasa{0}.csv"),date);
+            WriteCSV(insumos,path);
+
+            Attachment attachment;
+
+            attachment = new Attachment (path);
+            message.Attachments.Add(attachment);
+
+            message.Body = body;
+
+            message.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.SendMailAsync(message);
+            }
+            message.Dispose();
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+        }
+        public void WriteCSV<T>(IEnumerable<T> items, string path)
+        {
+            Type itemType = typeof(T);
+            var props = itemType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                                .OrderBy(p => p.Name);
+            using (var writer = new StreamWriter(path))
+            {
+                writer.AutoFlush = true;
+                writer.WriteLine(string.Join(", ", props.Select(p => p.Name)));
+                foreach (var item in items)
+                {
+                    writer.WriteLine(string.Join(", ", props.Select(p => p.GetValue(item, null))));
+                }
+                writer.Close();
+            }
         }
         public ActionResult StockInsumos()
         {
