@@ -101,13 +101,13 @@
             var month = nd.getUTCMonth() + 1; //months from 1-12
             var day = nd.getUTCDate();
             var year = nd.getUTCFullYear();
-            start = year + "-" + month + "-" + day;
+            start = day + "/" + month + "/" + year;
 
             var dateObj = new Date();
             var month = dateObj.getUTCMonth() + 1; //months from 1-12
             var day = dateObj.getUTCDate();
             var year = dateObj.getUTCFullYear();
-            end = year + "-" + month + "-" + day;
+            end = day + "/" + month + "/" + year;
 
             url = url.replace("START", start);
             url = url.replace("END", end);

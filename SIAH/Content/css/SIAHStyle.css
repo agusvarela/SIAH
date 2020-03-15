@@ -23,6 +23,12 @@ body {
 body.inverse {
   background: #333333;
 }
+
+.ui-datepicker select.ui-datepicker-month,
+.ui-datepicker select.ui-datepicker-year {
+    color: #2e5577;
+}
+
 body.inverse, body.inverse .form-control {
   color: #ffffff;
 }
