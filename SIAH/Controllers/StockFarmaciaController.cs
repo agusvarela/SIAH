@@ -30,6 +30,21 @@ namespace SIAH.Controllers
             }
         }
 
+        // POST: SubmitStock 
+        [HttpPost]
+        public ActionResult Index(IList<StockFarmacia> stocks)
+        {
+            foreach(StockFarmacia stock in stocks)
+            {
+                var stockToModify = db.StockFarmacias.Where(x => x.hospitalId == stock.hospitalId && x.insumoId == stock.insumoId).FirstOrDefault();
+                stockToModify.stockFarmacia = stock.stockFarmacia;
+                db.Entry(stockToModify).State = EntityState.Modified;
+            }
+
+            db.SaveChanges();
+            return RedirectToAction("RespFarmaciaDashboard", "Home"); //TODO: Add success param
+        }
+
         // GET: Pedidos/Edit/5
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult Edit(int? id)

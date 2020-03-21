@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SIAH.Models.StockFarmacia>
+﻿@model IList<SIAH.Models.StockFarmacia>
 
 @{
     ViewBag.Title = "Stock";
@@ -12,14 +12,17 @@
 
     }
 }
-<div class="banner-catalog">
-    <div class="container">
-        <div class="col-lg-12">
-            <h1>Insumos del Hospital @nombreHospital</h1>
-            <div class="banner-catalog__content"> Actualice el stock de los insumos utilizados.</div>
+
+@using (Html.BeginForm())
+{
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-12">
+                <h1>Insumos del Hospital @nombreHospital</h1>
+                <div class="banner-catalog__content">Lleve un control de inventario de los insumos del hospital.</div>
+            </div>
         </div>
     </div>
-</div>
 
 <div class="container" style=" padding-bottom: 30px;">
     <div class="form-horizontal">
@@ -33,7 +36,7 @@
                         <div id="alertArea  animated zoomIn">
                             <div class="alert alert-info pq-alert  animated zoomIn">
                                 <i class="fa fa-arrow-right"></i>
-                                <span>Seleccione un insumo para actualizar el stock disponible</span>
+                                <span>Actualice los valores de la lista y confirme presionando el botón Actualizar Stock</span>
                             </div>
                         </div>
 
@@ -44,48 +47,49 @@
                                     <table id="maintable" class="table table-condensed">
                                         <thead class="listado">
                                             <tr class="list-group-item-info" style="border-bottom: solid">
-                                                <th class="text-center">
-                                                    <strong> @Html.Name("Nombre de Insumo")</strong>
+                                                <th class="text-center" style="width: 70%">
+                                                    <strong> @Html.Name("Insumo")</strong>
                                                 </th>
-                                                <th class="text-center">
+                                                <th class="text-center" style="width: 30%">
                                                     <strong> @Html.Name("Cantidad Disponible")</strong>
                                                 </th>
-                                                <th class="text-center">
-                                                    <strong> @Html.Name("Acciones")</strong>
-                                                </th>
                                             </tr>
-                                            </thead>
-                                            @foreach (var item in Model)
-                                            {
-                                                <tr>
-
-                                                    <td class="text-center">
-                                                        @Html.DisplayFor(modelItem => item.insumo.nombre)
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @Html.DisplayFor(modelItem => item.stockFarmacia)
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a type="button" class="btn btn-round btn-primary" href="/StockFarmacia/Edit/@item.id.ToString()">Actualizar Stock</a>
-                                                    </td>
-                                                </tr>
-                                            }
+                                        </thead>
+                                        @for (var i = 0; i < Model.Count; i++)
+                                        {
+                                            <tr>
+                                                <td class="text-center" style="width: 70%">
+                                                    @Html.DisplayFor(modelItem => modelItem[i].insumo.nombre)
+                                                    @Html.TextBoxFor(modelItem => modelItem[i].insumoId, htmlAttributes: new { @type = "hidden", @readonly = "readonly" })
+                                                    @Html.TextBoxFor(modelItem => modelItem[i].hospitalId, htmlAttributes: new { @type = "hidden", @readonly = "readonly" })
+                                                </td>
+                                                <td class="text-center" style="width: 30%">
+                                                    @if (Model[i].stockFarmacia > 0)
+                                                    {
+                                                        @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @type = "number", @class = "form-control text-right", @min = 0, @max = Model[i].stockFarmacia, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @readonly = "readonly", @type = "number", @class = "form-control text-right", @min = 0, @max = Model[i].stockFarmacia, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
                                     </table>
-                                    <div id="bottom_anchor"></div>
+                                    <div id="bottom_anchor">
+                                        <input type="submit" class="btn btn-round pull-right btn-success" value="Actualizar Stock" />
+                                    </div>
                                 </div>
                             </div>
-                            <br><br>
                         </div>
                         <br />
-
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-
+}
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
