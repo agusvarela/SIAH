@@ -11861,9 +11861,8 @@ table tr:hover[onclick] {
     padding-left: 55px
 }
 #mydd {
-    background-color: hsla(0,0%,100%,.2);
+    background-color: #B052C0;
     word-wrap: break-word;
-    margin-top: 5px
 }
 .mybc {
     font-size: large;

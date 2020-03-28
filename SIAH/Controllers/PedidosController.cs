@@ -473,11 +473,19 @@ namespace SIAH.Controllers
             }
         }
 
-        //GET: Pedidos/DatasetBI
-        public JsonResult DatasetBI()
+        //GET: Pedidos/PedidosDatasetBI
+        public JsonResult PedidosDatasetBI()
         {
             var dataset = db.Pedidos.Include(x => x.hospital).Select(x => new { IdPedido = x.id, Hospital = x.hospital.nombre, FechaMes = x.fechaGeneracion })
                 .ToList().Select(x => new { IdPedido = x.IdPedido, Hospital = x.Hospital, FechaMes = string.Format("{0:MM/dd/yyyy}", x.FechaMes) });
+            return Json(dataset, JsonRequestBehavior.AllowGet);
+        }
+
+        //GET: Pedidos/UbicacionDatasetBI
+        public JsonResult UbicacionDatasetBI()
+        {
+            var dataset = db.Hospitales.Include(x => x.localidad)
+                .Select(x => new { Zona = (x.localidad.nombre == "Cordoba") ? "Capital" : "Interior", Hospital = x.nombre, Latitud = x.latitud, Longitud = x.longitud, Localidad = x.localidad.nombre});
             return Json(dataset, JsonRequestBehavior.AllowGet);
         }
 

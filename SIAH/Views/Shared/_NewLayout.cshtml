@@ -55,8 +55,8 @@
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
+        <div style="display: flex; align-items: center; justify-content:space-between; margin: 0px 20px">
+            <div class="navbar-header" style="display: flex; align-items: center;">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -75,7 +75,7 @@
                         </a>
                         <ul class="nav navbar-nav nav-pills">
                             <li class="dropdown">
-                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Mis Vistas <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
@@ -101,7 +101,7 @@
                         </a>
                         <ul class="nav navbar-nav nav-pills">
                             <li class="dropdown">
-                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Mis Vistas <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
@@ -129,7 +129,7 @@
                         </a>
                         <ul class="nav navbar-nav nav-pills">
                             <li class="dropdown">
-                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Mis Vistas <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
@@ -165,48 +165,42 @@
 
             </div>
             <div class="collapse navbar-collapse" id="navigation-index">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="">
-                        @if (Session["userid"] != null)
-                        {
-                            <a>Ha iniciado sesion como @Session["nombre"].ToString()</a>
-                        }
-                    </li>
-                    @*<li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Listado De Pedidos", "Listado", "Pedidos")</li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agregar<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/Insumos/Index">Insumo</a></li>
-                                <li><a href="/Hospitales/Index">Hospital</a></li>
-                                <li><a href="/Localidades/Index">Localidad</a></li>
-                                <li><a href="/TiposInsumo/Index">Tipo Insumo</a></li>
-                            </ul>
-                        </li>*@
-                    @try
-                    {
-                        if (Session["rol"].ToString() == "RespAutorizacion")
-                        {
-                            <li>@Html.ActionLink("Ir al Inicio", "RespAutorizacion", "Home")</li>
-                        }
-                        if (Session["rol"].ToString() == "DirectorArea")
-                        {
-                            <li>@Html.ActionLink("Ir al Inicio", "DirectorArea", "Home")</li>
-                        }
-                        if (Session["rol"].ToString() == "RespFarmacia")
-                        {
-                            <li>@Html.ActionLink("Ir al Inicio", "RespFarmaciaDashboard", "Home")</li>
-                        }
-                        if (Session["userid"] != null)
-                        {
-                            <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account")</li>
-                    }
+                <ul class="nav navbar-nav nav-pills pull-right">
+                    <li class="dropdown">
+                        <button id="mydd" style="padding: 0px; align-items: center; display: flex; justify-content: flex-start;" class="btn btn-primary dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons" style="margin: 0; padding: 0; font-size: 36.8px; color: #B052C0; background: white; border: 2px solid #B052C0; border-radius: 200px">person</i>
 
+                            @if (Session["userid"] != null)
+                            {
+                                <span style="padding: 0px 20px;text-align: center;">@Session["nombre"].ToString()</span>
+                            }
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            @try
+                            {
+                                if (Session["rol"].ToString() == "RespAutorizacion")
+                                {
+                                    <li>@Html.ActionLink("Ir al Inicio", "RespAutorizacion", "Home")</li>
+                                }
+                                if (Session["rol"].ToString() == "DirectorArea")
+                                {
+                                    <li>@Html.ActionLink("Ir al Inicio", "DirectorArea", "Home")</li>
+                                }
+                                if (Session["rol"].ToString() == "RespFarmacia")
+                                {
+                                    <li>@Html.ActionLink("Ir al Inicio", "RespFarmaciaDashboard", "Home")</li>
+                                }
+                                if (Session["userid"] != null)
+                                {
+                                    <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account")</li>
+                            }
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
