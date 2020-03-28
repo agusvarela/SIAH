@@ -145,7 +145,7 @@
                                 }
                                 else
                                 {
-                                    <h4 style="padding-top:42px; padding-bottom:41px;"  ><strong>Este pedido no es Urgente </strong></h4>
+                                    <h4 style="padding-top:42px; padding-bottom:41px;"><strong>Este pedido no es Urgente </strong></h4>
                                 }
                             </div>
                         </div>
@@ -156,7 +156,7 @@
         <hr />
         @*Detalle del pedido*@
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12" style="margin-bottom: 0px;">
                 <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                     <div class="form-card__title  violet-header">
                         <div class="alert-icon">
@@ -167,32 +167,32 @@
                     <div class="form-card__content group">
                         <div class="form-group">
                             <div class="row" style="align-items: center; display: flex;">
-                                    <div class="alert alert-info soft-info col-md-9" style="margin: 0px 0px 0px 15px">
-                                            <i class="fa fa-arrow-right pull-right" style="padding:0px 15px 0px 15px; font-size: large"></i>
-                                            <span class="pull-right" style="font-size: large">Referencia</span>
-                                    </div>
-                                    <div  class="col-md-3">
-                                        <ul class="nav nav-pills nav-stacked pull-right" style="">
-                                            <li class="text-info">
-                                                <a class="list-group-item-success soft-success" style="vertical-align:central" data-toggle="tooltip" title="El stock actual es suficiente para autorizar la cantidad ingresada   de ese insumo">
-                                                    <i class="material-icons" style="padding: 0px; user-select: none">spellcheck</i>
-                                                    <span style="user-select: none">Stock</span>
-                                                    <br />
-                                                    <span style="user-select: none">Suficiente</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <ul class="nav nav-pills nav-stacked pull-left " style="">
-                                            <li class="text-info">
-                                                <a class="list-group-item-danger" data-toggle="tooltip" title="El stock actual no es suficiente para autorizar la cantidad ingresada de ese insumo, la autorización puede continuar pero debe tener en cuenta que puede ocasionar demoras en el envío">
-                                                    <i class="material-icons" style="padding: 0px; user-select: none">warning</i>
-                                                    <span style="user-select: none">Stock</span>
-                                                    <br />
-                                                    <span style="user-select: none">Insuficiente</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <div class="alert alert-info soft-info col-md-9" style="margin: 0px 0px 0px 15px">
+                                    <i class="fa fa-arrow-right pull-right" style="padding:0px 15px 0px 15px; font-size: large"></i>
+                                    <span class="pull-right" style="font-size: large">Referencia</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <ul class="nav nav-pills nav-stacked pull-right" style="">
+                                        <li class="text-info">
+                                            <a class="list-group-item-success soft-success" style="vertical-align:central" data-toggle="tooltip" title="El stock actual es suficiente para autorizar la cantidad ingresada   de ese insumo">
+                                                <i class="material-icons" style="padding: 0px; user-select: none">spellcheck</i>
+                                                <span style="user-select: none">Stock</span>
+                                                <br />
+                                                <span style="user-select: none">Suficiente</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <ul class="nav nav-pills nav-stacked pull-left " style="">
+                                        <li class="text-info">
+                                            <a class="list-group-item-danger" data-toggle="tooltip" title="El stock actual no es suficiente para autorizar la cantidad ingresada de ese insumo, la autorización puede continuar pero debe tener en cuenta que puede ocasionar demoras en el envío">
+                                                <i class="material-icons" style="padding: 0px; user-select: none">warning</i>
+                                                <span style="user-select: none">Stock</span>
+                                                <br />
+                                                <span style="user-select: none">Insuficiente</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
@@ -215,36 +215,66 @@
                                         <tbody name="detallesPedido" id="detallesPedido">
 
                                     </table>
-                                    <div class="pull-rigth col-sm-2" id="cuadritos1" style="padding-right:10px">
-                                        <div class="panel panel-DEFAULT text-center">
-                                            <div class="panel-body">
-                                                @Html.Label("Total Solicitado", null, htmlAttributes: new { @class = "control-label" })
-                                                <strong>
-                                                    @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
-                                                </strong>
+                                    <div class="col-sm-12">
+                                        <div class="pull-rigth col-sm-4" id="cuadritos1" style="padding-right:10px">
+                                            <div class="card" style="box-shadow: 1px 1px 9px black; display:flex">
+                                                <div class="col-sm-6 text-center text-" style="display: flex; align-items: center;">
+                                                    @Html.Label("Total Solicitado", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px;" })
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <strong>
+                                                        @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
+                                                    </strong>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="pull-left col-sm-2" id="cuadritos1" style="padding-right:10px">
-                                        <div class="panel panel-DEFAULT text-center">
-                                            <div class="panel-body">
-                                                @Html.Label("Total Autorizado", null, htmlAttributes: new { @class = "control-label" })
-                                                <strong>
-                                                    @Html.TextBox("totalAut", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
-                                                </strong>
+                                    <div class="col-sm-12">
+                                        <div class="pull-right col-sm-4" id="cuadritos1" style="padding-right:10px;height: 50px;">
+                                            <div class="card" style="box-shadow: 1px 1px 9px black; display:flex">
+                                                <div class="col-sm-6 text-center text-" style="display: flex; align-items: center;">
+                                                    @Html.Label("Total Autorizado", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px;" })
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <strong>
+                                                        @Html.TextBox("totalAut", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
+                                                    </strong>
+                                                </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="pull-right col-sm-4">
+                                            <input type="button" style="margin-top: 15px;width: 340px;margin-left: 0px;" value="Calcular Total Autorizado" id="calcular" class="btn btn-round btn-purple" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class=" pull-right col-sm-2">
-                                <input type="submit" value="Autorizar" id="autorizacion" class="btn btn-round btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="margin-bottom: 0px;"/>
+        <div class="col-sm-4">
+            <input type="button" style="margin-top: 40px;" id="volver" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/Listado'" />
+        </div>
+        <div class="row">
+            <div class="pull-right col-sm-5">
+                <div class="form-card form-card--tight animated zoomIn">
+                    <div class="form-card__title alert-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">warning</i>
+                            <strong>Acciones</strong>
+                        </div>
+                    </div>
+                    <div class="form-card__content group" style="padding-bottom: 0px; padding-top: 0px;">
+                        <div class="form-group">
+                            <div class="col-sm-3 btn-margin">
+                                <input type="button" style="font-size: 14px;" id="cancelar" value="Cancelar Pedido" class="btn btn-round btn-danger" />
                             </div>
-                            <div class=" pull-left col-sm-2">
-                                <input type="button" value="Calcular Total Autorizado" id="calcular" class="btn btn-round btn-info" />
-                            </div>
-                            <div class="pull-left col-sm-12 btn-margin">
-                                <input type="button" id="cancelar" value="Cancelar Pedido" class="btn btn-round btn-danger" />
+                            <div class="pull-right col-sm-4 btn-margin">
+                                <input type="submit" style="font-size: 14px;" value="Autorizar" id="autorizacion" class="btn btn-round btn-success" />
                             </div>
                         </div>
                     </div>
@@ -254,18 +284,8 @@
     </div>
 
     @Html.TextBox("hospitalId", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden", @name = "hospitalId" })
-                                            @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido", @name = "id" })
-                                            }
-
-
-
-<br />
-<div class="container">
-    @if (Session["rol"].ToString() == "RespAutorizacion")
-    {
-    <input type="button" id="volver" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/Listado'" />
-    }
-</div>
+    @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido", @name = "id" })
+}
 
 @section Scripts {
     <script type="text/javascript">
