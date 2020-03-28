@@ -472,6 +472,15 @@ namespace SIAH.Controllers
                 return View(pedidos.OrderByDescending(o => o.id).ToList());
             }
         }
+
+        //GET: Pedidos/DatasetBI
+        public JsonResult DatasetBI()
+        {
+            var dataset = db.Pedidos.Include(x => x.hospital).Select(x => new { IdPedido = x.id, Hospital = x.hospital.nombre, FechaMes = x.fechaGeneracion })
+                .ToList().Select(x => new { IdPedido = x.IdPedido, Hospital = x.Hospital, FechaMes = string.Format("{0:MM/dd/yyyy}", x.FechaMes) });
+            return Json(dataset, JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

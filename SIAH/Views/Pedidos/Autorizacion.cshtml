@@ -238,7 +238,7 @@
                                 </div>
                             </div>
                             <div class=" pull-right col-sm-2">
-                                <input type="button" value="Autorizar" id="autorizacion" class="btn btn-round btn-success" />
+                                <input type="submit" value="Autorizar" id="autorizacion" class="btn btn-round btn-success" />
                             </div>
                             <div class=" pull-left col-sm-2">
                                 <input type="button" value="Calcular Total Autorizado" id="calcular" class="btn btn-round btn-info" />
@@ -270,7 +270,9 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).on('click', '#autorizacion', function (event) {
-            Swal.fire({
+            if (document.getElementById('pedidoForm').checkValidity()) {
+                event.preventDefault();
+                Swal.fire({
                 title: 'Autorización',
                 text: "¿Desea autorizar el pedido?",
                 icon: 'warning',
@@ -280,11 +282,12 @@
                 cancelButtonColor: "#dc3545",
                 cancelButtonText: 'Cancelar',
                 reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
-                    $('#pedidoForm').submit();
-                }
-            })
+                }).then((result) => {
+                    if (result.value) {
+                        $('#pedidoForm').submit();
+                    }
+                });
+            }
         });
 
         $(document).on('click', '#cancelar', function (event) {
