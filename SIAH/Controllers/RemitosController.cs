@@ -75,6 +75,7 @@ namespace SIAH.Controllers
                 db.Remitos.Add(remito);
                 db.SaveChanges();
                 ActualizarStockConDetallesRemito(remito.id);
+                ActualizarPedido(remito.pedidoId);
                 return new HttpResponseMessage(HttpStatusCode.Accepted);
             }
             catch (Exception e)
@@ -101,6 +102,30 @@ namespace SIAH.Controllers
             Remito remito = db.Remitos.Find(id);
             changeRemitoState(remito, 2);
             return RedirectToAction("ListadoPedidos", "Remitos");
+        }
+
+        private void ActualizarPedido(int idPedido)
+        {
+            var pedido = db.Pedidos.Where(p => p.id == idPedido).Include(t => t.estado).Include(d => d.detallesPedido).First();
+            pedido.estadoId = 6;
+            foreach (DetallePedido item in pedido.detallesPedido)
+            {
+                ActualizarStockFarmacia(pedido, item);
+            }
+            db.Entry(pedido).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        private void ActualizarStockFarmacia(Pedido pedido, DetallePedido item)
+        {
+            StockFarmacia insumo = db.StockFarmacias.Where(p => p.hospitalId == pedido.hospitalId &&
+                                            p.insumoId == item.insumoId).First();
+            if (insumo != null)
+            {
+                insumo.stockFarmacia = insumo.stockFarmacia + item.cantidadAutorizada;
+                db.Entry(insumo).State = EntityState.Modified;
+            }
+            //TODO: Si el insumo no existe se deberia insertar en la BD
         }
 
         private void ActualizarStockConDetallesRemito(int idPedido)

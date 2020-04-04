@@ -476,9 +476,22 @@ namespace SIAH.Controllers
         //GET: Pedidos/PedidosDatasetBI
         public JsonResult PedidosDatasetBI()
         {
-            var dataset = db.Pedidos.Include(x => x.hospital).Select(x => new { IdPedido = x.id, Hospital = x.hospital.nombre, FechaMes = x.fechaGeneracion })
-                .ToList().Select(x => new { IdPedido = x.IdPedido, Hospital = x.Hospital, FechaMes = string.Format("{0:MM/dd/yyyy}", x.FechaMes) });
+            var dataset = db.Pedidos.Include(x => x.hospital).Select(x => new { IdPedido = x.id, Hospital = x.hospital.nombre, FechaMes = x.fechaGeneracion})
+                .ToList().Select(x => new { IdPedido = x.IdPedido, Hospital = x.Hospital, FechaMes = string.Format("{0:MM/dd/yyyy}", x.FechaMes), TotalPedidoPorMes = GetTotalPedido(x.IdPedido) });
             return Json(dataset, JsonRequestBehavior.AllowGet);
+        }
+
+        private string GetTotalPedido(int idPedido)
+        {
+            decimal totalPedido = 0;
+            List<DetallePedido> detalles = db.DetallesPedido.Where(x => x.pedidoId == idPedido).Include(x => x.insumo).ToList();
+            foreach (var detalle in detalles)
+            {
+                decimal totalDetalle = detalle.insumo.precioUnitario * detalle.cantidadAutorizada;
+                totalPedido += totalDetalle;
+            }
+
+            return totalPedido.ToString();
         }
 
         //GET: Pedidos/UbicacionDatasetBI
