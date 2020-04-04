@@ -10,15 +10,13 @@
     }
 }
 
-<div class="banner-catalog">
+<div class="banner-catalog1 jumbotron jumbotron-fluid bg-dark">
     <div class="container">
-        <div class="col-md-12">
-            <h1><strong>Inicio - Director de Área</strong></h1>
-            <div class="banner-catalog__content">Como director tiene acceso a diversas funcionalidades detalladas en ésta página.</div>
-        </div>
+        <h1 class="display-4">Director de Área</h1>
+        <p class="lead">Como director tiene acceso a diversas funcionalidades detalladas en ésta página.</p>
     </div>
 </div>
-<div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+<div class="container" style="padding-bottom: 30px;">
     <div class="row">
         <div class="col-md-12">
 
@@ -29,8 +27,9 @@
                         <span class="tituloPanel">Gestión de pedidos</span>
                     </div>
                 </div>
-                <div class="col-md-4 animated zoomIn">
-                    <div class="card card-project">
+
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Reportes")'">
+                    <div class="card card-project col myhover hover-pointer">
 
                         <div class="content text-center">
                             <div class="info">
@@ -39,15 +38,14 @@
                                 </div>
                                 <h4 class="info-title">Reportes</h4>
                                 <p>Visualice reportes de pedidos actualizados en tiempo real.</p>
-                                <br />
-                                <a id="reporte" class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Reportes")'">Ir a Reportes</a>
+
                             </div>
 
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 animated zoomIn">
-                    <div class="card card-project">
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Listado", "Pedidos")'">
+                    <div class="card card-project col myhover hover-pointer">
 
                         <div class="content text-center">
                             <div class="info">
@@ -58,16 +56,15 @@
                                     <a>Administrar Pedidos</a>
                                 </h4>
                                 <p>Controle y autorice pedidos de insumos.</p>
-                                <br />
-                                <br />
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Listado", "Pedidos")'">Ir a Pedidos</div>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-4 animated zoomIn">
-                    <div class="card card-project">
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">
+                    <div class="card card-project col myhover hover-pointer">
 
                         <div class="content text-center">
                             <div class="info">
@@ -78,7 +75,6 @@
                                     <a href="">Reclamos</a>
                                 </h4>
                                 <p>Gestione, asigne y vea el historial de los reclamos realizados sobre pedidos de insumos.</p>
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Ir a Reclamos</div>
                             </div>
                         </div>
                     </div>
@@ -91,8 +87,8 @@
                         <span class="tituloPanel">Gestión de inventario</span>
                     </div>
                 </div>
-                <div class="col-md-4 animated zoomIn">
-                    <div class="card card-project">
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ControlStock", "Insumos")'">
+                    <div class="card card-project col myhover hover-pointer">
 
                         <div class="content text-center">
                             <div class="info">
@@ -103,16 +99,13 @@
                                     <a>Control de Stock</a>
                                 </h4>
                                 <p>Controle las diferencias entre el stock en OCASA y el stock del sistema.</p>
-                                <br />
-                                <br />
 
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Ir a control de Stock</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 animated zoomIn">
-                    <div class="card card-project">
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">
+                    <div class="card card-project col myhover hover-pointer">
 
                         <div class="content text-center">
                             <div class="info">
@@ -123,14 +116,12 @@
                                     <a>Stock de Insumos</a>
                                 </h4>
                                 <p>Gestione los insumos disponibles para pedidos con la posibilidad de controlar el stock disponible.</p>
-                                <br/>
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Ir a la tabla de Stock</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 animated zoomIn">
-                    <div class="card card-project">
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Compras")'">
+                    <div class="card card-project col myhover hover-pointer">
 
                         <div class="content text-center">
                             <div class="info">
@@ -141,8 +132,7 @@
                                     <a>Administrar compras</a>
                                 </h4>
                                 <p>Cargue remitos de compra de insumos. Requiere un documento de compra en cierto formato.</p>
-                                <br />
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Compras")'">Ir a Compras</div>
+
                             </div>
                         </div>
                     </div>
@@ -156,8 +146,8 @@
                         <span class="tituloPanel">Gestión de usuarios</span>
                     </div>
                 </div>
-                <div class="col-md-4 animated zoomIn">
-                    <div class="card card-project">
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Account")'">
+                    <div class="card card-project col myhover hover-pointer">
 
                         <div class="content text-center">
                             <div class="info">
@@ -168,13 +158,13 @@
                                     <a href="">Usuarios</a>
                                 </h4>
                                 <p>Gestione los usuarios que tienen acceso al sistema, cada rol tiene los permisos correspondientes.</p>
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Account")'">Ir a Usuarios</div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 animated zoomIn">
-                    <div class="card card-project">
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Hospitales")'">
+                    <div class="card card-project col myhover hover-pointer">
 
                         <div class="content text-center">
                             <div class="info">
@@ -185,8 +175,7 @@
                                     <a href="">Hospitales</a>
                                 </h4>
                                 <p>Puede visualizar y editar la información de cada hospital.</p>
-                                <br />
-                                <div class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("Index", "Hospitales")'">Ir a Hospitales</div>
+
                             </div>
                         </div>
                     </div>

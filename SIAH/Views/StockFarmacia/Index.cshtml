@@ -24,71 +24,70 @@
         </div>
     </div>
 
-<div class="container" style=" padding-bottom: 30px;">
-    <div class="form-horizontal">
-        <br>
+    <div class="container" style=" padding-bottom: 30px;">
+        <div class="form-horizontal">
+            <br>
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
-                    <div class="form-card__content group">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__content group">
 
-                        <div id="alertArea  animated zoomIn">
-                            <div class="alert alert-info pq-alert  animated zoomIn">
-                                <i class="fa fa-arrow-right"></i>
-                                <span>Actualice los valores de la lista y confirme presionando el botón Actualizar Stock</span>
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert  animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Actualice los valores de la lista y confirme presionando el botón Actualizar Stock</span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="animated zoomIn">
-                            <div class="col-md-12">
-                                <hr />
-                                <div id="table-container">
-                                    <table id="maintable" class="table table-condensed">
-                                        <thead class="listado">
-                                            <tr class="list-group-item-info" style="border-bottom: solid">
-                                                <th class="text-center" style="width: 70%">
-                                                    <strong> @Html.Name("Insumo")</strong>
-                                                </th>
-                                                <th class="text-center" style="width: 30%">
-                                                    <strong> @Html.Name("Cantidad Disponible")</strong>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        @for (var i = 0; i < Model.Count; i++)
-                                        {
-                                            <tr>
-                                                <td class="text-center" style="width: 70%">
-                                                    @Html.DisplayFor(modelItem => modelItem[i].insumo.nombre)
-                                                    @Html.TextBoxFor(modelItem => modelItem[i].insumoId, htmlAttributes: new { @type = "hidden", @readonly = "readonly" })
-                                                    @Html.TextBoxFor(modelItem => modelItem[i].hospitalId, htmlAttributes: new { @type = "hidden", @readonly = "readonly" })
-                                                </td>
-                                                <td class="text-center" style="width: 30%">
-                                                    @if (Model[i].stockFarmacia > 0)
-                                                    {
-                                                        @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @type = "number", @class = "form-control text-right", @min = 0, @max = Model[i].stockFarmacia, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
-                                                    }
-                                                    else
-                                                    {
-                                                        @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @readonly = "readonly", @type = "number", @class = "form-control text-right", @min = 0, @max = Model[i].stockFarmacia, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    </table>
-                                    <div id="bottom_anchor">
-                                        <input type="submit" class="btn btn-round pull-right btn-success" value="Actualizar Stock" />
+                            <div class="animated zoomIn">
+                                <div class="col-md-12">
+                                    <div id="table-container">
+                                        <table id="maintable" class="table table-condensed">
+                                            <thead class="listado">
+                                                <tr class="list-group-item-info" style="border-bottom: solid">
+                                                    <th class="text-center" style="width: 70%">
+                                                        <h4> <strong> @Html.Name("Insumo")</strong></h4>
+                                                    </th>
+                                                    <th class="text-center" style="width: 30%">
+                                                        <h4> <strong> @Html.Name("Cantidad Disponible")</strong></h4>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            @for (var i = 0; i < Model.Count; i++)
+                                            {
+                                                <tr>
+                                                    <td class="text-center" style="width: 70%">
+                                                        <h5> <strong>@Html.DisplayFor(modelItem => modelItem[i].insumo.nombre)</strong></h5>
+                                                        @Html.TextBoxFor(modelItem => modelItem[i].insumoId, htmlAttributes: new { @type = "hidden", @readonly = "readonly" })
+                                                        @Html.TextBoxFor(modelItem => modelItem[i].hospitalId, htmlAttributes: new { @type = "hidden", @readonly = "readonly" })
+                                                    </td>
+                                                    <td class="text-center" style="width: 30%">
+                                                        @if (Model[i].stockFarmacia > 0)
+                                                        {
+                                                            @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFarmacia, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @readonly = "readonly", @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFarmacia, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                        <div id="bottom_anchor">
+                                            <input type="submit" class="btn btn-round pull-right btn-success" value="Actualizar Stock" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <br />
                         </div>
-                        <br />
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 }
 @section Scripts {
     <script type="text/javascript">

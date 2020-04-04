@@ -28,32 +28,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="myModalReclamo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="modal-title" id="myModalLabel"><strong>Reclamo</strong></h3>
-                </div>
-                <div class="modal-body text-center">
-                    <p>
-                        <h3> ¿Desea reclamar el remito para este pedido?</h3>
-                        <h5>
-                            Se enviará un email a la oficina de reclamos de OCASA con los datos del Remito
-                            y el pedido, para su revisión.
-                        </h5>
-                    </p>
-                    <div class="form-group">
-                        <textarea class="form-control" id="obs" rows="3" placeholder="Ingrese las observaciones sobre el Reclamo a Ocasa"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal" onclick="changeHref()">Reclamar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <div class="banner-catalog">
         <div class="container">
             <div class="col-lg-12">
@@ -746,12 +721,30 @@
 
 
             });
-        });
-        function changeHref() {
-         var idPedido = $('#idPedido').val();
-         var url = '@Url.Action("reclamar")';
-         var txtVal = $('#obs').val();
-         window.location.href = url + '?obs=' + txtVal+ '&PedidoId=' + idPedido;
-   }
+
+                    $('#Reclamo').on('click', function (event) {
+                Swal.fire({
+                    text: ' Se enviará un email a la oficina de reclamos de OCASA con los datos del Remito y el pedido, para su revisión.',
+                    title: " ¿Desea reclamar el remito para este pedido? ",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        
+                         var idPedido = $('#idPedido').val();
+                         var url = '@Url.Action("reclamar")';
+                         var txtVal = $('#obs').val();
+                         window.location.href = url + '?obs=' + txtVal+ '&PedidoId=' + idPedido;
+                    }
+                });
+                event.stopImmediatePropagation();
+                    });
+
+                    })
     </script>
 }

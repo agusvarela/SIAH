@@ -2,22 +2,21 @@
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     ViewBag.Title = "Inicio Responsable Autorizacion";
 }
-<div class="banner-catalog">
+<div class="banner-catalog1 jumbotron jumbotron-fluid bg-dark">
     <div class="container">
-        <div class="col-lg-12">
-            <h1>Responsable de Autorizacion</h1>
-            <div class="banner-catalog__content">Verifique sus pedidos pendientes y autorice según presupuesto.</div>
-        </div>
+        <h1 class="display-4">Responsable de Autorización</h1>
+        <p class="lead">En este dashboard encontrará sus funcionalidades de Autorización</p>
     </div>
 </div>
-<div class="container col-container" style="padding-top: 30px; padding-bottom: 30px;">
+<div class="container col-container" style="padding-bottom: 30px;">
 
 
     <div class="row">
-        <div class="col-sm-12">
-            <div class="col-sm-3 animated zoomIn">
-                <div class="card card-project col">
-
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-10">
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Listado", "Pedidos")'">
+                <div class="card card-project col myhover hover-pointer">
                     <div class="content text-center">
                         <div class="info">
                             <div class="icon icon-success">
@@ -27,14 +26,12 @@
                                 <a href="../Pedidos/Listado">Autorizaciones</a>
                             </h4>
                             <p>Autorice los pedidos de los hospitales y realice la carga en el sistema de envios de Ocasa.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("Listado", "Pedidos")'">Ir al listado de Pedidos</div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-sm-3 animated zoomIn">
-                <div class="card card-project col">
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">
+                <div class="card card-project col myhover hover-pointer">
 
                     <div class="content text-center">
                         <div class="info">
@@ -45,13 +42,12 @@
                                 <a href="../Remitos/ListadoPedidos">Remitos</a>
                             </h4>
                             <p>Cargue los remitos de envíos de Ocasa para llevar un control de los mismos.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">Ir al listado de Remitos</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3 animated zoomIn">
-                <div class="card card-project col">
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">
+                <div class="card card-project col myhover hover-pointer">
 
                     <div class="content text-center">
                         <div class="info">
@@ -62,13 +58,12 @@
                                 <a href="">Reclamos</a>
                             </h4>
                             <p>Gestione, asigne, y vea el historial de los reclamos realizados sobre pedidos de insumos</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Ir a Gestión de Reclamos</div>
                         </div>
                     </div>
                 </div>
-            </div> 
-            <div class="col-sm-3 animated zoomIn">
-                <div class="card card-project col">
+            </div>
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Reportes")'">
+                <div class="card card-project col myhover hover-pointer">
 
                     <div class="content text-center">
                         <div class="info">
@@ -77,7 +72,6 @@
                             </div>
                             <h4 class="info-title">Reportes</h4>
                             <p>Genere reportes que lo ayudarán a la toma de decisiones a la hora de Autorizar.</p>
-                            <a id="reporte" class="btn btn-round btn-primary" onclick="location.href='@Url.Action("Index", "Reportes")'">Ir al Reporte</a>
                         </div>
 
                     </div>
@@ -90,4 +84,4 @@
 @section Scripts{
     <script type="text/javascript">
     </script>
-    }
+}

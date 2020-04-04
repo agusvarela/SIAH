@@ -4,21 +4,20 @@
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<div class="banner-catalog">
-    <div class="container">
-        <div class="col-lg-12">
-            <h1>Inicio</h1>
-            <div class="banner-catalog__content">Acciones disponibles del hospital @Session["hospital"].</div>
+
+    <div class="banner-catalog1 jumbotron jumbotron-fluid bg-dark">
+        <div class="container">
+            <h1 class="display-4">Responsable de Farmacia</h1>
+            <p class="lead">Encuentre aquí sus acciones disponibles para el<strong> Hospital @Session["hospital"].</strong></p>
         </div>
     </div>
-</div>
-<div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+<div class="container" style="padding-bottom: 30px;">
 
     <div class="row">
         <div class="col-sm-12  col-container">
 
-            <div class="col-sm-4 animated zoomIn col">
-                <div class="card card-project">
+            <div class="col-sm-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">
+                <div class="card card-project col myhover hover-pointer">
                     <div class="content text-center">
                         <div class="info">
                             <div class="icon icon-success">
@@ -28,14 +27,13 @@
                                 <a href="../Pedidos/RespFarmacia">Gestionar Pedidos</a>
                             </h4>
                             <p>Administre sus Pedidos enviados y genere nuevas solicitudes.</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">Ir a Gestión de Pedidos</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-4 animated zoomIn col">
-                <div class="card card-project">
+            <div class="col-sm-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("/Index", "StockFarmacia", new { hospitalId = Session["hospitalId"]})'">
+                <div class="card card-project col myhover hover-pointer">
 
                     <div class="content text-center">
                         <div class="info">
@@ -46,14 +44,13 @@
                                 <a href="">Stock de Farmacia</a>
                             </h4>
                             <p>Gestione el Stock de insumos de la Farmacia de su Hospital</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("/Index", "StockFarmacia", new { hospitalId = Session["hospitalId"]})'">Ir a Gestión de Stock Farmacia</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-4 animated zoomIn col">
-                <div class="card card-project">
+            <div class="col-sm-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">
+                <div class="card card-project col myhover hover-pointer">
 
                     <div class="content text-center">
                         <div class="info">
@@ -64,7 +61,6 @@
                                 <a href="">Mis reclamos</a>
                             </h4>
                             <p>Gestione sus reclamos realizados sobre pedidos</p>
-                            <div class="btn btn-round btn-primary" onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">Ir a Gestión de Reclamos</div>
                         </div>
                     </div>
                 </div>
