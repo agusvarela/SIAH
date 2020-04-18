@@ -66,9 +66,9 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.periodo, "Período", htmlAttributes: new { @class = "control-label col-sm-12 tota" })
                                     <div class="col-sm-12">
-                                        @Html.TextBox("periodo", DateTime.Today.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today, @type = "hidden" })
+                                        @Html.TextBox("periodo", Model.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today, @type = "hidden" })
                                         @{
-                                            string period = DateTime.Today.ToString("MMMM - yyyy");
+                                            string period = Model.periodo.ToString("MMMM - yyyy");
                                             period = char.ToUpper(period[0]).ToString() + period.Substring(1);
                                         }
                                         <text class="form-control">@period</text>
@@ -331,12 +331,11 @@
         });
 
         $(document).ready(function () {
+            $('detallesPedido[0][cantidadAutorizada]').on
 
             var idHospital = $('#hospitalId').val();
-            //console.log(idHospital);
             var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
             $.get(urlHospital, null, function (data) {
-                //console.log(data);
                 $('#nameHospital').html(data[0]);
                 $('#nombreHospital').val(data[0]);
                 var $presupuesto = parseFloat(data[1]);
@@ -354,7 +353,7 @@
             var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
             $.get(urlDetalle, null, function (lista) {
                 var total = 0;
-                //console.log(lista);
+
                 for (var i = 0, len = lista.length; i < len; i++) {
                     var data = lista[i];
 
@@ -404,7 +403,7 @@
 
                 }
                 var table = $("#detalles").DataTable();
-                // $('#total').val(total);
+
                 var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
                 $('#total').val("$" + $totalAMostrar);
                 if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) < total) {
