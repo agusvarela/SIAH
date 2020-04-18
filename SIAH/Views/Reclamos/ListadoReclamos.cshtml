@@ -166,6 +166,16 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            $('#maintable tr td:nth-child(n)').hover(function () {
+                $(this).parents('tr').attr('data-toggle', 'tooltip').attr('title', 'Ver detalle');
+            });
+            $('#autoAsignar').hover(function () {
+                $(this).parents('tr').removeAttr('data-toggle').removeAttr('title');
+            });
+            $('#resolver').hover(function () {
+                $(this).parents('tr').removeAttr('data-toggle').removeAttr('title');
+            });
+
             $('#resolver').on('click', function (event) {
                 productoId = parseInt($(this).parents('tr').get(0).children.item(0).innerText);
                 window.location.href = "/Reclamos/Resolucion?id=" + productoId;
