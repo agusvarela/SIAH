@@ -77,9 +77,6 @@
                                         @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto" })
                                         <div> <span id="presuSpan" name="presuSpan" class="text-danger"></span></div>
                                         <div><span id="autoSpan" name="autosSpan" class="text-success"></span></div>
-                                        @*@Html.Action("getPresupuesto", "HospitalController", new { idHospital = 0 })
-                                            <text id="presupuesto" class="form-control"></text>
-                                            @Html.TextBox("presupuesto",null, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @id = "presupuesto" })*@
                                     </div>
                                 </div>
                             </div>
@@ -574,7 +571,7 @@
             </div>
         </div>
         <hr />
-        @*Detalle del pedido*@
+
         <div class="row">
             <div class="col-md-12">
                 <div class="form-card form-card--purple form-card--tight animated zoomIn">
@@ -603,17 +600,13 @@
                                         </thead>
 
                                         <tbody name="detallesPedido" id="detallesPedido">
-                                            @*<tr class="empty well text-center">
-                                                    <td colspan="6">Aun no se han agregado insumos</td>
-                                                </tr>*@
                                         </tbody>
                                     </table>
 
-                                    @*Boton para autorizar*@
                                     <div class="form-group ">
                                         <div class="pull-right" id="cuadritos1" style="width: 13%; height:116px">
                                             <div class="panel panel-DEFAULT text-center">
-                                                @*<div class="panel-heading">INSUMOS</div>*@
+
                                                 <div class="panel-body">
                                                     @Html.Label(" Total Autorizado", null, htmlAttributes: new { @class = "control-label" })
                                                     <strong>
@@ -654,10 +647,9 @@
 
         $(document).ready(function () {
             var idHospital = $('#idHospital').val();
-            //console.log(idHospital);
             var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
+
             $.get(urlHospital, null, function (data) {
-                //console.log(data);
                 $('#nombreHospital').val(data[0]);
                 var $presupuesto = parseFloat(data[1]);
                 var $presupuestoAMostrar = new Intl.NumberFormat('de-DE').format($presupuesto);
@@ -674,12 +666,10 @@
                 var totalAutorizado = 0;
                 for (var i = 0, len = lista.length; i < len; i++) {
                     var item = lista[i];
-                    //console.log(item);
                     var $tdInsumo = $('<td  style="width:30%">').append(item.nombre);
 
                     var $tdTipo = $('<td  style="width:16%">').append(item.tipo);
 
-                    //var $tdCantidad = $('<td  style="width:17%" align="center">').append(item.cantidad);
                     var $tdCantidadAutorizada = $('<td align="center">').append(item.cantidadAutorizada);
                     var $tdCantidadEntregada = $('<td align="center">').append(item.cantidadEntregada);
 
@@ -701,7 +691,6 @@
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidadAutorizada, $tdCantidadEntregada, $tdDiferencia, $tdPrecioUnitario, $tdSubtotalAutorizado, $tdMotivoDiferencia);
                 
                     totalAutorizado += $subtotalAutorizado;
-                    //$('#detalles').append($tr);
                     table.row.add($tr);
                     table.draw();
                 }
