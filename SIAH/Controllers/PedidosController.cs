@@ -32,14 +32,14 @@ namespace SIAH.Controllers
             try
             {
                 var pedido = db.Pedidos.Where(p => p.id == id).Include(t => t.estado).Include(d => d.detallesPedido).First();
-                if(pedido.estadoId == 3)
+                if (pedido.estadoId == 3)
                 {
                     pedido.estadoId = 6;
                     foreach (DetallePedido item in pedido.detallesPedido)
                     {
-                        StockFarmacia insumo = db.StockFarmacias.Where(p => p.hospitalId == pedido.hospitalId && 
+                        StockFarmacia insumo = db.StockFarmacias.Where(p => p.hospitalId == pedido.hospitalId &&
                                                         p.insumoId == item.insumoId).First();
-                        if(insumo != null)
+                        if (insumo != null)
                         {
                             insumo.stockFarmacia = insumo.stockFarmacia + item.cantidadAutorizada;
                             db.Entry(insumo).State = EntityState.Modified;
@@ -56,7 +56,8 @@ namespace SIAH.Controllers
                         "En Proceso de Envío y el estado del pedido ingresado es " + pedido.estado.nombreEstado);*/
                     return response;
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 //response.Content = new StringContent("Ocurrió un error al intentar realizar el cambio de estado");
@@ -129,7 +130,7 @@ namespace SIAH.Controllers
             }
             ViewBag.estado = db.Pedidos.Include(p => p.estado).Where(x => x.id == id).Select(r => new { estado = r.estado.nombreEstado }).First().estado;
             Pedido pedido = db.Pedidos.Find(id);
-            ViewBag.hospital = db.Hospitales.Include(hospital => hospital.nombre).Where(hospital => hospital.id == pedido.hospitalId ).Select(r => new { hospital = r.nombre }).First().hospital;
+            ViewBag.hospital = db.Hospitales.Include(hospital => hospital.nombre).Where(hospital => hospital.id == pedido.hospitalId).Select(r => new { hospital = r.nombre }).First().hospital;
             if (pedido == null)
             {
                 return HttpNotFound();
@@ -154,35 +155,43 @@ namespace SIAH.Controllers
             }
 
             //Body que se enviará a OCASA con los pedidos en formato JSON 
-            var jsonPedidos = JsonConvert.SerializeObject(listPedidos, Formatting.Indented, new JsonSerializerSettings() { MaxDepth = 1, ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
+            var jsonPedidos = JsonConvert.SerializeObject(listPedidos, Formatting.Indented, new JsonSerializerSettings() { MaxDepth = 1, ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
             var content = new StringContent(jsonPedidos, Encoding.UTF8, "application/json");
             //LLamada a API ficticia que devuelve siempre un 200 (OK) con el tracking number de cada pedido
-            var response = await client.PostAsync("http://localhost:3000/envio", content);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                try
+                var response = await client.PostAsync("http://localhost:3000/envio", content);
+                if (response.IsSuccessStatusCode)
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    var responseArray = JsonConvert.DeserializeAnonymousType(responseContent, new[] { new { idPedido = "sample", tracking = "sample" }, new { idPedido = "sample", tracking = "sample" } });
-                   
-                    foreach (var responseObject in responseArray)
+                    try
                     {
-                        int idPedido = int.Parse(responseObject.idPedido);
-                        Pedido pedido = db.Pedidos.Find(idPedido);
-                        pedido.trackingNumber = responseObject.tracking;
-                        pedido.estadoId = 3;
-                        db.Entry(pedido).State = EntityState.Modified;
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        var responseArray = JsonConvert.DeserializeAnonymousType(responseContent, new[] { new { idPedido = "sample", tracking = "sample" }, new { idPedido = "sample", tracking = "sample" } });
+
+                        foreach (var responseObject in responseArray)
+                        {
+                            int idPedido = int.Parse(responseObject.idPedido);
+                            Pedido pedido = db.Pedidos.Find(idPedido);
+                            pedido.trackingNumber = responseObject.tracking;
+                            pedido.estadoId = 3;
+                            db.Entry(pedido).State = EntityState.Modified;
+                        }
+                        db.SaveChanges();
+                        return RedirectToAction("Listado", "Pedidos", new { param = "Success" });
                     }
-                    db.SaveChanges();
-                    return RedirectToAction("Listado", "Pedidos", new {param="Success"});
-                }
-                catch (Exception e)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, e.Message);
+                    catch (Exception e)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest, e.Message);
+                    }
                 }
             }
-            //Si la respuesta de la API da cualquier resultado que no sea Success, se vuelve a la pagina con el mensaje de error
+            catch (Exception e)
+            {
+                return RedirectToAction("Listado", "Pedidos", new { param = "Hubo un problema inesperado" });
+            }
+
             return RedirectToAction("Listado", "Pedidos", new { param = "Hubo un problema inesperado" });
+            //Si la respuesta de la API da cualquier resultado que no sea Success, se vuelve a la pagina con el mensaje de error
         }
 
         //GET: Pedidos/GetHospital
@@ -213,15 +222,15 @@ namespace SIAH.Controllers
         //    var pedidos = db.Pedidos.Include(p => p.hospital);
         //    return View(pedidos.ToList());
         //}
-      
-        [AuthorizeUserAccessLevel (UserRole = "RespAutorizacion", UserRole2 = "DirectorArea", UserRole3 = "RespFarmacia")]
+
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea", UserRole3 = "RespFarmacia")]
         public ActionResult Listado(String param)
         {
             if (Session["rol"].ToString() == "RespFarmacia")
             {
                 return RedirectToAction("RespFarmacia", "Pedidos");
             }
-           
+
             if (param != null)
             {
                 if (param.CompareTo("Success") == 0)
@@ -246,13 +255,13 @@ namespace SIAH.Controllers
 
         }
 
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion",UserRole2 = "DirectorArea")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         [ActionName("OrdenFecha")]
         public ActionResult Listado(string sortOrder, Boolean? b)
         {
             if (Session["fechaGen"] == null) Session["fechaGen"] = "true";
             var pedidos = from p in db.Pedidos
-                           select p;
+                          select p;
             switch (sortOrder)
             {
                 case "fechaGen":
@@ -261,11 +270,11 @@ namespace SIAH.Controllers
                         pedidos = pedidos.OrderByDescending(p => p.fechaGeneracion);
                         Session["fechaGen"] = "false";
                     }
-                    else 
+                    else
                     {
                         pedidos = pedidos.OrderBy(p => p.fechaGeneracion);
                         Session["fechaGen"] = "true";
-                                            }
+                    }
                     break;
             }
             return View("Listado", pedidos.ToList());
@@ -286,9 +295,19 @@ namespace SIAH.Controllers
             var queryStock = db.StockFarmacias.Where(s => s.hospitalId == idHospital);
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == idPedido)
                                 .Join(queryStock, d => d.insumoId, s => s.insumoId, (d, s) => new { d, s }) //TODO: Si el Insumo no existe en el Stock de la farmacia directamente no se muestra
-                                .Select(x => new { pedidoId = x.d.pedidoId, insumoId = x.d.insumoId, nombre = x.d.insumo.nombre,
-                                    precioUnitario = x.d.insumo.precioUnitario, cantidad = x.d.cantidad, cantidadAutorizada = x.d.cantidadAutorizada
-                                    , tipo = x.d.insumo.tiposInsumo.nombre, stock = x.d.insumo.stock, stockFarmacia = x.s.stockFarmacia });
+                                .Select(x => new
+                                {
+                                    pedidoId = x.d.pedidoId,
+                                    insumoId = x.d.insumoId,
+                                    nombre = x.d.insumo.nombre,
+                                    precioUnitario = x.d.insumo.precioUnitario,
+                                    cantidad = x.d.cantidad,
+                                    cantidadAutorizada = x.d.cantidadAutorizada
+                                    ,
+                                    tipo = x.d.insumo.tiposInsumo.nombre,
+                                    stock = x.d.insumo.stock,
+                                    stockFarmacia = x.s.stockFarmacia
+                                });
 
             return Json(detallesPedido, JsonRequestBehavior.AllowGet);
         }
@@ -312,17 +331,18 @@ namespace SIAH.Controllers
             if (ModelState.IsValid)
             {
                 db.Pedidos.Add(pedido);
-                try { 
-                if (db.SaveChanges() > 0)
+                try
                 {
-                       return RedirectToAction("RespFarmacia", new { param = "Success" });
-                       
-                }
+                    if (db.SaveChanges() > 0)
+                    {
+                        return RedirectToAction("RespFarmacia", new { param = "Success" });
+
+                    }
                 }
                 catch (Exception e)
                 {
                     return RedirectToAction("RespFarmacia", new { param = e.Message });
-                    
+
                 }
             }
 
@@ -440,12 +460,12 @@ namespace SIAH.Controllers
             return View(pedidos.ToList());
         }
 
-       //[AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
-       // public ActionResult RespFarmacia()
-       // {
-       //     var pedidos = db.Pedidos.Include(p => p.hospital);
-       //     return View(pedidos.ToList());
-       // }
+        //[AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
+        // public ActionResult RespFarmacia()
+        // {
+        //     var pedidos = db.Pedidos.Include(p => p.hospital);
+        //     return View(pedidos.ToList());
+        // }
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult RespFarmacia(string param)
         {
@@ -461,7 +481,7 @@ namespace SIAH.Controllers
                     ViewBag.problem = param;
                 };
                 var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
-                var pedidos = db.Pedidos.Where(r=> r.hospitalId == hospitalActual).Include(p => p.hospital);
+                var pedidos = db.Pedidos.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital);
                 return View(pedidos.OrderByDescending(o => o.id).ToList());
 
             }
@@ -476,7 +496,7 @@ namespace SIAH.Controllers
         //GET: Pedidos/PedidosDatasetBI
         public JsonResult PedidosDatasetBI()
         {
-            var dataset = db.Pedidos.Include(x => x.hospital).Select(x => new { IdPedido = x.id, Hospital = x.hospital.nombre, FechaMes = x.fechaGeneracion})
+            var dataset = db.Pedidos.Include(x => x.hospital).Select(x => new { IdPedido = x.id, Hospital = x.hospital.nombre, FechaMes = x.fechaGeneracion })
                 .ToList().Select(x => new { IdPedido = x.IdPedido, Hospital = x.Hospital, FechaMes = string.Format("{0:MM/dd/yyyy}", x.FechaMes), TotalPedidoPorMes = GetTotalPedido(x.IdPedido) });
             return Json(dataset, JsonRequestBehavior.AllowGet);
         }
@@ -498,7 +518,7 @@ namespace SIAH.Controllers
         public JsonResult UbicacionDatasetBI()
         {
             var dataset = db.Hospitales.Include(x => x.localidad)
-                .Select(x => new { Zona = (x.localidad.nombre == "Cordoba") ? "Capital" : "Interior", Hospital = x.nombre, Latitud = x.latitud, Longitud = x.longitud, Localidad = x.localidad.nombre});
+                .Select(x => new { Zona = (x.localidad.nombre == "Cordoba") ? "Capital" : "Interior", Hospital = x.nombre, Latitud = x.latitud, Longitud = x.longitud, Localidad = x.localidad.nombre });
             return Json(dataset, JsonRequestBehavior.AllowGet);
         }
 

@@ -24,7 +24,7 @@ namespace SIAH.Controllers
         }
 
         // GET: Reclamos/Details/5
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea", UserRole3 = "RespFarmacia")]
         public ActionResult Details(int? id)
         {
             if (id == null)

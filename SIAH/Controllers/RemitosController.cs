@@ -35,7 +35,7 @@ namespace SIAH.Controllers
             var pedidos = db.Pedidos.Include(r => r.hospital);
             var remitos = db.Remitos.Include(p => p.estado).ToList();
             var remitosConPedido = db.Remitos.Join(db.Pedidos, s => s.pedidoId, r => r.id, (s, r) => new { s, r }).Select(x => new { id = x.s.pedidoId }).ToList();
-            var pedidosEstadoEntregado = pedidos.Where(x => x.estadoId == 5).ToList();
+            var pedidosEstadoEntregado = pedidos.Where(x => x.estadoId >= 5).ToList();
             /*foreach (var i in remitosConPedido)
             {
                 pedidosEstadoEntregado.Remove(pedidosEstadoEntregado.Find(x => x.id == i.id));
@@ -239,19 +239,19 @@ namespace SIAH.Controllers
             base.Dispose(disposing);
         }
 
-        public async Task<ActionResult> reclamar(int pedidoId, string obs)
+        public async Task<ActionResult> reclamar(int pedidoId)
         {
             Remito remito = db.Remitos.Find(pedidoId);
             Pedido pedido = db.Pedidos.Find(pedidoId);
 
-            await sendEmailAsync(pedido, remito, obs);
+            await sendEmailAsync(pedido, remito);
 
             changeRemitoState(remito, 3);
 
             return RedirectToAction("ListadoPedidos");
         }
 
-        private async Task sendEmailAsync(Pedido pedido, Remito remito, string obs)
+        private async Task sendEmailAsync(Pedido pedido, Remito remito)
         {
             var message = new MailMessage();
             message.To.Add(new MailAddress("ocasa.reclamos@gmail.com"));
@@ -262,7 +262,6 @@ namespace SIAH.Controllers
             {
                 body = reader.ReadToEnd();
             }
-            body = body.Replace("{obs}", obs);
             body = body.Replace("{remitoId}", remito.id.ToString());
             body = body.Replace("{pedidoId}", pedido.id.ToString());
             Hospital hospital = db.Hospitales.Find(pedido.hospitalId);
