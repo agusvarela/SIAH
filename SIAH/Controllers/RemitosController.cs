@@ -92,6 +92,7 @@ namespace SIAH.Controllers
             Remito remito = db.Remitos.Find(id);
             Pedido pedido = db.Pedidos.Find(id);
             var tuplaPedidoRemito = new Tuple<Pedido, Remito>(pedido, remito);
+            ViewBag.hospital = db.Hospitales.Include(hospital => hospital.nombre).Where(hospital => hospital.id == pedido.hospitalId).Select(r => new { hospital = r.nombre }).First().hospital;
             return View(tuplaPedidoRemito);
         }
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
