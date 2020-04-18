@@ -420,11 +420,16 @@
 @section Scripts {
 
     <script type="text/javascript">
-
         $(document).on('click', '#enviar', function (event) {
             setTimeout(function () { location.reload() }, 2000);
         });
         $(document).ready(function () {
+            $('#maintable tr td:nth-child(n)').hover(function () {
+                $(this).parents('tr').attr('data-toggle', 'tooltip').attr('title', 'Ver detalle');
+            });
+            $('#volver').hover(function () {
+                $(this).parents('tr').removeAttr('data-toggle').removeAttr('title');
+            });
 
             $('#sendocasa').on('click', function (event) {
                 Swal.fire({

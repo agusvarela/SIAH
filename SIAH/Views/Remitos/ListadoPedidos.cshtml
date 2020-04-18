@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Listado de Pedidos";
-    //WebGrid grid = new WebGrid(Model);
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     ViewBag.validacion = true;
     if (ViewBag.success == null)
@@ -77,7 +76,7 @@
                                             {
                                                 case 1:
 
-                                                    <tr class="list-group-item-info" onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
+                                                    <tr onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
 
 
                                                         <td class="text-center">

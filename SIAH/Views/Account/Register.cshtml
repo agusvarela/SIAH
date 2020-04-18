@@ -113,13 +113,15 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        @Html.Label("Contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @Html.Label("Contraseña", htmlAttributes: new { @class = "control-label col-md-2", @style = "margin-bottom: 30px" })
+                                        <div class="col-md-8" style="display: flex; align-items: center">
+                                            <input id="password" type="password" class="form-control text-box single-line password" name="password">
+                                            <i toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" style="margin: 0px"></i>
+                                        </div>
                                         <div class="col-md-8">
-                                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <br />
@@ -128,9 +130,12 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         @Html.Label("Confirmar contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8" style="display: flex; align-items: center">
+                                            <input id="confirmPassword" type="password" class="form-control text-box single-line password" name="confirmPassword">
+                                            <i toggle="#confirmPassword" class="fa fa-fw fa-eye field-icon toggle-password" style="margin: 0px"></i>
+                                        </div>
                                         <div class="col-md-8">
-                                            @Html.EditorFor(model => model.confirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
+                                             @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +159,17 @@
         $(document).ready(function () {
             document.getElementById("divHospital").style.display = "none";
             updateInput();
-        })
+            $(".toggle-password").click(function () {
+
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                }
+            });
+        });
 
         function updateInput() {
             if ($("#rolID option:selected").text().localeCompare("Farmacia") == 0) {

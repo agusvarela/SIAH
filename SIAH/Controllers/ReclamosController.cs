@@ -262,5 +262,26 @@ namespace SIAH.Controllers
             ViewBag.session = Session["userId"].ToString();
             return View(reclamoes.ToList());
         }
+
+        //GET: Reclamos/ReclamosDatasetBI
+        public JsonResult ReclamosDatasetBI()
+        {
+            var dataset = db.Reclamoes.Include(x => x.hospital).Include(x => x.tipoReclamo)
+                .Select(x => new { IdReclamo = x.pedidoId, Tipo = x.tipoReclamo.tipo, Hospital = x.hospital.nombre, FechaInicioReclamo = x.fechaInicioReclamo, FechaFinReclamo = x.fechaFinReclamo})
+                .ToList().Select(x => new {
+                    IdReclamo = x.IdReclamo,
+                    Tipo = x.Tipo,
+                    Hospital = x.Hospital, 
+                    FechaInicioReclamo = string.Format("{0:MM/dd/yyyy}", x.FechaInicioReclamo), 
+                    FechaFinReclamo = string.Format("{0:MM/dd/yyyy}", x.FechaFinReclamo), 
+                    EstaResuelto = IsResolved(x.IdReclamo) }); ;
+            return Json(dataset, JsonRequestBehavior.AllowGet);
+        }
+
+        private bool IsResolved(int idReclamo)
+        {
+            Reclamo reclamo = db.Reclamoes.Include(x => x.estadoReclamo).Where(x => x.pedidoId == idReclamo).First();
+            return reclamo.estadoReclamo.isFinal; //The only final state is resolved
+        }
     }
 }
