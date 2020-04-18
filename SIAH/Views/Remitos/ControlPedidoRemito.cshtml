@@ -5,30 +5,9 @@
 }
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("ControlPedidoRemito", "Remitos", FormMethod.Post, new { id = "remitoForm" }))
 {
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog confirm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel"><strong> Confirmación</strong></h4>
-                </div>
-                <div class="modal-body text-center">
-
-                    <h5> ¿Desea impactar el remito para este pedido? </h5>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                    <input id="yes" type="submit" class="btn btn-info btn-simple" value="Aceptar">
-                </div>
-            </div>
-        </div>
-    </div>
-   
     <div class="banner-catalog">
         <div class="container">
             <div class="col-lg-12">
@@ -681,6 +660,24 @@
             });
         })
         $(document).ready(function () {
+            $('#Impacto').on('click', function (event) {
+                Swal.fire({
+                    title: 'Impactar remito',
+                    text: "¿Desea impactar el remito para este pedido?",
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Impactar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $('#remitoForm').submit();
+                    }
+                })
+            });
+
             var table = $("#detalles").DataTable();
             var idPedido = $('#idPedido').val();
 
@@ -707,13 +704,13 @@
                     var $subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
                     var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
                     var $tdSubtotalAutorizado = $('<td  style="width:15%" align="center">').append("$" + $subtotalAutAMostrar);
-                    
+
                     var $tdMotivoDiferenciaInternal = $('<a>').append('Ver observación')
                     var $tdMotivoDiferencia = $('<td align="center">').append($tdMotivoDiferenciaInternal);
                     $tdMotivoDiferencia.attr('title', item.observacion);
 
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidadAutorizada, $tdCantidadEntregada, $tdDiferencia, $tdPrecioUnitario, $tdSubtotalAutorizado, $tdMotivoDiferencia);
-                
+
                     totalAutorizado += $subtotalAutorizado;
                     table.row.add($tr);
                     table.draw();
@@ -750,7 +747,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                        
+
                          var idPedido = $('#idPedido').val();
                          var url = '@Url.Action("reclamar")';
                          var txtVal = $('#obs').val();
