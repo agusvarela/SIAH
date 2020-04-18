@@ -11955,4 +11955,7 @@ img.blur {
     width: 100%;
     background-size: cover
 }
+#sendocasadisabled {
+    pointer-events: all;
+}
 

@@ -7,6 +7,7 @@
     //WebGrid grid = new WebGrid(Model);
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     ViewBag.validacion = true;
+    ViewBag.hayautorizados = false;
     if (ViewBag.success == null)
     {
         ViewBag.success = false;
@@ -195,6 +196,9 @@
                                                                 <a href="#" class="escondido">Autorizar</a>
 
                                                             </td>
+                                                            @{
+                                                                ViewBag.hayautorizados = true;
+                                                            }
                                                         </tr>
                                                         break;
                                                     case 3:
@@ -395,7 +399,14 @@
 
                                 </div>
                                 <div class="col-md-1 my-auto">
-                                    <a id="sendocasa" class="btn btn-success btn-lg  btn-round btn_export pull-right">Enviar a OCASA</a>
+                                    @if (ViewBag.hayautorizados == true)
+                                    {
+                                     <a id="sendocasa" class="btn btn-success btn-lg  btn-round btn_export pull-right">Enviar a OCASA</a>
+                                    }
+                                    else
+                                    {
+                                        <a id="sendocasadisabled" class="btn btn-success btn-lg  btn-round btn_export pull-right disabled" data-toggle="tooltip" title="No hay pedidos Autorizados para enviar a Ocasa.">Enviar a OCASA</a>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -514,5 +525,5 @@
 
 
 
-</script>
+    </script>
 }
