@@ -510,5 +510,16 @@ namespace SIAH.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult lastPedido()
+        {
+            var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
+            var pedido = db.Pedidos.Where(r => r.hospitalId == hospitalActual).Include(p => p.detallesPedido).OrderByDescending(o => o.fechaGeneracion).ToList().First();
+            ViewBag.lastPedido = pedido.detallesPedido;
+            ViewData["lastPedido"] = pedido.detallesPedido;
+
+
+            return Create(pedido);
+        }
     }
 }
