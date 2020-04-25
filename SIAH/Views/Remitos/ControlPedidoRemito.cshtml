@@ -583,7 +583,7 @@
                                                 <th style="width:10%; font-weight:bold" class="text-center">Diferencia</th>
                                                 <th style="width:15%; font-weight:bold" class="text-center">Precio Unitario</th>
                                                 <th style="width:15%; font-weight:bold" text-align="center">Subtotal Autorizado</th>
-                                                <th style="width:15%; font-weight:bold" text-align="center">Observación entrega</th>
+                                                <th style="width:15%; font-weight:bold" text-align="center">Observación Entrega</th>
                                             </tr>
                                         </thead>
 
@@ -616,28 +616,31 @@
         <div class="col-sm-4" style="margin-top: 50px;">
             <input type="button" id="volver" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Remitos/ListadoPedidos'" />
         </div>
-        <div class="row">
-            <div class="pull-right col-sm-5">
-                <div class="form-card form-card--tight animated zoomIn">
-                    <div class="form-card__title alert-header">
-                        <div class="alert-icon">
-                            <i class="material-icons">warning</i>
-                            <strong>Acciones</strong>
-                        </div>
-                    </div>
-                    <div class="form-card__content group" style="padding-bottom: 0px; padding-top: 0px;">
-                        <div class="form-group">
-                            <div class="col-sm-3 btn-margin" style="padding-left: 5px;">
-                                <input type="button" style="font-size: 14px;" value="Reclamar Remito" id="Reclamo" class="btn btn-round btn-danger" data-toggle="modal" data-target="#myModalReclamo" />
+        @if (Model.Item2.estadoId == 1)
+        {
+            <div class="row">
+                <div class="pull-right col-sm-5">
+                    <div class="form-card form-card--tight animated zoomIn">
+                        <div class="form-card__title alert-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">warning</i>
+                                <strong>Acciones</strong>
                             </div>
-                            <div class="pull-right col-sm-6 btn-margin" style="padding-left: 30px;">
-                                <input type="button" style="font-size: 14px;" value="Impactar Remito" id="Impacto" class="btn btn-round btn-success" data-toggle="modal" data-target="#myModal" />
+                        </div>
+                        <div class="form-card__content group" style="padding-bottom: 0px; padding-top: 0px;">
+                            <div class="form-group">
+                                <div class="col-sm-3 btn-margin" style="padding-left: 5px;">
+                                    <input type="button" style="font-size: 14px;" value="Reclamar Remito" id="Reclamo" class="btn btn-round btn-danger"/>
+                                </div>
+                                <div class="pull-right col-sm-6 btn-margin" style="padding-left: 30px;">
+                                    <input type="button" style="font-size: 14px;" value="Impactar Remito" id="Impacto" class="btn btn-round btn-success"/>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 
     @Html.TextBox("idHospital", Model.Item1.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
@@ -705,9 +708,8 @@
                     var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
                     var $tdSubtotalAutorizado = $('<td  style="width:15%" align="center">').append("$" + $subtotalAutAMostrar);
 
-                    var $tdMotivoDiferenciaInternal = $('<a>').append('Ver observación')
+                    var $tdMotivoDiferenciaInternal = $('<input type="button" value="Ver Observacion" class="btn btn-round btn-purple" onclick="verObservacion(\'' + item.observacion + '\')" />');
                     var $tdMotivoDiferencia = $('<td align="center">').append($tdMotivoDiferenciaInternal);
-                    $tdMotivoDiferencia.attr('title', item.observacion);
 
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidadAutorizada, $tdCantidadEntregada, $tdDiferencia, $tdPrecioUnitario, $tdSubtotalAutorizado, $tdMotivoDiferencia);
 
@@ -734,7 +736,7 @@
 
             });
 
-                    $('#Reclamo').on('click', function (event) {
+            $('#Reclamo').on('click', function (event) {
                 Swal.fire({
                     text: ' Se enviará un email a la oficina de reclamos de OCASA con los datos del Remito y el pedido, para su revisión.',
                     title: " ¿Desea reclamar el remito para este pedido? ",
@@ -748,15 +750,25 @@
                 }).then((result) => {
                     if (result.value) {
 
-                         var idPedido = $('#idPedido').val();
-                         var url = '@Url.Action("reclamar")';
-                         var txtVal = $('#obs').val();
-                         window.location.href = url + '?obs=' + txtVal+ '&PedidoId=' + idPedido;
+                        var idPedido = $('#idPedido').val();
+                        var url = '@Url.Action("reclamar")';
+                        var txtVal = $('#obs').val();
+                        window.location.href = url + '?obs=' + txtVal + '&PedidoId=' + idPedido;
                     }
                 });
                 event.stopImmediatePropagation();
-                    });
+            });
 
-                    })
+        });
+
+        function verObservacion(observacion) {
+            Swal.fire({
+                title: 'Observacion',
+                text: observacion.toString(),
+                icon: 'info',
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: 'Ok',
+            });
+        }
     </script>
 }

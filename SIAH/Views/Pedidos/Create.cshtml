@@ -200,16 +200,17 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4 pull-right">
-                                    <div class="form-card form-card--purple form-card--tight ">
-                                        <div class="form-card__content group">
-                                            <div class="form-group">
-                                                @Html.Label("Total:", null, htmlAttributes: new { @class = "control-label col-md-4 tota" })
-                                                <div class="col-md-8">
-                                                    <strong>
-                                                        @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot" })
-                                                    </strong>
-                                                </div>
+                                <div class="col-sm-12">
+                                    <div class="pull-rigth col-sm-3" id="cuadritos1" style="padding-right:10px">
+                                        <div class="card" style="box-shadow: 1px 1px 9px black; display:flex">
+                                            <div class="col-sm-5 text-center text-" style="display: flex; align-items: center;">
+                                                @Html.Label("Total:", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px; padding-bottom: 10px;" })
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <strong>
+                                                    @Html.TextBox("total", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot", @type = "hidden" })
+                                                    <text class="form-control text-center tot" id="totalAMostrar">$0</text>
+                                                </strong>
                                             </div>
                                             <div>
                                                 <span id="totalSpan" class="text-danger"></span>
@@ -468,6 +469,8 @@
             $totalAMostrar = 0;
         }
         $('#total').val("$" + $totalAMostrar);
+        $('#totalAMostrar').html("$" + $totalAMostrar);
+
         var idActual = parseInt($(this).closest("tr").remove().children().get(2).id.substring(1, 2));
         table.row($(this).parents()).remove().draw();
 
@@ -484,86 +487,87 @@
     });
 
     //Boton para agregar insumo a la lista
-    $(document).on('click', '#btn_addInsumo', function (event) {
-        nombreInsumoBtnAdd = '';
-        //Previene que se submitee el Form con este botón. Solo valide los campos vacios.
-        event.preventDefault();
-        var cantidad = $('#cantidad').val();
+            $(document).on('click', '#btn_addInsumo', function (event) {
+                nombreInsumoBtnAdd = '';
+                //Previene que se submitee el Form con este botón. Solo valide los campos vacios.
+                event.preventDefault();
+                var cantidad = $('#cantidad').val();
 
-        if (data != '' && cantidad != "") {
-            $('#enviar').show();
-            if ($('#detallesPedido .empty').is(':visible')) {
-                $('#detallesPedido .empty').hide();
-            }
-
-            //Evaluar si el insumo ya fue ingresado
-            var elementoInsumoId;
-            var insumoId;
-            var idFila = 0;
-            var flag = true;
-            for (var i = 0; i < $('#detallesPedido > tr').length; i++) {
-                elementoInsumoId = document.getElementById('detallesPedido[' + i + '][insumoId]');
-                if (elementoInsumoId != null) {
-                    insumoId = elementoInsumoId.getAttribute("value");
-                    if (data.id == insumoId) {
-                        flag = false;
-                        idFila = i;
-
-                        Swal.fire({
-                            title: 'El insumo ya se encuentra agregado',
-                            text: "¿Desea sumar la cantidad ingresada?",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: "#28a745",
-                            confirmButtonText: 'Actualizar',
-                            cancelButtonColor: "#dc3545",
-                            cancelButtonText: 'Cancelar',
-                            reverseButtons: true
-                        }).then((result) => {
-                            addInsumoDialog(result, idFila);
-                        })
+                if (data != '' && cantidad != "") {
+                    $('#enviar').show();
+                    if ($('#detallesPedido .empty').is(':visible')) {
+                        $('#detallesPedido .empty').hide();
                     }
-                }
-            }
 
-            //En el caso que nunca fue ingresado se procede al agregado en la lista, caso contrario no se agrega
-            if (flag == true) {
-                var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').attr('id', 'detallesPedido[' + indice + '][insumo][id]').val(data.id);
-                var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').attr('id', 'detallesPedido[' + indice + '][insumoId]').val(data.id);
-                var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').attr('id', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
-                var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre).addClass('text-center');
+                    //Evaluar si el insumo ya fue ingresado
+                    var elementoInsumoId;
+                    var insumoId;
+                    var idFila = 0;
+                    var flag = true;
+                    for (var i = 0; i < $('#detallesPedido > tr').length; i++) {
+                        elementoInsumoId = document.getElementById('detallesPedido[' + i + '][insumoId]');
+                        if (elementoInsumoId != null) {
+                            insumoId = elementoInsumoId.getAttribute("value");
+                            if (data.id == insumoId) {
+                                flag = false;
+                                idFila = i;
 
-                var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').attr('id', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
-                var $tdTipo = $('<td>').html(data.tipo).append($tipo).addClass('text-center');
+                                Swal.fire({
+                                    title: 'El insumo ya se encuentra agregado',
+                                    text: "¿Desea sumar la cantidad ingresada?",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#28a745",
+                                    confirmButtonText: 'Actualizar',
+                                    cancelButtonColor: "#dc3545",
+                                    cancelButtonText: 'Cancelar',
+                                    reverseButtons: true
+                                }).then((result) => {
+                                    addInsumoDialog(result, idFila);
+                                })
+                            }
+                        }
+                    }
 
-                var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
+                    //En el caso que nunca fue ingresado se procede al agregado en la lista, caso contrario no se agrega
+                    if (flag == true) {
+                        var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').attr('id', 'detallesPedido[' + indice + '][insumo][id]').val(data.id);
+                        var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').attr('id', 'detallesPedido[' + indice + '][insumoId]').val(data.id);
+                        var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').attr('id', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
+                        var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre).addClass('text-center');
 
-                var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('id', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
-                var $tdPrecioUnitario = $('<td>').addClass('text-center').html("$" + $precioAMostrar).append($precioUnitario);
+                        var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').attr('id', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
+                        var $tdTipo = $('<td>').html(data.tipo).append($tipo).addClass('text-center');
 
-                var cantidadNumerica = parseInt($('#cantidad').val());
-                var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').attr('id', 'detallesPedido[' + indice + '][cantidad]').val(cantidadNumerica);
-                var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(cantidadNumerica).append($cantidad);
+                        var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
 
-                var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
-                var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
+                        var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('id', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
+                        var $tdPrecioUnitario = $('<td>').addClass('text-center').html("$" + $precioAMostrar).append($precioUnitario);
 
-                var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][subtotal]').attr('id', 'detallesPedido[' + indice + '][subtotal]').val($subtotalAMostrar);
-                var $tdSubtotal = $('<td>').addClass('text-center').attr('id', '[' + indice + ']subTotalVisible').html('$' + $subtotalAMostrar).append($subtotal);
+                        var cantidadNumerica = parseInt($('#cantidad').val());
+                        var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').attr('id', 'detallesPedido[' + indice + '][cantidad]').val(cantidadNumerica);
+                        var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(cantidadNumerica).append($cantidad);
 
-                var $boton = $('<button>').attr('type', 'button').attr('id', 'btn-eliminar-detallesPedido').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs ').append($('<i>').addClass('fa fa-times'));
-                var $tdAccion = $('<td>').addClass('td-actions').append($boton).addClass('text-center');
+                        var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
+                        var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
 
-                var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
+                        var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][subtotal]').attr('id', 'detallesPedido[' + indice + '][subtotal]').val($subtotalAMostrar);
+                        var $tdSubtotal = $('<td>').addClass('text-center').attr('id', '[' + indice + ']subTotalVisible').html('$' + $subtotalAMostrar).append($subtotal);
 
-                indice++;
-                total += $subtotalCalculado;
-                table.row.add($tr);
-                table.draw();
-                data = '';
-                //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
-                var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
-                $('#total').val("$" + $totalAMostrar);
+                        var $boton = $('<button>').attr('type', 'button').attr('id', 'btn-eliminar-detallesPedido').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs ').append($('<i>').addClass('fa fa-times'));
+                        var $tdAccion = $('<td>').addClass('td-actions').append($boton).addClass('text-center');
+
+                        var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
+
+                        indice++;
+                        total += $subtotalCalculado;
+                        table.row.add($tr);
+                        table.draw();
+                        data = '';
+                        //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
+                        var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
+                        $('#total').val("$" + $totalAMostrar);
+                        $('#totalAMostrar').html("$" + $totalAMostrar);
 
                 //Verificacion del costo del pedido respecto al presupuesto
                 if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) < total) {
@@ -612,6 +616,7 @@
                     total += subTotalASumar;
                     var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
                     $('#total').val("$" + $totalAMostrar);
+                    $('#totalAMostrar').html("$" + $totalAMostrar);
 
                     Swal.fire(
                         'Actualizacion realizada!',

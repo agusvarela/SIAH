@@ -21,24 +21,35 @@
 </div>
 <div id="page" style="min-height: 363px;">
     <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
-        <div class="row">
-            <h3>Dashboard General</h3>
-            <iframe width="1280" height="720" src="https://app.powerbi.com/view?r=eyJrIjoiOGNkZDBmMDEtMzUxMi00OWYxLTliYjgtMWE2NTllNDJiZGM2IiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
-        </div>
-        <div class="row">
-            <h3>Dashboard Capital</h3>
-            <iframe width="1280" height="720" src="https://app.powerbi.com/view?r=eyJrIjoiNzMyNzVjYzctNmQ1Mi00YzY0LWJmNDEtNGVkOThkOTVmMjQxIiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
-        </div>
-        <div class="row">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Dashboard General</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Dashboard Capital</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Dashboard Interior</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="reclamos-tab" data-toggle="tab" href="#reclamos" role="tab" aria-controls="reclamos" aria-selected="false">Dashboard Reclamos</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <iframe width="1140" height="1024" src="https://app.powerbi.com/view?r=eyJrIjoiOGNkZDBmMDEtMzUxMi00OWYxLTliYjgtMWE2NTllNDJiZGM2IiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
-            <h3>Dashboard Interior</h3>
-            <iframe width="1280" height="1024" src="https://app.powerbi.com/view?r=eyJrIjoiY2JjZDY1ZGUtNDE2ZS00MTZlLThlYjMtYjgyZjdiNzNiYWM0IiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
-        </div>
+                <iframe width="1140" height="1024" src="https://app.powerbi.com/view?r=eyJrIjoiNzMyNzVjYzctNmQ1Mi00YzY0LWJmNDEtNGVkOThkOTVmMjQxIiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 
-        <div class="row">
-
-            <h3>Dashboard Reclamos</h3>
-            <iframe width="1280" height="1024" src="https://app.powerbi.com/view?r=eyJrIjoiYjQzYzk2NGMtMzhmZi00NjY5LWEyYjItMzgwMWU0MmFiNGVmIiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+                <iframe width="1140" height="1024" src="https://app.powerbi.com/view?r=eyJrIjoiY2JjZDY1ZGUtNDE2ZS00MTZlLThlYjMtYjgyZjdiNzNiYWM0IiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+            </div>
+            <div class="tab-pane fade" id="reclamos" role="tabpanel" aria-labelledby="reclamos-tab">
+                <iframe width="1140" height="1024" src="https://app.powerbi.com/view?r=eyJrIjoiYjQzYzk2NGMtMzhmZi00NjY5LWEyYjItMzgwMWU0MmFiNGVmIiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+            </div>
         </div>
 
     </div>

@@ -331,13 +331,18 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
+            $('#maintable tr td:nth-child(n)').hover(function () {
+                $(this).parents('tr').attr('data-toggle', 'tooltip').attr('title', 'Ver detalle');
+            });
+
             $(document).on('click', '#nuevopedido', function (event) {
-                 event.preventDefault();
+                event.preventDefault();
                 Swal.fire({
                     title: 'Revisión de Stock',
                     text: "¿Desea actualizar el stock de Farmacia actual antes de realizar un pedido nuevo?",
                     icon: 'warning',
                     showCancelButton: true,
+                    showCloseButton: true,
                     confirmButtonColor: "#28a745",
                     confirmButtonText: 'Continuar',
                     cancelButtonColor: "#dc3545",

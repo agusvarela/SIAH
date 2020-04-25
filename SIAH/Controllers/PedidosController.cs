@@ -158,32 +158,40 @@ namespace SIAH.Controllers
             var jsonPedidos = JsonConvert.SerializeObject(listPedidos, Formatting.Indented, new JsonSerializerSettings() { MaxDepth = 1, ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
             var content = new StringContent(jsonPedidos, Encoding.UTF8, "application/json");
             //LLamada a API ficticia que devuelve siempre un 200 (OK) con el tracking number de cada pedido
-            var response = await client.PostAsync("http://localhost:3000/envio", content);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                try
+                var response = await client.PostAsync("http://localhost:3000/envio", content);
+                if (response.IsSuccessStatusCode)
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    var responseArray = JsonConvert.DeserializeAnonymousType(responseContent, new[] { new { idPedido = "sample", tracking = "sample" }, new { idPedido = "sample", tracking = "sample" } });
-
-                    foreach (var responseObject in responseArray)
+                    try
                     {
-                        int idPedido = int.Parse(responseObject.idPedido);
-                        Pedido pedido = db.Pedidos.Find(idPedido);
-                        pedido.trackingNumber = responseObject.tracking;
-                        pedido.estadoId = 3;
-                        db.Entry(pedido).State = EntityState.Modified;
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        var responseArray = JsonConvert.DeserializeAnonymousType(responseContent, new[] { new { idPedido = "sample", tracking = "sample" }, new { idPedido = "sample", tracking = "sample" } });
+
+                        foreach (var responseObject in responseArray)
+                        {
+                            int idPedido = int.Parse(responseObject.idPedido);
+                            Pedido pedido = db.Pedidos.Find(idPedido);
+                            pedido.trackingNumber = responseObject.tracking;
+                            pedido.estadoId = 3;
+                            db.Entry(pedido).State = EntityState.Modified;
+                        }
+                        db.SaveChanges();
+                        return RedirectToAction("Listado", "Pedidos", new { param = "Success" });
                     }
-                    db.SaveChanges();
-                    return RedirectToAction("Listado", "Pedidos", new { param = "Success" });
-                }
-                catch (Exception e)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, e.Message);
+                    catch (Exception e)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest, e.Message);
+                    }
                 }
             }
-            //Si la respuesta de la API da cualquier resultado que no sea Success, se vuelve a la pagina con el mensaje de error
+            catch (Exception e)
+            {
+                return RedirectToAction("Listado", "Pedidos", new { param = "Hubo un problema inesperado" });
+            }
+
             return RedirectToAction("Listado", "Pedidos", new { param = "Hubo un problema inesperado" });
+            //Si la respuesta de la API da cualquier resultado que no sea Success, se vuelve a la pagina con el mensaje de error
         }
 
         //GET: Pedidos/GetHospital

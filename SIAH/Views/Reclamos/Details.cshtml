@@ -85,8 +85,8 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Pedido, $"Pedido N°: {Model.pedidoId}", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-10"  style="padding: 10px 0px 0px 15px" >
-                                        <input type="button" id="btn_pedido" value="DETALLE DEL PEDIDO RECLAMADO" class="btn-info btn-sm bold"/>
+                                    <div class="col-md-10" style="padding: 10px 0px 0px 15px">
+                                        <input type="button" id="btn_pedido" value="DETALLE DEL PEDIDO RECLAMADO" class="btn-info btn-sm bold" />
                                     </div>
                                 </div>
                             </div>
@@ -155,32 +155,56 @@
                     </div>
                 </div>
             </div>
-            <br />
-            <div class="row ">
-                <div class="col-md-12">
-                    <div class="col-md-6" style="padding: 0">
-                        @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion"
-                            || Model.estadoReclamoId == 2 && Session["rol"].ToString() == "DirectorArea")
-                        {
-                            <input type="button" id="btn_quitar" value="Quitar asignación" class="btn pull-left btn-danger" />
-                        }
-                    </div>
-                    <div class="col-md-6" style="padding: 0">
-                        @if (Model.estadoReclamoId == 1 && Session["rol"]?.ToString() == "RespAutorizacion")
-                        {
-                            <input type="button" id="btn_assign" value="Asignarme" class="btn pull-right btn-success" />
-                        }
-                        @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion")
-                        {
-                            <input type="button" id="btn_solve" value="Resolver" class="btn pull-right btn-success" />
-                        }
+            <hr style="margin-bottom: 0px;" />
+            <div class="col-sm-4" style="margin-top: 50px;">
+                <input type="button" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Reclamos/ListadoReclamos'" />
+            </div>
+
+            @if (((Model.estadoReclamoId == 1 && Session["rol"].ToString() != "DirectorArea") || Model.estadoReclamoId == 2) && Session["rol"].ToString() != "RespFarmacia")
+            {
+                var columnasDeAcciones = 5;
+                if (Model.estadoReclamoId == 1 || Session["rol"].ToString() == "DirectorArea") { columnasDeAcciones = 3; };
+                <div class="row">
+                    <div class="pull-right col-sm-@columnasDeAcciones">
+                        <div class="form-card form-card--tight animated zoomIn">
+                            <div class="form-card__title alert-header">
+                                <div class="alert-icon">
+                                    <i class="material-icons">warning</i>
+                                    <strong>Acciones</strong>
+                                </div>
+                            </div>
+                            <div class="form-card__content group" style="padding-bottom: 0px; padding-top: 0px;">
+                                <div class="form-group">
+                                    @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion"
+                                        || Model.estadoReclamoId == 2 && Session["rol"].ToString() == "DirectorArea")
+                                    {
+                                        <div class="col-sm-3 btn-margin" style="padding-left: 5px;">
+                                            <input type="button" style="font-size: 14px;" id="btn_quitar" value="Quitar asignación" class="btn pull-left btn-round btn-danger" />
+                                        </div>
+
+                                        if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion")
+                                        {
+                                            <div class="pull-right col-sm-4 btn-margin" style="padding-right: 0px;">
+                                                <input type="button" style="font-size: 14px;" id="btn_solve" value="Resolver" class="btn pull-right btn-round btn-success" />
+                                            </div>
+                                        }
+                                    }
+                                    else if (Model.estadoReclamoId == 1 && Session["rol"]?.ToString() == "RespAutorizacion")
+                                    {
+                                        <div class="pull-right col-sm-9 btn-margin" style="padding-right: 10px;">
+                                            <input type="button" style="font-size: 16px;" id="btn_assign" value="Asignarme" class="btn pull-right btn-round btn-success" />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
+
         </div>
     </div>
-    <div class="container">
-    </div>
+
     @Html.HiddenFor(model => model.pedidoId, htmlAttributes: new { @id = "idPedido" })
     @Html.Hidden("idResponsable", Session["userId"], htmlAttributes: new { @id = "idResponsable" })
 }

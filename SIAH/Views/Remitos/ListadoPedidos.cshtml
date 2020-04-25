@@ -45,7 +45,7 @@
                         </div>
 
                         <div id="table-container">
-                            <table id="maintable" class="table table-condensed">
+                            <table id="maintable" class="table table-hover table-condensed">
                                 <thead>
                                     <tr class="list-group-item-info" style="border-bottom: solid">
                                         <th class="text-center">
@@ -76,7 +76,7 @@
                                             {
                                                 case 1:
 
-                                                    <tr onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
+                                                    <tr>
 
 
                                                         <td class="text-center">
@@ -91,13 +91,13 @@
                                                         <td class="text-center">@Html.Label("Pendiente")</td>
 
                                                         <td class="text-center">
-                                                            @Html.ActionLink("Controlar Remito", "ControlPedidoRemito", new { id = item.id })
+                                                            <input type="button" value="Controlar Remito" class="btn btn-round btn-purple" onclick="location.href='@Url.Action("ControlPedidoRemito", "Remitos", new { id = item.id })'" />
                                                         </td>
                                                     </tr>
                                                     break;
                                                 case 2:
 
-                                                    <tr class="list-group-item-success" onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
+                                                    <tr class="list-group-item-success">
 
                                                         <td class="text-center">
                                                             @Html.DisplayFor(modelItem => item.id)
@@ -110,13 +110,13 @@
                                                         </td>
                                                         <td class="text-center">@Html.Label("Impactado")</td>
                                                         <td class="text-center">
-                                                            @Html.ActionLink("Ver Detalle", "ControlPedidoRemito", new { id = item.id })
+                                                            <input type="button" value="Ver Detalle" class="btn btn-round btn-purple" onclick="location.href='@Url.Action("ControlPedidoRemito", "Remitos", new { id = item.id })'" />
                                                         </td>
                                                     </tr>
                                                     break;
                                                 case 3:
 
-                                                    <tr class="list-group-item-danger" onclick="location.href='@Url.Action("ControlPedidoRemito", null, new { id = item.id, controller = "Remitos" }, Request.Url.Scheme)'">
+                                                    <tr class="list-group-item-danger">
 
                                                         <td class="text-center">
                                                             @Html.DisplayFor(modelItem => item.id)
@@ -129,7 +129,7 @@
                                                         </td>
                                                         <td class="text-center">@Html.Label("Reclamado")</td>
                                                         <td class="text-center">
-                                                            @Html.ActionLink("Ver Detalle", "ControlPedidoRemito", new { id = item.id })
+                                                            <input type="button" value="Ver Detalle" class="btn btn-round btn-purple" onclick="location.href='@Url.Action("ControlPedidoRemito", "Remitos", new { id = item.id })'" />
                                                         </td>
                                                     </tr>
                                                     break;
@@ -182,7 +182,10 @@
             }
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
-            $("#maintable").DataTable({ "oLanguage": { "sEmptyTable": "No hay remitos cargados." } });;
+            $("#maintable").DataTable({
+                "oLanguage": { "sEmptyTable": "No hay remitos cargados." },
+                "order": [[3, "desc"], [0, "asc"]]
+            });;
             sessionStorage.setItem("From", "Remitos");
         });
 
