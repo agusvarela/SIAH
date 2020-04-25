@@ -86,7 +86,9 @@
                                                     <td class="text-center">
                                                         @if (item.estadoReclamoId == 1 && Session["rol"].ToString() == "RespAutorizacion")
                                                         {
-                                                            <input type="button" id="autoAsignar" value="Asignarme" class="btn btn-round btn-primary pull-center"/>
+                                                            <input type="button" id="autoAsignar" value="Asignarme" class="btn btn-round btn-primary pull-center"
+                                                                   onmouseover="$(this).parents('tr').removeAttr('data-toggle').removeAttr('title');"
+                                                                   onclick="asignar(@item.pedidoId)" />
                                                         }
                                                     </td>
                                                 </tr>
@@ -116,7 +118,9 @@
                                                     <td class="text-center">
                                                         @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
                                                         {
-                                                            <input type="button" id="resolver" value="Resolver" class="btn btn-round btn-primary pull-center"/>
+                                                            <input type="button" id="resolver" value="Resolver" class="btn btn-round btn-primary pull-center"
+                                                                   onmouseover="$(this).parents('tr').removeAttr('data-toggle').removeAttr('title');"
+                                                                   onclick="resolver(@item.pedidoId)" />
                                                         }
                                                     </td>
                                                 </tr>
@@ -125,7 +129,7 @@
 
                                             case 3:
 
-                                                <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", "Reclamos", new { id = item.pedidoId })'">
+                                                <tr class="list-group-item-info" onclick="location.href='@Url.Action("Details", "Reclamos", new { id = item.pedidoId })'">
                                                     <td class="text-center">
                                                         @Html.DisplayFor(modelItem => item.pedidoId)
                                                     </td>
@@ -149,6 +153,32 @@
                                                 </tr>
 
                                                 break;
+
+                                            case 4:
+
+                                                <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", "Reclamos", new { id = item.pedidoId })'">
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.pedidoId)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaInicioReclamo)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.responsableAsignado != null)
+                                                        {
+                                                            @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                                    </td>
+                                                    <td class="text-center">
+                                                    </td>
+                                                </tr>
+                                                break;
                                         }
 
                                     }
@@ -164,25 +194,12 @@
 </div>
 @section Scripts {
     <script type="text/javascript">
-
-        $(document).ready(function () {
-            $('#maintable tr td:nth-child(n)').hover(function () {
-                $(this).parents('tr').attr('data-toggle', 'tooltip').attr('title', 'Ver detalle');
-            });
-            $('#autoAsignar').hover(function () {
-                $(this).parents('tr').removeAttr('data-toggle').removeAttr('title');
-            });
-            $('#resolver').hover(function () {
-                $(this).parents('tr').removeAttr('data-toggle').removeAttr('title');
-            });
-
-            $('#resolver').on('click', function (event) {
-                productoId = parseInt($(this).parents('tr').get(0).children.item(0).innerText);
-                window.location.href = "/Reclamos/Resolucion?id=" + productoId;
+        function resolver(reclamoId) {
+                window.location.href = "/Reclamos/Resolucion?id=" + reclamoId;
                 event.stopImmediatePropagation();
-            });
+            }
 
-            $('#autoAsignar').on('click', function (event) {
+            function asignar(idPedido) {
                 Swal.fire({
                     title: 'Asignar Reclamo!',
                     text: "¿Está seguro que desea asignarse este reclamo?",
@@ -195,7 +212,6 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                        var idPedido = $(this).parents('tr').get(0).children[0].innerText;
                         var idResponsable = '@(Session["userId"])';
                         var urlRecibido = '/Reclamos/AutoAsignacion' + '?idReclamo=' + idPedido + '&idResponsable=' + idResponsable;
                         window.location.href = urlRecibido;
@@ -203,7 +219,13 @@
                     }
                 });
                 event.stopImmediatePropagation();
+            }
+        $(document).ready(function () {
+            $('#maintable tr td:nth-child(n)').hover(function () {
+                $(this).parents('tr').attr('data-toggle', 'tooltip').attr('title', 'Ver detalle');
             });
+
+
             var myNewURL = refineURL();
             //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
             window.history.pushState("object or string", "Title", "/" + myNewURL);

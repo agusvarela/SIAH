@@ -96,16 +96,13 @@ namespace SIAH.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Reclamo reclamo = db.Reclamoes.Find(id);
+            Reclamo reclamo = db.Reclamoes.Include(x => x.hospital).Where(x => x.pedidoId == id).First();
             if (reclamo == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
-            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", reclamo.hospitalId);
-            ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", reclamo.pedidoId);
-            ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre", reclamo.responsableAsignadoId);
-            ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
+            ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo");
+
             return View(reclamo);
         }
         
@@ -136,7 +133,7 @@ namespace SIAH.Controllers
         {
             if (ModelState.IsValid)
             {
-                reclamo.estadoReclamoId = 3; //En Revision
+                reclamo.estadoReclamoId = 4; //Resuelto
                 //reclamo.fechaFinReclamo = DateTime.Now;
                 Pedido p = db.Pedidos.Find(reclamo.pedidoId);
                 p.estadoId = 8; //Reclamo Resuelto
@@ -161,15 +158,12 @@ namespace SIAH.Controllers
         {
             if (ModelState.IsValid)
             {
+                reclamo.estadoReclamoId = 1; //Generado
                 db.Entry(reclamo).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ReclamosRespFarmacia", "Reclamos");
             }
-            ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
-            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", reclamo.hospitalId);
-            ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", reclamo.pedidoId);
-            ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre", reclamo.responsableAsignadoId);
-            ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
+
             return View(reclamo);
         }
 
@@ -201,6 +195,18 @@ namespace SIAH.Controllers
             db.Entry(reclamo).State = EntityState.Modified;
             db.SaveChanges();
 
+            return RedirectToAction("ListadoReclamos", "Reclamos");
+        }
+
+        //GET: Reclamos/MoreInfo
+        public ActionResult MoreInfo(int idReclamo)
+        {
+            Reclamo reclamo = db.Reclamoes.Find(idReclamo);
+            reclamo.responsableAsignadoId = null;
+            reclamo.responsableAsignado = null;
+            reclamo.estadoReclamoId = 3; //Informacion Solicitada
+            db.Entry(reclamo).State = EntityState.Modified;
+            db.SaveChanges();
             return RedirectToAction("ListadoReclamos", "Reclamos");
         }
 
