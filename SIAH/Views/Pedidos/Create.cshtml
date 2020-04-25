@@ -232,8 +232,16 @@
         <br />
         <div>
             <input type="button" id="volver" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/RespFarmacia'" />
-            <input type="button" id="lastpedido" value="Cargar Ultimo Pedido" class="btn pull-left btn-warning" />
-
+            @{
+                if (ViewBag.hasLastPedido)
+                {
+                    <input type="button" id="lastpedido" value="Cargar Ultimo Pedido" class="btn pull-left btn-facebook" />
+                }
+                else
+                {
+                    <a id="lastpedido" value="Cargar Ultimo Pedido" class="btn pull-left btn-warning disabled" data-toggle="tooltip" title="No posee ningún pedido anterior para cargar">Pre-cargar ultimo pedido</a>
+                }
+            }
         </div>
     </div>
 }
@@ -348,6 +356,9 @@
                 cache: false,
                     success: function (result) {
                         detallesLastPedido = result;
+                        table
+                            .clear()
+                            .draw();
                         result.forEach(function (data, indice) {
                             var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').attr('id', 'detallesPedido[' + indice + '][insumo][id]').val(data.id);
                             var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').attr('id', 'detallesPedido[' + indice + '][insumoId]').val(data.id);

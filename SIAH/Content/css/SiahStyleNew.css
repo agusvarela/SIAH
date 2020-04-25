@@ -11959,6 +11959,11 @@ img.blur {
     pointer-events: all;
 }
 
+#sendocasadisabled, #lastpedido {
+    pointer-events: all;
+    margin-left: 20px;
+}
+
 .field-icon {
     float: right;
     margin-left: -25px;

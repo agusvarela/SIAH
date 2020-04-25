@@ -325,15 +325,14 @@
         </div>
     </div>
 </div>
-@Html.TextBox("idHospital", Model.First().hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
+@Html.TextBox("idHospital", Session["hospitalId"], htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
 
 </div>
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-
             $(document).on('click', '#nuevopedido', function (event) {
-                                event.preventDefault();
+                 event.preventDefault();
                 Swal.fire({
                     title: 'Revisión de Stock',
                     text: "¿Desea actualizar el stock de Farmacia actual antes de realizar un pedido nuevo?",
@@ -346,7 +345,8 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                       location.href = "/Pedidos/Create";
+                       var idHospital = $('#idHospital').val();
+                       location.href = "/Pedidos/Create?idHospital=" + idHospital;
                       } else if (
                         /* Read more about handling dismissals below */
                         result.dismiss === Swal.DismissReason.cancel
@@ -437,7 +437,8 @@
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
             $("#maintable").DataTable({
-                "order": [[0, "desc"]]
+                "order": [[0, "desc"]],
+                "oLanguage": { "sEmptyTable": "Aún no tiene pedidos" }
             });;
         });
 
