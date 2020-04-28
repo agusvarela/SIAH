@@ -249,8 +249,8 @@
 
 
 @section Scripts {
-
     <script type="text/javascript">
+        var indice;
         var table;
         var nombreInsumoBtnAdd;
         var submitted = false;
@@ -349,6 +349,8 @@
             });
 
             $('#lastpedido').on('click', function () {
+                total = 0;
+
                 let detallesLastPedido;
                 $.ajax({
                 url: '@Url.Action("LastPedido", "Pedidos")',
@@ -360,9 +362,9 @@
                         table
                             .clear()
                             .draw();
-                        result.forEach(function (data, indice) {
-                            var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').attr('id', 'detallesPedido[' + indice + '][insumo][id]').val(data.id);
-                            var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').attr('id', 'detallesPedido[' + indice + '][insumoId]').val(data.id);
+                        result.forEach(function (data) {
+                            var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').attr('id', 'detallesPedido[' + indice + '][insumo][id]').val(data.insumoId);
+                            var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').attr('id', 'detallesPedido[' + indice + '][insumoId]').val(data.insumoId);
                             var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').attr('id', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
                             var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre).addClass('text-center');
 
@@ -374,11 +376,11 @@
                             var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('id', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
                             var $tdPrecioUnitario = $('<td>').addClass('text-center').html("$" + $precioAMostrar).append($precioUnitario);
 
-                            var cantidadNumerica = parseInt($('#cantidad').val());
+                            var cantidadNumerica = parseInt(data.cantidad);
                             var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').attr('id', 'detallesPedido[' + indice + '][cantidad]').val(cantidadNumerica);
                             var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(cantidadNumerica).append($cantidad);
 
-                            var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
+                            var $subtotalCalculado = data.precioUnitario * data.cantidad;
                             var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
 
                             var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][subtotal]').attr('id', 'detallesPedido[' + indice + '][subtotal]').val($subtotalAMostrar);
@@ -389,6 +391,7 @@
 
                             var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
 
+                            indice++;
                             total += $subtotalCalculado;
                             table.row.add($tr);
                             table.draw();
@@ -396,11 +399,14 @@
                             //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
                             var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
                             $('#total').val("$" + $totalAMostrar);
+                            $('#totalAMostrar').html("$" + $totalAMostrar);
 
                             //Verificacion del costo del pedido respecto al presupuesto
                             if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) < total) {
                                 $('#totalSpan').text("El costo del pedido supera el presupuesto")
                             }
+
+                            $('#enviar').show();
 
                             vaciarTextBox();
                             reiniciarInputs();
@@ -417,7 +423,7 @@
         table = $("#insumos").DataTable({ "oLanguage": { "sEmptyTable": "No hay insumos cargados para este pedido" } });
 
         var total = 0;
-        var indice = table.length;
+        indice = table.length;
         $('#enviar').hide();
         var data = '';
 
@@ -459,7 +465,7 @@
     $(document).on('click', '#btn-eliminar-detallesPedido', function () {
         //Funcion que resta el subtotal de la fila a eliminar del total
         //Luego elimina la fila entera del detalle y verifica si la lista esta vacia para ocultar el boton
-        var $aRestar = parseFloat($(this).parents('tr').get(0).children.item(4).innerText.replace(",", ".").replace("$", ""));
+        var $aRestar = parseFloat($(this).parents('tr').get(0).children.item(4).innerText.replace(".", "").replace(",", ".").replace("$", ""));
         total -= $aRestar;
         $aRestar = 0;
 
@@ -605,7 +611,7 @@
                     var precioUnitario = parseFloat(document.getElementById('detallesPedido[' + i + '][insumo][precioUnitario]').getAttribute("value").replace(",", "."));
                     var subTotalAnterior = parseFloat(elementoSubTotal.getAttribute("value").replace(",", "."));
                     var subTotalASumar = precioUnitario * cantidadIngresada;
-                    var nuevoSubTotal = subTotalASumar + subTotalAnterior;
+                    var nuevoSubTotal = new Intl.NumberFormat('de-DE').format(parseFloat(subTotalASumar + subTotalAnterior).toFixed(2));
                     //Se actualiza los valores de subtotal en la respectiva fila
                     elementoSubTotal.setAttribute("value", nuevoSubTotal.toString().replace(".", ","));
 

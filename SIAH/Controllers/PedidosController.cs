@@ -345,9 +345,7 @@ namespace SIAH.Controllers
                 }
             }
 
-            ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
-            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", pedido.hospitalId);
-            return View(pedido);
+            return RedirectToAction("RespFarmacia", new { param = "Ocurrio un error inesperado al enviar el pedido" });
         }
 
         // GET: Pedidos/Delete/5
@@ -532,22 +530,19 @@ namespace SIAH.Controllers
 
         public JsonResult LastPedido(int idHospital)
         {
-            var pedido = db.Pedidos.Where(r => r.hospitalId == idHospital).Include(p => p.detallesPedido).OrderByDescending(o => o.fechaGeneracion).ToList().First();
+            var pedido = db.Pedidos.Where(r => r.hospitalId == idHospital).Include(p => p.detallesPedido).OrderByDescending(o => o.id).ToList().First();
 
-            var queryStock = db.StockFarmacias.Where(s => s.hospitalId == idHospital);
             var detallesLastPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == pedido.id)
-                                .Join(queryStock, d => d.insumoId, s => s.insumoId, (d, s) => new { d, s }) //TODO: Si el Insumo no existe en el Stock de la farmacia directamente no se muestra
                                 .Select(x => new
                                 {
-                                    pedidoId = x.d.pedidoId,
-                                    insumoId = x.d.insumoId,
-                                    nombre = x.d.insumo.nombre,
-                                    precioUnitario = x.d.insumo.precioUnitario,
-                                    cantidad = x.d.cantidad,
-                                    cantidadAutorizada = x.d.cantidadAutorizada,
-                                    tipo = x.d.insumo.tiposInsumo.nombre,
-                                    stock = x.d.insumo.stock,
-                                    stockFarmacia = x.s.stockFarmacia
+                                    pedidoId = x.pedidoId,
+                                    insumoId = x.insumoId,
+                                    nombre = x.insumo.nombre,
+                                    precioUnitario = x.insumo.precioUnitario,
+                                    cantidad = x.cantidad,
+                                    cantidadAutorizada = x.cantidadAutorizada,
+                                    tipo = x.insumo.tiposInsumo.nombre,
+                                    stock = x.insumo.stock
                                 });
 
             return Json(detallesLastPedido, JsonRequestBehavior.AllowGet);
