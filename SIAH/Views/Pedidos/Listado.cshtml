@@ -425,10 +425,10 @@
         });
         $(document).ready(function () {
             $('#maintable tr td:nth-child(n)').hover(function () {
-                $(this).parents('tr').attr('data-toggle', 'tooltip').attr('title', 'Ver detalle');
+                $(this).parents('tr').attr('title', 'Ver detalle');
             });
             $('#volver').hover(function () {
-                $(this).parents('tr').removeAttr('data-toggle').removeAttr('title');
+                $(this).parents('tr').removeAttr('title');
             });
 
             $('#sendocasa').on('click', function (event) {

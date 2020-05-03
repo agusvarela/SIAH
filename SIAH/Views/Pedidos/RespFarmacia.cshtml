@@ -332,7 +332,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#maintable tr td:nth-child(n)').hover(function () {
-                $(this).parents('tr').attr('data-toggle', 'tooltip').attr('title', 'Ver detalle');
+                $(this).parents('tr').attr('title', 'Ver detalle');
             });
 
             $(document).on('click', '#nuevopedido', function (event) {
@@ -358,7 +358,7 @@
                     ) {
                          var idPedido = $('#idPedido').val();
                         var idHospital = $('#idHospital').val();
-                        location.href = '/StockFarmacia/Index?hospitalId=' + idHospital;
+                        location.href = '/StockFarmacia/Index?hospitalId=' + idHospital + '&' + 'vieneDelDashboard=' + false;
                       }
                 })
 

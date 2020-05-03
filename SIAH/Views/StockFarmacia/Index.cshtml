@@ -13,7 +13,7 @@
     }
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "StockFarmacia", FormMethod.Post, new { id = "stockFarmaciaForm" }))
 {
     <div class="banner-catalog">
         <div class="container">
@@ -65,8 +65,8 @@
                                                     <td class="text-center" style="width: 30%">
                                                         @if (Model[i].stockFarmacia > 0)
                                                         {
-                                                            @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFarmacia, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
-                                                        }
+                                                            @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFarmacia, @onkeyup = "return textBoxChange(event);" })
+                                                       }
                                                         else
                                                         {
                                                             @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @readonly = "readonly", @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFarmacia, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
@@ -76,7 +76,7 @@
                                             }
                                         </table>
                                         <div id="bottom_anchor">
-                                            <input type="submit" class="btn btn-round pull-right btn-success" value="Actualizar Stock" />
+                                            <input type="submit" id="botonActualizar" class="btn btn-round pull-right btn-success" value="Actualizar Stock" onclick="return actualizar(event)" />
                                         </div>
                                     </div>
                                 </div>
@@ -85,15 +85,56 @@
                     </div>
                 </div>
             </div>
-            <hr style="margin-bottom: 0px;" />
-            <div class="col-sm-4" style="margin-top: 0px;">
-                <input type="button" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/RespFarmacia'" />
-            </div>
+            @if (!ViewBag.vieneDelDashboard)
+            {
+                <hr style="margin-bottom: 0px;" />
+                <div class="col-sm-4" style="margin-top: 0px;">
+                    <input type="button" value="Volver al listado de Pedidos" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/RespFarmacia'" />
+                </div>
+            }
         </div>
     </div>
 }
 @section Scripts {
     <script type="text/javascript">
+        function textBoxChange(event) {
+            var teclaCorrecta = false;
+            var element = event.srcElement;
+            
+            if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 || event.charCode == 0) {
+                teclaCorrecta = true;
+                if (element.value == '' || element.value == '00') {
+                    element.value = 0;
+                } else if (parseInt(element.value) > 0) {
+                    element.value = parseInt(element.value);
+                }
+            }
+            return teclaCorrecta;
+        };
+
+        function actualizar(event) {
+            if (document.getElementById('stockFarmaciaForm').checkValidity()) {
+                event.stopImmediatePropagation();
+
+                Swal.fire({
+                    title: 'Actualizar Stock',
+                    text: "¿Está seguro que desea actualizar el stock?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Actualizar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $('#stockFarmaciaForm').submit();
+                    }
+                });
+                return false;
+            }
+        };
+
         $(document).ready(function () {
             function moveScroll() {
                 var scroll = $(window).scrollTop();

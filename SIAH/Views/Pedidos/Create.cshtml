@@ -232,7 +232,7 @@
         </div>
         <br />
         <div>
-            <input type="button" id="volver" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/RespFarmacia'" />
+            <input type="button" id="volver" value="Volver al listado de pedidos" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/RespFarmacia'" />
             @{
                 if (ViewBag.hasLastPedido)
                 {
@@ -349,67 +349,82 @@
             });
 
             $('#lastpedido').on('click', function () {
-                total = 0;
+                Swal.fire({
+                    title: 'Cargar ultimo pedido',
+                    text: "¿Está seguro que desea continuar?. Cualquier cambio realizado se perderá.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
 
-                let detallesLastPedido;
-                $.ajax({
-                url: '@Url.Action("LastPedido", "Pedidos")',
-                type: 'GET',
-                data: { idHospital: idHospital },
-                cache: false,
-                    success: function (result) {
-                        detallesLastPedido = result;
-                        table
-                            .clear()
-                            .draw();
-                        result.forEach(function (data) {
-                            var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').attr('id', 'detallesPedido[' + indice + '][insumo][id]').val(data.insumoId);
-                            var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').attr('id', 'detallesPedido[' + indice + '][insumoId]').val(data.insumoId);
-                            var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').attr('id', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
-                            var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre).addClass('text-center');
+                        total = 0;
 
-                            var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').attr('id', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
-                            var $tdTipo = $('<td>').html(data.tipo).append($tipo).addClass('text-center');
+                        let detallesLastPedido;
+                        $.ajax({
+                            url: '@Url.Action("LastPedido", "Pedidos")',
+                            type: 'GET',
+                            data: { idHospital: idHospital },
+                            cache: false,
+                            success: function (result) {
+                                detallesLastPedido = result;
+                                table
+                                    .clear()
+                                    .draw();
+                                result.forEach(function (data) {
+                                    var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][id]').attr('id', 'detallesPedido[' + indice + '][insumo][id]').val(data.insumoId);
+                                    var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumoId]').attr('id', 'detallesPedido[' + indice + '][insumoId]').val(data.insumoId);
+                                    var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][nombre]').attr('id', 'detallesPedido[' + indice + '][insumo][nombre]').val(data.nombre);
+                                    var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre).addClass('text-center');
 
-                            var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
+                                    var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').attr('id', 'detallesPedido[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
+                                    var $tdTipo = $('<td>').html(data.tipo).append($tipo).addClass('text-center');
 
-                            var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('id', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
-                            var $tdPrecioUnitario = $('<td>').addClass('text-center').html("$" + $precioAMostrar).append($precioUnitario);
+                                    var $precioAMostrar = new Intl.NumberFormat('de-DE').format(data.precioUnitario);
 
-                            var cantidadNumerica = parseInt(data.cantidad);
-                            var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').attr('id', 'detallesPedido[' + indice + '][cantidad]').val(cantidadNumerica);
-                            var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(cantidadNumerica).append($cantidad);
+                                    var $precioUnitario = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][insumo][precioUnitario]').attr('id', 'detallesPedido[' + indice + '][insumo][precioUnitario]').val($precioAMostrar);
+                                    var $tdPrecioUnitario = $('<td>').addClass('text-center').html("$" + $precioAMostrar).append($precioUnitario);
 
-                            var $subtotalCalculado = data.precioUnitario * data.cantidad;
-                            var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
+                                    var cantidadNumerica = parseInt(data.cantidad);
+                                    var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').attr('id', 'detallesPedido[' + indice + '][cantidad]').val(cantidadNumerica);
+                                    var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(cantidadNumerica).append($cantidad);
 
-                            var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][subtotal]').attr('id', 'detallesPedido[' + indice + '][subtotal]').val($subtotalAMostrar);
-                            var $tdSubtotal = $('<td>').addClass('text-center').attr('id', '[' + indice + ']subTotalVisible').html('$' + $subtotalAMostrar).append($subtotal);
+                                    var $subtotalCalculado = data.precioUnitario * data.cantidad;
+                                    var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
 
-                            var $boton = $('<button>').attr('type', 'button').attr('id', 'btn-eliminar-detallesPedido').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs ').append($('<i>').addClass('fa fa-times'));
-                            var $tdAccion = $('<td>').addClass('td-actions').append($boton).addClass('text-center');
+                                    var $subtotal = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][subtotal]').attr('id', 'detallesPedido[' + indice + '][subtotal]').val($subtotalAMostrar);
+                                    var $tdSubtotal = $('<td>').addClass('text-center').attr('id', '[' + indice + ']subTotalVisible').html('$' + $subtotalAMostrar).append($subtotal);
 
-                            var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
+                                    var $boton = $('<button>').attr('type', 'button').attr('id', 'btn-eliminar-detallesPedido').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs ').append($('<i>').addClass('fa fa-times'));
+                                    var $tdAccion = $('<td>').addClass('td-actions').append($boton).addClass('text-center');
 
-                            indice++;
-                            total += $subtotalCalculado;
-                            table.row.add($tr);
-                            table.draw();
-                            data = '';
-                            //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
-                            var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
-                            $('#total').val("$" + $totalAMostrar);
-                            $('#totalAMostrar').html("$" + $totalAMostrar);
+                                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdPrecioUnitario, $tdSubtotal, $tdAccion);
 
-                            //Verificacion del costo del pedido respecto al presupuesto
-                            if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) < total) {
-                                $('#totalSpan').text("El costo del pedido supera el presupuesto")
+                                    indice++;
+                                    total += $subtotalCalculado;
+                                    table.row.add($tr);
+                                    table.draw();
+                                    data = '';
+                                    //El total se llenaba de decimales asi que hice esto para redondearlo a dos decimales nomas
+                                    var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
+                                    $('#total').val("$" + $totalAMostrar);
+                                    $('#totalAMostrar').html("$" + $totalAMostrar);
+
+                                    //Verificacion del costo del pedido respecto al presupuesto
+                                    if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) < total) {
+                                        $('#totalSpan').text("El costo del pedido supera el presupuesto")
+                                    }
+
+                                    $('#enviar').show();
+
+                                    vaciarTextBox();
+                                    reiniciarInputs();
+                                });
                             }
-
-                            $('#enviar').show();
-
-                            vaciarTextBox();
-                            reiniciarInputs();
                         });
                     }
                 });

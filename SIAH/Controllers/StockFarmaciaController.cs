@@ -17,7 +17,7 @@ namespace SIAH.Controllers
 
         // GET: StockFarmacia
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
-        public ActionResult Index(int? hospitalId)
+        public ActionResult Index(int? hospitalId, bool vieneDelDashboard)
         {
             if (hospitalId == null)
             {
@@ -25,6 +25,7 @@ namespace SIAH.Controllers
             }
             using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
             {
+                ViewBag.vieneDelDashboard = vieneDelDashboard; 
                 ViewBag.hospital = db.Hospitales.Find(hospitalId).nombre;
                 return View(db.StockFarmacias.Where(s => s.hospitalId == hospitalId).Include(u => u.hospital).Include(p => p.insumo).ToList());
             }

@@ -157,7 +157,7 @@
             </div>
             <hr style="margin-bottom: 0px;" />
             <div class="col-sm-4" style="margin-top: 50px;">
-                <input type="button" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Reclamos/ListadoReclamos'" />
+                <input type="button" value="Volver al listado de reclamos" class="btn pull-left btn-primary" onclick="location.href = '/Reclamos/ListadoReclamos'" />
             </div>
 
             @if (((Model.estadoReclamoId == 1 && Session["rol"].ToString() != "DirectorArea") || Model.estadoReclamoId == 2) && Session["rol"].ToString() != "RespFarmacia")
