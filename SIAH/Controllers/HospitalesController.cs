@@ -18,9 +18,30 @@ namespace SIAH.Controllers
         //GET: Presupuesto
         public String getPresupuesto(int idHospital)
         {
-            var presupuesto = db.Hospitales.Where(p => p.id == idHospital).Select(r => new { presupuesto = r.presupuesto });
-            return presupuesto.ToList().First().presupuesto.ToString();
+            decimal presupuestoRestante = db.Hospitales.Find(idHospital).presupuesto;
+            var pedidosMesActual = db.Pedidos
+                .Include(d => d.detallesPedido)
+                .Include(d => d.detallesPedido.Select(x => x.insumo))
+                .Where(
+                        x => x.hospitalId == idHospital &&
+                        x.fechaGeneracion.Month == DateTime.Today.Month &&
+                        x.fechaGeneracion.Year == DateTime.Today.Year)
+                .ToList();
+            decimal presupuestoGastado = 0;
+            foreach(var pedido in pedidosMesActual)
+            {
+                decimal gastoPedido = 0;
+                foreach (var detalle in pedido.detallesPedido)
+                {
+                    gastoPedido += detalle.insumo.precioUnitario * detalle.cantidad;
+                }
+                presupuestoGastado += gastoPedido;
+            }
+
+            presupuestoRestante -= presupuestoGastado;
+            return presupuestoRestante.ToString();
         }
+
         // GET: Hospitals
         public ActionResult Index()
         {
