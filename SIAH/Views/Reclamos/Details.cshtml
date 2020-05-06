@@ -160,10 +160,10 @@
                 <input type="button" value="Volver al listado de reclamos" class="btn pull-left btn-primary" onclick="location.href = '/Reclamos/ListadoReclamos'" />
             </div>
 
-            @if (((Model.estadoReclamoId == 1 && Session["rol"].ToString() != "DirectorArea") || Model.estadoReclamoId == 2) && Session["rol"].ToString() != "RespFarmacia")
+            @if ((Model.estadoReclamoId == 1 && Session["rol"].ToString() != "DirectorArea") || Model.estadoReclamoId == 2 || (Session["rol"].ToString() == "RespFarmacia" && Model.estadoReclamoId == 3))
             {
                 var columnasDeAcciones = 5;
-                if (Model.estadoReclamoId == 1 || Session["rol"].ToString() == "DirectorArea") { columnasDeAcciones = 3; };
+                if (Model.estadoReclamoId == 1 || Session["rol"].ToString() == "DirectorArea" || Session["rol"].ToString() == "RespFarmacia") { columnasDeAcciones = 3; };
                 <div class="row">
                     <div class="pull-right col-sm-@columnasDeAcciones">
                         <div class="form-card form-card--tight animated zoomIn">
@@ -195,6 +195,12 @@
                                             <input type="button" style="font-size: 16px;" id="btn_assign" value="Asignarme" class="btn pull-right btn-round btn-success" />
                                         </div>
                                     }
+                                    else if (Model.estadoReclamoId == 3 && Session["rol"]?.ToString() == "RespFarmacia")
+                                    {
+                                        <div class="pull-right col-sm-9 btn-margin" style="padding-right: 10px;">
+                                            <input type="button" style="font-size: 16px;" id="btn_complete" value="Completar" class="btn pull-right btn-round btn-success" />
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -219,6 +225,13 @@
             var idResponsable = $('#idResponsable').val();
             var urlAsignar = '/Reclamos/AutoAsignacion' + '?idReclamo=' + idPedido + '&idResponsable=' + idResponsable;
             location.href = urlAsignar;
+        });
+        //Funcion para completar el reclamo
+        $(document).on('click', '#btn_complete', function (event) {
+            event.preventDefault();
+            var idPedido = $('#idPedido').val();
+            var urlQuitar = '/Reclamos/Edit?id=' + idPedido;
+            location.href = urlQuitar;
         });
         //Funcion para quitar la asignacion
         $(document).on('click', '#btn_quitar', function (event) {

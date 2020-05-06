@@ -614,7 +614,7 @@
         </div>
         <hr style="margin-bottom: 0px;" />
         <div class="col-sm-4" style="margin-top: 50px;">
-            <input type="button" id="volver" value="Volver al listado" class="btn pull-left btn-primary" onclick="location.href = '/Remitos/ListadoPedidos'" />
+            <input type="button" id="volver" value="Volver al listado de remitos" class="btn pull-left btn-primary" onclick="location.href = '/Remitos/ListadoPedidos'" />
         </div>
         @if (Model.Item2.estadoId == 1)
         {
@@ -673,6 +673,7 @@
                     confirmButtonText: 'Impactar',
                     cancelButtonColor: "#dc3545",
                     cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
@@ -746,6 +747,7 @@
                     confirmButtonText: 'Aceptar',
                     cancelButtonColor: "#dc3545",
                     cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
@@ -767,6 +769,7 @@
                 text: observacion.toString(),
                 icon: 'info',
                 confirmButtonColor: "#3085d6",
+                showCloseButton: true,
                 confirmButtonText: 'Ok',
             });
         }

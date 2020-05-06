@@ -91,7 +91,9 @@
                                                         <td class="text-center">@Html.Label("Pendiente")</td>
 
                                                         <td class="text-center">
-                                                            <input type="button" value="Controlar Remito" class="btn btn-round btn-purple" onclick="location.href='@Url.Action("ControlPedidoRemito", "Remitos", new { id = item.id })'" />
+                                                            <input type="button" value="Controlar Remito" class="btn btn-round btn-purple" 
+                                                                   onclick="location.href='@Url.Action("ControlPedidoRemito", "Remitos", new { id = item.id })'"
+                                                                   onmouseover="$(this).parents('tr').removeAttr('title');"/>
                                                         </td>
                                                     </tr>
                                                     break;
@@ -110,7 +112,9 @@
                                                         </td>
                                                         <td class="text-center">@Html.Label("Impactado")</td>
                                                         <td class="text-center">
-                                                            <input type="button" value="Ver Detalle" class="btn btn-round btn-purple" onclick="location.href='@Url.Action("ControlPedidoRemito", "Remitos", new { id = item.id })'" />
+                                                            <input type="button" value="Ver Detalle" class="btn btn-round btn-purple" 
+                                                                   onclick="location.href='@Url.Action("ControlPedidoRemito", "Remitos", new { id = item.id })'"
+                                                                   onmouseover="$(this).parents('tr').removeAttr('title');"/>
                                                         </td>
                                                     </tr>
                                                     break;
@@ -129,7 +133,9 @@
                                                         </td>
                                                         <td class="text-center">@Html.Label("Reclamado")</td>
                                                         <td class="text-center">
-                                                            <input type="button" value="Ver Detalle" class="btn btn-round btn-purple" onclick="location.href='@Url.Action("ControlPedidoRemito", "Remitos", new { id = item.id })'" />
+                                                            <input type="button" value="Ver Detalle" class="btn btn-round btn-purple" 
+                                                                   onclick="location.href='@Url.Action("ControlPedidoRemito", "Remitos", new { id = item.id })'"
+                                                                   onmouseover="$(this).parents('tr').removeAttr('title');"/>
                                                         </td>
                                                     </tr>
                                                     break;
@@ -155,6 +161,9 @@
 
 
         $(document).ready(function () {
+            $('#maintable tr td:nth-child(n)').hover(function () {
+                $(this).parents('tr').attr('title', 'Ver detalle');
+            });
 
             function moveScroll() {
                 var scroll = $(window).scrollTop();

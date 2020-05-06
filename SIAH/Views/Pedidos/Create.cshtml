@@ -480,7 +480,7 @@
     $(document).on('click', '#btn-eliminar-detallesPedido', function () {
         //Funcion que resta el subtotal de la fila a eliminar del total
         //Luego elimina la fila entera del detalle y verifica si la lista esta vacia para ocultar el boton
-        var $aRestar = parseFloat($(this).parents('tr').get(0).children.item(4).innerText.replace(".", "").replace(",", ".").replace("$", ""));
+        var $aRestar = parseFloat($(this).parents('tr').get(0).children.item(4).innerText.split(".").join("").replace(",", ".").replace("$", ""));
         total -= $aRestar;
         $aRestar = 0;
 

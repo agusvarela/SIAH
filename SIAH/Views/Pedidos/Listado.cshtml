@@ -164,9 +164,12 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 <i class="material-icons">send</i>
+                                                                <div> <strong>Generado  </strong></div>
                                                             </td>
                                                             <td class="text-center">
-                                                                <a type="button" id="volver" class="btn btn-round btn-primary" href="/Pedidos/Autorizacion/@item.id.ToString()">Autorizar</a>
+                                                                <a type="button" id="volver" class="btn btn-round btn-primary" 
+                                                                   onmouseover="$(this).parents('tr').removeAttr('title');" 
+                                                                   href="/Pedidos/Autorizacion/@item.id.ToString()">Autorizar</a>
                                                             </td>
                                                         </tr>
                                                         break;
@@ -190,6 +193,7 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 <i class="icon-warning material-icons">spellcheck</i>
+                                                                <div class="soft-warning"> <strong>Autorizado</strong></div>
                                                             </td>
                                                             <td class="text-center">
 
@@ -221,6 +225,7 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 <i class="material-icons">local_shipping</i>
+                                                                <div class=" soft-orange"> <strong>En proceso de Envío</strong></div>
                                                             </td>
                                                             <td class="text-center">
 
@@ -249,6 +254,7 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 <i class="material-icons">clear</i>
+                                                                <div class=" soft-grey"> <strong>Cancelado</strong></div>
                                                             </td>
                                                             <td class="text-center">
 
@@ -277,6 +283,7 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 <i class="material-icons">check_circle</i>
+                                                                <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
                                                             </td>
                                                             <td class="text-center">
 
@@ -305,6 +312,7 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 <i class="icon-info  material-icons">markunread</i>
+                                                                <div class=" soft-info"> <strong>Entregado</strong></div>
                                                             </td>
                                                             <td class="text-center">
 
@@ -333,6 +341,7 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 <i class="material-icons">error_outline</i>
+                                                                <div class=" soft-danger"> <strong>Reclamado</strong></div>
                                                             </td>
                                                             <td class="text-center">
 
@@ -361,6 +370,7 @@
                                                             </td>
                                                             <td class="text-center">
                                                                 <i class="material-icons">check_circle</i>
+                                                                <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
                                                             </td>
                                                             <td class="text-center">
 
@@ -423,12 +433,10 @@
         $(document).on('click', '#enviar', function (event) {
             setTimeout(function () { location.reload() }, 2000);
         });
+
         $(document).ready(function () {
             $('#maintable tr td:nth-child(n)').hover(function () {
                 $(this).parents('tr').attr('title', 'Ver detalle');
-            });
-            $('#volver').hover(function () {
-                $(this).parents('tr').removeAttr('title');
             });
 
             $('#sendocasa').on('click', function (event) {
@@ -448,6 +456,7 @@
                     }
                 })
             });
+
             sessionStorage.setItem("From", "Pedidos");
             if (@ViewBag.success.ToString().ToLower() ===true) {
                     $.notify({

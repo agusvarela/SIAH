@@ -87,7 +87,7 @@
                                                         @if (item.estadoReclamoId == 1 && Session["rol"].ToString() == "RespAutorizacion")
                                                         {
                                                             <input type="button" id="autoAsignar" value="Asignarme" class="btn btn-round btn-primary pull-center"
-                                                                   onmouseover="$(this).parents('tr').removeAttr('data-toggle').removeAttr('title');"
+                                                                   onmouseover="$(this).parents('tr').removeAttr('title');"
                                                                    onclick="asignar(@item.pedidoId)" />
                                                         }
                                                     </td>
@@ -119,7 +119,7 @@
                                                         @if (item.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == item.responsableAsignadoId)
                                                         {
                                                             <input type="button" id="resolver" value="Resolver" class="btn btn-round btn-primary pull-center"
-                                                                   onmouseover="$(this).parents('tr').removeAttr('data-toggle').removeAttr('title');"
+                                                                   onmouseover="$(this).parents('tr').removeAttr('title');"
                                                                    onclick="resolver(@item.pedidoId)" />
                                                         }
                                                     </td>
@@ -222,9 +222,8 @@
             }
         $(document).ready(function () {
             $('#maintable tr td:nth-child(n)').hover(function () {
-                $(this).parents('tr').attr('data-toggle', 'tooltip').attr('title', 'Ver detalle');
+                $(this).parents('tr').attr('title', 'Ver detalle');
             });
-
 
             var myNewURL = refineURL();
             //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.

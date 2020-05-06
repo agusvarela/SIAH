@@ -90,6 +90,7 @@ namespace SIAH.Controllers
         }
 
         // GET: Reclamos/Edit/5
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult Edit(int? id)
         {
             if (id == null)

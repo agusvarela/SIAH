@@ -127,7 +127,7 @@
                                                         </td>
                                                         <td class="text-center">
                                                             <input type="button" id="completar" value="Completar" class="btn btn-round btn-primary pull-center" 
-                                                                   onmouseover="$(this).parents('tr').removeAttr('data-toggle').removeAttr('title');"
+                                                                   onmouseover="$(this).parents('tr').removeAttr('title');"
                                                                    onclick="completar(@item.pedidoId)"/>
                                                         </td>
                                                     </tr>
@@ -175,7 +175,7 @@
         //Funcion para ordenar la tabla de reclamos
         $(document).ready(function () {
             $('#maintable tr td:nth-child(n)').hover(function () {
-                $(this).parents('tr').attr('data-toggle', 'tooltip').attr('title', 'Ver detalle');
+                $(this).parents('tr').attr('title', 'Ver detalle');
             });
 
             function moveScroll() {
