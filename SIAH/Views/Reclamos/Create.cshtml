@@ -96,7 +96,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.observacionFamacia, htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-md-9">
-                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 150, htmlAttributes: new { @class = "form-control" })
+                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 150, htmlAttributes: new { @class = "form-control", @maxlength = "500", @onkeyup = "countChar(this)" })
                                         @Html.ValidationMessageFor(model => model.observacionFamacia, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -114,16 +114,16 @@
             </div>
         </div>
     </div>
-   
+
 
     @Html.AntiForgeryToken()
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 }
 
-    <div class="container">
-        <input id="btn_cancelar" type="button" value="Cancelar" class="btn pull-left btn-primary" />
-    </div>
+<div class="container">
+    <input id="btn_cancelar" type="button" value="Cancelar" class="btn pull-left btn-primary" />
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -167,5 +167,22 @@
                 }
             })
         });
+        $(document).ready(function () {
+            var len = $('#observacionFamacia').val().length;
+            var countToShow = (500 - len).toString();
+            countToShow += '/500';
+            $('#charNum').text(countToShow);
+        });
+        function countChar(val) {
+            var len = val.value.length;
+            let countToShow = '';
+            if (len >= 500) {
+                val.value = val.value.substring(0, 500);
+            } else {
+                countToShow = (500 - len).toString();
+                countToShow += '/500';
+                $('#charNum').text(countToShow);
+            }
+        };
     </script>
 }

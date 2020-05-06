@@ -118,7 +118,8 @@
                         <div class="form-card__content group">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    @Html.TextAreaFor(model => model.respuesta, 5, 150, htmlAttributes: new { @class = "form-control" })
+                                    @Html.TextAreaFor(model => model.respuesta, 5, 150, htmlAttributes: new { @class = "form-control", @maxlength = "500", @onkeyup = "countChar(this)", @value = "" })
+                                    <div id="charNum"></div>
                                     @Html.ValidationMessageFor(model => model.respuesta, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -190,6 +191,21 @@
                 location.href = urlRecibido;
                 event.stopImmediatePropagation();
             });
-        })
+             var len = $('#respuesta').val().length;
+            var countToShow = (500 - len).toString();
+            countToShow += '/500';
+            $('#charNum').text(countToShow);
+        });
+        function countChar(val) {
+            var len = val.value.length;
+            let countToShow = '';
+            if (len >= 500) {
+                val.value = val.value.substring(0, 500);
+            } else {
+                countToShow = (500 - len).toString();
+                countToShow += '/500';
+                $('#charNum').text(countToShow);
+            }
+        };
     </script>
 }

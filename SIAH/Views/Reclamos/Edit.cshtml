@@ -11,8 +11,10 @@
         <div class="container">
             <div class="col-lg-12">
                 <h1>Completar información del reclamo</h1>
-                <div class="banner-catalog__content">La oficina de Autorizaciones Hospitalarias necesita mas información para ayudarle a resolver su inconveniente, 
-                por favor complete con mayor detalle el campo observación.</div>
+                <div class="banner-catalog__content">
+                    La oficina de Autorizaciones Hospitalarias necesita mas información para ayudarle a resolver su inconveniente,
+                    por favor complete con mayor detalle el campo observación.
+                </div>
             </div>
         </div>
     </div>
@@ -91,7 +93,8 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.observacionFamacia, htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-md-9">
-                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 150, htmlAttributes: new { @class = "form-control" })
+                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 150, htmlAttributes: new { @class = "form-control", @maxlength = "500", @onkeyup = "countChar(this)" })
+                                        <div id="charNum"></div>
                                         @Html.ValidationMessageFor(model => model.observacionFamacia, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -138,5 +141,22 @@
             })
         });
 
+        $(document).ready(function () {
+            var len = $('#observacionFamacia').val().length;
+            var countToShow = (500 - len).toString();
+            countToShow += '/500';
+            $('#charNum').text(countToShow);
+        });
+        function countChar(val) {
+            var len = val.value.length;
+            let countToShow = '';
+            if (len >= 500) {
+                val.value = val.value.substring(0, 500);
+            } else {
+                countToShow = (500 - len).toString();
+                countToShow += '/500';
+                $('#charNum').text(countToShow);
+            }
+        };
     </script>
 }
