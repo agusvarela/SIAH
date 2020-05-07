@@ -40,9 +40,10 @@ namespace SIAH.Controllers
         }
 
         // GET: Insumos/Create
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Create()
         {
-            ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo, "id", "nombre");
+            ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo.OrderBy(tipo => tipo.nombre), "id", "nombre");
             return View();
         }
         public ActionResult ControlStock()
@@ -185,6 +186,7 @@ namespace SIAH.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Create([Bind(Include = "id,nombre,precioUnitario,tipoInsumoId,stock")] Insumo insumo)
         {
             if (ModelState.IsValid)
@@ -209,7 +211,7 @@ namespace SIAH.Controllers
                 return RedirectToAction("StockInsumos");
             }
 
-            ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo, "id", "nombre", insumo.tipoInsumoId);
+            ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo.OrderBy(tipo => tipo.nombre), "id", "nombre", insumo.tipoInsumoId);
             return View(insumo);
         }
 
@@ -227,6 +229,7 @@ namespace SIAH.Controllers
         }
 
         // GET: Insumos/Edit/5
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -238,7 +241,7 @@ namespace SIAH.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo, "id", "nombre", insumo.tipoInsumoId);
+            ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo.OrderBy(tipo => tipo.nombre), "id", "nombre", insumo.tipoInsumoId);
             return View(insumo);
         }
 
@@ -247,6 +250,7 @@ namespace SIAH.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Edit([Bind(Include = "id,nombre,precioUnitario,tipoInsumoId,stock")] Insumo insumo)
         {
             if (ModelState.IsValid)
@@ -255,11 +259,12 @@ namespace SIAH.Controllers
                 db.SaveChanges();
                 return RedirectToAction("StockInsumos");
             }
-            ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo, "id", "nombre", insumo.tipoInsumoId);
+            ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo.OrderBy(tipo => tipo.nombre), "id", "nombre", insumo.tipoInsumoId);
             return View(insumo);
         }
 
         // GET: Insumos/Delete/5
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -277,6 +282,7 @@ namespace SIAH.Controllers
         // POST: Insumos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult DeleteConfirmed(int id)
         {
             Insumo insumo = db.Insumos.Find(id);

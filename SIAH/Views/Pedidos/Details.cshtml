@@ -690,7 +690,7 @@
                                 </div>
                             }
 
-                            @if (Model.estadoId == 1 && Session["rol"].ToString() == "RespAutorizacion")
+                            @if (Model.estadoId == 1 && (Session["rol"].ToString() == "RespAutorizacion" || Session["rol"].ToString() == "DirectorArea"))
                             {
                                 <div class="col-xs-12">
                                     <br />
@@ -718,7 +718,7 @@
     @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idPedido" })
 }
 <div class="container">
-    @if (Session["rol"].ToString() == "RespAutorizacion")
+    @if (Session["rol"].ToString() == "RespAutorizacion" || Session["rol"].ToString() == "DirectorArea")
     {
         <input type="button" id="volver" value="Volver al listado de Pedidos" class="btn pull-left btn-primary" onclick="location.href = '/Pedidos/Listado'" />
     }
