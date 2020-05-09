@@ -14,7 +14,7 @@
         </div>
         <div class="col-lg-3">
             <div class="icon icon-danger">
-                <i class="material-icons pull-right" style="font-size: 100px">timeline</i>
+                <img class="pull-right" src="~/Content/img/power-bi-1.jpg" style="max-height:100px; max-width:200px; margin-top:20px"/>
             </div>
         </div>
     </div>
@@ -25,9 +25,8 @@
             <div class="col-md-12">
 
                 <div class="col-md-12">
-                    <div class="col-md-4 animated zoomIn">
-                        <div class="card card-project">
-
+                    <div class="col-sm-6 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReporteConsolidado", "Reportes")'">
+                        <div class="card card-project col myhover hover-pointer">
                             <div class="content text-center">
                                 <div class="info">
                                     <div class="icon icon-danger">
@@ -38,16 +37,13 @@
                                         Este reporte muestra la cantidad de insumos que han sido autorizados,
                                         por cada hospital.
                                     </p>
-                                    <br />
-                                    <a id="reporte" class="btn btn-round btn-softPurple">Ir a Reporte consolidado</a>
                                 </div>
 
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 animated zoomIn">
-                        <div class="card card-project">
-
+                    <div class="col-sm-6 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReporteBI", "Reportes")'">
+                        <div class="card card-project col myhover hover-pointer">
                             <div class="content text-center">
                                 <div class="info">
                                     <div class="icon icon-danger">
@@ -57,8 +53,6 @@
                                     <p>
                                         Estos reportes muestran información avanzada de Business Intelligence sobre los pedidos.
                                     </p>
-                                    <br />
-                                    <a class="btn btn-round btn-softPurple" onclick="location.href='@Url.Action("ReporteBI", "Reportes")'">Ir a Reporte de comparación</a>
                                 </div>
 
                             </div>
