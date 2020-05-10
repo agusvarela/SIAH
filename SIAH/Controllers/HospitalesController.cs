@@ -39,6 +39,7 @@ namespace SIAH.Controllers
             }
 
             presupuestoRestante -= presupuestoGastado;
+            if (presupuestoRestante <= 0) presupuestoRestante = 0;
             return presupuestoRestante.ToString();
         }
 

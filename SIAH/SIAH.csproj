@@ -516,7 +516,6 @@
     <Content Include="Views\Pedidos\Delete.cshtml" />
     <Content Include="Views\Pedidos\Details.cshtml" />
     <Content Include="Views\Pedidos\Edit.cshtml" />
-    <Content Include="Views\Pedidos\Index.cshtml" />
     <Content Include="Views\DetallesPedido\Create.cshtml" />
     <Content Include="Views\DetallesPedido\Delete.cshtml" />
     <Content Include="Views\DetallesPedido\Details.cshtml" />
