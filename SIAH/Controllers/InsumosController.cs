@@ -141,6 +141,7 @@ namespace SIAH.Controllers
                 System.IO.File.Delete(path);
             }
         }
+
         public void WriteCSV<T>(IEnumerable<T> items, string path)
         {
             Type itemType = typeof(T);
@@ -157,11 +158,16 @@ namespace SIAH.Controllers
                 writer.Close();
             }
         }
+
+        //GET: Insumos/StockInsumos
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult StockInsumos()
         {
             var insumos = db.Insumos.Include(i => i.tiposInsumo);
             return View(insumos.ToList());
         }
+
+
         // GET: Insumos/Palabra/search
         public JsonResult BuscarInsumos(string term, int? id)
         {

@@ -73,7 +73,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    @Html.LabelFor(model => model.hospital.presupuesto, "Presupuesto disponible", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div id="container" class="col-md-12">
                                         <text id="presupuesto" class="form-control"></text>
                                     </div>
@@ -212,9 +212,11 @@
                                                     <text class="form-control text-center tot" id="totalAMostrar">$0</text>
                                                 </strong>
                                             </div>
-                                            <div>
-                                                <span id="totalSpan" class="text-danger"></span>
-                                            </div>
+                                        </div>
+                                        <div>
+                                            <span>
+                                                <strong id="totalSpan" class="text-danger"></strong>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -361,7 +363,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-
+                        indice = 0;
                         total = 0;
 
                         let detallesLastPedido;

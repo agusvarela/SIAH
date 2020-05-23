@@ -217,7 +217,7 @@ namespace SIAH.Controllers
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult Create(int idHospital)
         {
-            ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
+            ViewBag.tipoInsumo = new SelectList(db.TiposInsumo.OrderBy(tipo => tipo.nombre), "id", "nombre");
             //ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
             bool hasLastPedido = true;
             var pedidos = db.Pedidos.Where(r => r.hospitalId == idHospital).Include(p => p.detallesPedido).OrderByDescending(o => o.fechaGeneracion).ToList();
