@@ -1,5 +1,4 @@
 ﻿@using SIAH.Models.Enums
-@model SIAH.Models.UserAccount
 
 @{
     ViewBag.Title = "Nuevo usuario";
@@ -7,10 +6,9 @@
 }
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "crearUsuarioForm" }))
 {
     @Html.AntiForgeryToken()
-
     <div class="banner-catalog">
         <div class="container">
             <div class="col-sm-9">
@@ -45,8 +43,7 @@
                                     <div class="form-group">
                                         @Html.Label("Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-8">
-                                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                                            <input type="text" class="form-control" name="nombre" placeholder="Ingrese su nombre" required />
                                         </div>
                                     </div>
                                 </div>
@@ -57,8 +54,7 @@
                                     <div class="form-group">
                                         @Html.Label("Apellido", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-8">
-                                            @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.apellido, "", new { @class = "text-danger" })
+                                            <input type="text" class="form-control" name="apellido" placeholder="Ingrese su apellido" required />
                                         </div>
                                     </div>
                                 </div>
@@ -70,8 +66,7 @@
                                     <div class="form-group">
                                         @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-8">
-                                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                            <input type="email" class="form-control"  placeholder="Ingrese su email" required />
                                         </div>
                                     </div>
                                 </div>
@@ -81,7 +76,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.rolID, "Asignar un Rol", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @Html.Label("Asignar un Rol", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-8">
                                             @{ foreach (var item in ViewBag.rolID.Items)
                                                 {
@@ -90,7 +85,6 @@
                                                 }
                                             }
                                             @Html.DropDownList("rolID", null, htmlAttributes: new { @class = "form-control", @onchange = "updateInput()" })
-                                            @Html.ValidationMessageFor(model => model.rolID, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +94,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div id="divHospital" class="form-group">
-                                        @Html.LabelFor(model => model.hospitalID, "Asignar un Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @Html.Label("Asignar un Hospital", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-8">
                                             @Html.DropDownList("hospitalID", null, "--Seleccione un hospital--", htmlAttributes: new { @class = "form-control" })
                                             <span class="text-danger">@ViewBag.HospitalRequired</span>
@@ -118,9 +112,6 @@
                                             <input id="password" type="password" class="form-control text-box single-line password" name="password">
                                             <i toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" style="margin: 0px"></i>
                                         </div>
-                                        <div class="col-md-8">
-                                            @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -133,9 +124,6 @@
                                         <div class="col-md-8" style="display: flex; align-items: center">
                                             <input id="confirmPassword" type="password" class="form-control text-box single-line password" name="confirmPassword">
                                             <i toggle="#confirmPassword" class="fa fa-fw fa-eye field-icon toggle-password" style="margin: 0px"></i>
-                                        </div>
-                                        <div class="col-md-8">
-                                             @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>

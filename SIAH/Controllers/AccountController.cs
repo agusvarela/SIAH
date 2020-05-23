@@ -21,8 +21,9 @@ namespace SIAH.Controllers
             }
         }
 
-        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
-        public ActionResult Register()
+        //GET: Account/Profile
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea", UserRole2 = "RespFarmacia", UserRole3 = "RespAutorizacion")]
+        public ActionResult Profile()
         {
             ViewBag.HospitalRequired = "";
             ViewBag.rolID = new SelectList(db.Roles, "id", "nombre");
@@ -30,7 +31,59 @@ namespace SIAH.Controllers
             return View();
         }
         
+        //POST: Account/Profile
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea", UserRole2 = "RespFarmacia", UserRole3 = "RespAutorizacion")]
+        public ActionResult Profile([Bind(Include = "nombre, apellido, email, rolID, password, confirmPassword, hospitalID")]UserAccount account)
+        {
+            ViewBag.HospitalRequired = "";
+            if (ModelState.IsValid)
+            {
+                if (string.Compare(db.Roles.Find(account.rolID.Value).nombre, "RespFarmacia") == 0 && account.hospitalID == null)
+                {
+                    ViewBag.HospitalRequired = "El hospital es obligatorio para los responsables de farmacia";
+                }
+                else
+                {
+                    String hash = Hashing.HashPassword(account.password);
+                    account.password = hash;
+                    account.confirmPassword = hash;
+                    using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
+                    {
+                        db.UserAccounts.Add(account);
+                        try
+                        {
+                            if (db.SaveChanges() > 0)
+                            {
+                                return RedirectToAction("Index", new { param = "Success" });
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            return RedirectToAction("Index", new { param = e.Message });
+                        }
+                    }
+                    ModelState.Clear();
+                }
 
+            }
+            ViewBag.rolID = new SelectList(db.Roles, "id", "nombre");
+            ViewBag.hospitalID = new SelectList(db.Hospitales, "id", "nombre");
+            return View();
+        }
+
+        //GET: Account/Register
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
+        public ActionResult Register()
+        {
+            ViewBag.HospitalRequired = "";
+            ViewBag.rolID = new SelectList(db.Roles.OrderBy(rol => rol.nombre), "id", "nombre");
+            ViewBag.hospitalID = new SelectList(db.Hospitales.OrderBy(hospital => hospital.nombre), "id", "nombre");
+            return View("Register", new UserAccount());
+        }
+
+        //POST: Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
@@ -67,9 +120,9 @@ namespace SIAH.Controllers
                 }
 
             }
-            ViewBag.rolID = new SelectList(db.Roles, "id", "nombre");
-            ViewBag.hospitalID = new SelectList(db.Hospitales, "id", "nombre");
-            return View();
+            ViewBag.rolID = new SelectList(db.Roles.OrderBy(rol => rol.nombre), "id", "nombre");
+            ViewBag.hospitalID = new SelectList(db.Hospitales.OrderBy(hospital => hospital.nombre), "id", "nombre");
+            return View(account);
         }
 
         //Login
