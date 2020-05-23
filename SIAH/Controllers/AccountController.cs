@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using SIAH.Models;
 using SIAH.Context;
 using System.Data.Entity;
+using System.Net;
+
 namespace SIAH.Controllers
 {
     public class AccountController : Controller
@@ -15,9 +17,9 @@ namespace SIAH.Controllers
         [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Index()
         {
-            using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
+            using (SIAHContext db = new SIAHContext())
             {
-                return View(db.UserAccounts.Include(u => u.rol).ToList());
+                return View(db.UserAccounts.Include(u => u.rol).Where(x => x.active).ToList());
             }
         }
 
@@ -48,6 +50,7 @@ namespace SIAH.Controllers
                     String hash = Hashing.HashPassword(account.password);
                     account.password = hash;
                     account.confirmPassword = hash;
+                    account.active = true;
                     using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
                     {
                         db.UserAccounts.Add(account);
@@ -91,7 +94,7 @@ namespace SIAH.Controllers
             using (Context.SIAHContext db = new Context.SIAHContext())
             {
                 //var usr = db.UserAccounts.Where(u => u.email == user.email && u.password == user.password).Include(p => p.rol).Include(h => h.hospital).FirstOrDefault();
-                var usr = db.UserAccounts.Where(u => u.email == user.email).Include(p => p.rol).Include(h => h.hospital).FirstOrDefault();
+                var usr = db.UserAccounts.Where(u => u.email == user.email && u.active).Include(p => p.rol).Include(h => h.hospital).FirstOrDefault();
                 
                 if (usr != null)
                 {
@@ -156,6 +159,25 @@ namespace SIAH.Controllers
         {
             Session.Clear();
             return RedirectToAction("Index", "Home");
+        }
+
+        // GET: Hospitals/Delete/5
+        [ActionName("Delete")]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = db.UserAccounts.Find(id);
+            if (!user.active)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            user.active = false; //Borrado logico del usuario
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

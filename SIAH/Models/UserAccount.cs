@@ -27,6 +27,8 @@ namespace SIAH.Models
        [Compare("password", ErrorMessage = "Debe confirmar su contraseña")]
        [DataType(DataType.Password)]
         public string confirmPassword { get; set; }
+
+        public bool active { get; set; }
         
         public int? hospitalID { get; set; }
         public Hospital hospital { get; set; }

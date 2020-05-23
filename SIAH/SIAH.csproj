@@ -315,6 +315,10 @@
     <Compile Include="Migrations\202002242137108_alter_table_remito_non_incremental_id.Designer.cs">
       <DependentUpon>202002242137108_alter_table_remito_non_incremental_id.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005232032435_add_active_field_user_account.cs" />
+    <Compile Include="Migrations\202005232032435_add_active_field_user_account.Designer.cs">
+      <DependentUpon>202005232032435_add_active_field_user_account.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
@@ -708,6 +712,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002242137108_alter_table_remito_non_incremental_id.resx">
       <DependentUpon>202002242137108_alter_table_remito_non_incremental_id.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005232032435_add_active_field_user_account.resx">
+      <DependentUpon>202005232032435_add_active_field_user_account.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
