@@ -70,6 +70,9 @@
                                                 <th class="text-center">
                                                     @Html.Name("Rol")
                                                 </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Acciones")
+                                                </th>
                                             </tr>
                                         </thead>
                                         @foreach (var item in Model)
@@ -86,6 +89,11 @@
                                                 <td class="text-center">
                                                     @{string rol = ((DefaultRoles)item.rolID).ToString();}
                                                     @Html.DisplayFor(modelItem => rol)
+                                                </td>                                                
+                                                <td class="text-center">
+                                                    <button id="delete" class="btn btn-round" style="padding: 0px; background-color: white !important" onclick="deleteUser(@item.id)">
+                                                        <i style="margin: 0; padding: 0;  background: white" class="material-icons icon-danger">delete</i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         }
@@ -155,6 +163,26 @@
                 "order": [[0, "desc"]]
             });
         });
+
+        function deleteUser(idUser) {
+            Swal.fire({
+                title: 'Borrado de usuario',
+                text: "¿Está seguro que desea borrar este usuario?",
+                icon: 'warning',
+                showCancelButton: true,
+                showCloseButton: true,
+                confirmButtonColor: "#28a745",
+                confirmButtonText: 'Aceptar',
+                cancelButtonColor: "#dc3545",
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value)
+                {
+                    location.href = "/Account/Delete/" + idUser;
+                }
+            });
+        }
     </script>
 }
 
