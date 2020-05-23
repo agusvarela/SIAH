@@ -108,7 +108,7 @@
 
             .container .masthead {
                 padding: 40px 0;
-                background: #f44336;
+                background: #9c27b0;
                 color: white;
             }
 
@@ -186,8 +186,11 @@
                             <h3>Hola!</h3>
 
                             <p>El equipo de Autorizaciones Hospitalarias realizó una actualización en el pedido N°{pedidoId}.</p><br />
-                            <p>Para revisar el estado actual de su pedido ingrese aquí.</p><br />
-                            <a href="http://siah-env.eba-mf2w22zr.us-east-2.elasticbeanstalk.com/Pedidos/Details/{pedidoId}">Detalles Pedido N°{pedidoId}</a><br />
+                            <p>Su pedido ahora se encuentra en estado: <h3><b>{estadoName}</b></h3></p>
+                            <p>
+                                Para revisar el detalle actual de su pedido ingrese aquí:
+                                <a href="http://siah-env.eba-mf2w22zr.us-east-2.elasticbeanstalk.com/Pedidos/Details/{pedidoId}">Detalles Pedido N°{pedidoId}</a><br />
+                            </p><br />
                             <p>
                                 <div class="logo-container" href="#">
                                     <div class="logo">
@@ -209,7 +212,8 @@
                     <tr>
                         <td class="content footer" align="center">
                             <p>Sent by <a href="#">Siah</a></p>
-                            <p><a href="mailto:">siah.reclamos@gmail.com</a>
+                            <p>
+                                <a href="mailto:">siah.reclamos@gmail.com</a>
                             </p>
                         </td>
                     </tr>

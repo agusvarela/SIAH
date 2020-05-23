@@ -24,7 +24,7 @@ namespace SIAH.Controllers
         private static readonly HttpClient client = new HttpClient();
 
         //POST: EntregaPedido
-        public HttpResponseMessage EntregaPedido(int? id)
+        public async Task<HttpResponseMessage> EntregaPedido(int? id)
         {
             HttpResponseMessage response;
             if (id == null)
@@ -50,7 +50,7 @@ namespace SIAH.Controllers
                     }
                     db.Entry(pedido).State = EntityState.Modified;
                     db.SaveChanges();
-                    SendEmailCambioEstadoAsync(pedido);
+                    await SendEmailCambioEstadoAsync(pedido);
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace SIAH.Controllers
         }
 
         // POST: Pedidos/Cancelar
-        public ActionResult Cancelar(int? pedidoId)
+        public async Task<ActionResult> Cancelar(int? pedidoId)
         {
             if (pedidoId == null)
             {
@@ -85,7 +85,7 @@ namespace SIAH.Controllers
                 pedido.estadoId = 4;
                 db.Entry(pedido).State = EntityState.Modified;
                 db.SaveChanges();
-                SendEmailCambioEstadoAsync(pedido);
+                await SendEmailCambioEstadoAsync(pedido);
             }
             catch (Exception e)
             {
@@ -95,7 +95,7 @@ namespace SIAH.Controllers
         }
 
         // POST: Pedidos/Recibido
-        public ActionResult Recibido(int? pedidoId)
+        public async Task<ActionResult> Recibido(int? pedidoId)
         {
             if (pedidoId == null)
             {
@@ -108,7 +108,7 @@ namespace SIAH.Controllers
                 pedido.estadoId = 5;
                 db.Entry(pedido).State = EntityState.Modified;
                 db.SaveChanges();
-                SendEmailCambioEstadoAsync(pedido);
+                await SendEmailCambioEstadoAsync(pedido);
             }
             catch (Exception e)
             {
@@ -180,7 +180,7 @@ namespace SIAH.Controllers
                             pedido.trackingNumber = responseObject.tracking;
                             pedido.estadoId = 3;
                             db.Entry(pedido).State = EntityState.Modified;
-                            SendEmailCambioEstadoAsync(pedido);
+                            await SendEmailCambioEstadoAsync(pedido);
                         }
                         db.SaveChanges();
                         return RedirectToAction("Listado", "Pedidos", new { param = "Success" });
@@ -405,7 +405,7 @@ namespace SIAH.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
-        public ActionResult Autorizacion([Bind(Include = "id,periodo,fechaGeneracion, fechaEntrega, esUrgente,estaAutorizado,hospitalId,estadoID,detallesPedido")] Pedido pedido)
+        public async Task<ActionResult> Autorizacion([Bind(Include = "id,periodo,fechaGeneracion, fechaEntrega, esUrgente,estaAutorizado,hospitalId,estadoID,detallesPedido")] Pedido pedido)
         {
             if (ModelState.IsValid)
             {
@@ -421,6 +421,7 @@ namespace SIAH.Controllers
                 pedido.estaAutorizado = true;
                 pedido.estadoId = 2;
                 db.Entry(pedido).State = EntityState.Modified;
+                await SendEmailCambioEstadoAsync(pedido);
                 try
                 {
                     if (db.SaveChanges() > 0)
@@ -554,20 +555,23 @@ namespace SIAH.Controllers
             return Json(detallesLastPedido, JsonRequestBehavior.AllowGet);
 
         }
-        private async void SendEmailCambioEstadoAsync(Pedido pedido)
+        private async Task SendEmailCambioEstadoAsync(Pedido pedido)
         {
             var message = new MailMessage();
-            message.To.Add(new MailAddress(Session["email"].ToString()));
+            var user = db.UserAccounts.Where(ua => ua.hospitalID == pedido.hospitalId).First();
+            message.To.Add(new MailAddress(user.email));
             message.From = new MailAddress("siah.reclamos@gmail.com");
-            message.Subject = string.Format("[SIAH] El pedido nro {0} fue actualizado", pedido.id);
+            message.Subject = string.Format("[SIAH] El pedido N°{0} fue actualizado", pedido.id);
             string body = string.Empty;
-            using (StreamReader reader = new StreamReader(Server.MapPath("../Views/Shared/EmailCambioEstado.html")))
+            using (StreamReader reader = new StreamReader(Server.MapPath("../../Views/Shared/EmailCambioEstado.html")))
             {
                 body = reader.ReadToEnd();
             }
             body = body.Replace("{pedidoId}", pedido.id.ToString());
             Hospital hospital = db.Hospitales.Find(pedido.hospitalId);
             body = body.Replace("{hospitalName}", hospital.nombre);
+            var estado = db.Estados.Find(pedido.estadoId);
+            body = body.Replace("{estadoName}", estado.nombreEstado);
 
             message.Body = body;
 
