@@ -4,6 +4,13 @@
 @{
     ViewBag.Title = "Usuarios";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
 }
 
 <div class="banner-catalog">
@@ -162,6 +169,36 @@
             $("#maintable").DataTable({
                 "order": [[0, "desc"]]
             });
+
+            if (@ViewBag.success.ToString().ToLower() === true) {
+                $.notify({
+                    title: '<strong>Aviso!</strong><br/>',
+                    message: 'Operación completada con éxito'
+                }, {
+                    type: 'success',
+                    offset: {
+                        x: 20,
+                        y: 90
+                    }
+                },
+                );
+
+            }
+            else {
+                if (@ViewBag.validacion.ToString().ToLower()=== true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: '@ViewBag.problem '
+                    }, {
+                        type: 'danger',
+                        offset: {
+                            x: 20,
+                            y: 80
+                        }
+                    },
+                    );
+                }
+            }
         });
 
         function deleteUser(idUser) {
