@@ -3,6 +3,7 @@ using SIAH.Context;
 using SIAH.Models;
 using SIAH.Models.Insumos;
 using SIAH.Models.Pedidos;
+using SIAH.Models.Remitos;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -48,6 +50,7 @@ namespace SIAH.Controllers
                     }
                     db.Entry(pedido).State = EntityState.Modified;
                     db.SaveChanges();
+                    SendEmailCambioEstadoAsync(pedido);
                 }
                 else
                 {
@@ -82,6 +85,7 @@ namespace SIAH.Controllers
                 pedido.estadoId = 4;
                 db.Entry(pedido).State = EntityState.Modified;
                 db.SaveChanges();
+                SendEmailCambioEstadoAsync(pedido);
             }
             catch (Exception e)
             {
@@ -104,6 +108,7 @@ namespace SIAH.Controllers
                 pedido.estadoId = 5;
                 db.Entry(pedido).State = EntityState.Modified;
                 db.SaveChanges();
+                SendEmailCambioEstadoAsync(pedido);
             }
             catch (Exception e)
             {
@@ -175,6 +180,7 @@ namespace SIAH.Controllers
                             pedido.trackingNumber = responseObject.tracking;
                             pedido.estadoId = 3;
                             db.Entry(pedido).State = EntityState.Modified;
+                            SendEmailCambioEstadoAsync(pedido);
                         }
                         db.SaveChanges();
                         return RedirectToAction("Listado", "Pedidos", new { param = "Success" });
@@ -547,6 +553,30 @@ namespace SIAH.Controllers
 
             return Json(detallesLastPedido, JsonRequestBehavior.AllowGet);
 
+        }
+        private async void SendEmailCambioEstadoAsync(Pedido pedido)
+        {
+            var message = new MailMessage();
+            message.To.Add(new MailAddress(Session["email"].ToString()));
+            message.From = new MailAddress("siah.reclamos@gmail.com");
+            message.Subject = string.Format("[SIAH] El pedido nro {0} fue actualizado", pedido.id);
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(Server.MapPath("../Views/Shared/EmailCambioEstado.html")))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("{pedidoId}", pedido.id.ToString());
+            Hospital hospital = db.Hospitales.Find(pedido.hospitalId);
+            body = body.Replace("{hospitalName}", hospital.nombre);
+
+            message.Body = body;
+
+            message.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.SendMailAsync(message);
+            }
         }
     }
 }
