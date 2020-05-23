@@ -94,7 +94,7 @@ namespace SIAH.Controllers
             using (Context.SIAHContext db = new Context.SIAHContext())
             {
                 //var usr = db.UserAccounts.Where(u => u.email == user.email && u.password == user.password).Include(p => p.rol).Include(h => h.hospital).FirstOrDefault();
-                var usr = db.UserAccounts.Where(u => u.email == user.email).Include(p => p.rol).Include(h => h.hospital).FirstOrDefault();
+                var usr = db.UserAccounts.Where(u => u.email == user.email && u.active).Include(p => p.rol).Include(h => h.hospital).FirstOrDefault();
                 
                 if (usr != null)
                 {
