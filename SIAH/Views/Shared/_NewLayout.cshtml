@@ -170,7 +170,7 @@
                         <button id="mydd" style="padding: 0px; align-items: center; display: flex; justify-content: flex-start;" class="btn btn-primary dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons" style="margin: 0; padding: 0; font-size: 36.8px; color: #B052C0; background: white; border: 2px solid #B052C0; border-radius: 200px">person</i>
 
-                            @if (Session["userid"] != null)
+                            @if (Session != null && Session["userid"] != null)
                             {
                                 <span style="padding: 0px 20px;text-align: center;">@Session["nombre"].ToString()</span>
                             }

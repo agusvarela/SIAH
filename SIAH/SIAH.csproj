@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AuthorizeUserAccessLevel.cs" />
     <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\DetallesPedidoController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EstadoReclamosController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\EstadosRemitoController.cs" />
@@ -353,6 +354,7 @@
     <Content Include="Content\css\animate.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\demo.css" />
+    <Content Include="Content\css\DeniedStyles.css" />
     <Content Include="Content\css\jquery.TablaDatos.min.css" />
     <Content Include="Content\css\SIAHStyle.css" />
     <Content Include="Content\css\SiahStyleNew.css" />
@@ -492,7 +494,7 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -613,6 +615,7 @@
     <Content Include="Views\Reportes\ReporteConsolidado.cshtml" />
     <Content Include="Views\Reportes\ReporteComparacion.cshtml" />
     <Content Include="Views\Reportes\ReporteBI.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
