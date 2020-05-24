@@ -1,0 +1,41 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Acceso Denegado ";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<body>
+    <div id="background">
+        <div id="notfound">
+            <div class="notfound">
+                <div class="notfound-404">
+                    <h1>Oops!</h1>
+                </div>
+                <h2>Error Inesperado</h2>
+                <h3>Ocurrió un error al procesar la solicitud</h3> <br><br>
+                @if (Model != null)
+                {
+                    <div class="myException">
+                        <p>
+                            <b>Exception:</b> @Model.Exception.Message<br />
+                            <b>Controller:</b> @Model.ControllerName<br />
+                            <b>Action:</b> @Model.ActionName
+                        </p>
+                        <div style="overflow: scroll; max-height: 150px; background-color:transparent">
+                            @Model.Exception.StackTrace
+                        </div>
+                    </div>
+                }
+                </p><br> <br>
+                <a href="~/Home">
+                    Ir al Inicio
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+@Styles.Render("~/Content/css/DeniedStyles.css");
+<link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,700" rel="stylesheet">
+
+
+<br />
