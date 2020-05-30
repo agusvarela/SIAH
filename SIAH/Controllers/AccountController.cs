@@ -15,8 +15,20 @@ namespace SIAH.Controllers
         private SIAHContext db = new SIAHContext();
         // GET: Account
         [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
-        public ActionResult Index()
+        public ActionResult Index(string param)
         {
+            if (param != null)
+            {
+                if (param.CompareTo("Success") == 0)
+                {
+                    ViewBag.success = true;
+                }
+                else
+                {
+                    ViewBag.success = false;
+                    ViewBag.problem = param;
+                };
+            }
             using (SIAHContext db = new SIAHContext())
             {
                 return View(db.UserAccounts.Include(u => u.rol).Where(x => x.active).ToList());
@@ -27,8 +39,8 @@ namespace SIAH.Controllers
         public ActionResult Register()
         {
             ViewBag.HospitalRequired = "";
-            ViewBag.rolID = new SelectList(db.Roles, "id", "nombre");
-            ViewBag.hospitalID = new SelectList(db.Hospitales, "id", "nombre");
+            ViewBag.rolID = new SelectList(db.Roles.OrderBy(x => x.nombre), "id", "nombre");
+            ViewBag.hospitalID = new SelectList(db.Hospitales.OrderBy(x => x.nombre), "id", "nombre");
             return View();
         }
         
@@ -47,6 +59,11 @@ namespace SIAH.Controllers
                 }
                 else
                 {
+                    var usr = db.UserAccounts.Where(u => u.email == account.email && u.active).FirstOrDefault();
+                    if (usr != null)
+                    {
+                        return RedirectToAction("Index", new { param = "Existe un usuario activo con esa dirección de correo" });
+                    }
                     String hash = Hashing.HashPassword(account.password);
                     account.password = hash;
                     account.confirmPassword = hash;
