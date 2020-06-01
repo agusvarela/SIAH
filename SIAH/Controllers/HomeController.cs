@@ -9,8 +9,12 @@ namespace SIAH.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string param)
         {
+            if (param != null)
+            {
+                ViewBag.success = true;
+            }
 
             ViewBag.UserError = TempData["UserMessage"];
             ViewBag.PassError = TempData["PassMessage"];

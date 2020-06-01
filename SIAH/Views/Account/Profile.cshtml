@@ -2,7 +2,7 @@
 @model SIAH.Models.UserAccount
 
 @{
-    ViewBag.Title = "Nuevo usuario";
+    ViewBag.Title = "Perfil";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
@@ -14,8 +14,8 @@
     <div class="banner-catalog">
         <div class="container">
             <div class="col-sm-9">
-                <h1>Registrar nuevo usuario</h1>
-                <div class="banner-catalog__content">Registre un nuevo usuario en el sistema.</div>
+                <h1>Perfil de <strong><i>@Model.nombre @Model.apellido</i></strong></h1>
+                <div class="banner-catalog__content">Modifique su propia información.</div>
             </div>
             <div class="col-lg-3">
                 <div class="icon icon-info">
@@ -43,18 +43,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.Label("Nombre", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        @Html.LabelFor(model => model.nombre, "Nombre", htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-8">
-                                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.Label("Apellido", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-8">
-                                            @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.LabelFor(model => model.apellido, "Apellido", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
                                             @Html.ValidationMessageFor(model => model.apellido, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        @Html.LabelFor(model => model.email, "Email", htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-8">
                                             @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.rolID, "Asignar un Rol", htmlAttributes: new { @class = "control-label col-md-3", style = "padding-left: 0px;" })
+                                        @Html.LabelFor(model => model.rolID, "Rol asignado", htmlAttributes: new { @class = "control-label col-md-3", style = "padding-left: 0px;" })
                                         <div class="col-md-7">
                                             @{ foreach (var item in ViewBag.rolID.Items)
                                                 {
@@ -82,7 +82,7 @@
                                                     item.nombre = rol;
                                                 }
                                             }
-                                            @Html.DropDownList("rolID", null, "--Seleccione un rol--", htmlAttributes: new { @class = "form-control", @onchange = "updateInput()" })
+                                            @Html.DropDownList("rolID", null, htmlAttributes: new { @class = "form-control", disabled = "disabled" })
                                             @Html.ValidationMessageFor(model => model.rolID, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -93,9 +93,9 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div id="divHospital" class="form-group">
-                                        @Html.LabelFor(model => model.hospitalID, "Asignar un Hospital", htmlAttributes: new { @class = "control-label col-md-3" })
-                                        <div class="col-md-8">
-                                            @Html.DropDownList("hospitalID", null, "--Seleccione un hospital--", htmlAttributes: new { @class = "form-control" })
+                                        @Html.LabelFor(model => model.hospitalID, "Hospital asignado", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.DropDownList("hospitalID", null, "--Seleccione un hospital--", htmlAttributes: new { @class = "form-control", disabled = "disabled" })
                                             <span class="text-danger">@ViewBag.HospitalRequired</span>
                                         </div>
                                     </div>
@@ -103,36 +103,9 @@
                             </div>
                             <br />
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("Contraseña", htmlAttributes: new { @class = "control-label col-md-3", @style = "margin-bottom: 30px" })
-                                        <div class="col-md-8" style="display: flex; align-items: center">
-                                            <input id="password" type="password" autocomplete="new-password" class="form-control text-box single-line password" pattern=".{4,}" name="password" required title="4 caracteres minimo">
-                                            <i toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" style="margin: 0px"></i>
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("Confirmar contraseña", htmlAttributes: new { @class = "control-label col-md-3" })
-                                        <div class="col-md-7" style="display: flex; align-items: center">
-                                            <input id="confirmPassword" type="password" class="form-control text-box single-line password" pattern=".{4,}" name="confirmPassword" required>
-                                            <i toggle="#confirmPassword" class="fa fa-fw fa-eye field-icon toggle-password" style="margin: 0px"></i>
-                                        </div>
-                                        <div class="col-md-8">
-                                            @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Crear usuario" class="btn btn-round btn-success pull-right" />
+                                    <input type="submit" id="actualizar" value="Actualizar perfil" class="btn btn-round btn-success pull-right" disabled="disabled" />
                                 </div>
                             </div>
                         </div>
@@ -141,7 +114,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <input type="button" style="margin-top: 20px;" id="volver" value="Volver al listado de usuarios" class="btn pull-left btn-primary" />
+            <input type="button" style="margin-top: 20px;" id="volver" value="Volver al inicio" class="btn pull-left btn-primary" />
         </div>
     </div>
 }
@@ -149,14 +122,16 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#password, #confirmPassword').on('keyup', function (event) {
-                var confirmPassword = document.getElementById("confirmPassword");
-                var password = document.getElementById("password");
+            document.getElementById("rolID").value = @Model.rolID;
+            if (@Model.hospitalID != null) {
+                document.getElementById("hospitalID").value = @Model.hospitalID;
+            }
 
-                if (confirmPassword.value != password.value) {
-                    confirmPassword.setCustomValidity("Las contraseñas no coinciden");
+            $('#email').on('change keyup', function (event) {
+                if (document.getElementById("email").value != '@Session["email"]') {
+                    document.getElementById("actualizar").removeAttribute("disabled");
                 } else {
-                    confirmPassword.setCustomValidity("");
+                    document.getElementById("actualizar").setAttribute("disabled", true);
                 }
             });
 
@@ -174,7 +149,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                        location.href = '/Account';
+                        location.href = '/Home/@Session["rol"].ToString()';
                     }
                 });
             });

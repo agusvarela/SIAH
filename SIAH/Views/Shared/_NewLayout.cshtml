@@ -192,6 +192,9 @@
                                 }
                                 if (Session["userid"] != null)
                                 {
+                                    <li>@Html.ActionLink("Perfil", "Profile", "Account")</li>
+                                    <li>@Html.ActionLink("Modificar Contraseña", "newPassword", "Account")</li>
+                                    <li role="separator" class="divider"></li>
                                     <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
                                 }
                             }

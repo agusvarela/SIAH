@@ -13,6 +13,7 @@ namespace SIAH.Controllers
     public class AccountController : Controller
     {
         private SIAHContext db = new SIAHContext();
+
         // GET: Account
         [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Index(string param)
@@ -35,6 +36,90 @@ namespace SIAH.Controllers
             }
         }
 
+        //GET: Account/NewPassword
+        [AuthorizeUserAccessLevel(Users = new string[] { "DirectorArea", "RespAutorizacion", "RespFarmacia", "Compras" })]
+        public ActionResult NewPassword()
+        {
+            return View();
+        }
+
+        //POST: Account/NewPassword
+        [HttpPost]
+        [AuthorizeUserAccessLevel(Users = new string[] { "DirectorArea", "RespAutorizacion", "RespFarmacia", "Compras" })]
+        public ActionResult NewPassword([Bind(Include = "password, confirmPassword")]UserAccount userProfile)
+        { 
+            string email = Session["email"].ToString();
+            string password = userProfile.password;
+
+            userProfile = db.UserAccounts.Where(user => user.email == email).First();
+            String hashedPass = Hashing.HashPassword(password);
+            userProfile.password = hashedPass;
+            userProfile.confirmPassword = hashedPass;
+
+            db.Entry(userProfile).State = EntityState.Modified;
+            db.SaveChanges();
+
+            Session.Clear();
+            return RedirectToAction("Index", "Home", new { param = "Success" });
+        }
+
+        //GET: Account/Profile
+        [AuthorizeUserAccessLevel(Users = new string[] { "DirectorArea", "RespAutorizacion", "RespFarmacia", "Compras" })]
+        public ActionResult Profile()
+        {
+            string email = Session["email"].ToString();
+            UserAccount userProfile = db.UserAccounts.Where(user => user.email == email).First();
+
+            ViewBag.HospitalRequired = "";
+            ViewBag.rolID = new SelectList(db.Roles.OrderBy(x => x.nombre), "id", "nombre");
+            ViewBag.hospitalID = new SelectList(db.Hospitales.OrderBy(x => x.nombre), "id", "nombre");
+            return View(userProfile);
+        }
+
+        //POST: Account/Profile
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthorizeUserAccessLevel(Users = new string[] { "DirectorArea", "RespAutorizacion", "RespFarmacia", "Compras" })]
+        public ActionResult Profile([Bind(Include = "nombre, apellido, email, rolID, password, confirmPassword, hospitalID")]UserAccount account)
+        {
+            string emailAPisar = account.email;
+            string emailABuscar = Session["email"].ToString();
+            account = db.UserAccounts.Where(user => user.email == emailABuscar).First();
+            account.email = emailAPisar;
+            ViewBag.HospitalRequired = "";
+                
+            if (string.Compare(db.Roles.Find(account.rolID.Value).nombre, "RespFarmacia") == 0 && account.hospitalID == null)
+            {
+                ViewBag.HospitalRequired = "El hospital es obligatorio para los responsables de farmacia";
+            }
+            else
+            {
+                using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
+                {
+                    try
+                    {
+                        db.Entry(account).State = EntityState.Modified;
+                        if (db.SaveChanges() > 0)
+                        {
+                            Session.Clear();
+                            return RedirectToAction("Index", "Home", new { param = "Success" });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        return RedirectToAction("Index", new { param = e.Message });
+                    }
+                }
+                ModelState.Clear();
+            }
+
+            UserAccount userProfile = db.UserAccounts.Where(user => user.email == emailABuscar).First();
+            ViewBag.rolID = new SelectList(db.Roles.OrderBy(x => x.nombre), "id", "nombre");
+            ViewBag.hospitalID = new SelectList(db.Hospitales.OrderBy(x => x.nombre), "id", "nombre");
+            return View(userProfile);
+        }
+
+        //GET: Account/Register
         [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Register()
         {
@@ -43,8 +128,8 @@ namespace SIAH.Controllers
             ViewBag.hospitalID = new SelectList(db.Hospitales.OrderBy(x => x.nombre), "id", "nombre");
             return View();
         }
-        
 
+        //POST: Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
