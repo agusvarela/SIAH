@@ -76,17 +76,19 @@
                                 </div>
                             </div>
                             <br />
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="divHospital" class="form-group">
-                                        @Html.LabelFor(model => model.hospitalID, "Hospital asignado", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-8">
-                                            @Html.DropDownList("hospitalID", null, htmlAttributes: new { @class = "form-control" })
+                            @if (Model.rol.nombre == "RespFarmacia")
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="divHospital" class="form-group">
+                                            @Html.LabelFor(model => model.hospitalID, "Hospital asignado", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(x => x.hospitalID, null, htmlAttributes: new { @class = "form-control" })
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                             <br />
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
@@ -99,25 +101,4 @@
             </div>
         </div>
     </div>
-}
-
-@section Scripts {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            document.getElementById("divHospital").style.display = "none";
-            updateInput();
-        });
-
-        function updateInput() {
-            const rol = "@Model.rol.nombre";
-            if (rol === "RespFarmacia") {
-                document.getElementById("divHospital").setAttribute("style", "display: block");
-                 $('#hospitalID').val('@Model.hospitalID');
-            }
-            else {
-                $("#hospitalID").val('');
-                document.getElementById("divHospital").setAttribute("style", "display: none");
-            }
-        }
-    </script>
 }

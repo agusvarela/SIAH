@@ -195,19 +195,14 @@ namespace SIAH.Controllers
         [HttpPost]
         public ActionResult Edit([Bind(Include = "id, nombre, apellido, email, hospitalID")] UserAccount account)
         {
-            if (ModelState.IsValid)
-            {
-                UserAccount accountToModify = db.UserAccounts.Find(account.id);
-                accountToModify.hospitalID = account.hospitalID;
-                accountToModify.nombre = account.nombre;
-                accountToModify.apellido = account.apellido;
-                accountToModify.email = account.email;
-                db.Entry(accountToModify).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(account);
+            UserAccount accountToModify = db.UserAccounts.Find(account.id);
+            accountToModify.hospitalID = account.hospitalID;
+            accountToModify.nombre = account.nombre;
+            accountToModify.apellido = account.apellido;
+            accountToModify.email = account.email;
+            db.Entry(accountToModify).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         //Login
