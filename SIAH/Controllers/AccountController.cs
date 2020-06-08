@@ -177,6 +177,39 @@ namespace SIAH.Controllers
             return View();
         }
 
+        //Edit
+
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ViewBag.hospitalID = new SelectList(db.Hospitales.OrderBy(x => x.nombre), "id", "nombre");
+            UserAccount userAccount = db.UserAccounts.Include(x => x.rol).Where(x => x.id == id).First();
+            return View(userAccount);
+        }
+
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "id, nombre, apellido, email, hospitalID")] UserAccount account)
+        {
+            if (ModelState.IsValid)
+            {
+                UserAccount accountToModify = db.UserAccounts.Find(account.id);
+                accountToModify.hospitalID = account.hospitalID;
+                accountToModify.nombre = account.nombre;
+                accountToModify.apellido = account.apellido;
+                accountToModify.email = account.email;
+                db.Entry(accountToModify).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(account);
+        }
+
         //Login
         public ActionResult Login()
         {

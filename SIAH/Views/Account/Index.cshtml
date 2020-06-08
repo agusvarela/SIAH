@@ -98,6 +98,9 @@
                                                     @Html.DisplayFor(modelItem => rol)
                                                 </td>                                                
                                                 <td class="text-center">
+                                                    <button id="edit" class="btn btn-round" style="padding: 0px; background-color: white !important" onclick="editUser(@item.id)">
+                                                        <i style="margin: 0; padding: 0;  background: white" class="material-icons icon-info">edit</i>
+                                                    </button>
                                                     <button id="delete" class="btn btn-round" style="padding: 0px; background-color: white !important" onclick="deleteUser(@item.id)">
                                                         <i style="margin: 0; padding: 0;  background: white" class="material-icons icon-danger">delete</i>
                                                     </button>
@@ -219,6 +222,10 @@
                     location.href = "/Account/Delete/" + idUser;
                 }
             });
+        }
+
+        function editUser(idUser) {
+            location.href = "/Account/Edit/" + idUser
         }
     </script>
 }
