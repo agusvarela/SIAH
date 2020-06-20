@@ -17,6 +17,7 @@ namespace SIAH.Controllers
         private SIAHContext db = new SIAHContext();
 
         // GET: Compras
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Index()
         {
             return View(db.Compras.ToList());
