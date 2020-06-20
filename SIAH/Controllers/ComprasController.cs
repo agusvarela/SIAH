@@ -74,6 +74,7 @@ namespace SIAH.Controllers
         }
 
         //GET: Compras/Details
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Details(int id)
         {
             Compra compra = db.Compras.Include(d => d.detallesCompra).Include(c => c.detallesCompra.Select(x => x.insumo)).Where(r => r.id == id).First();
