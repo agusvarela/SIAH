@@ -6,7 +6,7 @@
 }
 
 
-@using (Html.BeginForm("Index", "Compras", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Index", "Compras", FormMethod.Get, new { enctype = "multipart/form-data" }))
 {
     <div class="banner-catalog">
         <div class="container">
@@ -26,16 +26,35 @@
         <div class="form-horizontal">
             <br>
             <div class="row">
+                <div class="col-md-12">
+                    <div class=" col-sm-10">
+                        <div class="row">
+                            <div class="col-lg-11">
+                                <div id="alertArea  animated zoomIn">
+                                    <div class="alert alert-info pq-alert animated zoomIn">
+                                        <i class="fa fa-arrow-right"></i>
+                                        <span>Verifique el listado de compras y verifique el detalle de cada compra</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-sm-2">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="alertArea  animated zoomIn">
+                                    <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" onclick="location.href='@Url.Action("CargarCompra", "Compras", null)'">
+                                        <strong>Cargar compra</strong>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-12">
                     <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                         <div class="form-card__content group">
 
-                            <div id="alertArea  animated zoomIn">
-                                <div class="alert alert-info pq-alert  animated zoomIn">
-                                    <i class="fa fa-arrow-right"></i>
-                                    <span>Verifique el listado de compras y verifique el detalle de cada compra</span>
-                                </div>
-                            </div>
                             <div id="table-container">
                                 <table id="maintable" class="table table-condensed">
                                     <thead>

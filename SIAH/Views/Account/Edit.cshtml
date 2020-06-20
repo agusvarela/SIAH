@@ -100,5 +100,33 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-4">
+            <input type="button" style="margin-top: 20px;" id="volver" value="Volver al listado de usuarios" class="btn pull-left btn-primary" />
+        </div>
     </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#volver').on('click', function (event) {
+                Swal.fire({
+                    title: '¿Está seguro que desea volver?',
+                    text: "Cualquier cambio realizado se perdera",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = '/Account';
+                    }
+                });
+            });
+        });
+    </script>
 }

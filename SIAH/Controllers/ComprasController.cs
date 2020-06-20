@@ -23,7 +23,7 @@ namespace SIAH.Controllers
         }
 
         // GET: Cargar compra
-        [AuthorizeUserAccessLevel(UserRole = "Compras")]
+        [AuthorizeUserAccessLevel(UserRole = "Compras", UserRole2 = "DirectorArea")]
         public ActionResult CargarCompra(String param)
         {
 
@@ -43,7 +43,7 @@ namespace SIAH.Controllers
         }
 
         // POST: Cargar compra
-        [AuthorizeUserAccessLevel(UserRole = "Compras")]
+        [AuthorizeUserAccessLevel(UserRole = "Compras", UserRole2 = "DirectorArea")]
         [HttpPost]
         public ActionResult CargarCompra(HttpPostedFileBase file, DateTime fechaEntregaEfectiva)
         {

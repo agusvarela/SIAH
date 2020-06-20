@@ -292,6 +292,7 @@ namespace SIAH.Controllers
         }
 
         // GET: Hospitals/Delete/5
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         [ActionName("Delete")]
         public ActionResult Delete(int? id)
         {

@@ -41,7 +41,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.Label("Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @Html.LabelFor(model => model.nombre, "Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-12">
                                             @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
@@ -51,7 +51,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.Label("Localidad", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @Html.LabelFor(model => model.localidad, "Localidad", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-12">
                                             @Html.DropDownList("localidadId", null, htmlAttributes: new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.localidadId, "", new { @class = "text-danger" })
@@ -63,7 +63,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.Label("Presupuesto", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @Html.LabelFor(model => model.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-12">
                                             @Html.EditorFor(model => model.presupuesto, new { htmlAttributes = new { @class = "form-control", @Name = "precioUnitario", @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44", data_val = "false" } })
                                             @Html.ValidationMessageFor(model => model.presupuesto, "", new { @class = "text-danger" })
@@ -73,7 +73,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.Label("Telefono", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @Html.LabelFor(model => model.telefono, "Telefono", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-12">
                                             @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.telefono, "", new { @class = "text-danger" })
@@ -85,7 +85,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.Label("Latitud", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @Html.LabelFor(model => model.latitud, "Latitud", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-12">
                                             @Html.EditorFor(model => model.latitud, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                             @Html.ValidationMessageFor(model => model.latitud, "", new { @class = "text-danger" })
@@ -95,7 +95,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        @Html.Label("Longitud", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        @Html.LabelFor(model => model.longitud, "Longitud", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-12">
                                             @Html.EditorFor(model => model.longitud, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                             @Html.ValidationMessageFor(model => model.longitud, "", new { @class = "text-danger" })
@@ -124,6 +124,9 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-4">
+            <input type="button" style="margin-top: 20px;" id="volver" value="Volver al listado de hospitales" class="btn pull-left btn-primary" />
+        </div>
     </div>
 }
 
@@ -146,5 +149,26 @@
             document.getElementById("latitud").value = location.lat();
             document.getElementById("longitud").value = location.lng();
         }
+
+        $(document).ready(function () {
+            $('#volver').on('click', function (event) {
+                Swal.fire({
+                    title: '¿Está seguro que desea volver?',
+                    text: "Cualquier cambio realizado se perdera",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = '/Hospitales';
+                    }
+                });
+            });
+        });
     </script>
 }
