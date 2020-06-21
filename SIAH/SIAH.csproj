@@ -318,6 +318,10 @@
     <Compile Include="Migrations\202005232032435_add_active_field_user_account.Designer.cs">
       <DependentUpon>202005232032435_add_active_field_user_account.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006202310411_add_userID_field_pedidos.cs" />
+    <Compile Include="Migrations\202006202310411_add_userID_field_pedidos.Designer.cs">
+      <DependentUpon>202006202310411_add_userID_field_pedidos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
@@ -719,6 +723,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005232032435_add_active_field_user_account.resx">
       <DependentUpon>202005232032435_add_active_field_user_account.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006202310411_add_userID_field_pedidos.resx">
+      <DependentUpon>202006202310411_add_userID_field_pedidos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
