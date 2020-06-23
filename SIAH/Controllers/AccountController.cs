@@ -7,6 +7,7 @@ using SIAH.Models;
 using SIAH.Context;
 using System.Data.Entity;
 using System.Net;
+using System.Text;
 
 namespace SIAH.Controllers
 {
@@ -291,7 +292,7 @@ namespace SIAH.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // GET: Hospitals/Delete/5
+        // GET: Accounts/Delete/5
         [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         [ActionName("Delete")]
         public ActionResult Delete(int? id)
@@ -309,6 +310,59 @@ namespace SIAH.Controllers
             db.Entry(user).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        // GET: Accounts/ForgotPassword
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        // POST: Accounts/ForgotPassword
+        [HttpPost]
+        public ActionResult ForgotPassword(string email)
+        {
+            var account = db.UserAccounts.Where(x => x.email == email).FirstOrDefault();
+            if (account == null)
+            {
+                return RecoveryResult(false);
+            }
+            string newPassword = GenerateRandomPassword();
+            string hash = Hashing.HashPassword(newPassword);
+            Console.WriteLine("NEW PASSWORD " + newPassword);
+            account.password = hash;
+            account.confirmPassword = hash;
+            db.Entry(account).State = EntityState.Modified;
+            db.SaveChanges();
+            //TODO: Send email
+            return RecoveryResult(true);
+        }
+
+        private string GenerateRandomPassword()
+        {
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random();
+            var length = 8;
+            char letter;
+
+            for (int i = 0; i < length; i++)
+            {
+                double flt = random.NextDouble();
+                int shift = Convert.ToInt32(Math.Floor(25 * flt));
+                letter = Convert.ToChar(shift + 65);
+                builder.Append(letter);
+            }
+
+            return builder.ToString();
+        }
+
+        // GET: Accounts/RecoverySuccess
+        public ActionResult RecoveryResult(bool success)
+        {
+            ViewBag.resultMessage = success ? 
+                "Su nueva contraseña fue enviada correctamente a su dirección de correo" 
+                : "El usuario no existe, intentelo nuevamente";
+            return View();
         }
     }
 }
