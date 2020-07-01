@@ -8,6 +8,9 @@ using SIAH.Context;
 using System.Data.Entity;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
+using System.Net.Mail;
+using System.IO;
 
 namespace SIAH.Controllers
 {
@@ -320,22 +323,21 @@ namespace SIAH.Controllers
 
         // POST: Accounts/ForgotPassword
         [HttpPost]
-        public ActionResult ForgotPassword(string email)
+        public ActionResult ForgotPassword([Bind(Include = "email")] string email)
         {
             var account = db.UserAccounts.Where(x => x.email == email).FirstOrDefault();
             if (account == null)
             {
-                return RecoveryResult(false);
+                return RedirectToAction("RecoveryResult", new { success = false });
             }
             string newPassword = GenerateRandomPassword();
             string hash = Hashing.HashPassword(newPassword);
-            Console.WriteLine("NEW PASSWORD " + newPassword);
             account.password = hash;
             account.confirmPassword = hash;
             db.Entry(account).State = EntityState.Modified;
             db.SaveChanges();
-            //TODO: Send email
-            return RecoveryResult(true);
+            Task.Run(() => SendEmail(email, newPassword));
+            return RedirectToAction("RecoveryResult", new { success = true });
         }
 
         private string GenerateRandomPassword()
@@ -354,6 +356,29 @@ namespace SIAH.Controllers
             }
 
             return builder.ToString();
+        }
+
+        private async Task SendEmail(string email, string newPassword)
+        {
+            var message = new MailMessage();
+            message.To.Add(new MailAddress(email));
+            message.From = new MailAddress("siah.reclamos@gmail.com");
+            message.Subject = string.Format("[SIAH] Su contraseña fue actualizada");
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(Server.MapPath("../Views/Shared/EmailPassword.html")))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("{newPassword}", newPassword);
+
+            message.Body = body;
+
+            message.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.SendMailAsync(message);
+            }
         }
 
         // GET: Accounts/RecoverySuccess

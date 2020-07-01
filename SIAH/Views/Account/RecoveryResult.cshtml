@@ -4,7 +4,18 @@
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<h2>Resultado de recuperación de contraseña</h2>
-
-<p>@ViewBag.resultMessage</p>
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-sm-9">
+            <h1>Resultado de recuperación de contraseña</h1>
+            <div class="banner-catalog__content">@ViewBag.resultMessage</div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-info">
+                <i class="material-icons pull-right" style="font-size: 100px">person</i>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
 

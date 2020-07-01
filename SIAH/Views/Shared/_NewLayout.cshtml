@@ -153,6 +153,15 @@
                                 @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
                             </a>
                         }
+                        else
+                        {
+                            <a class="logo-container" href="@Url.Action("Index", "Home", null)">
+                                <div class="logo">
+                                    <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                                </div>
+                                @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                            </a>
+                        }
                     }
                 }
                 catch (Exception e)
@@ -167,51 +176,52 @@
                 }
 
             </div>
-            <div class="collapse navbar-collapse" id="navigation-index">
-                <ul class="nav navbar-nav nav-pills pull-right">
-                    <li class="dropdown">
-                        <button id="mydd" style="padding: 0px; align-items: center; display: flex; justify-content: flex-start;" class="btn btn-primary dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons" style="margin: 0; padding: 0; font-size: 36.8px; color: #B052C0; background: white; border: 2px solid #B052C0; border-radius: 200px">person</i>
+            @if (Session != null && Session["userid"] != null)
+            {
+                <div class="collapse navbar-collapse" id="navigation-index">
+                    <ul class="nav navbar-nav nav-pills pull-right">
+                        <li class="dropdown">
+                            <button id="mydd" style="padding: 0px; align-items: center; display: flex; justify-content: flex-start;" class="btn btn-primary dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons" style="margin: 0; padding: 0; font-size: 36.8px; color: #B052C0; background: white; border: 2px solid #B052C0; border-radius: 200px">person</i>
 
-                            @if (Session != null && Session["userid"] != null)
-                            {
                                 <span style="padding: 0px 20px;text-align: center;">@Session["nombre"].ToString()</span>
-                            }
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            @try
-                            {
-                                if (Session != null)
+
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                @try
                                 {
-                                    if (Session["rol"].ToString() == "RespAutorizacion")
+                                    if (Session != null)
                                     {
-                                        <li>@Html.ActionLink("Ir al Inicio", "RespAutorizacion", "Home")</li>
-                                    }
-                                    else if (Session["rol"].ToString() == "DirectorArea")
-                                    {
-                                        <li>@Html.ActionLink("Ir al Inicio", "DirectorArea", "Home")</li>
-                                    }
-                                    else if (Session["rol"].ToString() == "RespFarmacia")
-                                    {
-                                        <li>@Html.ActionLink("Ir al Inicio", "RespFarmaciaDashboard", "Home")</li>
-                                    }
-                                    if (Session["userid"] != null)
-                                    {
-                                        <li>@Html.ActionLink("Perfil", "Profile", "Account")</li>
-                                        <li>@Html.ActionLink("Modificar Contraseña", "newPassword", "Account")</li>
-                                        <li role="separator" class="divider"></li>
-                                        <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
+                                        if (Session["rol"].ToString() == "RespAutorizacion")
+                                        {
+                                            <li>@Html.ActionLink("Ir al Inicio", "RespAutorizacion", "Home")</li>
+                                        }
+                                        else if (Session["rol"].ToString() == "DirectorArea")
+                                        {
+                                            <li>@Html.ActionLink("Ir al Inicio", "DirectorArea", "Home")</li>
+                                        }
+                                        else if (Session["rol"].ToString() == "RespFarmacia")
+                                        {
+                                            <li>@Html.ActionLink("Ir al Inicio", "RespFarmaciaDashboard", "Home")</li>
+                                        }
+                                        if (Session["userid"] != null)
+                                        {
+                                            <li>@Html.ActionLink("Perfil", "Profile", "Account")</li>
+                                            <li>@Html.ActionLink("Modificar Contraseña", "newPassword", "Account")</li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
+                                        }
                                     }
                                 }
-                            }
-                            catch (Exception e)
-                            {
-                                <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account")</li>
-                            }
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+                                catch (Exception e)
+                                {
+                                    <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account")</li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            }
         </div>
     </div>
     @Html.MvcSiteMap().SiteMapPath()
