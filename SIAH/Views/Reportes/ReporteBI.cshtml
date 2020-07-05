@@ -1,56 +1,41 @@
 ﻿
 @{
-    ViewBag.Title = "Reportes BI";
+    ViewBag.Title = "Reportes de Inteligencia de Negocios";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
 <div class="banner-catalog">
     <div class="container">
         <div class="col-lg-9">
-            <h1>Reportes BI</h1>
+            <h1>Reportes de Inteligencia de Negocios</h1>
             <div class="banner-catalog__content">
-                Aquí podrá acceder a reportes avanzados de Business Intelligence. (REVISAR DESCRIPCION)
+                Aquí podrá encontrar 5 reportes que le brindarán una visión global sobre diversos aspectos de la oficina de autorizaciones hospitalarias.
+                Los mismos se encuentran divididos en
+                <br />
+                <em>○ Informe general de pedidos</em>
+                <br />
+                <em>○ Informe de hospitales de Córdoba capital</em>
+                <br />
+                <em>○ Informe de hospitales del interior de Córdoba</em>
+                <br />
+                <em>○ Informe de reclamos</em>
+                <br />
+                <em>○ Pronósticos y proyecciones</em>
             </div>
         </div>
         <div class="col-lg-3">
-            <div class="icon icon-danger">
-                <i class="material-icons pull-right" style="font-size: 100px">timeline</i>
+            <div class="row">
+                <img class="pull-right" src="~/Content/img/power-bi-1.jpg" style="max-height:100px; max-width:200px; margin-top:20px" />
             </div>
         </div>
     </div>
 </div>
 <div id="page" style="min-height: 363px;">
     <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Dashboard General</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Dashboard Capital</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Dashboard Interior</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="reclamos-tab" data-toggle="tab" href="#reclamos" role="tab" aria-controls="reclamos" aria-selected="false">Dashboard Reclamos</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <iframe width="1140" height="1024" src="https://app.powerbi.com/view?r=eyJrIjoiOGNkZDBmMDEtMzUxMi00OWYxLTliYjgtMWE2NTllNDJiZGM2IiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
-            </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-
-                <iframe width="1140" height="1024" src="https://app.powerbi.com/view?r=eyJrIjoiNzMyNzVjYzctNmQ1Mi00YzY0LWJmNDEtNGVkOThkOTVmMjQxIiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
-            </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-
-                <iframe width="1140" height="1024" src="https://app.powerbi.com/view?r=eyJrIjoiY2JjZDY1ZGUtNDE2ZS00MTZlLThlYjMtYjgyZjdiNzNiYWM0IiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
-            </div>
-            <div class="tab-pane fade" id="reclamos" role="tabpanel" aria-labelledby="reclamos-tab">
-                <iframe width="1140" height="1024" src="https://app.powerbi.com/view?r=eyJrIjoiYjQzYzk2NGMtMzhmZi00NjY5LWEyYjItMzgwMWU0MmFiNGVmIiwidCI6ImRjZmI2MzJhLWI4OTYtNDI4OC04NDEzLWVjOGQ5NTQxMDZlNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+        <div class="row">
+            <div class="col-lg-12">
+                <iframe width="1140" height="768" src="https://app.powerbi.com/reportEmbed?reportId=f22d06de-888c-46f5-90b2-54283ea26b28&autoAuth=true&ctid=3da3fdbd-106b-4778-a05b-0a6ec0f7ca45&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXBhYXMtMS1zY3VzLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0LyJ9" frameborder="0" allowFullScreen="true"></iframe>
             </div>
         </div>
-
     </div>
 </div>
