@@ -46,7 +46,15 @@ namespace SIAH.Controllers
             ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo.OrderBy(tipo => tipo.nombre), "id", "nombre");
             return View();
         }
-        public ActionResult ControlStock()
+
+        //GET: Insumos como array
+        public JsonResult getInsumos()
+        {
+            String[] insumos = db.Insumos.OrderBy(tipo => tipo.nombre).Select(x => x.nombre).ToArray();
+            return Json(new { data = insumos.ToArray() }, JsonRequestBehavior.AllowGet);
+        }
+
+            public ActionResult ControlStock()
         {
             var insumos = db.Insumos.Include(i => i.tiposInsumo).Join(db.InsumoOcasa, d => d.id, s => s.id, (d, s) => new { d, s }).
                 Select(x => new { id = x.d.id, nombre = x.d.nombre, tipo = x.d.tiposInsumo.nombre, stock = x.d.stockFisico, stockOcasa = x.s.stockFisico }).ToList();

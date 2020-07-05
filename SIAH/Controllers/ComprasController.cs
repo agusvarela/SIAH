@@ -17,13 +17,14 @@ namespace SIAH.Controllers
         private SIAHContext db = new SIAHContext();
 
         // GET: Compras
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Index()
         {
             return View(db.Compras.ToList());
         }
 
         // GET: Cargar compra
-        [AuthorizeUserAccessLevel(UserRole = "Compras")]
+        [AuthorizeUserAccessLevel(UserRole = "Compras", UserRole2 = "DirectorArea")]
         public ActionResult CargarCompra(String param)
         {
 
@@ -43,7 +44,7 @@ namespace SIAH.Controllers
         }
 
         // POST: Cargar compra
-        [AuthorizeUserAccessLevel(UserRole = "Compras")]
+        [AuthorizeUserAccessLevel(UserRole = "Compras", UserRole2 = "DirectorArea")]
         [HttpPost]
         public ActionResult CargarCompra(HttpPostedFileBase file, DateTime fechaEntregaEfectiva)
         {
@@ -73,6 +74,7 @@ namespace SIAH.Controllers
         }
 
         //GET: Compras/Details
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
         public ActionResult Details(int id)
         {
             Compra compra = db.Compras.Include(d => d.detallesCompra).Include(c => c.detallesCompra.Select(x => x.insumo)).Where(r => r.id == id).First();

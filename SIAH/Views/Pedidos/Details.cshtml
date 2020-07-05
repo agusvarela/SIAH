@@ -129,6 +129,23 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-offset-2 col-sm-8" style="margin-top: 20px;">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.responsableAsignado, "Responsable Asignado", htmlAttributes: new { @class = "control-label col-md-4 tota" })
+                                    <div class="col-md-6">
+                                        @Html.TextBox("responsableAsignado", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @type = "hidden" })
+                                        @{ if (string.IsNullOrEmpty(Model.responsableAsignadoId.ToString()))
+                                            {
+                                                @:<text class="form-control">No hay responsable asignado</text>
+                                            }
+                                            else
+                                            {
+                                                @:<text class="form-control">@Model.responsableAsignado.nombre @Model.responsableAsignado.apellido</text>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

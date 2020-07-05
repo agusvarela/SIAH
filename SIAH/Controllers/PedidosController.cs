@@ -72,6 +72,7 @@ namespace SIAH.Controllers
         }
 
         // POST: Pedidos/Cancelar
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia", UserRole2 = "RespAutorizacion", UserRole3 = "DirectorArea")]
         public async Task<ActionResult> Cancelar(int? pedidoId)
         {
             if (pedidoId == null)
@@ -83,6 +84,7 @@ namespace SIAH.Controllers
 
                 var pedido = db.Pedidos.Where(p => p.id == pedidoId).First();
                 pedido.estadoId = 4;
+                pedido.responsableAsignadoId = int.Parse(Session["userid"].ToString());
                 db.Entry(pedido).State = EntityState.Modified;
                 db.SaveChanges();
                 await SendEmailCambioEstadoAsync(pedido);
@@ -136,6 +138,13 @@ namespace SIAH.Controllers
             ViewBag.estado = db.Pedidos.Include(p => p.estado).Where(x => x.id == id).Select(r => new { estado = r.estado.nombreEstado }).First().estado;
             Pedido pedido = db.Pedidos.Find(id);
             ViewBag.hospital = db.Hospitales.Include(hospital => hospital.nombre).Where(hospital => hospital.id == pedido.hospitalId).Select(r => new { hospital = r.nombre }).First().hospital;
+
+            if (pedido.responsableAsignadoId != null)
+            {
+                UserAccount responsable = db.UserAccounts.Find(pedido.responsableAsignadoId);
+                pedido.responsableAsignado = responsable;
+            }
+            
             if (pedido == null)
             {
                 return HttpNotFound();
@@ -420,6 +429,7 @@ namespace SIAH.Controllers
                 //Se modifica el estado del pedido en general
                 pedido.estaAutorizado = true;
                 pedido.estadoId = 2;
+                pedido.responsableAsignadoId = int.Parse(Session["userid"].ToString());
                 db.Entry(pedido).State = EntityState.Modified;
                 await SendEmailCambioEstadoAsync(pedido);
                 try
@@ -500,8 +510,13 @@ namespace SIAH.Controllers
         //GET: Pedidos/PedidosDatasetBI
         public JsonResult PedidosDatasetBI()
         {
-            var dataset = db.Pedidos.Include(x => x.hospital).Select(x => new { IdPedido = x.id, Hospital = x.hospital.nombre, FechaMes = x.fechaGeneracion })
-                .ToList().Select(x => new { IdPedido = x.IdPedido, Hospital = x.Hospital, FechaMes = string.Format("{0:MM/dd/yyyy}", x.FechaMes), TotalPedidoPorMes = GetTotalPedido(x.IdPedido) });
+            var dataset = db.Pedidos.Include(x => x.hospital).Select(x => new { IdPedido = x.id, Hospital = x.hospital.nombre, FechaMes = x.fechaGeneracion, Periodo = x.periodo })
+                .ToList().Select(x => new { 
+                    IdPedido = x.IdPedido, 
+                    Hospital = x.Hospital, 
+                    FechaMes = string.Format("{0:MM/dd/yyyy}", x.FechaMes), 
+                    TotalPedidoPorMes = GetTotalPedido(x.IdPedido),
+                    Periodo = string.Format("{0:MM/dd/yyyy}", x.Periodo) });
             return Json(dataset, JsonRequestBehavior.AllowGet);
         }
 

@@ -11,6 +11,9 @@ namespace System.Web.Mvc
         public string UserRole {get; set;}
         public string UserRole2 { get; set; }
         public string UserRole3 { get; set; }
+        public string UserRole4 { get; set; }
+        public new string[] Users { get; set; }
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             /*var isAuthorized = base.AuthorizeCore(httpContext);
@@ -44,8 +47,15 @@ namespace System.Web.Mvc
                 return false;
             }
 
+            if (Users != null)
+            {
+                foreach(var user in Users)
+                {
+                    if (rol.CompareTo(user) == 0) return true;
+                }
+            }
             
-            if (rol.CompareTo(UserRole) == 0 || rol.CompareTo(UserRole2) == 0 || rol.CompareTo(UserRole3) == 0)
+            if (rol.CompareTo(UserRole) == 0 || rol.CompareTo(UserRole2) == 0 || rol.CompareTo(UserRole3) == 0 || rol.CompareTo(UserRole4) == 0)
             {
                 return true;
             }

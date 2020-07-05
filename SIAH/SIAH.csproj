@@ -320,6 +320,10 @@
     <Compile Include="Migrations\202005232032435_add_active_field_user_account.Designer.cs">
       <DependentUpon>202005232032435_add_active_field_user_account.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006202310411_add_userID_field_pedidos.cs" />
+    <Compile Include="Migrations\202006202310411_add_userID_field_pedidos.Designer.cs">
+      <DependentUpon>202006202310411_add_userID_field_pedidos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
@@ -480,6 +484,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Shared\EmailPassword.html" />
     <Content Include="Views\Shared\EmailDiferenciaStock.html" />
     <Content Include="Views\Shared\EmailCambioEstado.html" />
     <Content Include="Views\Shared\EmailReclamo.html" />
@@ -536,6 +541,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\LoggedIn.cshtml" />
     <Content Include="Views\Account\Logout.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Roles\Details.cshtml" />
@@ -616,6 +622,10 @@
     <Content Include="Views\Reportes\ReporteComparacion.cshtml" />
     <Content Include="Views\Reportes\ReporteBI.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Account\NewPassword.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\RecoveryResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -718,6 +728,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005232032435_add_active_field_user_account.resx">
       <DependentUpon>202005232032435_add_active_field_user_account.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006202310411_add_userID_field_pedidos.resx">
+      <DependentUpon>202006202310411_add_userID_field_pedidos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -38,7 +38,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input type="file" class="form-control-file" id="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                    <input type="file" class="form-control-file btn btn-info btn-round" id="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                                     <label for="file">Seleccione un archivo con extensión .xls (Excel)</label>
                                     <input type="submit" value="Cargar compra" class="btn btn-round btn-success pull-right" data-toggle="modal" data-target="#myModal" />
                                 </div>
@@ -48,14 +48,39 @@
                 </div>
             </div>
         </div>
+        @if (Session["rol"].ToString() == "DirectorArea")
+        {
+            <div class="col-sm-4">
+                <input type="button" style="margin-top: 40px;" id="volver" value="Volver al listado de compras" class="btn pull-left btn-primary" />
+            </div>
+        }
     </div>
 
-    @Html.TextBox("fechaEntregaEfectiva", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = DateTime.Today, @name = "fechaEntregaEfectiva", @id = "fecha", @type = "hidden" })
+    @Html.TextBox("fechaEntregaEfectiva", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = DateTime.Today, @name = "fechaEntregaEfectiva", @id = "fecha", @type = "hidden", style = "margin-top: 0px;" })
 
 }
-@section Scripts {
+    @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
+            $('#volver').on('click', function (event) {
+                Swal.fire({
+                    title: '¿Está seguro que desea volver?',
+                    text: "Cualquier cambio realizado se perdera",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = '/Compras';
+                    }
+                });
+            });
+
             if (@ViewBag.success.ToString().ToLower() === true) {
                 $.notify({
                     title: '<strong>Aviso!</strong><br/>',

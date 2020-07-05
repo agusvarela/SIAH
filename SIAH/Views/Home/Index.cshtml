@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
     String UserError = ViewBag.UserError;
     String PassError = ViewBag.PassError;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+    }
 }
 <script type="text/javascript">
     window.addEventListener("load", function () {
@@ -47,7 +51,11 @@
                                     @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contraseña", @type = "password" } })
                                     @Html.ValidationMessageFor(model => model.password, PassError, new { @class = "text-danger" })
                                 </div>
+                                <div class="input-group" style="padding: 0px 15px">
+                                    @Html.ActionLink("Olvidé mi contraseña", "ForgotPassword", "Account")
+                                </div>
                             </div>
+
                             <div class="footer text-center">
                                 <input type="submit" value="Ingresar" class="btn btn-round btn-primary" />
                             </div>
@@ -150,4 +158,25 @@ if (ViewBag.success == false)
             </div>
         </div>
     </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if (@ViewBag.success.ToString().ToLower() == true) {
+                $.notify({
+                    title: '<strong>Aviso!</strong><br/>',
+                    message: 'Modificación exitosa, debe loguearse con su nueva información.'
+                }, {
+                    type: 'success',
+                    offset: {
+                        x: 20,
+                        y: 90
+                    }
+                }
+                );
+
+            }
+        });
+    </script>
 }

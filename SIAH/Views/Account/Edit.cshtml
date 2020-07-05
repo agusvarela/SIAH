@@ -1,0 +1,132 @@
+﻿@model SIAH.Models.UserAccount
+
+@{
+    ViewBag.Title = "Editar usuario";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-sm-9">
+                <h1>Editar usuario existente</h1>
+                <div class="banner-catalog__content">Modificar los datos de un usuario del sistema.</div>
+            </div>
+            <div class="col-lg-3">
+                <div class="icon icon-info">
+                    <i class="material-icons pull-right" style="font-size: 100px">person</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="container" style=" padding-bottom: 30px;">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title  purple-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">add</i>
+                                <strong>Información del usuario</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.Label("Nombre", "Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.Label("Apellido", "Apellido", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.apellido, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.Label("Email", "Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            @if (Model.rol.nombre == "RespFarmacia")
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="divHospital" class="form-group">
+                                            @Html.LabelFor(model => model.hospitalID, "Hospital asignado", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(x => x.hospitalID, null, htmlAttributes: new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <br />
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Guardar" class="btn btn-round btn-success pull-right" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <input type="button" style="margin-top: 20px;" id="volver" value="Volver al listado de usuarios" class="btn pull-left btn-primary" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#volver').on('click', function (event) {
+                Swal.fire({
+                    title: '¿Está seguro que desea volver?',
+                    text: "Cualquier cambio realizado se perdera",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = '/Account';
+                    }
+                });
+            });
+        });
+    </script>
+}
