@@ -66,7 +66,7 @@
                                                         @if (Model[i].stockFarmacia > 0)
                                                         {
                                                             @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFarmacia, @onkeyup = "return textBoxChange(event);" })
-                                                       }
+                                                        }
                                                         else
                                                         {
                                                             @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @readonly = "readonly", @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFarmacia, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </div>
-            @if (!ViewBag.vieneDelDashboard)
+            @if (!ViewBag.fromDashboard)
             {
                 <hr style="margin-bottom: 0px;" />
                 <div class="col-sm-4" style="margin-top: 0px;">
@@ -96,11 +96,14 @@
     </div>
 }
 @section Scripts {
+    <script src="~/Content/js/jquery.TablaDatos.min.js"></script>
+
     <script type="text/javascript">
+
         function textBoxChange(event) {
             var teclaCorrecta = false;
             var element = event.srcElement;
-            
+
             if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 || event.charCode == 0) {
                 teclaCorrecta = true;
                 if (element.value == '' || element.value == '00') {
@@ -128,6 +131,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
+                        //postTable();
                         $('#stockFarmaciaForm').submit();
                     }
                 });
@@ -154,7 +158,6 @@
                         $("#table-container").append(clone_table);
                         $("#clone").css({ visibility: 'hidden' });
                         $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
-
                     }
                 } else {
                     $("#clone").remove();
@@ -162,9 +165,62 @@
             }
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
-            $("#maintable").DataTable({
+            var table = $("#maintable").DataTable({
                 "order": [[0, "asc"]]
             });
+
+            // Handle form submission event
+            $('#stockFarmaciaForm').on('submit', function (e) {
+                var form = this;
+
+                // Encode a set of form elements from all pages as an array of names and values
+                var params = table.$('input,select,textarea').serializeArray();
+
+                // Iterate over all form elements
+                $.each(params, function () {
+                    // If element doesn't exist in DOM
+                    if (!$.contains(document, form[this.name])) {
+                        // Create a hidden element
+                        $(form).append(
+                            $('<input>')
+                                .attr('type', 'hidden')
+                                .attr('name', this.name)
+                                .val(this.value)
+                        );
+                    }
+                });
+            });
+             if (@ViewBag.success.ToString().ToLower() ===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'Se guardo el stock de Farmacia correctamente'
+                    }, {
+                            type: 'success',
+                            offset: {
+                                x: 20,
+                                y: 90
+                            }
+                        },
+                    );
+
+                }
+                else {
+                if (@ViewBag.validacion.ToString().ToLower()===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: '@ViewBag.problem '
+                    }, {
+                            type: 'danger',
+                            offset: {
+                                x: 20,
+                                y: 80
+                            }
+                        },
+                    );
+                }
+
+            }
         });
+
     </script>
 }
