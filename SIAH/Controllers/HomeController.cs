@@ -26,6 +26,7 @@ namespace SIAH.Controllers
             return View();
         }
 
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea", UserRole3 = "RespFarmacia")]
         public ActionResult Home()
         {
             return RedirectToAction((String)Session["rol"]);
@@ -86,6 +87,13 @@ namespace SIAH.Controllers
             {
                 return View();
             }
+        }
+        [AuthorizeUserAccessLevel(UserRole = "Admin")]
+        public ActionResult Admin()
+        {
+            ViewBag.Message = "Your index Page.";
+
+            return RedirectToAction("Index");
         }
     }
 }

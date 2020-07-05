@@ -92,66 +92,67 @@
                                 </li>
                             </ul>
 
-                    }
-                    if (Session["rol"].ToString() == "DirectorArea")
-                    {
-                        <a class="logo-container" href="@Url.Action("DirectorArea", "Home", null)">
-                            <div class="logo">
-                                <img src="~/Content/img/logo.jpg" alt="AH Logo">
-                            </div>
-                            @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
-                        </a>
-                        <ul class="nav navbar-nav nav-pills">
-                            <li class="dropdown">
-                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Mis Vistas <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Reportes")'">Reportes</a></li>
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Administrar Pedidos</a></li>
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Stock</a></li>
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Control de Stock</a></li>
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Compras")'">Administrar Compras</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Account")'">Usuarios</a></li>
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Hospitales")'">Hospitales</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    }
-                    if (Session["rol"].ToString() == "RespFarmacia")
-                    {
-                        <a class="logo-container" href="@Url.Action("RespFarmacia", "Home", null)">
-                            <div class="logo">
-                                <img src="~/Content/img/logo.jpg" alt="AH Logo">
-                            </div>
-                            @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
-                        </a>
-                        <ul class="nav navbar-nav nav-pills">
-                            <li class="dropdown">
-                                <button id="mydd" class="btn btn-primary mybutton dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Mis Vistas <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">Gestionar Pedidos</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "StockFarmacia",  new { hospitalId = Session["hospitalId"], vieneDelDashboard = true})'">Stock Farmacia</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">Reclamos Realizados</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    }
-                    if (Session["rol"].ToString() == "Compras")
-                    {
-                        <a class="logo-container" href="@Url.Action("CargarCompra", "Compras", null)">
-                            <div class="logo">
-                                <img src="~/Content/img/logo.jpg" alt="AH Logo">
-                            </div>
-                            @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
-                        </a>
+                        }
+                        if (Session["rol"].ToString() == "DirectorArea")
+                        {
+                            <a class="logo-container" href="@Url.Action("DirectorArea", "Home", null)">
+                                <div class="logo">
+                                    <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                                </div>
+                                @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                            </a>
+                            <ul class="nav navbar-nav nav-pills">
+                                <li class="dropdown">
+                                    <button id="mydd" class="btn btn-primary mybutton dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Mis Vistas <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Reportes")'">Reportes</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Administrar Pedidos</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Stock</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Control de Stock</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Compras")'">Administrar Compras</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Account")'">Usuarios</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Hospitales")'">Hospitales</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        }
+                        if (Session["rol"].ToString() == "RespFarmacia")
+                        {
+                            <a class="logo-container" href="@Url.Action("RespFarmacia", "Home", null)">
+                                <div class="logo">
+                                    <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                                </div>
+                                @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                            </a>
+                            <ul class="nav navbar-nav nav-pills">
+                                <li class="dropdown">
+                                    <button id="mydd" class="btn btn-primary mybutton dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Mis Vistas <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">Gestionar Pedidos</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "StockFarmacia", new { hospitalId = Session["hospitalId"], vieneDelDashboard = true })'">Stock Farmacia</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">Reclamos Realizados</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        }
+                        if (Session["rol"].ToString() == "Compras")
+                        {
+                            <a class="logo-container" href="@Url.Action("CargarCompra", "Compras", null)">
+                                <div class="logo">
+                                    <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                                </div>
+                                @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                            </a>
+                        }
                     }
                 }
                 catch (Exception e)
