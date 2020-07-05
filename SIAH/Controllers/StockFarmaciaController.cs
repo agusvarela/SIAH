@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using SIAH.Models;
-using SIAH.Context;
 using System.Data.Entity;
 using System.Net;
 
@@ -17,15 +15,27 @@ namespace SIAH.Controllers
 
         // GET: StockFarmacia
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
-        public ActionResult Index(int? hospitalId, bool vieneDelDashboard)
+        public ActionResult Index(int? hospitalId, bool fromDashboard = false, string param = null)
         {
+            if (param != null)
+            {
+                if (param.CompareTo("Success") == 0)
+                {
+                    ViewBag.success = true;
+                }
+                else
+                {
+                    ViewBag.success = false;
+                    ViewBag.problem = param;
+                };
+            }
             if (hospitalId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             using (SIAH.Context.SIAHContext db = new Context.SIAHContext())
             {
-                ViewBag.vieneDelDashboard = vieneDelDashboard; 
+                ViewBag.fromDashboard = fromDashboard;
                 ViewBag.hospital = db.Hospitales.Find(hospitalId).nombre;
                 return View(db.StockFarmacias.Where(s => s.hospitalId == hospitalId).Include(u => u.hospital).Include(p => p.insumo).ToList());
             }
@@ -35,15 +45,32 @@ namespace SIAH.Controllers
         [HttpPost]
         public ActionResult Index(IList<StockFarmacia> stocks)
         {
-            foreach(StockFarmacia stock in stocks)
+            int hospitalId = stocks.First().hospitalId;
+            foreach (StockFarmacia stock in stocks)
             {
                 var stockToModify = db.StockFarmacias.Where(x => x.hospitalId == stock.hospitalId && x.insumoId == stock.insumoId).FirstOrDefault();
                 stockToModify.stockFarmacia = stock.stockFarmacia;
                 db.Entry(stockToModify).State = EntityState.Modified;
             }
 
-            db.SaveChanges();
-            return RedirectToAction("RespFarmaciaDashboard", "Home"); //TODO: Add success param
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (db.SaveChanges() > 0)
+                    {
+                        return RedirectToAction("Index", "StockFarmacia",
+                                                new { hospitalId = hospitalId, fromDashboard=false, param = "Success" });
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Index", "StockFarmacia", new { hospitalId = hospitalId, fromDashboard = false, param = e.Message });
+
+                }
+            }
+            return RedirectToAction("Index", "StockFarmacia", new { hospitalId = hospitalId, fromDashboard = false, param = "Ocurrio un error inesperado al enviar el pedido" });
         }
 
         // GET: Pedidos/Edit/5

@@ -30,7 +30,6 @@
     @RenderSection("scripts", required: false)
     <!-- CSS Files -->
     @Scripts.Render("~/bundles/modernizr")
-    <script src="~/Content/js/jquery.TablaDatos.min.js"></script>
     @Styles.Render("~/Content/css/bootstrap.min.css")
     @Styles.Render("~/Content/css/SiahStyleNew.css")
     @Styles.Render("~/Content/css/SIAHStyle.css")
@@ -40,6 +39,7 @@
     <script src="~/Content/js/material.min.js"></script>
     <script src="~/Content/js/material-kit.js"></script>
     <script src="~/Content/js/bootstrap-notify.min.js"></script>
+    <script src="~/Content/js/jquery.TablaDatos.min.js"></script>
 
     <!-- Script for Sweet alert 2 -->
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js" charset="UTF-8"></script>*@
@@ -135,7 +135,7 @@
                                 <ul class="dropdown-menu">
                                     <li class="hover-pointer"><a onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">Gestionar Pedidos</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "StockFarmacia",  new { hospitalId = Session["hospitalId"], vieneDelDashboard = true})'">Stock Farmacia</a></li>
+                                    <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "StockFarmacia",  new { hospitalId = Session["hospitalId"], fromDashboard = true})'">Stock Farmacia</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">Reclamos Realizados</a></li>
                                 </ul>
