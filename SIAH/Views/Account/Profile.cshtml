@@ -93,7 +93,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div id="divHospital" class="form-group">
-                                        @Html.LabelFor(model => model.hospitalID, "Hospital asignado", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        @Html.LabelFor(model => model.hospitalID, "Asignar un Hospital", htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-7">
                                             @Html.DropDownList("hospitalID", null, "--Seleccione un hospital--", htmlAttributes: new { @class = "form-control", disabled = "disabled" })
                                             <span class="text-danger">@ViewBag.HospitalRequired</span>
@@ -122,9 +122,10 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
+            var hospitalId = "" + '@Model.hospitalID';
             document.getElementById("rolID").value = @Model.rolID;
-            if (@Model.hospitalID != null) {
-                document.getElementById("hospitalID").value = @Model.hospitalID;
+            if (@Model.rolID == 1) {
+                document.getElementById("hospitalID").value = hospitalId;
             }
 
             $('#email').on('change keyup', function (event) {
@@ -156,16 +157,6 @@
 
             document.getElementById("divHospital").style.display = "none";
             updateInput();
-            $(".toggle-password").click(function () {
-
-                $(this).toggleClass("fa-eye fa-eye-slash");
-                var input = $($(this).attr("toggle"));
-                if (input.attr("type") == "password") {
-                    input.attr("type", "text");
-                } else {
-                    input.attr("type", "password");
-                }
-            });
         });
 
         function updateInput() {

@@ -93,7 +93,7 @@
         function precioChange(value, event) {
             var teclaCorrecta = false;
 
-            if (!((event.which >= 96 && event.which <= 105) || event.which == 13 || event.which == 8 || event.which == 188)) {
+            if (!((event.which >= 96 && event.which <= 105) || (event.which >= 48 && event.which <= 57) || event.which == 13 || event.which == 8 || event.which == 188)) {
                 document.getElementById('precioUnitario').value = value.substring(0, value.length - 1);
                 return teclaCorrecta;
             }
@@ -116,7 +116,7 @@
                 return teclaCorrecta;
             }
 
-            if ((event.which >= 96 && event.which <= 105) || event.which == 13) {
+            if ((event.which >= 96 && event.which <= 105) || (event.which >= 48 && event.which <= 57) || event.which == 13) {
                 teclaCorrecta = true;
 
                 if (value == '00') {
