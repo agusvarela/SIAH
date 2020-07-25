@@ -205,8 +205,20 @@ namespace SIAH.Controllers
             accountToModify.apellido = account.apellido;
             accountToModify.email = account.email;
             db.Entry(accountToModify).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+
+            try
+            {
+                if (db.SaveChanges() > 0)
+                {
+                    return RedirectToAction("Index", new { param = "Success" });
+                }
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", new { param = e.Message });
+            }
+
+           return View(account);
         }
 
         //Login
@@ -311,7 +323,19 @@ namespace SIAH.Controllers
             }
             user.active = false; //Borrado logico del usuario
             db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
+
+            try
+            {
+                if (db.SaveChanges() > 0)
+                {
+                    return RedirectToAction("Index", new { param = "Success" });
+                }
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", new { param = e.Message });
+            }
+
             return RedirectToAction("Index");
         }
 

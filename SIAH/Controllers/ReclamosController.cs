@@ -281,7 +281,9 @@ namespace SIAH.Controllers
                     Hospital = x.Hospital, 
                     FechaInicioReclamo = string.Format("{0:MM/dd/yyyy}", x.FechaInicioReclamo), 
                     FechaFinReclamo = string.Format("{0:MM/dd/yyyy}", x.FechaFinReclamo), 
-                    EstaResuelto = IsResolved(x.IdReclamo) }); ;
+                    EstaResuelto = IsResolved(x.IdReclamo),
+                    Periodo = string.Format("{0:MM/dd/yyyy}", new DateTime(x.FechaInicioReclamo.Year, x.FechaInicioReclamo.Month, 1))
+                    }); ;
             return Json(dataset, JsonRequestBehavior.AllowGet);
         }
 

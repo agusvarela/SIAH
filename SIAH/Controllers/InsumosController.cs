@@ -169,8 +169,20 @@ namespace SIAH.Controllers
 
         //GET: Insumos/StockInsumos
         [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
-        public ActionResult StockInsumos()
+        public ActionResult StockInsumos(string param)
         {
+            if (param != null)
+            {
+                if (param.CompareTo("Success") == 0)
+                {
+                    ViewBag.success = true;
+                }
+                else
+                {
+                    ViewBag.success = false;
+                    ViewBag.problem = param;
+                };
+            }
             var insumos = db.Insumos.Include(i => i.tiposInsumo);
             return View(insumos.ToList());
         }
@@ -221,8 +233,17 @@ namespace SIAH.Controllers
                     " VALUES({0}, {1}, {2}, {3}, {4}, {5})",
                     insumo.id, insumo.nombre, insumo.precioUnitario, insumo.tipoInsumoId, insumo.stock, insumo.stockFisico);
                 AddToStockFarmacia(insumo.id);
-                db.SaveChanges();
-                return RedirectToAction("StockInsumos");
+                try
+                {
+                    if (db.SaveChanges() > 0)
+                    {
+                        return RedirectToAction("StockInsumos", new { param = "Success" });
+                    }
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("StockInsumos", new { param = e.Message });
+                }
             }
 
             ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo.OrderBy(tipo => tipo.nombre), "id", "nombre", insumo.tipoInsumoId);
@@ -270,8 +291,17 @@ namespace SIAH.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(insumo).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("StockInsumos");
+                try
+                {
+                    if (db.SaveChanges() > 0)
+                    {
+                        return RedirectToAction("StockInsumos", new { param = "Success" });
+                    }
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("StockInsumos", new { param = e.Message });
+                }
             }
             ViewBag.tipoInsumoId = new SelectList(db.TiposInsumo.OrderBy(tipo => tipo.nombre), "id", "nombre", insumo.tipoInsumoId);
             return View(insumo);
