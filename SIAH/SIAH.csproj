@@ -365,6 +365,7 @@
     <Content Include="Content\img\back.jpg" />
     <Content Include="Content\img\hospital.jpg" />
     <Content Include="Content\img\logo.jpg" />
+    <Content Include="Content\img\power-bi-2.jpg" />
     <Content Include="Content\img\wave-2.png" />
     <Content Include="Content\js\bootstrap-datepicker.js" />
     <Content Include="Content\js\bootstrap-notify.min.js" />
