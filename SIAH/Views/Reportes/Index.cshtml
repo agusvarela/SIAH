@@ -25,7 +25,7 @@
             <div class="col-md-12">
 
                 <div class="col-md-12">
-                    <div class="col-sm-6 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReporteConsolidado", "Reportes")'">
+                    <div class="col-sm-6 animated zoomIn view overlay zoom " onclick="reporteConsolidado()">
                         <div class="card card-project col myhover hover-pointer">
                             <div class="content text-center">
                                 <div class="info">
@@ -66,9 +66,8 @@
 
 @section Scripts {
     <script type="text/javascript">
-          $(document).on('click', '#reporte', function (event)
+        function reporteConsolidado()
         {
-            event.preventDefault();
             var url = '@Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = "START" , fechaFin = "END" })';
 
             var nd = new Date();
@@ -88,6 +87,6 @@
             url = url.replace("END", end);
             url = url.replace("amp;", "");
             location.href = url;
-            });
+        }
     </script>
 }
