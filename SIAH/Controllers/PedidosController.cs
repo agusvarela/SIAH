@@ -494,17 +494,11 @@ namespace SIAH.Controllers
                     ViewBag.success = false;
                     ViewBag.problem = param;
                 };
-                var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
-                var pedidos = db.Pedidos.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital);
-                return View(pedidos.OrderByDescending(o => o.id).ToList());
+            }
 
-            }
-            else
-            {
-                var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
-                var pedidos = db.Pedidos.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital);
-                return View(pedidos.OrderByDescending(o => o.id).ToList());
-            }
+            var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
+            var pedidos = db.Pedidos.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital);
+            return View(pedidos.OrderByDescending(o => o.id).ToList());
         }
 
         //GET: Pedidos/PedidosDatasetBI
@@ -596,6 +590,27 @@ namespace SIAH.Controllers
             {
                 await smtp.SendMailAsync(message);
             }
+        }
+
+        public JsonResult cantidadPedidosPorEstado(DateTime fechaInicio, DateTime fechaFin)
+        {
+            var cantidadPedidosPorEstado = db.Pedidos
+                    .Include(p => p.estadoId)
+                    .Where(p => p.fechaGeneracion >= fechaInicio && p.fechaGeneracion <= fechaFin)
+                    .GroupBy(p => p.estadoId)
+                    .Select(x => new
+                    {
+                        estadoId = x.Key,
+                        cantidad = x.Count()
+                    }).ToList();
+
+            int[] cantidadPedidos = new int[7];
+            foreach(var estado in cantidadPedidosPorEstado)
+            {
+                if (estado.estadoId == 8) { cantidadPedidos[4] += estado.cantidad; }
+                else { cantidadPedidos[estado.estadoId - 1] = estado.cantidad; }
+            }
+            return Json(cantidadPedidos, JsonRequestBehavior.AllowGet);
         }
     }
 }

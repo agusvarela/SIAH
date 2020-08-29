@@ -58,6 +58,7 @@
                                 <a class="list-group-item-grey soft-grey" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue cancelado antes de ser autorizado.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">clear</i>
                                     <span style="user-select: none">Cancelado</span>
+                                    <div style="font-size: 14px;"><strong id="estado4">5</strong></div>
                                 </a>
                             </li>
                         </ul>
@@ -66,6 +67,7 @@
                                 <a class="list-group-item-success soft-success" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue recibido por el hospital y confirmado.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">check_circle</i>
                                     <span style="user-select: none">Recibido</span>
+                                    <div style="font-size: 14px;"><strong id="estado5">5</strong></div>
                                 </a>
                             </li>
                         </ul>
@@ -74,6 +76,7 @@
                                 <a class="list-group-item-danger soft-danger" style="vertical-align:central" data-toggle="tooltip" title="El pedido tiene un reclamo pendiente de resolución.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">error_outline</i>
                                     <span style="user-select: none">Reclamado</span>
+                                    <div style="font-size: 14px;"><strong id="estado7">5</strong></div>
                                 </a>
                             </li>
                         </ul>
@@ -82,6 +85,7 @@
                                 <a class="list-group-item-info soft-info" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue entregado al hospital y está pendiente de confirmación por parte del responsable de farmacia.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">markunread</i>
                                     <span style="user-select: none">Entregado</span>
+                                    <div style="font-size: 14px;"><strong id="estado6">5</strong></div>
                                 </a>
                             </li>
                         </ul>
@@ -90,6 +94,7 @@
                                 <a class="list-group-item-orange soft-orange" style="vertical-align:central" data-toggle="tooltip" title="El pedido está siendo enviado por OCASA al hospital correspondiente.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">local_shipping</i>
                                     <span style="user-select: none">En Proceso de Envío</span>
+                                    <div style="font-size: 14px;"><strong id="estado3">5</strong></div>
                                 </a>
                             </li>
                         </ul>
@@ -98,6 +103,7 @@
                                 <a class="list-group-item-warning soft-warning" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue autorizado y se encuentra listo para que sus datos sean enviados a OCASA.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">spellcheck</i>
                                     <span style="user-select: none">Autorizado</span>
+                                    <div style="font-size: 14px;"><strong id="estado2">5</strong></div>
                                 </a>
                             </li>
                         </ul>
@@ -106,6 +112,7 @@
                                 <a class="list-group-item" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue generado por el hospital y se encuentra listo para ser autorizado.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">send</i>
                                     <span style="user-select: none">Generado</span>
+                                    <div style="font-size: 14px;"><strong id="estado1">5</strong></div>
                                 </a>
                             </li>
                         </ul>
@@ -333,6 +340,20 @@
         $(document).ready(function () {
             $('#maintable tr td:nth-child(n)').hover(function () {
                 $(this).parents('tr').attr('title', 'Ver detalle');
+            });
+
+            var diaDeHoy = new Date();
+
+            $.ajax({
+                url: '@Url.Action("cantidadPedidosPorEstado", "Pedidos")',
+                type: 'GET',
+                data: { fechaInicio: new Date(diaDeHoy.getFullYear() - 1, diaDeHoy.getMonth(), diaDeHoy.getDate()).toUTCString(), fechaFin: diaDeHoy.toUTCString() },
+                cache: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#estado' + (i+1)).html(result[i]);
+                    }
+                }
             });
 
             $(document).on('click', '#nuevopedido', function (event) {
