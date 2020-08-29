@@ -171,6 +171,13 @@
             {
                 <div class="collapse navbar-collapse" id="navigation-index">
                     <ul class="nav navbar-nav nav-pills pull-right">
+                        @if (Session["rol"].ToString() == "RespFarmacia")
+                        {
+                            <li style=" display: flex; justify-content: flex-start; align-items: center; padding: 8px 15px;">
+                                <i class="material-icons" style="margin: 0px 5px; padding: 0; font-size: 25px; color: white; border: 0px solid white; border-radius: 200px">local_hospital</i>
+                                <span text-align: center;">@Session["hospital"].ToString()</span>
+                            </li>
+                        }
                         <li class="dropdown">
                             <button id="mydd" style="padding: 0px; align-items: center; display: flex; justify-content: flex-start;" class="btn btn-primary dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons" style="margin: 0; padding: 0; font-size: 36.8px; color: #B052C0; background: white; border: 2px solid #B052C0; border-radius: 200px">person</i>
