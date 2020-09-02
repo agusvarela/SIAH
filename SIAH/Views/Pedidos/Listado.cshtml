@@ -116,275 +116,277 @@
 
                                 <div class="col-md-12">
                                     <hr />
-                                    <div id="table-container">
-                                        <table id="maintable" class="table table-condensed">
-                                            <thead class="listado">
-                                                <tr>
-                                                    <th class="text-center">
+                                    <div id="table-container" style="overflow-y: auto; height: 400px; width: 1024px">
+                                        <table id="maintable" class="table table-condensed" style="width: 1024px">
+                                            <thead class="list-group-item-info" style="border-bottom: solid; position: sticky; top: 0;">
+                                                <tr style="border-bottom: solid; position: sticky; top: 0;">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
                                                         <strong> @Html.Name("Nº Pedido")</strong>
                                                     </th>
-                                                    <th class="text-center">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
                                                         <strong> @Html.Name("Fecha Generación")</strong>
                                                     </th>
-                                                    <th class="text-center">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
                                                         <strong> @Html.Name("Hospital")</strong>
                                                     </th>
-                                                    <th class="text-center">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
                                                         <strong> @Html.Name("Urgente")</strong>
                                                     </th>
-                                                    <th class="text-center">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
                                                         <strong>  @Html.Name("Estado")</strong>
                                                     </th>
-                                                    <th class="text-center">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
                                                         <strong>  @Html.Name("Acciones")</strong>
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            @foreach (var item in Model)
-                                            {
-                                                switch (item.estadoId)
+                                            <tbody>
+                                                @foreach (var item in Model)
                                                 {
-                                                    case 1:
-                                                        <tr class="" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                    switch (item.estadoId)
+                                                    {
+                                                        case 1:
+                                                            <tr class="" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.id)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if (item.esUrgente == true)
-                                                                {
-                                                                    <i class="material-icons icon-danger">error</i>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.id)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @if (item.esUrgente == true)
+                                                                    {
+                                                                        <i class="material-icons icon-danger">error</i>
+                                                                    }
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i class="material-icons">send</i>
+                                                                    <div> <strong>Generado  </strong></div>
+                                                                </td>
+                                                                <td class="text-center" style="z-index:inherit">
+                                                                    <a type="button" id="volver" class="btn btn-round btn-primary"
+                                                                       onmouseover="$(this).parents('tr').removeAttr('title');"
+                                                                       href="/Pedidos/Autorizacion/@item.id.ToString()"
+                                                                       style="z-index:inherit">Autorizar</a>
+                                                                </td>
+                                                            </tr>
+                                                            break;
+                                                        case 2:
+                                                            <tr class="list-group-item-warning" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.id)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @if (item.esUrgente == true)
+                                                                    {
+                                                                        <i class="material-icons icon-danger">error</i>
+                                                                    }
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i class="icon-warning material-icons">spellcheck</i>
+                                                                    <div class="soft-warning"> <strong>Autorizado</strong></div>
+                                                                </td>
+                                                                <td class="text-center">
+
+                                                                    <a href="#" class="escondido">Autorizar</a>
+
+                                                                </td>
+                                                                @{
+                                                                    ViewBag.hayautorizados = true;
                                                                 }
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <i class="material-icons">send</i>
-                                                                <div> <strong>Generado  </strong></div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <a type="button" id="volver" class="btn btn-round btn-primary" 
-                                                                   onmouseover="$(this).parents('tr').removeAttr('title');" 
-                                                                   href="/Pedidos/Autorizacion/@item.id.ToString()">Autorizar</a>
-                                                            </td>
-                                                        </tr>
-                                                        break;
-                                                    case 2:
-                                                        <tr class="list-group-item-warning" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                            </tr>
+                                                            break;
+                                                        case 3:
+                                                            <tr class="list-group-item-orange" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.id)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if (item.esUrgente == true)
-                                                                {
-                                                                    <i class="material-icons icon-danger">error</i>
-                                                                }
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <i class="icon-warning material-icons">spellcheck</i>
-                                                                <div class="soft-warning"> <strong>Autorizado</strong></div>
-                                                            </td>
-                                                            <td class="text-center">
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.id)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @if (item.esUrgente == true)
+                                                                    {
+                                                                        <i class="material-icons icon-danger">error</i>
+                                                                    }
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i class="material-icons">local_shipping</i>
+                                                                    <div class=" soft-orange"> <strong>En proceso de Envío</strong></div>
+                                                                </td>
+                                                                <td class="text-center">
 
-                                                                <a href="#" class="escondido">Autorizar</a>
+                                                                    <a href="#" class="escondido">Autorizar</a>
 
-                                                            </td>
-                                                            @{
-                                                                ViewBag.hayautorizados = true;
-                                                            }
-                                                        </tr>
-                                                        break;
-                                                    case 3:
-                                                        <tr class="list-group-item-orange" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                                </td>
+                                                            </tr>
+                                                            break;
+                                                        case 4:
+                                                            <tr class="list-group-item-grey" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.id)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if (item.esUrgente == true)
-                                                                {
-                                                                    <i class="material-icons icon-danger">error</i>
-                                                                }
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <i class="material-icons">local_shipping</i>
-                                                                <div class=" soft-orange"> <strong>En proceso de Envío</strong></div>
-                                                            </td>
-                                                            <td class="text-center">
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.id)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @if (item.esUrgente == true)
+                                                                    {
+                                                                        <i class="material-icons icon-danger">error</i>
+                                                                    }
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i class="material-icons">clear</i>
+                                                                    <div class=" soft-grey"> <strong>Cancelado</strong></div>
+                                                                </td>
+                                                                <td class="text-center">
 
-                                                                <a href="#" class="escondido">Autorizar</a>
+                                                                    <a href="#" class="escondido">Autorizar</a>
 
-                                                            </td>
-                                                        </tr>
-                                                        break;
-                                                    case 4:
-                                                        <tr class="list-group-item-grey" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                                </td>
+                                                            </tr>
+                                                            break;
+                                                        case 5:
+                                                            <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.id)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if (item.esUrgente == true)
-                                                                {
-                                                                    <i class="material-icons icon-danger">error</i>
-                                                                }
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <i class="material-icons">clear</i>
-                                                                <div class=" soft-grey"> <strong>Cancelado</strong></div>
-                                                            </td>
-                                                            <td class="text-center">
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.id)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @if (item.esUrgente == true)
+                                                                    {
+                                                                        <i class="material-icons icon-danger">error</i>
+                                                                    }
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i class="material-icons">check_circle</i>
+                                                                    <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
+                                                                </td>
+                                                                <td class="text-center">
 
-                                                                <a href="#" class="escondido">Autorizar</a>
+                                                                    <a href="#" class="escondido">Autorizar</a>
 
-                                                            </td>
-                                                        </tr>
-                                                        break;
-                                                    case 5:
-                                                        <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                                </td>
+                                                            </tr>
+                                                            break;
+                                                        case 6:
+                                                            <tr class="list-group-item-info" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.id)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if (item.esUrgente == true)
-                                                                {
-                                                                    <i class="material-icons icon-danger">error</i>
-                                                                }
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <i class="material-icons">check_circle</i>
-                                                                <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
-                                                            </td>
-                                                            <td class="text-center">
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.id)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @if (item.esUrgente == true)
+                                                                    {
+                                                                        <i class="material-icons icon-danger">error</i>
+                                                                    }
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i class="icon-info  material-icons">markunread</i>
+                                                                    <div class=" soft-info"> <strong>Entregado</strong></div>
+                                                                </td>
+                                                                <td class="text-center">
 
-                                                                <a href="#" class="escondido">Autorizar</a>
+                                                                    <a href="#" class="escondido">Autorizar</a>
 
-                                                            </td>
-                                                        </tr>
-                                                        break;
-                                                    case 6:
-                                                        <tr class="list-group-item-info" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                                </td>
+                                                            </tr>
+                                                            break;
+                                                        case 7:
+                                                            <tr class="list-group-item-danger" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.id)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if (item.esUrgente == true)
-                                                                {
-                                                                    <i class="material-icons icon-danger">error</i>
-                                                                }
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <i class="icon-info  material-icons">markunread</i>
-                                                                <div class=" soft-info"> <strong>Entregado</strong></div>
-                                                            </td>
-                                                            <td class="text-center">
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.id)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @if (item.esUrgente == true)
+                                                                    {
+                                                                        <i class="material-icons icon-danger">error</i>
+                                                                    }
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i class="material-icons">error_outline</i>
+                                                                    <div class=" soft-danger"> <strong>Reclamado</strong></div>
+                                                                </td>
+                                                                <td class="text-center">
 
-                                                                <a href="#" class="escondido">Autorizar</a>
+                                                                    <a href="#" class="escondido">Autorizar</a>
 
-                                                            </td>
-                                                        </tr>
-                                                        break;
-                                                    case 7:
-                                                        <tr class="list-group-item-danger" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+                                                                </td>
+                                                            </tr>
+                                                            break;
+                                                        case 8:
+                                                            <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
 
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.id)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if (item.esUrgente == true)
-                                                                {
-                                                                    <i class="material-icons icon-danger">error</i>
-                                                                }
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <i class="material-icons">error_outline</i>
-                                                                <div class=" soft-danger"> <strong>Reclamado</strong></div>
-                                                            </td>
-                                                            <td class="text-center">
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.id)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @if (item.esUrgente == true)
+                                                                    {
+                                                                        <i class="material-icons icon-danger">error</i>
+                                                                    }
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i class="material-icons">check_circle</i>
+                                                                    <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
+                                                                </td>
+                                                                <td class="text-center">
 
-                                                                <a href="#" class="escondido">Autorizar</a>
+                                                                    <a href="#" class="escondido">Autorizar</a>
 
-                                                            </td>
-                                                        </tr>
-                                                        break;
-                                                    case 8:
-                                                        <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
-
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.id)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if (item.esUrgente == true)
-                                                                {
-                                                                    <i class="material-icons icon-danger">error</i>
-                                                                }
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <i class="material-icons">check_circle</i>
-                                                                <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
-                                                            </td>
-                                                            <td class="text-center">
-
-                                                                <a href="#" class="escondido">Autorizar</a>
-
-                                                            </td>
-                                                        </tr>
-                                                        break;
+                                                                </td>
+                                                            </tr>
+                                                            break;
+                                                    }
                                                 }
-                                            }
-
+                                            </tbody>
                                         </table>
-                                        <div id="bottom_anchor"></div>
 
+                                        <div id="bottom_anchor"></div>
                                     </div>
                                 </div>
                                 <br><br>
@@ -411,7 +413,7 @@
                                 <div class="col-md-1 my-auto" style="margin-top: 8px;">
                                     @if (ViewBag.hayautorizados == true)
                                     {
-                                     <a id="sendocasa" class="btn btn-success btn-lg  btn-round btn_export pull-right">Enviar a OCASA</a>
+                                        <a id="sendocasa" class="btn btn-success btn-lg  btn-round btn_export pull-right">Enviar a OCASA</a>
                                     }
                                     else
                                     {

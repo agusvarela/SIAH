@@ -411,10 +411,8 @@
                 teclaCorrecta = true;
                 if (value == '' || value == '00') {
                     value = 0;
-                } else if (parseInt(value) > 0 && parseInt(value) <= cantMax) {
-                    value = parseInt(value);
-                } else {
-                    value = cantMax;
+                } else if (parseInt(value) >= 0) {
+                    value = parseInt(value, 10);
                 }
                 document.getElementById("detallesPedido[" + indice + "][cantidadAutorizada]").value = value;
                 updateInput(value, indice);
