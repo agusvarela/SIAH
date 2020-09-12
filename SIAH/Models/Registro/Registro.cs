@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SIAH.Models.Registro
@@ -20,5 +21,12 @@ namespace SIAH.Models.Registro
         public UserAccount usuario { get; set; }
         public int hospitalId { get; set; }
         public Hospital hospital { get; set; }
+
+        public ICollection<DetalleRegistro> detallesRegistro { get; set; }
+
+        public Registro()
+        {
+            detallesRegistro = new HashSet<DetalleRegistro>();
+        }
     }
 }
