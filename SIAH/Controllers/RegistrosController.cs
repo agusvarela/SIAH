@@ -35,6 +35,23 @@ namespace SIAH.Controllers
             return View(registros.OrderByDescending(o => o.id).ToList());
         }
 
+        //GET: Registros/DetallesRegistro
+        public JsonResult GetDetalles(int idRegistro)
+        {
+            var idHospital = db.Registros.Find(idRegistro).hospitalId;
+            var detallesPedido = db.DetallesRegistro.Include(d => d.insumo).Include(d => d.registro).Where(d => d.registroId == idRegistro)
+                                .Select(x => new
+                                {
+                                    registroId = x.registroId,
+                                    insumoId = x.insumoId,
+                                    nombre = x.insumo.nombre,
+                                    cantidad = x.cantidad,
+                                    tipo = x.insumo.tiposInsumo.nombre,
+                                });
+
+            return Json(detallesPedido, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Registros/Details/5
         public ActionResult Details(int? id)
         {
@@ -43,6 +60,9 @@ namespace SIAH.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Registro registro = db.Registros.Find(id);
+            ViewBag.hospital = db.Registros.Include(r => r.hospital).First(x => x.id == id).hospital.nombre;
+            var queryName = db.Registros.Include(r => r.usuario).First(x => x.id == id).usuario;
+            ViewBag.userName = queryName.nombre + " " + queryName.apellido;
             if (registro == null)
             {
                 return HttpNotFound();
