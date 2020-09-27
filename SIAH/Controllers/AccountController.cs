@@ -250,6 +250,7 @@ namespace SIAH.Controllers
                         Session["userid"] = usr.id.ToString();
                         Session["email"] = usr.email.ToString();
                         Session["nombre"] = usr.nombre.ToString();
+                        Session["apellido"] = usr.apellido.ToString();
                         Session["rol"] = usr.rol.nombre.ToString();
                         if (usr.hospitalID != null)
                         {

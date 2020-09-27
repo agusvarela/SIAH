@@ -16,10 +16,23 @@ namespace SIAH.Controllers
         private SIAHContext db = new SIAHContext();
 
         // GET: Registros
-        public ActionResult Index()
+        public ActionResult Index(string param)
         {
-            var registros = db.Registros.Include(r => r.hospital).Include(r => r.usuario);
-            return View(registros.ToList());
+            if (param != null)
+            {
+                if (param.CompareTo("Success") == 0)
+                {
+                    ViewBag.success = true;
+                }
+                else
+                {
+                    ViewBag.success = false;
+                    ViewBag.problem = param;
+                };
+            }
+            var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
+            var registros = db.Registros.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital);
+            return View(registros.OrderByDescending(o => o.id).ToList());
         }
 
         // GET: Registros/Details/5
@@ -40,6 +53,7 @@ namespace SIAH.Controllers
         // GET: Registros/Create
         public ActionResult Create()
         {
+            ViewBag.tipoInsumo = new SelectList(db.TiposInsumo.OrderBy(tipo => tipo.nombre), "id", "nombre");
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
             ViewBag.usuarioId = new SelectList(db.UserAccounts, "id", "nombre");
             return View();
@@ -50,18 +64,54 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,fechaGeneracion,destinatario,usuarioId,hospitalId")] Registro registro)
+        public ActionResult Create([Bind(Include = "id,fechaGeneracion,destinatario,usuarioId,hospitalId,detallesRegistro")] Registro registro)
         {
-            if (ModelState.IsValid)
+            foreach (var detalle in registro.detallesRegistro)
             {
-                db.Registros.Add(registro);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                detalle.insumo = null;
             }
 
-            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", registro.hospitalId);
-            ViewBag.usuarioId = new SelectList(db.UserAccounts, "id", "nombre", registro.usuarioId);
-            return View(registro);
+            if (ModelState.IsValid)
+            {
+                db.Registros.Add(registro); 
+
+                try
+                {
+                    // Actualizar el stock
+                    ActualizarStockFarmacia(registro.hospitalId, registro.detallesRegistro);
+                    // Guardar el registro en la DB
+                    if (db.SaveChanges() > 0)
+                    {
+                        return RedirectToAction("Index", new { param = "Success" });
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Index", new { param = "Ocurrio un error inesperado al enviar el registro" });
+
+                }
+            }
+            return RedirectToAction("Index", new { param = "Ocurrio un error inesperado al enviar el registro" });
+
+        }
+
+        private void ActualizarStockFarmacia(int idHospital, ICollection<DetalleRegistro> detalles)
+        {
+            foreach(var detalle in detalles)
+            {
+                // Buscar el stock farmacia de ese hospital y ese insumo
+                var stockFarmacia = db.StockFarmacias.Where(x => x.hospitalId == idHospital && x.insumoId == detalle.insumoId).FirstOrDefault();
+                if (stockFarmacia != null)
+                {
+                    stockFarmacia.stockFarmacia -= detalle.cantidad;
+                    if(stockFarmacia.stockFarmacia < 0)
+                    {
+                        stockFarmacia.stockFarmacia = 0;
+                    }
+                    db.Entry(stockFarmacia).State = EntityState.Modified;
+                }
+            }
         }
 
         // GET: Registros/Edit/5
