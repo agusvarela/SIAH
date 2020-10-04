@@ -96,7 +96,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.observacionFamacia, htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-md-9">
-                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 150, htmlAttributes: new { @class = "form-control", @maxlength = "500", @onkeyup = "countChar(this)" })
+                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 150, htmlAttributes: new { @class = "form-control", @maxlength = "500", @onkeyup = "countChar(this)", @placeholder = "Detalle sus inconformidades respecto al pedido recibido para que sean evaluadas por la Oficina de Autorizaciones Hospitalarias", @required = "required" })
                                         @Html.ValidationMessageFor(model => model.observacionFamacia, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -129,23 +129,26 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script type="text/javascript">
-        $(document).on('click', '#btn_reclamar', function () {
-            Swal.fire({
-                title: 'Se generará su reclamo',
-                text: "¿Está seguro que desea continuar?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: "#28a745",
-                confirmButtonText: 'Aceptar',
-                cancelButtonColor: "#dc3545",
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
-                    $('#reclamoForm').submit();
+            $(document).on('click', '#btn_reclamar', function () {
+                document.getElementById('observacionFamacia').reportValidity();
+                if (document.getElementById('observacionFamacia').checkValidity()) {
+                    Swal.fire({
+                        title: 'Se generará su reclamo',
+                        text: "¿Está seguro que desea continuar?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: "#28a745",
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonColor: "#dc3545",
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#reclamoForm').submit();
+                        }
+                    })
                 }
-            })
-        });
+            });
 
         $(document).on('click', '#btn_cancelar', function () {
             Swal.fire({
