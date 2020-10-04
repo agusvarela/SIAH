@@ -11,7 +11,7 @@ namespace SIAH.Migrations
                 "dbo.Insumo",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Int(nullable: false, identity: false),
                         nombre = c.String(nullable: false, maxLength: 255),
                         precioUnitario = c.Decimal(nullable: false, precision:15, scale:2),
                         tipoInsumoId = c.Int(nullable: false),

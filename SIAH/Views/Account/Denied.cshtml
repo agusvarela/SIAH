@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Acceso Denegado ";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+    <body>
+        <div id="background">
+
+            <div id="notfound">
+                <div class="notfound">
+                    <div class="notfound-404">
+                        <h1>Oops!</h1>
+                    </div>
+                    <h2>403 - Acceso Denegado</h2>
+
+
+                    @try
+                    {
+                        if (Session["rol"].ToString() == "RespAutorizacion")
+                        {
+                            <h3>
+                                Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
+                            </h3>
+                            <a " href="~/Home/RespAutorizacion">
+                                Ir a Página Principal
+                            </a>
+                            <a href="~/Home">
+                                Iniciar Sesión con otro usuario
+                            </a>
+                        }
+                        if (Session["rol"].ToString() == "RespFarmacia")
+                        {
+                            <h3>
+                                Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
+                            </h3>
+                            <a href="~/Home/RespFarmacia">
+                                Ir a Página Principal
+                            </a>
+                            <a href="~/Home">
+                                Iniciar Sesión con otro usuario
+                            </a>
+                        }
+                        if (Session["rol"].ToString() == "DirectorArea")
+                        {
+                            <h3>
+                                Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
+                            </h3>
+                            <a href="~/Home/DirectorArea">
+                                Ir a Página Principal
+                            </a>
+                            <a href="~/Home">
+                                Iniciar Sesión con otro usuario
+                            </a>
+                        }
+                        if (Session["userid"] == null)
+                        {
+                            <h3>Debe iniciar sesión para ingresar a esta vista. </h3> <br> <br><br>
+                            <a href="~/Home">
+                                Iniciar Sesión
+                            </a>
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        <h3>Debe iniciar sesión para ingresar a esta vista. </h3><br> <br><br>
+                        <a href="~/Home">
+                            Iniciar Sesión
+                        </a>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </body>
+@Styles.Render("~/Content/css/DeniedStyles.css");
+<link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,700" rel="stylesheet">
+
+
+<br />

@@ -1,0 +1,145 @@
+﻿@model SIAH.Models.Registro.Registro
+
+@{
+    ViewBag.Title = "Detalle del registro";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "detailsForm" }))
+{
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-9">
+                <h1>Detalle del registro Nº: @Html.DisplayFor(model => model.id)</h1>
+                <div class="banner-catalog__content"> Descripción detallada del registro.</div>
+            </div>
+            <div class="col-lg-3">
+                <div class="icon icon-primary">
+                    <i class="material-icons pull-right" style="font-size: 100px">receipt</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="container" style=" padding-bottom: 30px;">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info_outline</i>
+                                <strong>Información general del registro</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("fechaGeneracion", Model.fechaGeneracion, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.usuarioId, "Usuario responsable", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        <text class="form-control">@ViewBag.userName</text>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.usuarioId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        <text class="form-control">@ViewBag.hospital</text>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.destinatario, "Destinatario", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("destinatario", Model.destinatario, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <hr />
+        @*Detalle del registro*@
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                    <div class="form-card__title  violet-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">storage</i>
+                            <strong>Listado de Insumos</strong>
+                        </div>
+                    </div>
+                    <div class="form-card__content group">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="detalles" class=" table table-hover table-condensed">
+                                        <thead>
+                                            <tr style="font-weight:bold" class="text-center list-group-item-info">
+                                                <th class="text-center">Nombre</th>
+                                                <th class="text-center">Tipo </th>
+                                                <th class="text-center">Cantidad Solicitada</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody name="detallesRegistro" id="detallesRegistro"></tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.TextBox("idHospital", Model.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
+    @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idRegistro" })
+}
+<div class="container">
+        <input type="button" id="volver" value="Volver al listado de Registros" class="btn pull-left btn-primary" onclick="location.href = '/Registros/Index'" />
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var table = $("#detalles").DataTable();
+            var idRegistro = $('#idRegistro').val();
+            var urlDetalle = '/Registros/GetDetalles' + '?idRegistro=' + idRegistro;
+            $.get(urlDetalle, null, function (lista) {
+                for (var i = 0, len = lista.length; i < len; i++) {
+                    var item = lista[i];
+                    var $tdInsumo = $('<td class="text-center">').append(item.nombre);
+
+                    var $tdTipo = $('<td class="text-center">').append(item.tipo);
+
+                    var $tdCantidad = $('<td class="text-center">').append(item.cantidad);
+                   
+
+                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad);
+
+                    table.row.add($tr);
+                    table.draw();
+                }
+
+
+            });
+        });
+
+    </script>
+}

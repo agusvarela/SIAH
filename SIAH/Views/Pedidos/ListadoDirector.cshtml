@@ -1,0 +1,531 @@
+﻿@model IEnumerable<SIAH.Models.Pedidos.Pedido>
+
+
+
+@{
+    ViewBag.Title = "Listado de Pedidos";
+    //WebGrid grid = new WebGrid(Model);
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
+}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"><strong> Confirmación!</strong></h4>
+            </div>
+            <div class="modal-body text-center">
+
+                <h5> ¿Desea enviar el listado de Pedidos a Ocasa? </h5>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
+                <a id="enviar" type="button" class="btn btn-info btn-simple" href="@Url.Action("GenerateSendOcasa", "Pedidos")">Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Listado de Pedidos</h1>
+            <div class="banner-catalog__content"> Aquí encontrará los pedidos de todos los hospitales, puede visualizar datos generales e ingresar a ver sus detalles o autorizarlos.</div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-success">
+                <i class="material-icons pull-right" style="font-size: 100px">send</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" style=" padding-bottom: 30px;">
+
+    <div class="form-horizontal">
+
+
+        <br>
+        <div class="row">
+
+
+
+            <div class="col-lg-12">
+
+
+
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__content group">
+
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert  animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Seleccione un pedido para ver su detalle o autorizarlo</span>
+                                </div>
+                            </div>
+                            <div id="cuadritos" class="container col-md-12">
+                                <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                                    <li class="text-info">
+                                        <a class="list-group-item-grey soft-grey">
+                                            <i class="material-icons " style="padding:0px">clear</i>
+
+                                            Cancelado
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                                    <li class="text-info">
+                                        <a class="list-group-item-success soft-success" style="vertical-align:central">
+                                            <i class="material-icons " style="padding:0px">check_circle</i>
+
+                                            Recibido
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                                    <li class="text-info">
+                                        <a class="list-group-item-danger soft-danger">
+                                            <i class="material-icons " style="padding:0px">error_outline</i>
+
+                                            Reclamado
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                                    <li class="text-info">
+                                        <a class="list-group-item-info soft-info">
+                                            <i class="material-icons " style="padding:0px">markunread</i>
+
+                                            Entregado
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                                    <li class="text-info">
+                                        <a class="list-group-item-orange soft-orange">
+
+                                            <i class="material-icons " style="padding:0px">local_shipping</i>
+
+                                            En Proceso de Envío
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                                    <li class="text-info">
+                                        <a class="list-group-item-warning soft-warning">
+                                            <i class="material-icons " style="padding:0px">spellcheck</i>
+
+                                            Autorizado
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-pills nav-stacked pull-right " style="padding-right:5px">
+                                    <li class="text-info">
+
+                                        <a class="list-group-item">
+                                            <i class="material-icons " style="padding:0px">send</i>
+
+
+                                            Generado
+                                        </a>
+                                    </li>
+                                </ul>
+
+
+                            </div>
+
+                            <div class="animated zoomIn">
+
+                                <div class="col-md-12">
+                                    <hr />
+                                    <div id="table-container">
+                                        <table id="maintable" class="table table-condensed">
+                                            <thead class="listado">
+                                                <tr>
+                                                    <th class="text-center">
+                                                        <strong> @Html.Name("Nº Pedido")</strong>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <strong> @Html.Name("Fecha Generación")</strong>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <strong> @Html.Name("Hospital")</strong>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <strong> @Html.Name("Urgente")</strong>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <strong>  @Html.Name("Estado")</strong>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <strong>  @Html.Name("Acciones")</strong>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            @foreach (var item in Model)
+                                            {
+                                                switch (item.estadoId)
+                                                {
+                                                    case 1:
+                                                        <tr class="" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">send</i>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a type="button" id="volver" class="btn btn-round btn-primary" href="/Pedidos/Autorizacion/@item.id.ToString()">Autorizar</a>
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 2:
+                                                        <tr class="list-group-item-warning" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="icon-warning material-icons">spellcheck</i>
+                                                            </td>
+                                                            <td class="text-center">
+
+                                                                <a href="#" class="escondido">Autorizar</a>
+
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 3:
+                                                        <tr class="list-group-item-orange" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">local_shipping</i>
+                                                            </td>
+                                                            <td class="text-center">
+
+                                                                <a href="#" class="escondido">Autorizar</a>
+
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 4:
+                                                        <tr class="list-group-item-grey" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">clear</i>
+                                                            </td>
+                                                            <td class="text-center">
+
+                                                                <a href="#" class="escondido">Autorizar</a>
+
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 5:
+                                                        <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">check_circle</i>
+                                                            </td>
+                                                            <td class="text-center">
+
+                                                                <a href="#" class="escondido">Autorizar</a>
+
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 6:
+                                                        <tr class="list-group-item-info" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="icon-info  material-icons">markunread</i>
+                                                            </td>
+                                                            <td class="text-center">
+
+                                                                <a href="#" class="escondido">Autorizar</a>
+
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 7:
+                                                        <tr class="list-group-item-danger" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">error_outline</i>
+                                                            </td>
+                                                            <td class="text-center">
+
+                                                                <a href="#" class="escondido">Autorizar</a>
+
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 8:
+                                                        <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.hospital.nombre)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (item.esUrgente == true)
+                                                                {
+                                                                    <i class="material-icons icon-danger">error</i>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="material-icons">check_circle</i>
+                                                            </td>
+                                                            <td class="text-center">
+
+                                                                <a href="#" class="escondido">Autorizar</a>
+
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                }
+                                            }
+
+                                        </table>
+                                        <div id="bottom_anchor"></div>
+
+                                    </div>
+                                </div>
+                                <br><br>
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__content group">
+
+                            <div class="col-md-12" style="padding-top:20px">
+
+                                <div id="alertArea  animated zoomIn" class="col-md-11">
+                                    <div class="alert alert-info pq-alert  animated zoomIn col-md-10">
+                                        <i class="fa fa-arrow-right"></i>
+                                        <span>Presione el botón para enviar los datos de todos los pedidos en estado "Autorizado"  </span>
+                                        <i class="material-icons pull-right" style="font-size: 30px">spellcheck</i>
+                                        <i class="fa fa-arrow-right pull-right" style="padding-right:30px"></i>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-1 my-auto">
+                                    <a id="sendocasa" class="btn btn-success btn-lg  btn-round btn_export pull-right" data-toggle="modal" data-target="#myModal">Enviar a OCASA</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).on('click', '#enviar', function (event) {
+            setTimeout(function () { location.reload() }, 2000);
+        });
+        $(document).ready(function () {
+            sessionStorage.setItem("From", "Pedidos");
+            if (@ViewBag.success.ToString().ToLower() ===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'Operación completada con éxito'
+                    }, {
+                            type: 'success',
+                            offset: {
+                                x: 20,
+                                y: 90
+                            }
+                        },
+                    );
+
+                }
+                else {
+                if (@ViewBag.validacion.ToString().ToLower()===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: '@ViewBag.problem '
+                    }, {
+                            type: 'danger',
+                            offset: {
+                                x: 20,
+                                y: 80
+                            }
+                        },
+                    );
+                }
+
+            }
+            var myNewURL = refineURL();
+            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
+            window.history.pushState("object or string", "Title", "/" + myNewURL);
+            //Helper function to extract the URL between the last '/' and before '?'
+            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+            //pseudo code: edit to match your URL settings
+            function refineURL() {
+                //get full URL
+                var currURL = window.location.href; //get current address
+
+                //Get the URL between what's after '/' and befor '?'
+                //1- get URL after'/'
+                var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
+                //2- get the part before '?'
+                var beforeQueryString = afterDomain.split("?")[0];
+
+                return "Pedidos/" + beforeQueryString;
+            }
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]]
+            });;
+        });
+
+
+
+</script>
+}

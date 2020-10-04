@@ -1,0 +1,116 @@
+﻿@model SIAH.Models.Compras.Compra
+
+@{
+    ViewBag.Title = "Cargar compra";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
+}
+@using (Html.BeginForm("CargarCompra", "Compras", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-sm-12">
+                <h1>Cargar remito de compra</h1>
+                <div class="banner-catalog__content">Carga de archivos de remito de compra.</div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container" style=" padding-bottom: 30px;">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title  purple-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">add</i>
+                                <strong>Carga de archivo</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="file" class="form-control-file btn btn-info btn-round" id="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                    <label for="file">Seleccione un archivo con extensión .xls (Excel)</label>
+                                    <input type="submit" value="Cargar compra" class="btn btn-round btn-success pull-right" data-toggle="modal" data-target="#myModal" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (Session["rol"].ToString() == "DirectorArea")
+        {
+            <div class="col-sm-4">
+                <input type="button" style="margin-top: 40px;" id="volver" value="Volver al listado de compras" class="btn pull-left btn-primary" />
+            </div>
+        }
+    </div>
+
+    @Html.TextBox("fechaEntregaEfectiva", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = DateTime.Today, @name = "fechaEntregaEfectiva", @id = "fecha", @type = "hidden", style = "margin-top: 0px;" })
+
+}
+    @section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#volver').on('click', function (event) {
+                Swal.fire({
+                    title: '¿Está seguro que desea volver?',
+                    text: "Cualquier cambio realizado se perdera",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = '/Compras';
+                    }
+                });
+            });
+
+            if (@ViewBag.success.ToString().ToLower() === true) {
+                $.notify({
+                    title: '<strong>Aviso!</strong><br/>',
+                    message: 'Compra impactada correctamente.'
+                }, {
+                        type: 'success',
+                        offset: {
+                            x: 20,
+                            y: 90
+                        }
+                    },
+                );
+
+            }
+            else {
+                if (@ViewBag.validacion.ToString().ToLower()=== true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'Hubo un error en la carga de la compra.'
+                    }, {
+                            type: 'danger',
+                            offset: {
+                                x: 20,
+                                y: 80
+                            }
+                        },
+                    );
+                }
+
+            }
+        })
+    </script>
+}

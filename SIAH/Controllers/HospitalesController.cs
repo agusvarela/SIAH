@@ -15,6 +15,34 @@ namespace SIAH.Controllers
     {
         private SIAHContext db = new SIAHContext();
 
+        //GET: Presupuesto
+        public String getPresupuesto(int idHospital)
+        {
+            decimal presupuestoRestante = db.Hospitales.Find(idHospital).presupuesto;
+            var pedidosMesActual = db.Pedidos
+                .Include(d => d.detallesPedido)
+                .Include(d => d.detallesPedido.Select(x => x.insumo))
+                .Where(
+                        x => x.hospitalId == idHospital &&
+                        x.fechaGeneracion.Month == DateTime.Today.Month &&
+                        x.fechaGeneracion.Year == DateTime.Today.Year)
+                .ToList();
+            decimal presupuestoGastado = 0;
+            foreach(var pedido in pedidosMesActual)
+            {
+                decimal gastoPedido = 0;
+                foreach (var detalle in pedido.detallesPedido)
+                {
+                    gastoPedido += detalle.insumo.precioUnitario * detalle.cantidad;
+                }
+                presupuestoGastado += gastoPedido;
+            }
+
+            presupuestoRestante -= presupuestoGastado;
+            if (presupuestoRestante <= 0) presupuestoRestante = 0;
+            return presupuestoRestante.ToString();
+        }
+
         // GET: Hospitals
         public ActionResult Index()
         {
@@ -29,7 +57,9 @@ namespace SIAH.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Hospital hospital = db.Hospitales.Find(id);
+            Hospital hospital = db.Hospitales.Include(x => x.localidad).Where(s => s.id == id).First();
+            UserAccount responsable = db.UserAccounts.Where(u => u.hospitalID == hospital.id).FirstOrDefault();
+            ViewBag.nombreResponsable = responsable?.nombre + " " + responsable?.apellido;
             if (hospital == null)
             {
                 return HttpNotFound();
@@ -49,7 +79,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nombre,localidadId")] Hospital hospital)
+        public ActionResult Create([Bind(Include = "id,nombre,localidadId, presupuesto, latitud, longitud, telefono")] Hospital hospital)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +113,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nombre,localidadId")] Hospital hospital)
+        public ActionResult Edit([Bind(Include = "id,nombre,localidadId, presupuesto, latitud, longitud, telefono")] Hospital hospital)
         {
             if (ModelState.IsValid)
             {

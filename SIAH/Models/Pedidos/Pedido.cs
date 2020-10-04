@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using SIAH.Models.Pedidos;
 
 namespace SIAH.Models.Pedidos
 {
@@ -20,6 +21,9 @@ namespace SIAH.Models.Pedidos
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaGeneracion { get; set; }
 
+        [Display(Name = "Número de seguimiento")]
+        public string trackingNumber { get; set; }
+
         [Display(Name = "Fecha de entrega")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -32,6 +36,15 @@ namespace SIAH.Models.Pedidos
 
         public int hospitalId { get; set; }
         public Hospital hospital { get; set; }
+
+        public int? responsableAsignadoId { get; set; }
+        public UserAccount responsableAsignado { get; set; }
+
+        public int estadoId { get; set; }
+        public Estado estado { get; set; }
+
+        public int? reclamoId { get; set; }
+        public virtual Reclamos.Reclamo reclamo { get; set; }
 
         public ICollection<DetallePedido> detallesPedido { get; set; }
 

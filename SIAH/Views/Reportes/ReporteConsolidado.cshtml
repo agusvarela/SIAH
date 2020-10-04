@@ -1,0 +1,283 @@
+﻿@model IEnumerable<String[]>
+
+@{
+    ViewBag.Title = "ReporteConsolidado";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    bool isFirst = true;
+    //WebGrid grid = new WebGrid(source: Model.GetEnumerator().Current);
+}
+
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Reporte de Consolidado</h1>
+            <div class="banner-catalog__content">
+                Este reporte muestra la cantidad de insumos que han sido autorizados,
+                por cada hospital
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-danger">
+                <i class="material-icons pull-right" style="font-size: 100px">timeline</i>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="container" style=" padding-bottom: 30px;">
+
+    <div class="form-horizontal ">
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                    <div class="form-card__title info-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">date_range</i>
+                            <strong>Periodo de Reporte</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-card__content group">
+                        <div class="form-group text-center">
+                            <h4 style="margin-top:0px"> Insumos autorizados del: <br /><strong> @ViewBag.fechaInicio</strong> al<strong> @ViewBag.fechaFin</strong></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8" id="det">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                    <div class="form-card__title purple-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">autorenew</i>
+                            <strong>Generar nuevo reporte</strong>
+                        </div>
+                    </div>
+                    <div class="form-card__content group">
+
+                        <div class="form-group">
+                            <div class="col-sm-12" style="padding-top:10px; padding-bottom:9px; padding-left:0px; padding-right:0px;">
+                                <div class="col-sm-3" style="padding-left:5px; padding-right:0px;">
+                                    @Html.Label("Desde:", htmlAttributes: new { @class = "control-label", @style = "font-size: 16px; font-weight: bold; color: #000000d1;" })
+                                    <input id="inicio" style="width: 95px; border: 0; background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2);
+                                                background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" readonly />
+                                </div>
+                                <div class="col-sm-1" style="padding-top:7px; padding-left:0px;">
+                                    <span id="clearFechaInicio" class="hover-pointer">
+                                        <i class="material-icons" style="font-size:26px; color:#ff0000bf;">highlight_off</i>
+                                    </span>
+                                </div>
+
+                                <div class="col-sm-3" style="padding-right:0px;">
+                                    @Html.Label("Hasta:", htmlAttributes: new { @class = "control-label", @style = "font-size: 16px; font-weight: bold; color: #000000d1;" })
+                                    <input id="fin" style="width:95px; border: 0; background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2);
+                                                background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" value="@DateTime.Today.ToString("dd/MM/yyyy")" readonly disabled />
+                                </div>
+                                <div class="col-sm-1" style="padding-top:7px; padding-left:0px;">
+                                    <span id="clearFechaFin" class="hover-pointer">
+                                        <i class="material-icons" style="font-size:26px; color:#ff0000bf;">highlight_off</i>
+                                    </span>
+                                </div>
+                                <div class="col-sm-4" style="padding-left:35px;">
+                                    <button id="reporte" class="btn btn-round btn-success" style="vertical-align:bottom">Generar Reporte</button><br />
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                    <div class="form-card__content group">
+
+
+
+                        @using (Html.BeginForm())
+                        {
+
+                            <section class="">
+                                <div class="t-container">
+                                    <table id="tablaReporte" class="table1">
+
+                                        @foreach (var i in Model)
+                                        {
+
+                                            if (isFirst == false)
+                                            {
+                                                <tr>
+                                                    @{var total = 0;
+                                                        var firstColumn = true;
+                                                        var style = "";
+                                                        foreach (var e in i)
+                                                        {
+                                                            if (firstColumn) { style = "border-left-width: 0px;"; firstColumn = false; }
+                                                            else { style = ""; }
+
+                                                            var celda = e.AsInt(0);
+                                                            if (e.AsInt(1) == 0)
+                                                            {
+
+                                                                <td class="v text-center"></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="v text-center" style="@style">@e</td>
+                                                            }
+
+                                                            total += celda;
+                                                        }
+                                                        if (total != 0)
+                                                        {
+                                                            <td class="v  text-center" style="font-size: large"><strong>@total</strong></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="v  text-center"></td>
+                                                        }
+
+
+                                                    }
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <thead>
+                                                    <tr class=" v">
+                                                        @{foreach (var e in i)
+                                                            {
+                                                                var styleFirstRow = "border-left-width: 0px;";
+                                                                if (!isFirst) { styleFirstRow = ""; }
+                                                                <th class="v  text-center" style="@styleFirstRow"><strong>@e</strong></th>
+                                                                isFirst = false;
+                                                            }
+                                                            <th class="v  text-center">Total</th>
+                                                        }
+                                                    </tr>
+                                                </thead>
+                                            }
+
+                                        }
+                                    </table>
+                                </div>
+                            </section>
+
+                        }
+                        <br />
+                        <div class=" col-md-12 pull-right">
+                            <input id="btn_export" type="button" value="Exportar Excel" class="btn btn-success btn-round btn_export" onClick="exportarExcel()" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css" />
+    <script type="text/javascript">
+        function exportarExcel() {
+            $('#tablaReporte').tableExport({
+                filename: 'ReporteConsolidado',
+                format: 'xls',
+            });
+        }
+
+        $(document).ready(function () {
+            document.querySelector('#fin').style.borderBottom = "1px dotted #D2D2D2";
+            document.querySelector('#fin').style.backgroundImage = "none";
+
+            $('#inicio').datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+                onClose: function (selectedDate) {
+                    $("#fin").datepicker("option", "minDate", selectedDate);
+                },
+                monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                showMonthAfterYear: true,
+                closeText: 'Cerrar',
+                currentText: 'Hoy',
+                showButtonPanel: true
+            });
+            $('#fin').datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+                onClose: function (selectedDate) {
+                    $("#inicio").datepicker("option", "maxDate", selectedDate);
+                },
+                monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                showMonthAfterYear: true,
+                closeText: 'Cerrar',
+                currentText: 'Hoy',
+                showMonthAfterYear: true
+            });
+
+            $("#clearFechaInicio").hide();
+            $("#clearFechaFin").hide();
+            $('#reporte').prop('disabled', true);
+
+            $('#clearFechaInicio').on('click', function (event) {
+                $("#clearFechaInicio").hide();
+                $('#inicio').val('');
+                $('#fin').prop('disabled', true);
+                document.querySelector('#fin').style.borderBottom = "1px dotted #D2D2D2";
+                document.querySelector('#fin').style.backgroundImage = "none";
+
+                $("#clearFechaFin").hide();
+                $('#fin').val('@DateTime.Today.ToString("dd/MM/yyyy")');
+                $("#inicio").datepicker("option", "maxDate", $('#fin').val());
+
+                $('#reporte').prop('disabled', true);
+            });
+            $('#clearFechaFin').on('click', function (event) {
+                $("#clearFechaFin").hide();
+                $('#fin').val('@DateTime.Today.ToString("dd/MM/yyyy")');
+                $("#inicio").datepicker("option", "maxDate", $('#fin').val());
+            });
+        });
+
+        $(document).on('change', '#inicio', function (event) {
+            if ($('#inicio').val() != '') {
+                $("#clearFechaInicio").show();
+                $('#fin').prop('disabled', false);
+                document.querySelector('#fin').style.borderBottom = "none";
+                document.querySelector('#fin').style.backgroundImage = "linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2)";
+                $('#reporte').prop('disabled', false);
+            }
+        });
+        $(document).on('change', '#fin', function (event) {
+            if ($('#fin').val() != '') {
+                $("#clearFechaFin").show();
+            }
+        });
+
+        $(document).on('click', '#reporte', function (event)
+        {
+            event.preventDefault();
+            var url = '@Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = "START" , fechaFin = "END" })';
+
+            url = url.replace("START", $("#inicio").val());
+            url = url.replace("END", $("#fin").val());
+            url = url.replace("amp;", "");
+            location.href = url;
+        });
+    </script>
+
+
+}

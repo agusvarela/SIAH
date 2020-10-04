@@ -1,0 +1,148 @@
+﻿@model SIAH.Models.Compras.Compra
+
+@{
+    ViewBag.Title = "Detalle de compra";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-sm-12">
+            <h1> Compra Nº @Model.id</h1>
+            <div class="banner-catalog__content">Detalle del remito de compra.</div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="container" style=" padding-bottom: 30px;">
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                    <div class="form-card__title  info-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">info</i>
+                            <strong>Información Compra</strong>
+                        </div>
+                    </div>
+                    <div class="form-card__content group">
+
+
+                        <div class="form-group">
+                            @Html.Label("", "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota " })
+                            <div class="col-md-12">
+                                @Html.TextBox("fechaEntregaEfectiva", Model.fechaEntregaEfectiva.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = Model.fechaEntregaEfectiva, @name = "fechaEntregaEfectiva", @type = "hidden" })
+                                <text class="form-control">@Model.fechaEntregaEfectiva.ToShortDateString()</text>
+                                @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                    <div class="form-card__title  violet-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">storage</i>
+                            <strong>Listado de la Compra</strong>
+                        </div>
+                    </div>
+                    <div class="form-card__content group">
+                        <div class="form-group">
+                            <div class="table-container">
+                                <table id="maintable" class="table table-hover table-condensed">
+                                    <thead>
+                                        <tr style="font-weight:bold">
+                                            <th style="text-align:center; font-weight:bold ">Nombre del Insumo</th>
+                                            <th style="text-align:center; font-weight:bold">Cantidad Comprada </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item in Model.detallesCompra)
+                                        {
+                                            <tr>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(x => item.insumo.nombre)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(x => item.cantidadComprada)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-4">
+        <input type="button" style="margin-top: 20px;" id="volver" value="Volver al listado de compras" class="btn pull-left btn-primary" />
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $('#volver').on('click', function (event) {
+                Swal.fire({
+                    title: '¿Está seguro que desea volver?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = '/Compras';
+                    }
+                });
+            });
+
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset();
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            $("#maintable").DataTable({ "oLanguage": { "sEmptyTable": "No hay insumos en la compra." } });;
+            sessionStorage.setItem("From", "Compras");
+        });
+
+
+
+    </script>
+}

@@ -1,0 +1,140 @@
+﻿@model SIAH.Models.Remitos.Remito
+
+@{
+    ViewBag.Title = "Carga de Remito";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    int pedidoId = ViewBag.pedidoId;
+    int remitoId = ViewBag.remitoId;
+    String path = ViewBag.path;
+}
+@using (Html.BeginForm("Create", "Remitos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-12">
+                <h1>Carga Remito</h1>
+                <div class="banner-catalog__content">
+                    Realice la carga de Remitos de Pedido
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+
+
+
+    <div class="container center-block mx-auto" style=" padding-bottom: 30px;">
+
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class=" col-sm-6">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn mx-auto ">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info</i>
+                                <strong>Informacion General</strong>
+                            </div>
+                        </div>
+
+                        <div class="form-card__content group">
+
+
+
+                            <div class="col-sm-3">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(model => model.id, "Id Remito", htmlAttributes: new { @class = "control-label  tota" })
+                                  
+                                        @Html.TextBox("remitoId", remitoId, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                 
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(model => model.pedidoId, "Id Pedido", htmlAttributes: new { @class = "control-label  tota" })
+                                 
+                                        @Html.TextBox("pedidoId", pedidoId, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group label-floating">
+                                    @Html.LabelFor(model => model.fechaEntregaEfectiva, "Fecha Entrega Pedido", htmlAttributes: new { @class = "control-label   tota " })
+                                    
+                                        @Html.TextBox("fecha", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @type = "text", @onfocus = "(this.type='date')", @onfocusout = "(this.type='text')" })
+                               
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-6">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn mx-auto ">
+                        <div class="form-card__title purple-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">add</i>
+                                <strong>Cargar un Remito</strong>
+                            </div>
+                        </div>
+
+                        <div class="form-card__content group">
+                            <div class="col-sm-12">
+                                @Html.TextBox("file", "", new { @type = "file", @class = "col-sm-12" })<br /><br />
+                                <div class="form-group label-floating col-sm-7">
+                                    @Html.TextBox("path", path, htmlAttributes: new { @class = "form-control ", @readonly = "readonly" })
+                                    
+                                </div>
+                                <input id="uploadFile" type="submit" value="Subir Archivo" class="btn btn-sm btn-success btn-round col-sm-5" />
+                            </div>
+                            <div>
+
+                                @ViewBag.Message
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <div class=" pull-center text-center" style="margin-top:50px">
+                                <input id="crear" type="submit" value="Impactar Remito" class="btn btn-default" />
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
+    <script type="text/javascript">
+        $(document).on('click', '#crear', function (event) {
+
+            event.preventDefault();
+            if ($("#path").val() != "") {
+                var url = '@Url.Action("CrearRemito", "Remitos", new { remitoId = "ID", fechaEntregaEfectiva = "DATE",  pedidoId = "PID",  pathDetalles = "PATH" })';
+
+            url = url.replace("ID", $("#remitoId").val());
+            url = url.replace("DATE", $("#fecha").val());
+            url = url.replace("PID", $("#pedidoId").val());
+            url = url.replace("PATH", $("#path").val());
+            url = url.replace("amp;", "");
+            url = url.replace("amp;", "");
+            url = url.replace("amp;", "");
+            alert(url);
+            location.href = url;
+            } else { alert("Por favor cargue un archivo válido de Remito");}
+
+        });
+    </script>
+
+
+}

@@ -9,6 +9,8 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
+using SIAH.Models.Remitos;
+using SIAH.Models.Compras;
 
 namespace SIAH.Context
 {
@@ -39,6 +41,35 @@ namespace SIAH.Context
 
         public DbSet<DetallePedido> DetallesPedido { get; set; }
 
+        public DbSet<UserAccount> UserAccounts { get; set; }
+
+        public DbSet<Rol> Roles { get; set; }
+
+        public DbSet<Estado> Estados { get; set; }
+
+        public DbSet<InsumoOcasa> InsumoOcasa { get; set; }
+
+        public DbSet<Remito> Remitos { get; set; }
+        
+        public DbSet<DetalleRemito> DetallesRemito { get; set; }
+
+        public DbSet<Compra> Compras { get; set; }
+
+        public DbSet<DetalleCompra> DetallesCompra { get; set; }
+
+        public DbSet<EstadoRemito> EstadoRemitoes { get; set; }
+
+        public DbSet<Models.Reclamos.Reclamo> Reclamoes { get; set; }
+
+        public DbSet<Models.Reclamos.TipoReclamo> TipoReclamoes { get; set; }
+
+        public DbSet<Models.Reclamos.EstadoReclamo> EstadoReclamoes { get; set; }
+
+        public DbSet<Models.StockFarmacia> StockFarmacias { get; set; }
+
+        public DbSet<Models.Registro.Registro> Registros { get; set; }
+
+        public DbSet<Models.Registro.DetalleRegistro> DetallesRegistro { get; set; }
     }
 
 }

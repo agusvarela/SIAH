@@ -1,0 +1,232 @@
+﻿@using SIAH.Models.Enums
+@model IEnumerable<SIAH.Models.UserAccount>
+
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
+}
+
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Gestión de usuarios</h1>
+            <div class="banner-catalog__content">
+                Aquí encontrará los usuarios registrados en el sistema y podrá registrar nuevos usuarios.
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-info">
+                <i class="material-icons pull-right" style="font-size: 100px">person</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="page" style="min-height: 363px;">
+    <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class=" col-sm-10">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Usuarios registrados</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-2">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="alertArea  animated zoomIn">
+                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" onclick="location.href='@Url.Action("Register", "Account")'">
+                                    <strong>Registrar usuario</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                    <div class="form-card__content group">
+                        <div class="form-group">
+
+                            <div id="contenedor" class="col-md-12">
+
+                                <div id="table-container">
+                                    <table id="maintable" class="table table-condensed">
+                                        <thead class="listado">
+
+                                            <tr class="list-group-item-info" style="border-bottom: solid">
+                                                <th class="text-center">
+                                                    @Html.Name("Nombre")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Email")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Rol")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Acciones")
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.nombre)
+
+                                                    @Html.DisplayFor(modelItem => item.apellido)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.email)
+                                                </td>
+                                                <td class="text-center">
+                                                    @{string rol = ((DefaultRoles)item.rolID).ToString();}
+                                                    @Html.DisplayFor(modelItem => rol)
+                                                </td>                                                
+                                                <td class="text-center">
+                                                    <button id="edit" class="btn btn-round" style="padding: 0px; background-color: white !important" onclick="editUser(@item.id)" title="Editar">
+                                                        <i style="margin: 0; padding: 0;  background: white" class="material-icons icon-info">edit</i>
+                                                    </button>
+                                                    <button id="delete" class="btn btn-round" style="padding: 0px; background-color: white !important" onclick="deleteUser(@item.id)" title="Eliminar">
+                                                        <i style="margin: 0; padding: 0;  background: white" class="material-icons icon-danger">delete</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </table>
+                                    <div id="bottom_anchor"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var myNewURL = refineURL();
+            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
+            window.history.pushState("object or string", "Title", "/" + myNewURL);
+            //Helper function to extract the URL between the last '/' and before '?'
+            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+            //pseudo code: edit to match your URL settings
+            function refineURL() {
+                //get full URL
+                var currURL = window.location.href; //get current address
+
+                //Get the URL between what's after '/' and befor '?'
+                //1- get URL after'/'
+                var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
+                //2- get the part before '?'
+                var beforeQueryString = afterDomain.split("?")[0];
+
+                return beforeQueryString;
+            }
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+
+            $(window).scroll(moveScroll);
+
+            $("#clone").DataTable();
+
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]]
+            });
+
+            if (@ViewBag.success.ToString().ToLower() === true) {
+                $.notify({
+                    title: '<strong>Aviso!</strong><br/>',
+                    message: 'Operación completada con éxito'
+                }, {
+                    type: 'success',
+                    offset: {
+                        x: 20,
+                        y: 90
+                    }
+                },
+                );
+
+            }
+            else {
+                if (@ViewBag.validacion.ToString().ToLower()=== true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: '@ViewBag.problem '
+                    }, {
+                        type: 'danger',
+                        offset: {
+                            x: 20,
+                            y: 80
+                        }
+                    },
+                    );
+                }
+            }
+        });
+
+        function deleteUser(idUser) {
+            Swal.fire({
+                title: 'Borrado de usuario',
+                text: "¿Está seguro que desea borrar este usuario?",
+                icon: 'warning',
+                showCancelButton: true,
+                showCloseButton: true,
+                confirmButtonColor: "#28a745",
+                confirmButtonText: 'Aceptar',
+                cancelButtonColor: "#dc3545",
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value)
+                {
+                    location.href = "/Account/Delete/" + idUser;
+                }
+            });
+        }
+
+        function editUser(idUser) {
+            location.href = "/Account/Edit/" + idUser
+        }
+    </script>
+}
+

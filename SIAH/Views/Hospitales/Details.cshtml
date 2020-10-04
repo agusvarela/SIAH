@@ -1,34 +1,105 @@
 ﻿@model SIAH.Models.Hospital
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalle del hospital";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    string responsable = ViewBag.nombreResponsable;
+    string latitud = Model.latitud;
+    string longitud = Model.longitud;
 }
 
-<h2>Details</h2>
+@using (Html.BeginForm())
+{
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-9">
+                <h1>Hospital @Html.DisplayFor(model => model.nombre)</h1>
+                <div class="banner-catalog__content"> <br /></div>
+            </div>
+            <div class="col-lg-3">
+                <div class="icon icon-danger">
+                    <i class="material-icons pull-right" style="font-size: 100px">local_hospital</i>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <h4>Hospital</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.localidad.nombre)
-        </dt>
+    <br />
 
-        <dd>
-            @Html.DisplayFor(model => model.localidad.nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nombre)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    <div class="container" style=" padding-bottom: 30px;">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info_outline</i>
+                                <strong>Información general</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.localidad.nombre, "Localidad", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("Localidad", Model.localidad.nombre, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.telefono, "Teléfono", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("Telefono", Model.telefono, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("Presupuesto", "$" + Model.presupuesto.ToString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.presupuesto, "Responsable", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("Responsable", responsable, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__title purple-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">my_location</i>
+                                <strong>Ubicación</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group";">
+                            <iframe id="map" width="800" height="313" frameborder="1" style="border:0;" allowfullscreen="true"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts{
+<script type="text/javascript">
+    $(document).ready(function () {
+        var latitud = '@latitud';
+        var longitud = '@longitud';
+        if (latitud == '') { latitud = '0'; alert('El hospital no tiene cargada su ubicación');}
+        if (longitud == '') { longitud = '0'; }
+        var query = "https://www.google.com/maps/embed/v1/view?key=@System.Configuration.ConfigurationManager.AppSettings["googleApiKey"]&center="
+            + latitud + ', ' + longitud + '&zoom=17&maptype=roadmap';
+        document.getElementById('map').setAttribute('src', query);
+    });
+</script>    
+}

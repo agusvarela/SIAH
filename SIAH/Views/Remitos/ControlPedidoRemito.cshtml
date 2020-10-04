@@ -1,0 +1,777 @@
+﻿@model Tuple<SIAH.Models.Pedidos.Pedido, SIAH.Models.Remitos.Remito>
+@{
+    ViewBag.Title = "ControlPedidoRemito";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("ControlPedidoRemito", "Remitos", FormMethod.Post, new { id = "remitoForm" }))
+{
+
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-12">
+                <h1>Control del Remito para el pedido Nº: @Html.DisplayFor(model => model.Item1.id)</h1>
+                <div class="banner-catalog__content"> Información general del pedido.</div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="container" style=" padding-bottom: 30px;">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info_outline</i>
+                                <strong>Información general del pedido</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Item1.periodo, "Período", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("periodo", Model.Item1.periodo.ToString("MMMM - yyyy"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = Model.Item1.periodo, @type = "hidden" })
+                                        @{
+                                            string period = Model.Item1.periodo.ToString("MMMM - yyyy");
+                                            period = char.ToUpper(period[0]).ToString() + period.Substring(1);
+                                        }
+                                        <text class="form-control">@period</text>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Item1.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("nombreHospital", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @type = "hidden" })
+                                        <text class="form-control">@ViewBag.hospital</text>
+                                        @Html.ValidationMessageFor(model => model.Item1.hospital.nombre, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Item1.hospital.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div id="container" class="col-md-12">
+                                        @Html.TextBox("presupuesto", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @id = "presupuesto", @type = "hidden" })
+                                        <text id="presupuestoAMostrar" class="form-control"></text>
+                                        <div> <span id="presuSpan" name="presuSpan" class="text-danger"></span></div>
+                                        <div><span id="autoSpan" name="autosSpan" class="text-success"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Item1.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.Item1.fechaGeneracion, Model.Item1.fechaGeneracion.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                        <text class="form-control">@Model.Item1.fechaGeneracion.ToShortDateString()</text>
+                                        @Html.ValidationMessageFor(model => model.Item1.fechaGeneracion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Item1.fechaEntrega, "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @if (Model.Item1.fechaEntrega != null)
+                                        {
+                                            @Html.TextBoxFor(model => model.Item1.fechaEntrega, Model.Item1.fechaEntrega.Value.ToShortDateString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                            @:<text class="form-control">@Model.Item1.fechaEntrega.Value.ToShortDateString()</text>
+                                            @Html.ValidationMessageFor(model => model.Item1.fechaGeneracion, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("fechaEntrega", "Pedido No Autorizado", htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                            @:<text class="form-control">Pedido No Autorizado</text>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Item1.esUrgente)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                                <div class="form-card__title alert-header">
+                                    <div class="alert-icon text-center">
+                                        <i class="material-icons">warning</i>
+                                        <strong>Pedido Urgente!</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="no-margin-bottom" />
+                }
+            </div>
+        </div>
+
+
+        <hr />
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                    <div class="form-card__title  purple-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">room</i>
+                            <strong>Estado actual del pedido</strong>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-card__content group">
+                        <div class="row bs-wizard" style="border-bottom:0;">
+
+                            @switch (Model.Item1.estadoId)
+                            {
+                                case 1:
+                                    <div class="col-xs-3 bs-wizard-step active">
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons ">send</i><br /> Generado
+
+                                        </div>
+
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center">Su pedido está siendo verificado por la Oficina de Autorizaciones Hospitalarias</div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step disabled">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum"><i class="material-icons">spellcheck</i> <br /> Autorizado</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"> </div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step disabled">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum"><i class="material-icons">local_shipping</i> <br />En proceso de Envío</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step disabled">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum"> <i class="material-icons">check_circle</i> <br />Recibido</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+                                    break;
+
+
+                                case 2:
+                                    <div class="col-xs-3 bs-wizard-step complete">
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">send</i><br /> Generado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step active">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+                                            <div class="icon soft-warning">
+                                                <i class="material-icons soft-warning">spellcheck</i> <br /> Autorizado
+                                            </div>
+                                        </div>
+
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center">Su pedido cumple con los requisitos establecidos y fue aprobado por la Oficina de Autorizaciones Hospitalarias</div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step disabled">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum"><i class="material-icons">local_shipping</i> <br />En proceso de Envío</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step disabled">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum"> <i class="material-icons">check_circle</i> <br />Recibido</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+                                    break;
+
+
+                                case 3:
+                                    <div class="col-xs-3 bs-wizard-step complete">
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">send</i><br /> Generado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">spellcheck</i> <br /> Autorizado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"> </div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step active">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+                                            <div class="icon icon-info">
+                                                <i class="material-icons">local_shipping</i> <br />En proceso de Envío
+                                            </div>
+                                        </div>
+
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center">Este pedido fue cargado en Ocasa para su envío</div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step disabled">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum"> <i class="material-icons">check_circle</i> <br />Recibido</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+                                    break;
+
+
+
+                                case 5:
+                                    <div class="col-xs-3 bs-wizard-step complete">
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons ">send</i><br /> Generado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">spellcheck</i> <br /> Autorizado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"> </div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons  ">local_shipping</i> <br />En proceso de Envío
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step active">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum">
+                                            <div class=" icon icon-success">
+                                                <i class="material-icons icon-success">check_circle</i> <br />Recibido
+                                            </div>
+                                        </div>
+
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center">Su pedido fue entregado</div>
+                                    </div>
+                                    break;
+
+
+
+                                case 4:
+                                    <div class="col-xs-3 bs-wizard-step complete">
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">send</i><br /> Generado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">spellcheck</i> <br /> Autorizado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"> </div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons ">local_shipping</i> <br />En proceso de Envío
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step active">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum">
+                                            <div class=" icon icon-danger">
+                                                <i class="material-icons ">clear</i> <br />Cancelado
+                                            </div>
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center">Su pedido ha sido cancelado, consulte a la Oficina de Autorizaciones Hospitalarias para más información.</div>
+                                    </div>
+                                    break;
+                                case 6:
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">send</i><br /> Generado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">spellcheck</i> <br /> Autorizado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"> </div>
+                                    </div>
+
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons ">local_shipping</i> <br />En proceso de Envío
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step active">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+                                            <div class="icon icon-info">
+                                                <i class="material-icons">markunread</i> <br />Entregado
+                                            </div>
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center">Su pedido fue entregado por OCASA, confirme en caso de aceptar el pedido o genere un reclamo en caso de ser necesario</div>
+                                    </div>
+
+                                    <div class="col-xs-3 bs-wizard-step disabled">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum"> <i class="material-icons">check_circle</i> <br />Recibido</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+                                    break;
+                                case 7:
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">send</i><br /> Generado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">spellcheck</i> <br /> Autorizado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"> </div>
+                                    </div>
+
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons ">local_shipping</i> <br />En proceso de Envío
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum"><i class="material-icons">markunread</i> <br />Entregado</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+
+                                    <div class="col-xs-3 bs-wizard-step active">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum">
+                                            <div class=" icon icon-danger">
+                                                <i class="material-icons ">error_outline</i> <br />Reclamado
+                                            </div>
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center">Su pedido tiene un reclamo en curso, consulte a la Oficina de Autorizaciones Hospitalarias para más información.</div>
+                                    </div>
+                                    break;
+
+                                case 8:
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons ">send</i><br /> Generado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons">spellcheck</i> <br /> Autorizado
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"> </div>
+                                    </div>
+
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">
+
+                                            <i class="material-icons  ">local_shipping</i> <br />En proceso de Envío
+
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum"><i class="material-icons">markunread</i> <br />Entregado</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center"></div>
+                                    </div>
+
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum">
+                                            <div class="text-center bs-wizard-stepnum"><i class="material-icons">error_outline</i> <br />Reclamado</div>
+                                        </div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                    </div>
+
+                                    <div class="col-xs-2 bs-wizard-step active">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum">
+                                            <div class=" icon icon-success">
+                                                <i class="material-icons icon-success">check_circle</i> <br />Reclamo resuelto
+                                            </div>
+                                        </div>
+
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                                        <div class="bs-wizard-info text-center">El reclamo de su pedido fue resuelto</div>
+                                    </div>
+                                    break;
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                    <div class="form-card__title  violet-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">storage</i>
+                            <strong>Listado de Insumos</strong>
+                        </div>
+                    </div>
+                    <div class="form-card__content group">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="detalles" class=" table table-hover table-condensed">
+                                        <thead>
+                                            <tr style="font-weight:bold" class="text-center list-group-item-info">
+                                                <th style="width:30%; font-weight:bold ">Nombre</th>
+                                                <th style="width:16%; font-weight:bold">Tipo </th>
+                                                <th style="width:12%; font-weight:bold" class="text-center">Cantidad Autorizada</th>
+                                                <th style="width:12%; font-weight:bold" class="text-center">Cantidad Entregada</th>
+                                                <th style="width:10%; font-weight:bold" class="text-center">Diferencia</th>
+                                                <th style="width:15%; font-weight:bold" class="text-center">Precio Unitario</th>
+                                                <th style="width:15%; font-weight:bold" text-align="center">Subtotal Autorizado</th>
+                                                <th style="width:15%; font-weight:bold" text-align="center">Observación Entrega</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody name="detallesPedido" id="detallesPedido"></tbody>
+                                    </table>
+
+                                    <div class="col-sm-12">
+                                        <div class="pull-right col-sm-4" id="cuadritos1" style="padding-right:10px;height: 50px;">
+                                            <div class="card" style="box-shadow: 1px 1px 9px black; display:flex">
+                                                <div class="col-sm-6 text-center text-" style="display: flex; align-items: center;">
+                                                    @Html.Label("Total Autorizado", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px;" })
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <strong>
+                                                        @Html.TextBox("totalAut", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot", @type = "hidden" })
+                                                        <text class="form-control text-center tot" id="totalAutorizadoAMostrar"></text>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="margin-bottom: 0px;" />
+        <div class="col-sm-4" style="margin-top: 50px;">
+            <input type="button" id="volver" value="Volver al listado de remitos" class="btn pull-left btn-primary" onclick="location.href = '/Remitos/ListadoPedidos'" />
+        </div>
+        @if (Model.Item2.estadoId == 1)
+        {
+            <div class="row">
+                <div class="pull-right col-sm-5">
+                    <div class="form-card form-card--tight animated zoomIn">
+                        <div class="form-card__title alert-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">warning</i>
+                                <strong>Acciones</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group" style="padding-bottom: 0px; padding-top: 0px;">
+                            <div class="form-group">
+                                <div class="col-sm-3 btn-margin" style="padding-left: 5px;">
+                                    <input type="button" style="font-size: 14px;" value="Reclamar Remito" id="Reclamo" class="btn btn-round btn-danger"/>
+                                </div>
+                                <div class="pull-right col-sm-6 btn-margin" style="padding-left: 30px;">
+                                    <input type="button" style="font-size: 14px;" value="Impactar Remito" id="Impacto" class="btn btn-round btn-success"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @Html.TextBox("idHospital", Model.Item1.hospitalId, htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
+    @Html.HiddenFor(model => model.Item1.id, htmlAttributes: new { @id = "idPedido", @name = "idPedido" })
+}
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var idHospital = $('#idHospital').val();
+            var urlHospital = '/Pedidos/GetHospital' + '?hospitalId=' + idHospital;
+
+            $.get(urlHospital, null, function (data) {
+                $('#nombreHospital').val(data[0]);
+                var $presupuesto = parseFloat(data[1]);
+                var $presupuestoAMostrar = new Intl.NumberFormat('de-DE').format($presupuesto);
+                $('#presupuesto').val("$" + $presupuestoAMostrar);
+                $('#presupuestoAMostrar').html("$" + $presupuestoAMostrar);
+            });
+        })
+        $(document).ready(function () {
+            $('#Impacto').on('click', function (event) {
+                Swal.fire({
+                    title: 'Impactar remito',
+                    text: "¿Desea impactar el remito para este pedido?",
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Impactar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $('#remitoForm').submit();
+                    }
+                })
+            });
+
+            var table = $("#detalles").DataTable();
+            var idPedido = $('#idPedido').val();
+
+            var urlDetalle = '/Remitos/GetDetallesPedidoRemito' + '?idPedido=' + idPedido;
+            $.get(urlDetalle, null, function (lista) {
+                var total = 0;
+                var totalAutorizado = 0;
+                for (var i = 0, len = lista.length; i < len; i++) {
+                    var item = lista[i];
+                    var $tdInsumo = $('<td  style="width:30%">').append(item.nombre);
+
+                    var $tdTipo = $('<td  style="width:16%">').append(item.tipo);
+
+                    var $tdCantidadAutorizada = $('<td align="center">').append(item.cantidadAutorizada);
+                    var $tdCantidadEntregada = $('<td align="center">').append(item.cantidadEntregada);
+
+                    var $diferencia = Math.abs(item.cantidadEntregada - item.cantidadAutorizada);
+                    var $tdDiferencia = $('<td align="center">').append($diferencia);
+
+                    var $precioAMostrar = new Intl.NumberFormat('de-DE').format(item.precioUnitario);
+                    var $tdPrecioUnitario = $('<td  style="width:17%" align="center">').append("$" + $precioAMostrar);
+
+
+                    var $subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
+                    var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
+                    var $tdSubtotalAutorizado = $('<td  style="width:15%" align="center">').append("$" + $subtotalAutAMostrar);
+
+                    var $tdMotivoDiferenciaInternal = $('<input type="button" value="Ver Observacion" class="btn btn-round btn-purple" onclick="verObservacion(\'' + item.observacion + '\')" />');
+                    var $tdMotivoDiferencia = $('<td align="center">').append($tdMotivoDiferenciaInternal);
+
+                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidadAutorizada, $tdCantidadEntregada, $tdDiferencia, $tdPrecioUnitario, $tdSubtotalAutorizado, $tdMotivoDiferencia);
+
+                    totalAutorizado += $subtotalAutorizado;
+                    table.row.add($tr);
+                    table.draw();
+                }
+                var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
+                var $totalAutorizadoAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(totalAutorizado).toFixed(2));
+
+                $('#totalAutorizado').val("$" + $totalAutorizadoAMostrar);
+                $('#totalAutorizadoAMostrar').html("$" + $totalAutorizadoAMostrar);
+
+
+                if (totalAutorizado > 0) {
+                    if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) > totalAutorizado) {
+
+                        $('#autoSpan').text("El costo autorizado está dentro del presupuesto");
+                    } else {
+                        $('#autoSpan').attr("class", "text-danger").text("El costo autorizado supera el presupuesto");
+                    }
+                }
+
+
+            });
+
+            $('#Reclamo').on('click', function (event) {
+                Swal.fire({
+                    text: ' Se enviará un email a la oficina de reclamos de OCASA con los datos del Remito y el pedido, para su revisión.',
+                    title: " ¿Desea reclamar el remito para este pedido? ",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+
+                        var idPedido = $('#idPedido').val();
+                        var url = '@Url.Action("reclamar")';
+                        var txtVal = $('#obs').val();
+                        window.location.href = url + '?obs=' + txtVal + '&PedidoId=' + idPedido;
+                    }
+                });
+                event.stopImmediatePropagation();
+            });
+
+        });
+
+        function verObservacion(observacion) {
+            Swal.fire({
+                title: 'Observacion',
+                text: observacion.toString(),
+                icon: 'info',
+                confirmButtonColor: "#3085d6",
+                showCloseButton: true,
+                confirmButtonText: 'Ok',
+            });
+        }
+    </script>
+}

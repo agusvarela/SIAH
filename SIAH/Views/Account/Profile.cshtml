@@ -1,0 +1,172 @@
+﻿@using SIAH.Models.Enums
+@model SIAH.Models.UserAccount
+
+@{
+    ViewBag.Title = "Perfil";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-sm-9">
+                <h1>Perfil de <strong><i>@Model.nombre @Model.apellido</i></strong></h1>
+                <div class="banner-catalog__content">Modifique su propia información.</div>
+            </div>
+            <div class="col-lg-3">
+                <div class="icon icon-info">
+                    <i class="material-icons pull-right" style="font-size: 100px">person</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="container" style=" padding-bottom: 30px;">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title  purple-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">add</i>
+                                <strong>Información del usuario</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.nombre, "Nombre", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.apellido, "Apellido", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                            @Html.ValidationMessageFor(model => model.apellido, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.email, "Email", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.rolID, "Rol asignado", htmlAttributes: new { @class = "control-label col-md-3", style = "padding-left: 0px;" })
+                                        <div class="col-md-7">
+                                            @{ foreach (var item in ViewBag.rolID.Items)
+                                                {
+                                                    string rol = ((DefaultRoles)item.id).ToString();
+                                                    item.nombre = rol;
+                                                }
+                                            }
+                                            @Html.DropDownList("rolID", null, htmlAttributes: new { @class = "form-control", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.rolID, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="divHospital" class="form-group">
+                                        @Html.LabelFor(model => model.hospitalID, "Asignar un Hospital", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-7">
+                                            @Html.DropDownList("hospitalID", null, "--Seleccione un hospital--", htmlAttributes: new { @class = "form-control", disabled = "disabled" })
+                                            <span class="text-danger">@ViewBag.HospitalRequired</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" id="actualizar" value="Actualizar perfil" class="btn btn-round btn-success pull-right" disabled="disabled" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <input type="button" style="margin-top: 20px;" id="volver" value="Volver al inicio" class="btn pull-left btn-primary" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var hospitalId = "" + '@Model.hospitalID';
+            document.getElementById("rolID").value = @Model.rolID;
+            if (@Model.rolID == 1) {
+                document.getElementById("hospitalID").value = hospitalId;
+            }
+
+            $('#email').on('change keyup', function (event) {
+                if (document.getElementById("email").value != '@Session["email"]') {
+                    document.getElementById("actualizar").removeAttribute("disabled");
+                } else {
+                    document.getElementById("actualizar").setAttribute("disabled", true);
+                }
+            });
+
+            $('#volver').on('click', function (event) {
+                Swal.fire({
+                    title: '¿Está seguro que desea volver?',
+                    text: "Cualquier cambio realizado se perdera",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = '/Home/@Session["rol"].ToString()';
+                    }
+                });
+            });
+
+            document.getElementById("divHospital").style.display = "none";
+            updateInput();
+        });
+
+        function updateInput() {
+            if ($("#rolID option:selected").text().localeCompare("Farmacia") == 0) {
+                document.getElementById("divHospital").setAttribute("style", "display: block");
+            }
+            else {
+                $("#hospitalID").val('');
+                document.getElementById("divHospital").setAttribute("style", "display: none");
+            }
+        }
+    </script>
+}

@@ -1,0 +1,62 @@
+﻿@model SIAH.Models.StockFarmacia
+@{
+    ViewBag.Title = "Actualizar Stock";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-sm-12">
+                <h1>Actualizar la cantidad disponible de @Html.DisplayFor(model => model.insumo.nombre)</h1>
+                <div class="banner-catalog__content">Aquí puede modificar el stock actual disponible.</div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="container" style=" padding-bottom: 30px;">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info_outline</i>
+                                <strong>Información general del Insumo</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-offset-1">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.insumoId, "Nombre Insumo", htmlAttributes: new { @class = "control-label" })
+                                        <text class="form-control">@Model.insumo.nombre</text>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-sm-offset-1">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.stockFarmacia, "Stock Farmacia", htmlAttributes: new { @class = "control-label" })
+                                        <input type="number" maxlength="7" name="stockFarmacia" value="@Model.stockFarmacia" class="form-control" min="0" max="@Model.stockFarmacia" required onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " />
+                                        @Html.ValidationMessageFor(model => model.stockFarmacia, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 justify-content-center" style="padding-top:10px">
+                                    <input type="submit" value="Guardar" class="btn btn-success btn-lg  btn-round btn_export pull-right" data-toggle="modal" data-target="#myModal" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @Html.TextBoxFor(model => model.id, htmlAttributes: new { @id = "id", @class = "form-control", @readonly = "readonly", @type = "hidden" })
+    @Html.TextBoxFor(model => model.hospitalId, htmlAttributes: new { @id = "hospitalId", @class = "form-control", @readonly = "readonly", @type = "hidden" })
+}

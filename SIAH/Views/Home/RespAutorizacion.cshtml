@@ -1,0 +1,87 @@
+﻿@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.Title = "Inicio Responsable Autorizacion";
+}
+<div class="banner-catalog1 jumbotron jumbotron-fluid bg-dark">
+    <div class="container">
+        <h1 class="display-4">Responsable de Autorización</h1>
+        <p class="lead">En este dashboard encontrará sus funcionalidades de Autorización</p>
+    </div>
+</div>
+<div class="container col-container" style="padding-bottom: 30px;">
+
+
+    <div class="row">
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-10">
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Listado", "Pedidos")'">
+                <div class="card card-project col myhover hover-pointer">
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-success">
+                                <i class="material-icons">verified_user</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="../Pedidos/Listado">Autorizaciones</a>
+                            </h4>
+                            <p>Autorice los pedidos de los hospitales y realice la carga en el sistema de envios de Ocasa. <br /> &nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-info">
+                                <i class="material-icons">assignment</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="../Remitos/ListadoPedidos">Remitos</a>
+                            </h4>
+                            <p>Cargue los remitos de envíos de Ocasa para llevar un control de los mismos. <br /> &nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                                <i class="material-icons">report</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="">Reclamos</a>
+                            </h4>
+                            <p>Gestione, asigne, y vea el historial de los reclamos realizados sobre pedidos de insumos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Reportes")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                                <i class="material-icons">description</i>
+                            </div>
+                            <h4 class="info-title">Reportes</h4>
+                            <p>Genere reportes que lo ayudarán a la toma de decisiones a la hora de Autorizar.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+    </script>
+}

@@ -1,0 +1,470 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.Title = "Control de Stock";
+}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"><strong>Esta acción es Irreversible</strong></h4>
+            </div>
+            <div class="modal-body text-center">
+                <strong>
+                    ¿Desea actualizar el stock en el sistema? <br />
+                </strong>
+                <p style="font-style: italic; font-size:x-small">Se enviarán los datos del reclamo al equipo de soporte de OCASA.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
+                <button id="updateStock" name="updateStock" type="button" class="btn btn-info btn-simple" data-dismiss="modal" onclick="url = '@Url.Action("ActualizarStock", "Insumos")';
+                    location.href = url;">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Control de inconsistencias de stock</h1>
+            <div class="banner-catalog__content">
+                <p style="font-size:small">Controle el stock consolidado (teniendo en cuenta lo entregado efectivamente) de la oficina con el de OCASA para corroborar cantidades y solucionar inconsistencias.</p>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-success">
+                <i class="material-icons pull-right" style="font-size: 100px">equalizer</i>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="container" style=" padding-bottom: 30px;">
+
+    <div class="form-horizontal">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class=" col-sm-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="alertArea  animated zoomIn">
+                                    <div class="alert alert-info pq-alert animated zoomIn">
+                                        <i class="fa fa-arrow-right"></i>
+                                        <span>Detalle de inconsistencias</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__content group">
+                            <div class="form-group">
+
+                                <div id="contenedor" class="col-md-12">
+
+                                    <div id="table-container">
+                                        <table id="maintable" class="table table-condensed">
+                                            <thead>
+                                                <tr class="list-group-item-info" style="border-bottom: solid">
+                                                    <th class="text-center">
+                                                        @Html.Name("Id Insumo")
+                                                    </th>
+                                                    <th class="text-center">
+                                                        @Html.Name("Nombre")
+                                                    </th>
+                                                    <th class="text-center">
+                                                        @Html.Name("Tipo")
+                                                    </th>
+                                                    <th class="text-center">
+                                                        @Html.Name("Stock Fisico SIAH")
+                                                    </th>
+                                                    <th class="text-center">
+                                                        @Html.Name("Stock Fisico Ocasa")
+                                                    </th>
+                                                    <th class="text-center">
+                                                        @Html.Name("Diferencia")
+                                                    </th>
+                                                    <th class="text-center">
+                                                        @Html.Name("Porcentaje Error")
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    var counter=0;
+                                                    
+                                                    foreach (var item in ViewBag.insumos)
+                                                    {
+                                                        int p;
+                                                        int diferencia = 0;
+                                                        int stockOcasa = item.GetType().GetProperty("stockOcasa").GetValue(item, null);
+                                                        int stock = item.GetType().GetProperty("stock").GetValue(item, null);
+                                                        int id = item.GetType().GetProperty("id").GetValue(item, null);
+                                                        String tipo = item.GetType().GetProperty("tipo").GetValue(item, null);
+                                                        String nombre = item.GetType().GetProperty("nombre").GetValue(item, null);
+                                                        diferencia = Math.Abs(stockOcasa - stock);
+                                                        if (diferencia == 0) { break; }
+                                                        counter++;
+                                                        if (stock != 0 && stockOcasa != 0) { p = diferencia * 100 / stock; }
+                                                        else { p = diferencia; }
+
+                                                        if (p < 5)
+                                                        {
+
+
+                                                            <tr class="text-center list-group-item-success">
+                                                                <td>
+                                                                    @id
+                                                                </td>
+                                                                <td>
+                                                                    @nombre
+                                                                </td>
+                                                                <td>
+                                                                    @tipo
+                                                                </td>
+
+                                                                <td>
+                                                                    @stock
+                                                                </td>
+                                                                <td>
+                                                                    @stockOcasa
+
+                                                                </td>
+
+                                                                <td>
+
+                                                                    @diferencia
+
+                                                                </td>
+                                                                <td>
+                                                                    @p %
+                                                                </td>
+
+                                                            </tr>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (p < 15)
+                                                            {
+                                                                <tr class="text-center list-group-item-warning">
+                                                                    <td>
+                                                                        @id
+                                                                    </td>
+                                                                    <td>
+                                                                        @nombre
+                                                                    </td>
+                                                                    <td>
+                                                                        @tipo
+                                                                    </td>
+
+                                                                    <td>
+                                                                        @stock
+                                                                    </td>
+                                                                    <td>
+                                                                        @stockOcasa
+
+                                                                    </td>
+                                                                    <td>
+
+                                                                        @diferencia
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @p %
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="text-center list-group-item-danger">
+                                                                    <td>
+                                                                        @id
+                                                                    </td>
+                                                                    <td>
+                                                                        @nombre
+                                                                    </td>
+                                                                    <td>
+                                                                        @tipo
+                                                                    </td>
+
+                                                                    <td>
+                                                                        @stock
+                                                                    </td>
+                                                                    <td>
+                                                                        @stockOcasa
+
+                                                                    </td>
+                                                                    <td>
+
+                                                                        @diferencia
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @p %
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    }
+                                                    if (counter == 0)
+                                                    {
+                                                        <tr class="empty well text-center">
+                                                            <td colspan="7">No hay inconsistencias registradas con OCASA por el momento</td>
+                                                        </tr>
+                                                    }
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                        <div id="bottom_anchor"></div>
+                                    </div>
+                                    
+                                    <div class="pull-left">
+                                        <input id="btn_export" type="button" value="Exportar a Excel" class="btn btn-info btn-round btn_export" onClick="$('#table2Export').tableExport({type:'excel', format:'xls' ,escape:'false'});" />
+                                    </div>
+                                    <div class="pull-right">
+                                        <input id="btn_pisar" type="button" value="Sincronizar con stock de OCASA" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal" />
+                                    </div>
+
+                                </div>
+                                <table id="table2export" style="visibility:collapse">
+                                    <thead>
+                                        <tr class="list-group-item-info" style="border-bottom: solid">
+                                            <th class="text-center">
+                                                @Html.Name("Id Insumo")
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.Name("Nombre")
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.Name("Tipo")
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.Name("Stock Fisico SIAH")
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.Name("Stock Fisico Ocasa")
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.Name("Diferencia")
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.Name("Porcentaje Error")
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in ViewBag.insumos)
+                                            {
+                                                int p;
+                                                int diferencia = 0;
+                                                int stockOcasa = item.GetType().GetProperty("stockOcasa").GetValue(item, null);
+                                                int stock = item.GetType().GetProperty("stock").GetValue(item, null);
+                                                int id = item.GetType().GetProperty("id").GetValue(item, null);
+                                                String tipo = item.GetType().GetProperty("tipo").GetValue(item, null);
+                                                String nombre = item.GetType().GetProperty("nombre").GetValue(item, null);
+                                                diferencia = Math.Abs(stockOcasa - stock);
+                                                if (diferencia == 0) { break; }
+                                                if (stock != 0 && stockOcasa != 0) { p = diferencia * 100 / stock; }
+                                                else { p = diferencia; }
+
+                                                if (p < 5)
+                                                {
+
+
+                                                    <tr class="text-center list-group-item-success">
+                                                        <td>
+                                                            @id
+                                                        </td>
+                                                        <td>
+                                                            @nombre
+                                                        </td>
+                                                        <td>
+                                                            @tipo
+                                                        </td>
+
+                                                        <td>
+                                                            @stock
+                                                        </td>
+                                                        <td>
+                                                            @stockOcasa
+
+                                                        </td>
+
+                                                        <td>
+
+                                                            @diferencia
+
+                                                        </td>
+                                                        <td>
+                                                            @p %
+                                                        </td>
+
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    if (p < 15)
+                                                    {
+                                                        <tr class="text-center list-group-item-warning">
+                                                            <td>
+                                                                @id
+                                                            </td>
+                                                            <td>
+                                                                @nombre
+                                                            </td>
+                                                            <td>
+                                                                @tipo
+                                                            </td>
+
+                                                            <td>
+                                                                @stock
+                                                            </td>
+                                                            <td>
+                                                                @stockOcasa
+
+                                                            </td>
+                                                            <td>
+
+                                                                @diferencia
+
+                                                            </td>
+                                                            <td>
+                                                                @p %
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr class="text-center list-group-item-danger">
+                                                            <td>
+                                                                @id
+                                                            </td>
+                                                            <td>
+                                                                @nombre
+                                                            </td>
+                                                            <td>
+                                                                @tipo
+                                                            </td>
+
+                                                            <td>
+                                                                @stock
+                                                            </td>
+                                                            <td>
+                                                                @stockOcasa
+
+                                                            </td>
+                                                            <td>
+
+                                                                @diferencia
+
+                                                            </td>
+                                                            <td>
+                                                                @p %
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                                <div id="bottom_anchor"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+                <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
+                <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
+                <script type="text/javascript">
+        $(document).ready(function () {
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementById("stock");
+            switching = true;
+            /*Make a loop that will continue until
+            no switching has been done:*/
+            while (switching) {
+                //start by saying: no switching is done:
+                switching = false;
+                rows = table.getElementsByTagName("TR");
+                /*Loop through all table rows (except the
+                first, which contains table headers):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /*Get the two elements you want to compare,
+                    one from current row and one from the next:*/
+                    x = rows[i].getElementsByTagName("TD")[6];
+                    y = rows[i + 1].getElementsByTagName("TD")[6];
+                    //check if the two rows should switch place:
+                    if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        });
+
+        $(document).ready(function () {
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            dataTable = $("#maintable").DataTable({
+                "order": [[6, "desc"]]
+            });
+        });
+
+        $(document).ready(function () {
+            var counter = @counter;
+            if (counter == 0) {
+                document.getElementById('btn_pisar').setAttribute('style', 'visibility: collapse');
+                document.getElementById('btn_export').setAttribute('style', 'visibility: collapse');
+            }
+        })
+
+                </script>
+}

@@ -11,7 +11,7 @@ namespace SIAH.Migrations
                 "dbo.TipoInsumo",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Int(nullable: false, identity: false),
                         nombre = c.String(nullable: false, maxLength: 255),
                     })
                 .PrimaryKey(t => t.id);

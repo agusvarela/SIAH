@@ -1,0 +1,472 @@
+﻿@model IEnumerable<SIAH.Models.Pedidos.Pedido>
+@{
+    ViewBag.Title = "Inicio Responsable Farmacia";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
+}
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-12">
+            <h1>Mis Pedidos</h1>
+            <div class="banner-catalog__content">Genere nuevos pedidos y revise el estado de los pedidos realizados.</div>
+        </div>
+    </div>
+</div>
+<div id="page" style="min-height: 363px;">
+    <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="row">
+            <div class=" col-sm-12">
+
+                <div class=" col-sm-10">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Histórico de Pedidos del Hospital @Session["hospital"]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-2">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="alertArea  animated zoomIn">
+                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" id="nuevopedido" ">
+                                    <strong class="">+ Nuevo Pedido</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                <div class="form-card__content group">
+                    <div id="cuadritos" class="container col-md-12">
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                            <li class="text-info">
+                                <a class="list-group-item-grey soft-grey" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue cancelado antes de ser autorizado.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">clear</i>
+                                    <span style="user-select: none">Cancelado</span>
+                                    <div style="font-size: 14px;"><strong id="estado4">5</strong></div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                            <li class="text-info">
+                                <a class="list-group-item-success soft-success" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue recibido por el hospital y confirmado.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">check_circle</i>
+                                    <span style="user-select: none">Recibido</span>
+                                    <div style="font-size: 14px;"><strong id="estado5">5</strong></div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                            <li class="text-info">
+                                <a class="list-group-item-danger soft-danger" style="vertical-align:central" data-toggle="tooltip" title="El pedido tiene un reclamo pendiente de resolución.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">error_outline</i>
+                                    <span style="user-select: none">Reclamado</span>
+                                    <div style="font-size: 14px;"><strong id="estado7">5</strong></div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                            <li class="text-info">
+                                <a class="list-group-item-info soft-info" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue entregado al hospital y está pendiente de confirmación por parte del responsable de farmacia.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">markunread</i>
+                                    <span style="user-select: none">Entregado</span>
+                                    <div style="font-size: 14px;"><strong id="estado6">5</strong></div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                            <li class="text-info">
+                                <a class="list-group-item-orange soft-orange" style="vertical-align:central" data-toggle="tooltip" title="El pedido está siendo enviado por OCASA al hospital correspondiente.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">local_shipping</i>
+                                    <span style="user-select: none">En Proceso de Envío</span>
+                                    <div style="font-size: 14px;"><strong id="estado3">5</strong></div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                            <li class="text-info">
+                                <a class="list-group-item-warning soft-warning" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue autorizado y se encuentra listo para que sus datos sean enviados a OCASA.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">spellcheck</i>
+                                    <span style="user-select: none">Autorizado</span>
+                                    <div style="font-size: 14px;"><strong id="estado2">5</strong></div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
+                            <li class="text-info">
+                                <a class="list-group-item" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue generado por el hospital y se encuentra listo para ser autorizado.">
+                                    <i class="material-icons" style="padding: 0px; user-select: none">send</i>
+                                    <span style="user-select: none">Generado</span>
+                                    <div style="font-size: 14px;"><strong id="estado1">5</strong></div>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="animated zoomIn col-md-12">
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div id="table-container">
+                                <table id="maintable" class="table table-condensed">
+                                    <thead class="listado">
+                                        <tr class="text-center list-group-item-info">
+                                            <th class="text-center">
+                                                <strong> @Html.Name("Nº Pedido")</strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong> @Html.Name("Fecha Generación")</strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong> @Html.Name("Urgente")</strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong>  @Html.Name("Estado")</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var item in Model)
+                                    {
+                                        switch (item.estadoId)
+                                        {
+                                            case 1:
+                                                <tr class="" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.esUrgente == true)
+                                                        {
+                                                            <i class="material-icons icon-danger">error</i>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        <i class="   material-icons " style="margin-right:13px">send</i>
+                                                        <div> <strong>Generado  </strong></div>
+                                                    </td>
+                                                </tr>
+                                                break;
+                                            case 2:
+                                                <tr class="list-group-item-warning" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.esUrgente == true)
+                                                        {
+                                                            <i class="material-icons icon-danger">error</i>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <i class="icon-warning material-icons" style="margin-right:10px">spellcheck</i>
+                                                        <div class="soft-warning"> <strong>Autorizado</strong></div>
+
+                                                    </td>
+                                                </tr>
+                                                break;
+                                            case 3:
+                                                <tr class="list-group-item-orange" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.esUrgente == true)
+                                                        {
+                                                            <i class="material-icons icon-danger">error</i>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <i class="soft-orange material-icons " style="margin-right:10px">local_shipping</i>
+
+                                                        <div class=" soft-orange"> <strong>En proceso de Envío</strong></div>
+                                                    </td>
+                                                </tr>
+                                                break;
+                                            case 4:
+                                                <tr class="list-group-item-grey" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.esUrgente == true)
+                                                        {
+                                                            <i class="material-icons icon-danger">error</i>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <i class=" soft-grey material-icons " style="margin-right:10px">clear</i>
+                                                        <div class=" soft-grey"> <strong>Cancelado</strong></div>
+                                                    </td>
+                                                </tr>
+                                                break;
+                                            case 5:
+                                                <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.esUrgente == true)
+                                                        {
+                                                            <i class="material-icons icon-danger">error</i>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <i class="icon-success  material-icons" style="margin-right:10px">check_circle</i>
+                                                        <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
+                                                    </td>
+                                                </tr>
+                                                break;
+                                            case 6:
+                                                <tr class="list-group-item-info" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.esUrgente == true)
+                                                        {
+                                                            <i class="material-icons icon-danger">error</i>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <i class="icon-info  material-icons" style="margin-right:10px">markunread</i>
+                                                        <div class=" soft-info"> <strong>Entregado</strong></div>
+                                                    </td>
+                                                </tr>
+                                                break;
+                                            case 7:
+                                                <tr class="list-group-item-danger" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.esUrgente == true)
+                                                        {
+                                                            <i class="material-icons icon-danger">error</i>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <i class="icon-danger  material-icons " style="margin-right:10px">error_outline</i>
+                                                        <div class=" soft-danger"> <strong>Reclamado</strong></div>
+                                                    </td>
+                                                </tr>
+                                                break;
+                                            case 8:
+                                                <tr class="list-group-item-success" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'">
+
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.id)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if (item.esUrgente == true)
+                                                        {
+                                                            <i class="material-icons icon-danger">error</i>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <i class="icon-success  material-icons" style="margin-right:10px">check_circle</i>
+                                                        <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
+                                                    </td>
+                                                </tr>
+                                                break;
+                                        }
+                                    }
+
+                                </table>
+                                <div id="bottom_anchor"></div>
+
+                            </div>
+                        </div>
+                        <br><br>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.TextBox("idHospital", Session["hospitalId"], htmlAttributes: new { @readonly = "readonly", @type = "hidden" })
+
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#maintable tr td:nth-child(n)').hover(function () {
+                $(this).parents('tr').attr('title', 'Ver detalle');
+            });
+
+            var diaDeHoy = new Date();
+
+            $.ajax({
+                url: '@Url.Action("cantidadPedidosPorEstado", "Pedidos")',
+                type: 'GET',
+                data: { fechaInicio: new Date(diaDeHoy.getFullYear() - 1, diaDeHoy.getMonth(), diaDeHoy.getDate()).toUTCString(), fechaFin: diaDeHoy.toUTCString() },
+                cache: false,
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#estado' + (i+1)).html(result[i]);
+                    }
+                }
+            });
+
+            $(document).on('click', '#nuevopedido', function (event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Revisión de Stock',
+                    text: "¿Desea actualizar el stock de Farmacia actual antes de realizar un pedido nuevo?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    showCloseButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Continuar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Actualizar Stock',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                       var idHospital = $('#idHospital').val();
+                       location.href = "/Pedidos/Create?idHospital=" + idHospital;
+                      } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                         var idPedido = $('#idPedido').val();
+                        var idHospital = $('#idHospital').val();
+                        location.href = '/StockFarmacia/Index?hospitalId=' + idHospital + '&' + 'fromDashboard=' + false;
+                      }
+                })
+
+            });
+
+            sessionStorage.setItem("User", "RespFarmacia");
+            if (@ViewBag.success.ToString().ToLower() ===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'El pedido fue enviado exitosamente.'
+                    }, {
+                            type: 'success',
+                            offset: {
+                                x: 20,
+                                y: 90
+                            }
+                        },
+                    );
+
+                }
+                else {
+                if (@ViewBag.validacion.ToString().ToLower()===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'El pedido no fue enviado: @ViewBag.problem '
+                    }, {
+                            type: 'danger',
+                            offset: {
+                                x: 20,
+                                y: 80
+                            }
+                        },
+                    );
+                }
+
+            }
+
+
+            var myNewURL = refineURL();
+            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
+            window.history.pushState("object or string", "Title", "/" + myNewURL);
+            //Helper function to extract the URL between the last '/' and before '?'
+            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+            //pseudo code: edit to match your URL settings
+            function refineURL() {
+                //get full URL
+                var currURL = window.location.href; //get current address
+
+                //Get the URL between what's after '/' and befor '?'
+                //1- get URL after'/'
+                var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
+                //2- get the part before '?'
+                var beforeQueryString = afterDomain.split("?")[0];
+
+                return "Pedidos/"+beforeQueryString;
+            }
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]],
+                "oLanguage": { "sEmptyTable": "Aún no tiene pedidos" }
+            });;
+        });
+
+    </script>
+}

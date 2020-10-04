@@ -1,0 +1,204 @@
+﻿@model IEnumerable<SIAH.Models.Insumos.Insumo>
+@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.Title = "Stock de Insumos";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
+}
+
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Inventario de insumos disponibles</h1>
+            <div class="banner-catalog__content">
+                <p>Aquí puede visualizar los insumos disponibles en el sistema y su correspondiente stock actual en el sistema.</p>
+                <p style="font-style: italic; font-size: x-small;">* El stock real en el depósito de OCASA puede variar respecto al que figura en este listado.</p>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-info">
+                <i class="material-icons pull-right" style="font-size: 100px">view_module</i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style=" padding-bottom: 30px;">
+
+    <div class="form-horizontal">
+
+        <br>
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class=" col-sm-10">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Insumos registrados</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-2">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="alertArea  animated zoomIn">
+                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" onclick="location.href='@Url.Action("Create", "Insumos")'">
+                                    <strong>Registrar insumo</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                    <div class="form-card__content group">
+                        <div class="form-group">
+
+                            <div id="contenedor" class="col-md-12">
+
+                                <div id="table-container">
+                                    <table id="maintable" class="table table-condensed">
+                                        <thead>
+                                            <tr class="list-group-item-info" style="border-bottom: solid">
+
+                                                <th class="text-center">
+                                                    @Html.Name("Insumo")
+                                                </th>
+
+                                                <th class="text-center">
+                                                    @Html.Name("Stock")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Precio unitario")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Tipo")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Acciones")
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr class="text-center  ">
+                                                    <td>
+                                                        <strong>@Html.DisplayFor(modelItem => item.nombre)</strong>
+                                                    </td>
+                                                    <td>
+                                                        <strong>@Html.DisplayFor(modelItem => item.stock)</strong>
+                                                    </td>
+                                                    <td>
+                                                        <strong>$ @Html.DisplayFor(modelItem => item.precioUnitario)</strong>
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
+                                                    </td>
+                                                    <td>
+                                                        <a type="button" id="edit" class="btn btn-round btn-primary" href="/Insumos/Edit/@item.id.ToString()">Actualizar</a>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                    <div id="bottom_anchor"></div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            $("#maintable").DataTable({
+                "order": [[0, "asc"]]
+            });;
+
+            if (@ViewBag.success.ToString().ToLower() === true) {
+                $.notify({
+                    title: '<strong>Aviso!</strong><br/>',
+                    message: 'Operación completada con éxito'
+                }, {
+                    type: 'success',
+                    offset: {
+                        x: 20,
+                        y: 90
+                    }
+                },
+                );
+
+            }
+            else {
+                if (@ViewBag.validacion.ToString().ToLower()=== true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: '@ViewBag.problem '
+                    }, {
+                        type: 'danger',
+                        offset: {
+                            x: 20,
+                            y: 80
+                        }
+                    },
+                    );
+                }
+            }
+        });
+
+
+
+    </script>
+}
+

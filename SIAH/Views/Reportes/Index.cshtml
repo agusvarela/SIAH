@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Reportes";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Reportes</h1>
+            <div class="banner-catalog__content">
+                Aquí podrá acceder a los diversos reportes que pueden ser generados con los datos de pedidos y autorizaciones.
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-danger">
+                <i class="material-icons pull-right" style="font-size: 100px">insert_chart</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="page" style="min-height: 363px;">
+    <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="col-md-12">
+                    <div class="col-sm-6 animated zoomIn view overlay zoom " onclick="reporteConsolidado()">
+                        <div class="card card-project col myhover hover-pointer">
+                            <div class="content text-center">
+                                <div class="info">
+                                    <div class="icon icon-danger">
+                                        <i class="material-icons">show_chart</i>
+                                    </div>
+                                    <h4 class="info-title">Reporte consolidado</h4>
+                                    <p>
+                                        Este reporte muestra la cantidad de insumos que han sido autorizados,
+                                        por cada hospital.
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 animated zoomIn view overlay zoom" onclick="location.href='@Url.Action("ReporteBI", "Reportes")'">
+                        <div class="card card-project col myhover hover-pointer">
+                            <div class="content text-center">
+                                <div class="info">
+                                    <div class="icon icon-danger">
+                                        <img src="~/Content/img/power-bi-1.jpg" style="max-height:90px; max-width:90px;" />
+                                    </div>
+                                    <h4 class="info-title">Reportes BI</h4>
+                                    <p>
+                                        Estos reportes muestran información avanzada de Business Intelligence sobre los pedidos.
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function reporteConsolidado()
+        {
+            var url = '@Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = "START" , fechaFin = "END" })';
+
+            var nd = new Date();
+            nd.setDate(nd.getDate() - 30); // minus the date
+            var month = nd.getUTCMonth() + 1; //months from 1-12
+            var day = nd.getUTCDate();
+            var year = nd.getUTCFullYear();
+            start = day + "/" + month + "/" + year;
+
+            var dateObj = new Date();
+            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+            var day = dateObj.getUTCDate();
+            var year = dateObj.getUTCFullYear();
+            end = day + "/" + month + "/" + year;
+
+            url = url.replace("START", start);
+            url = url.replace("END", end);
+            url = url.replace("amp;", "");
+            location.href = url;
+        }
+    </script>
+}

@@ -1,39 +1,154 @@
 ﻿@model IEnumerable<SIAH.Models.Hospital>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Hospitales";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Gestión de hospitales</h1>
+            <div class="banner-catalog__content">
+                Aquí encontrará los hospitales registrados en el sistema, podrá revisar sus datos y registrar nuevos.
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-danger">
+                <i class="material-icons pull-right" style="font-size: 100px">local_hospital</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="page" style="min-height: 363px;">
+    <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class=" col-sm-10">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Hospitales registrados</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-2">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="alertArea  animated zoomIn">
+                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" onclick="location.href='@Url.Action("Create", "Hospitales")'">
+                                    <strong>Registrar hospital</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                    <div class="form-card__content group">
+                        <div class="form-group">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.localidad.nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.nombre)
-        </th>
-        <th></th>
-    </tr>
+                            <div id="contenedor" class="col-md-12">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.localidad.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.nombre)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+                                <div id="table-container">
+                                    <table id="maintable" class="table table-condensed">
+                                        <thead class="listado">
+                                            <tr class="list-group-item-info" style="border-bottom: solid">
+                                                <th class="text-center">
+                                                    @Html.Name("Hospital")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Localidad")
+                                                </th>
+                                                <th class="text-center">
+                                                    @Html.Name("Acciones")
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr onclick="location.href='@Url.Action("Details", "Hospitales", new { id = item.id })'">
+                                                <td class="text-center">
+                                                    <p style="font-weight: bold">@Html.DisplayFor(modelItem => item.nombre)</p>
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.localidad.nombre)
+                                                </td>
+                                                <td class="text-center">
+                                                    <a type="button" id="edit" class="btn btn-round btn-primary" href="/Hospitales/Edit/@item.id.ToString()">Actualizar</a>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </table>
+                                    <div id="bottom_anchor"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () { 
+            var myNewURL = refineURL();
+            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
+            window.history.pushState("object or string", "Title", "/" + myNewURL);
+            //Helper function to extract the URL between the last '/' and before '?'
+            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+            //pseudo code: edit to match your URL settings
+            function refineURL() {
+                //get full URL
+                var currURL = window.location.href; //get current address
+
+                //Get the URL between what's after '/' and befor '?'
+                //1- get URL after'/'
+                var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
+                //2- get the part before '?'
+                var beforeQueryString = afterDomain.split("?")[0];
+
+                return beforeQueryString;
+            }
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+
+            $(window).scroll(moveScroll);
+
+            $("#clone").DataTable();
+
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]]
+            });
+        });
+    </script>
 }
-
-</table>

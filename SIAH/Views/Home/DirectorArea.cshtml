@@ -1,0 +1,242 @@
+﻿@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.title = "Inicio Director de Oficina";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
+}
+
+<div class="banner-catalog1 jumbotron jumbotron-fluid bg-dark">
+    <div class="container">
+        <h1 class="display-4">Director de Área</h1>
+        <p class="lead">Como director tiene acceso a diversas funcionalidades detalladas en ésta página.</p>
+    </div>
+</div>
+<div class="container" style="padding-bottom: 30px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="col-md-12">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right"></i>
+                        <span class="tituloPanel">Gestión de pedidos</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Reportes")'">
+                    <div class="card card-project col myhover hover-pointer">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="material-icons">insert_chart</i>
+                                </div>
+                                <h4 class="info-title">Reportes</h4>
+                                <p>Visualice reportes de pedidos actualizados en tiempo real. <br /> &nbsp;</p>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Listado", "Pedidos")'">
+                    <div class="card card-project col myhover hover-pointer">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-success">
+                                    <i class="material-icons">send</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Administrar Pedidos</a>
+                                </h4>
+                                <p>Controle y autorice pedidos de insumos. <br /> &nbsp; <br /> &nbsp;</p>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">
+                    <div class="card card-project col myhover hover-pointer">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="material-icons">report</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a href="">Reclamos</a>
+                                </h4>
+                                <p>Gestione, asigne y vea el historial de los reclamos realizados sobre pedidos de insumos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right tituloPanel"></i>
+                        <span class="tituloPanel">Gestión de inventario</span>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ControlStock", "Insumos")'">
+                    <div class="card card-project col myhover hover-pointer">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-success">
+                                    <i class="material-icons">equalizer</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Control de Stock</a>
+                                </h4>
+                                <p>Controle las diferencias entre el stock en OCASA y el stock del sistema. <br /> &nbsp; </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">
+                    <div class="card card-project col myhover hover-pointer">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-info">
+                                    <i class="material-icons">view_module</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Stock de Insumos</a>
+                                </h4>
+                                <p>Gestione los insumos disponibles para pedidos con la posibilidad de controlar el stock disponible.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Compras")'">
+                    <div class="card card-project col myhover hover-pointer">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-success">
+                                    <i class="material-icons">work</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a>Administrar compras</a>
+                                </h4>
+                                <p>Cargue remitos de compra de insumos. Requiere un documento de compra en cierto formato.</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right"></i>
+                        <span class="tituloPanel">Gestión de usuarios</span>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Account")'">
+                    <div class="card card-project col myhover hover-pointer">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-info">
+                                    <i class="material-icons">person</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a href="">Usuarios</a>
+                                </h4>
+                                <p>Gestione los usuarios que tienen acceso al sistema, cada rol tiene los permisos correspondientes.</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Hospitales")'">
+                    <div class="card card-project col myhover hover-pointer">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="material-icons">local_hospital</i>
+                                </div>
+                                <h4 class="info-title">
+                                    <a href="">Hospitales</a>
+                                </h4>
+                                <p>Puede visualizar y editar la información de cada hospital. <br /> &nbsp;   </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if (@ViewBag.success.ToString().ToLower() ===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'La actualizacion de stock fue realizada exitosamente.'
+                    }, {
+                            type: 'success',
+                            offset: {
+                                x: 20,
+                                y: 90
+                            }
+                        },
+                    );
+
+                }
+                else {
+                if (@ViewBag.validacion.ToString().ToLower()===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'Hubo un error en la actualizacion: @ViewBag.problem '
+                    }, {
+                            type: 'danger',
+                            offset: {
+                                x: 20,
+                                y: 80
+                            }
+                        },
+                    );
+                }
+
+            }
+            var myNewURL = refineURL();
+            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
+            window.history.pushState("object or string", "Title", "/" + myNewURL);
+            //Helper function to extract the URL between the last '/' and before '?'
+            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+            //pseudo code: edit to match your URL settings
+            function refineURL() {
+                //get full URL
+                var currURL = window.location.href; //get current address
+
+                //Get the URL between what's after '/' and befor '?'
+                //1- get URL after'/'
+                var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
+                //2- get the part before '?'
+                var beforeQueryString = afterDomain.split("?")[0];
+
+                return "Home/" + beforeQueryString;
+            }
+        });
+
+    </script>
+}

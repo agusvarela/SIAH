@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "Responsable Farmacia Dashboard";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+
+    <div class="banner-catalog1 jumbotron jumbotron-fluid bg-dark">
+        <div class="container">
+            <h1 class="display-4">Responsable de Farmacia</h1>
+            <p class="lead">Encuentre aquí sus acciones disponibles para el<strong> Hospital @Session["hospital"].</strong></p>
+        </div>
+    </div>
+<div class="container" style="padding-bottom: 30px;">
+
+    <div class="row">
+        <div class="col-sm-12  col-container">
+
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">
+                <div class="card card-project col myhover hover-pointer">
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-success">
+                                <i class="material-icons">send</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="../Pedidos/RespFarmacia">Gestionar Pedidos</a>
+                            </h4>
+                            <p>Gestión de pedidos previos y generación de nuevas solicitudes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("/Index", "StockFarmacia", new { hospitalId = Session["hospitalId"], fromDashboard = true})'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-info">
+                                <i class="material-icons">storage</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="">Stock de Farmacia</a>
+                            </h4>
+                            <p>Gestione el Stock disponible de insumos de la Farmacia de su Hospital</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("/Index", "Registros", new { hospitalId = Session["hospitalId"], fromDashboard = true})'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-primary">
+                                <i class="material-icons">receipt</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="">Registros de uso</a>
+                            </h4>
+                            <p>Gestione los registros de uso de insumos del hospital y sus solicitantes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                                <i class="material-icons">report</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="">Mis reclamos</a>
+                            </h4>
+                            <p>Gestione sus reclamos realizados sobre pedidos con problemas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

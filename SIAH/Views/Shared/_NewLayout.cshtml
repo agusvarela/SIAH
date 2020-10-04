@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+
+    <title>@ViewBag.Title - SIAH</title>
+    <!--     Fonts and icons     -->
+    @*<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>*@
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    @*<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />*@
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    @*@Scripts.Render("https://code.jquery.com/jquery-3.2.1.js")*@
+    @*@Scripts.Render("https://code.jquery.com/ui/1.12.1/jquery-ui.js")*@
+    @*@Scripts.Render("https://code.jquery.com/jquery-3.2.1.min.js")*@
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @*@Styles.Render("~/Content/themes/base/css")*@
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/app.css")
+    @RenderSection("scripts", required: false)
+    <!-- CSS Files -->
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css/bootstrap.min.css")
+    @Styles.Render("~/Content/css/SiahStyleNew.css")
+    @Styles.Render("~/Content/css/SIAHStyle.css")
+    @Styles.Render("~/Content/css/demo.css")
+    <link href="~/Content/css/animate.css" rel="stylesheet" />
+    <link href="~/Content/css/jquery.TablaDatos.min.css" rel="stylesheet" />
+    <script src="~/Content/js/material.min.js"></script>
+    <script src="~/Content/js/material-kit.js"></script>
+    <script src="~/Content/js/bootstrap-notify.min.js"></script>
+    <script src="~/Content/js/jquery.TablaDatos.min.js"></script>
+
+    <!-- Script for Sweet alert 2 -->
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js" charset="UTF-8"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
+    @*<link href="~/SweetAlert2/dist/sweetalert2.min.css" rel="stylesheet">*@
+
+    <script>
+        $(function () {
+            $("[data-toggle='tooltip']").tooltip();
+        });
+    </script>
+
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div style="display: flex; align-items: center; justify-content:space-between; margin: 0px 20px">
+            <div class="navbar-header" style="display: flex; align-items: center;">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                @try
+                {
+                    if (Session != null)
+                    {
+                        if (Session["rol"].ToString() == "RespAutorizacion")
+                        {
+                            <a class="logo-container" href="@Url.Action("RespAutorizacion", "Home", null)">
+                                <div class="logo">
+                                    <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                                </div>
+                                @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                            </a>
+                            <ul class="nav navbar-nav nav-pills">
+                                <li class="dropdown">
+                                    <button id="mydd" class="btn btn-primary mybutton dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Mis Vistas <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Autorizaciones</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">Remitos</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Reportes")'">Reportes</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        }
+                        if (Session["rol"].ToString() == "DirectorArea")
+                        {
+                            <a class="logo-container" href="@Url.Action("DirectorArea", "Home", null)">
+                                <div class="logo">
+                                    <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                                </div>
+                                @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                            </a>
+                            <ul class="nav navbar-nav nav-pills">
+                                <li class="dropdown">
+                                    <button id="mydd" class="btn btn-primary mybutton dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Mis Vistas <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Reportes")'">Reportes</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Administrar Pedidos</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Stock</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Control de Stock</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Compras")'">Administrar Compras</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Account")'">Usuarios</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Hospitales")'">Hospitales</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        }
+                        if (Session["rol"].ToString() == "RespFarmacia")
+                        {
+                            <a class="logo-container" href="@Url.Action("RespFarmacia", "Home", null)">
+                                <div class="logo">
+                                    <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                                </div>
+                                @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                            </a>
+                            <ul class="nav navbar-nav nav-pills">
+                                <li class="dropdown">
+                                    <button id="mydd" class="btn btn-primary mybutton dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Mis Vistas <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("RespFarmacia", "Pedidos")'">Gestionar Pedidos</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "StockFarmacia", new { hospitalId = Session["hospitalId"], vieneDelDashboard = true })'">Stock Farmacia</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">Reclamos Realizados</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        }
+                        if (Session["rol"].ToString() == "Compras")
+                        {
+                            <a class="logo-container" href="@Url.Action("CargarCompra", "Compras", null)">
+                                <div class="logo">
+                                    <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                                </div>
+                                @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                            </a>
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+
+                   <a class="logo-container" href="@Url.Action("Account", "Login", null)">
+                    <div class="logo">
+                        <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                    </div>
+                    @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                    </a>
+                }
+
+            </div>
+            @if (Session != null && Session["userid"] != null)
+            {
+                <div class="collapse navbar-collapse" id="navigation-index">
+                    <ul class="nav navbar-nav nav-pills pull-right">
+                        @if (Session["rol"].ToString() == "RespFarmacia")
+                        {
+                            <li style=" display: flex; justify-content: flex-start; align-items: center; padding: 8px 15px;">
+                                <i class="material-icons" style="margin: 0px 5px; padding: 0; font-size: 25px; color: white; border: 0px solid white; border-radius: 200px">local_hospital</i>
+                                <span text-align: center;">@Session["hospital"].ToString()</span>
+                            </li>
+                        }
+                        <li class="dropdown">
+                            <button id="mydd" style="padding: 0px; align-items: center; display: flex; justify-content: flex-start;" class="btn btn-primary dropdown-toggle btn-round" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons" style="margin: 0; padding: 0; font-size: 36.8px; color: #B052C0; background: white; border: 2px solid #B052C0; border-radius: 200px">person</i>
+
+                                <span style="padding: 0px 20px;text-align: center;">@Session["nombre"].ToString()</span>
+
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                @try
+                                {
+                                    if (Session != null)
+                                    {
+                                        if (Session["rol"].ToString() == "RespAutorizacion")
+                                        {
+                                            <li>@Html.ActionLink("Ir al Inicio", "RespAutorizacion", "Home")</li>
+                                        }
+                                        else if (Session["rol"].ToString() == "DirectorArea")
+                                        {
+                                            <li>@Html.ActionLink("Ir al Inicio", "DirectorArea", "Home")</li>
+                                        }
+                                        else if (Session["rol"].ToString() == "RespFarmacia")
+                                        {
+                                            <li>@Html.ActionLink("Ir al Inicio", "RespFarmaciaDashboard", "Home")</li>
+                                        }
+                                        if (Session["userid"] != null)
+                                        {
+                                            <li>@Html.ActionLink("Perfil", "Profile", "Account")</li>
+                                            <li>@Html.ActionLink("Modificar Contraseña", "newPassword", "Account")</li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
+                                        }
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account")</li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+    @Html.MvcSiteMap().SiteMapPath()
+
+    @RenderBody()
+
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - SIAH</p>
+    </footer>
+
+
+
+</body>
+</html>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).on('click', '#reporte', function (event)
+        {
+            event.preventDefault();
+            var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
+
+            var nd = new Date();
+            nd.setDate(nd.getDate() - 30); // minus the date
+            var month = nd.getUTCMonth() + 1; //months from 1-12
+            var day = nd.getUTCDate();
+            var year = nd.getUTCFullYear();
+            start = year + "-" + month + "-" + day;
+
+            var dateObj = new Date();
+            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+            var day = dateObj.getUTCDate();
+            var year = dateObj.getUTCFullYear();
+            end = year + "-" + month + "-" + day;
+
+            url = url.replace("START", start);
+            url = url.replace("END",end);
+            url = url.replace("amp;", "");
+            location.href = url;
+        });
+    </script>
+}

@@ -11,6 +11,7 @@ using SIAH.Models;
 
 namespace SIAH.Controllers
 {
+    [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
     public class LocalidadesController : Controller
     {
         private SIAHContext db = new SIAHContext();

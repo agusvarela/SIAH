@@ -1,56 +1,223 @@
 ﻿@model SIAH.Models.Insumos.Insumo
+@using System.Linq;
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Nuevo insumo";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<h2>Create</h2>
-
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Insumos", FormMethod.Post, new { id = "crearInsumoForm" }))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Insumo</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.precioUnitario, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.precioUnitario, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.precioUnitario, "", new { @class = "text-danger" })
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-sm-9">
+                <h1>Cargar nuevo insumo</h1>
+                <div class="banner-catalog__content">Carga de los datos iniciales de un nuevo insumo que estará disponible para la generación de pedidos.</div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.tipoInsumoId, "tipoInsumoId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("tipoInsumoId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.tipoInsumoId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-lg-3">
+                <div class="icon icon-info">
+                    <i class="material-icons pull-right" style="font-size: 100px">view_module</i>
+                </div>
             </div>
         </div>
     </div>
+    <br />
+    <div class="container" style=" padding-bottom: 30px;">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title  purple-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">add</i>
+                                <strong>Información del insumo</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.Label("Insumo", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line valid" type="text" data-val="true" data-val-length="El campo nombre debe ser una cadena con una longitud máxima de 255." data-val-length-max="255" data-val-required="El nombre es obligatorio" id="nombre" name="nombre" required placeholder="Ingrese el nombre del insumo"/>
+                                            @*@Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", placeholder = "Nombre del insumo"} })*@
+                                            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-offset-1 col-md-4">
+                                    <div class="form-group">
+                                        @Html.Label("Costo", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.precioUnitario, new { htmlAttributes = new { @class = "form-control", @Name = "precioUnitario", data_val = "false", @onkeyup = "return precioChange(this.value, event);" } })
+                                            @Html.ValidationMessageFor(model => model.precioUnitario, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("Stock", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            <input type="number" id="stock" name="stock" class="form-control" min="0" value="0"
+                                                   onkeypress="return textBoxChange(this.value, event)" />
+
+                                            @Html.ValidationMessageFor(model => model.stock, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.Label("Tipo de insumo", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4" style="padding-left: 12px;">
+                                            @Html.DropDownList("tipoInsumoId", null, "-- Seleccione un tipo de insumo -", htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.tipoInsumoId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <input type="submit" id="crearInsumo" value="Cargar insumo" class="btn btn-round btn-success pull-right" />
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <input type="button" style="margin-top: 40px;" id="volver" value="Volver al listado de insumos" class="btn pull-left btn-primary" />
+        </div>
+    </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval");
+
+    <script type="text/javascript">
+        var insumos;
+        $.ajax({
+            url: '@Url.Action("getInsumos", "Insumos")',
+            type: 'GET',
+            contentType: 'application/json',
+            cache: false,
+            success: function (result) {
+                insumos = result;
+            }
+        });
+
+        function textBoxChange(value, event) {
+            var teclaCorrecta = false;
+
+            if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 || event.charCode == 0) {
+                teclaCorrecta = true;
+
+                if (value == '' || value == '00') {
+                    value = 0;
+                } else {
+                    value = parseInt(value);
+                }
+                document.getElementById('stock').value = value;
+            }
+            return teclaCorrecta;
+        };
+
+        function precioChange(value, event) {
+            var teclaCorrecta = false;
+
+            if (!((event.which >= 96 && event.which <= 105) || (event.which >= 48 && event.which <= 57) || event.which == 13 || event.which == 8 || event.which == 188)) {
+                document.getElementById('precioUnitario').value = value.substring(0, value.length - 1);
+                return teclaCorrecta;
+            }
+
+            if (event.which == 8) {
+                document.getElementById('precioUnitario').value = 0;
+                return teclaCorrecta;
+            }
+
+            if (event.which == 188) {
+                if (value.split(',')[1].length > 2) {
+                    value = value.substring(0, value.length - 1);
+                    return teclaCorrecta;
+                } else if ((value.match(/,/g) || []).length == 1) {
+                    value = value;
+                } else if ((value.match(/,/g) || []).length > 1) {
+                    value = value.substring(0, value.length - 1);
+                }
+                document.getElementById('precioUnitario').value = value;
+                return teclaCorrecta;
+            }
+
+            if ((event.which >= 96 && event.which <= 105) || (event.which >= 48 && event.which <= 57) || event.which == 13) {
+                teclaCorrecta = true;
+
+                if (value == '00') {
+                    value = 0;
+                } else if (value[0] == '0' && value.length > 1 && !value.includes(',')) {
+                    value = value.substring(1, value.length);
+                } else if (value.includes(',') && value.split(',')[1].length > 2) {
+                    value = value.substring(0, value.length - 1);
+                }
+                document.getElementById('precioUnitario').value = value;
+            }
+            return teclaCorrecta;
+        };
+
+        $(document).ready(function () {
+            $('#crearInsumo').on('click', function (event) {
+                var nombre = document.getElementById("nombre");
+
+                if (!document.getElementById('crearInsumoForm').checkValidity()) {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    nombre.reportValidity();
+                }
+            });
+
+            $('#nombre').on('keyup', function (event) {
+                var nombre = document.getElementById("nombre");
+
+                for (var i = 0; i < insumos.data.length; i++) {
+                    if (insumos.data[i] == nombre.value) {
+                        nombre.setCustomValidity("Ya existe un insumo con este nombre");
+                        nombre.reportValidity();
+                        return;
+                    } else {
+                        nombre.setCustomValidity("");
+                    }
+                }
+            });
+
+            $('#volver').on('click', function (event) {
+                Swal.fire({
+                    title: '¿Está seguro que desea volver?',
+                    text: "Cualquier cambio realizado se perdera",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = '/Insumos/StockInsumos';
+                    }
+                });
+            });
+
+            document.getElementById('precioUnitario').value = 0,00
+        });
+    </script>
 }

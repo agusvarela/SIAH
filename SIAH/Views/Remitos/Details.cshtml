@@ -1,0 +1,35 @@
+﻿@model SIAH.Models.Remitos.Remito
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Remito</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.pedido.id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pedido.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaEntregaEfectiva)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaEntregaEfectiva)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
