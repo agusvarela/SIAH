@@ -139,6 +139,9 @@
                                             <th class="text-center">
                                                 <strong>  @Html.Name("Estado")</strong>
                                             </th>
+                                            <th class="text-center">
+                                                <strong>  @Html.Name("Acciones")</strong>
+                                            </th>
                                         </tr>
                                     </thead>
                                     @foreach (var item in Model)
@@ -161,9 +164,14 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-
-                                                        <i class="   material-icons " style="margin-right:13px">send</i>
-                                                        <div> <strong>Generado  </strong></div>
+                                                        <div data-toggle="tooltip" title="El pedido fue generado por el hospital y se encuentra listo para ser autorizado.">
+                                                            <i class="   material-icons " style="margin-right:13px">send</i>
+                                                            <div> <strong>Generado  </strong></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="button" value="Ver Detalle" class="btn btn-round btn-primary pull-center"
+                                                               onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'" />
                                                     </td>
                                                 </tr>
                                                 break;
@@ -183,9 +191,16 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        <i class="icon-warning material-icons" style="margin-right:10px">spellcheck</i>
-                                                        <div class="soft-warning"> <strong>Autorizado</strong></div>
+                                                        <div data-toggle="tooltip" title="El pedido fue autorizado y se encuentra listo para que sus datos sean enviados a OCASA.">
 
+                                                            <i class="icon-warning material-icons" style="margin-right:10px">spellcheck</i>
+                                                            <div class="soft-warning"> <strong>Autorizado</strong></div>
+                                                        </div>
+
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="button" value="Ver Detalle" class="btn btn-round btn-primary pull-center"
+                                                               onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'" />
                                                     </td>
                                                 </tr>
                                                 break;
@@ -205,9 +220,17 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        <i class="soft-orange material-icons " style="margin-right:10px">local_shipping</i>
+                                                        <div data-toggle="tooltip" title="El pedido está siendo enviado por OCASA al hospital correspondiente.">
 
-                                                        <div class=" soft-orange"> <strong>En proceso de Envío</strong></div>
+                                                            <i class="soft-orange material-icons " style="margin-right:10px">local_shipping</i>
+
+                                                            <div class=" soft-orange"> <strong>En proceso de Envío</strong></div>
+                                                        </div>
+
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="button" value="Ver Detalle" class="btn btn-round btn-primary pull-center"
+                                                               onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'" />
                                                     </td>
                                                 </tr>
                                                 break;
@@ -227,8 +250,15 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        <i class=" soft-grey material-icons " style="margin-right:10px">clear</i>
-                                                        <div class=" soft-grey"> <strong>Cancelado</strong></div>
+                                                        <div data-toggle="tooltip" title="El pedido fue cancelado antes de ser autorizado.">
+
+                                                            <i class=" soft-grey material-icons " style="margin-right:10px">clear</i>
+                                                            <div class=" soft-grey"> <strong>Cancelado</strong></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="button" value="Ver Detalle" class="btn btn-round btn-primary pull-center"
+                                                               onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'" />
                                                     </td>
                                                 </tr>
                                                 break;
@@ -248,8 +278,15 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        <i class="icon-success  material-icons" style="margin-right:10px">check_circle</i>
-                                                        <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
+                                                        <div data-toggle="tooltip" title="El pedido fue recibido por el hospital y confirmado.">
+
+                                                            <i class="icon-success  material-icons" style="margin-right:10px">check_circle</i>
+                                                            <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="button" value="Ver Detalle" class="btn btn-round btn-primary pull-center"
+                                                               onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'" />
                                                     </td>
                                                 </tr>
                                                 break;
@@ -269,8 +306,15 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        <i class="icon-info  material-icons" style="margin-right:10px">markunread</i>
-                                                        <div class=" soft-info"> <strong>Entregado</strong></div>
+                                                        <div data-toggle="tooltip" title="El pedido fue entregado al hospital y está pendiente de confirmación por parte del responsable de farmacia.">
+
+                                                            <i class="icon-info  material-icons" style="margin-right:10px">markunread</i>
+                                                            <div class=" soft-info"> <strong>Entregado</strong></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="button" value="Ver Detalle" class="btn btn-round btn-primary pull-center"
+                                                               onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'" />
                                                     </td>
                                                 </tr>
                                                 break;
@@ -290,8 +334,15 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        <i class="icon-danger  material-icons " style="margin-right:10px">error_outline</i>
-                                                        <div class=" soft-danger"> <strong>Reclamado</strong></div>
+                                                        <div data-toggle="tooltip" title="El pedido tiene un reclamo pendiente de resolución.">
+
+                                                            <i class="icon-danger  material-icons " style="margin-right:10px">error_outline</i>
+                                                            <div class=" soft-danger"> <strong>Reclamado</strong></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="button" value="Ver Detalle" class="btn btn-round btn-primary pull-center"
+                                                               onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'" />
                                                     </td>
                                                 </tr>
                                                 break;
@@ -311,8 +362,15 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        <i class="icon-success  material-icons" style="margin-right:10px">check_circle</i>
-                                                        <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
+                                                        <div data-toggle="tooltip" title="El pedido fue entregado y confirmado.">
+
+                                                            <i class="icon-success  material-icons" style="margin-right:10px">check_circle</i>
+                                                            <div class=" soft-success"> <strong>Entregado y Recibido</strong></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="button" value="Ver Detalle" class="btn btn-round btn-primary pull-center"
+                                                               onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Pedidos" }, Request.Url.Scheme)'" />
                                                     </td>
                                                 </tr>
                                                 break;
