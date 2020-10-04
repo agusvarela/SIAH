@@ -202,6 +202,7 @@
     <Compile Include="Controllers\LocalidadesController.cs" />
     <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\ReclamosController.cs" />
+    <Compile Include="Controllers\RegistrosController.cs" />
     <Compile Include="Controllers\RemitosController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -324,6 +325,10 @@
     <Compile Include="Migrations\202006202310411_add_userID_field_pedidos.Designer.cs">
       <DependentUpon>202006202310411_add_userID_field_pedidos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009122229159_create_table_registro_uso_insumo.cs" />
+    <Compile Include="Migrations\202009122229159_create_table_registro_uso_insumo.Designer.cs">
+      <DependentUpon>202009122229159_create_table_registro_uso_insumo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
@@ -338,6 +343,8 @@
     <Compile Include="Models\Pedidos\Pedido.cs" />
     <Compile Include="Models\Reclamos\EstadoReclamo.cs" />
     <Compile Include="Models\Reclamos\Reclamo.cs" />
+    <Compile Include="Models\Registro\DetalleRegistro.cs" />
+    <Compile Include="Models\Registro\Registro.cs" />
     <Compile Include="Models\Remitos\DetalleRemito.cs" />
     <Compile Include="Models\Remitos\EstadoRemito.cs" />
     <Compile Include="Models\Remitos\Remito.cs" />
@@ -628,6 +635,11 @@
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\RecoveryResult.cshtml" />
+    <Content Include="Views\Registros\Create.cshtml" />
+    <Content Include="Views\Registros\Delete.cshtml" />
+    <Content Include="Views\Registros\Details.cshtml" />
+    <Content Include="Views\Registros\Edit.cshtml" />
+    <Content Include="Views\Registros\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -733,6 +745,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006202310411_add_userID_field_pedidos.resx">
       <DependentUpon>202006202310411_add_userID_field_pedidos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009122229159_create_table_registro_uso_insumo.resx">
+      <DependentUpon>202009122229159_create_table_registro_uso_insumo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
