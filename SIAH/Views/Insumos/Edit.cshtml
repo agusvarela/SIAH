@@ -1,58 +1,178 @@
 ﻿@model SIAH.Models.Insumos.Insumo
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Actualizar insumo";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-<h2>Edit</h2>
-
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Insumos", FormMethod.Post, new { id = "insumoForm" }))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Insumo</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-sm-9">
+                <h1>Actualizar insumo</h1>
+                <div class="banner-catalog__content">Edite los campos del insumo que desea modificar.</div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.precioUnitario, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.precioUnitario, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.precioUnitario, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.tipoInsumoId, "tipoInsumoId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("tipoInsumoId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.tipoInsumoId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="col-lg-3">
+                <div class="icon icon-info">
+                    <i class="material-icons pull-right" style="font-size: 100px">view_module</i>
+                </div>
             </div>
         </div>
     </div>
+    <br />
+    <div class="container" style=" padding-bottom: 30px;">
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                        <div class="form-card__title  info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">edit</i>
+                                <strong>Información del insumo</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.Label("Insumo", htmlAttributes: new { @class = "control-label col-md-1" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Precio Unitario", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8" style="padding-left: 24px;">
+                                            @Html.EditorFor(model => model.precioUnitario, new { htmlAttributes = new { @class = "form-control", @Name = "precioUnitario", @onkeyup = "return precioChange(this.value, event);", data_val = "false" } })
+                                            @Html.ValidationMessageFor(model => model.precioUnitario, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("Tipo de insumo", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(x => x.tipoInsumoId, null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.tipoInsumoId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="submit" id="actualizar" value="Actualizar insumo" class="btn btn-round btn-success pull-right" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="margin-bottom: 0px;" />
+        <div class="col-sm-4">
+            <input type="button" style="margin-top: 40px;" id="volver" value="Volver al listado de insumos" class="btn pull-left btn-primary" />
+        </div>
+    </div>
+    @Html.EditorFor(model => model.stock, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @type = "hidden" } })
+    @Html.EditorFor(model => model.stockFisico, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @type = "hidden" } })
+
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function precioChange(value, event) {
+            var teclaCorrecta = false;
+
+            if (!((event.which >= 96 && event.which <= 105) || (event.which >= 48 && event.which <= 57) || event.which == 13 || event.which == 8 || event.which == 188)) {
+                document.getElementById('precioUnitario').value = value.substring(0, value.length - 1);
+                return teclaCorrecta;
+            }
+
+            if (event.which == 8) {
+                document.getElementById('precioUnitario').value = 0;
+                return teclaCorrecta;
+            }
+
+            if (event.which == 188) {
+                if (value.split(',')[1].length > 2) {
+                    value = value.substring(0, value.length - 1);
+                    return teclaCorrecta;
+                } else if ((value.match(/,/g) || []).length == 1) {
+                    value = value;
+                } else if ((value.match(/,/g) || []).length > 1) {
+                    value = value.substring(0, value.length - 1);
+                }
+                document.getElementById('precioUnitario').value = value;
+                return teclaCorrecta;
+            }
+
+            if ((event.which >= 96 && event.which <= 105) || (event.which >= 48 && event.which <= 57) || event.which == 13) {
+                teclaCorrecta = true;
+
+                if (value == '00') {
+                    value = 0;
+                } else if (value[0] == '0' && value.length > 1 && !value.includes(',')) {
+                    value = value.substring(1, value.length);
+                } else if (value.includes(',') && value.split(',')[1].length > 2) {
+                    value = value.substring(0, value.length - 1);
+                }
+                document.getElementById('precioUnitario').value = value;
+            }
+            return teclaCorrecta;
+        };
+
+        $(document).ready(function () {
+            $('#volver').on('click', function (event) {
+                Swal.fire({
+                    title: '¿Está seguro que desea volver?',
+                    text: "Cualquier cambio realizado se perdera",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        location.href = '/Insumos/StockInsumos';
+                    }
+                });
+            });
+
+            $('#actualizar').on('click', function (event) {
+                if (document.getElementById('insumoForm').checkValidity()) {
+                    event.preventDefault();
+
+                    Swal.fire({
+                        title: 'Se actualizara su insumo',
+                        text: "¿Está seguro que desea continuar?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: "#28a745",
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonColor: "#dc3545",
+                        cancelButtonText: 'Cancelar',
+                        showCloseButton: true,
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#insumoForm').submit();
+                        }
+                    })
+                }
+            });
+        });
+    </script>
 }
