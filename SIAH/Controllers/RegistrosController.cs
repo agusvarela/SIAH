@@ -15,6 +15,7 @@ namespace SIAH.Controllers
     {
         private SIAHContext db = new SIAHContext();
 
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         // GET: Registros
         public ActionResult Index(string param)
         {
@@ -52,6 +53,7 @@ namespace SIAH.Controllers
             return Json(detallesPedido, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         // GET: Registros/Details/5
         public ActionResult Details(int? id)
         {
@@ -70,6 +72,7 @@ namespace SIAH.Controllers
             return View(registro);
         }
 
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         // GET: Registros/Create
         public ActionResult Create()
         {

@@ -9,6 +9,10 @@
       <mvcSiteMapNode title="Detalle Pedido" controller="Pedidos" action="Details" preservedRouteParameters="id"/>
       <mvcSiteMapNode title="Detalle Autorizacion" controller="Pedidos" action="Autorizacion" preservedRouteParameters="id"/>
     </mvcSiteMapNode>
+    <mvcSiteMapNode title="Listado Registros" controller="Registros" action="Index">
+      <mvcSiteMapNode title="Nuevo Registro" controller="Registros" action="Create"/>
+      <mvcSiteMapNode title="Detalle Registro" controller="Registros" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
     <mvcSiteMapNode title="Listado Reclamos" controller="Reclamos" action="ListadoReclamos">
       <mvcSiteMapNode title="Detalle Reclamo" controller="Reclamos" action="Details" preservedRouteParameters="id"/>
     </mvcSiteMapNode>
