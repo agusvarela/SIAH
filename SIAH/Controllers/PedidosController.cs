@@ -577,6 +577,7 @@ namespace SIAH.Controllers
                 body = reader.ReadToEnd();
             }
             body = body.Replace("{pedidoId}", pedido.id.ToString());
+            body = body.Replace("{fechaPedido}", pedido.fechaGeneracion.ToShortDateString());
             Hospital hospital = db.Hospitales.Find(pedido.hospitalId);
             body = body.Replace("{hospitalName}", hospital.nombre);
             var estado = db.Estados.Find(pedido.estadoId);
