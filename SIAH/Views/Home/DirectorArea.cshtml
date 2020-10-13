@@ -8,6 +8,10 @@
         ViewBag.validacion = false;
 
     }
+    if (ViewBag.reclamo == null)
+    {
+        ViewBag.reclamo = false;
+    }
 }
 
 <div class="banner-catalog1 jumbotron jumbotron-fluid bg-dark">
@@ -203,20 +207,32 @@
 
                 }
                 else {
-                if (@ViewBag.validacion.ToString().ToLower()===true) {
+                    if (@ViewBag.validacion.ToString().ToLower()===true) {
+                        $.notify({
+                            title: '<strong>Aviso!</strong><br/>',
+                            message: 'Hubo un error en la actualizacion: @ViewBag.problem '
+                        }, {
+                                type: 'danger',
+                                offset: {
+                                    x: 20,
+                                    y: 80
+                                }
+                            },
+                        );
+                }
+                if (@ViewBag.reclamo.ToString().ToLower() === true) {
                     $.notify({
                         title: '<strong>Aviso!</strong><br/>',
-                        message: 'Hubo un error en la actualizacion: @ViewBag.problem '
+                        message: 'El reclamo fue enviado correctamente.'
                     }, {
-                            type: 'danger',
-                            offset: {
-                                x: 20,
-                                y: 80
-                            }
-                        },
+                        type: 'success',
+                        offset: {
+                            x: 20,
+                            y: 90
+                        }
+                    },
                     );
                 }
-
             }
             var myNewURL = refineURL();
             //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
