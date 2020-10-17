@@ -709,7 +709,7 @@
                     var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
                     var $tdSubtotalAutorizado = $('<td  style="width:15%" align="center">').append("$" + $subtotalAutAMostrar);
 
-                    var $tdMotivoDiferenciaInternal = $('<input type="button" value="Ver Observacion" class="btn btn-round btn-purple" onclick="verObservacion(\'' + item.observacion + '\')" />');
+                    var $tdMotivoDiferenciaInternal = $('<input type="button" value="Ver Observación" class="btn btn-round btn-purple" onclick="verObservacion(\'' + item.observacion + '\')" />');
                     var $tdMotivoDiferencia = $('<td align="center">').append($tdMotivoDiferenciaInternal);
 
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidadAutorizada, $tdCantidadEntregada, $tdDiferencia, $tdPrecioUnitario, $tdSubtotalAutorizado, $tdMotivoDiferencia);
