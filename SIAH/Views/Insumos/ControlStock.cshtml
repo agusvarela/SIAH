@@ -3,23 +3,46 @@
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     ViewBag.Title = "Control de Stock";
 }
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalReclamo" tabindex="-1" role="dialog" aria-labelledby="modalReclamoLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel"><strong>Esta acción es Irreversible</strong></h4>
+                <h4 class="modal-title" id="modalReclamoLabel"><strong>Esta acción es Irreversible</strong></h4>
+            </div>
+            <div class="modal-body text-center">
+                <strong>
+                    ¿Desea enviar un reclamo por diferencias de stock? <br />
+                </strong>
+                <p style="font-style: italic; font-size:x-small">Se enviarán los datos del reclamo al equipo de soporte de OCASA via email.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
+                <button id="reclamoOcasa" name="reclamoOcasa" type="button" class="btn btn-info btn-simple" data-dismiss="modal" onclick="url = '@Url.Action("ReclamarOcasa", "Insumos")';
+                    location.href = url;">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalActualizar" tabindex="-1" role="dialog" aria-labelledby="modalReclamoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="modalReclamoLabel"><strong>Esta acción es Irreversible</strong></h4>
             </div>
             <div class="modal-body text-center">
                 <strong>
                     ¿Desea actualizar el stock en el sistema? <br />
                 </strong>
-                <p style="font-style: italic; font-size:x-small">Se enviarán los datos del reclamo al equipo de soporte de OCASA.</p>
+                <p style="font-style: italic; font-size:x-small">Se sincronizarán los datos de stock de SIAH en base a los datos de stock de OCASA.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
                 <button id="updateStock" name="updateStock" type="button" class="btn btn-info btn-simple" data-dismiss="modal" onclick="url = '@Url.Action("ActualizarStock", "Insumos")';
-                    location.href = url;">Aceptar</button>
+                    location.href = url;">
+                    Aceptar
+                </button>
             </div>
         </div>
     </div>
@@ -65,6 +88,9 @@
                         <div class="form-card__content group">
                             <div class="form-group">
 
+                                <div class="pull-left">
+                                    <input id="btn_export" type="button" value="Exportar a Excel" class="btn btn-round btn_export" onClick="$('#table2Export').tableExport({type:'excel', format:'xls' ,escape:'false'});" />
+                                </div>
                                 <div id="contenedor" class="col-md-12">
 
                                     <div id="table-container">
@@ -96,8 +122,8 @@
                                             </thead>
                                             <tbody>
                                                 @{
-                                                    var counter=0;
-                                                    
+                                                    var counter = 0;
+
                                                     foreach (var item in ViewBag.insumos)
                                                     {
                                                         int p;
@@ -223,14 +249,16 @@
                                         </table>
                                         <div id="bottom_anchor"></div>
                                     </div>
-                                    
-                                    <div class="pull-left">
-                                        <input id="btn_export" type="button" value="Exportar a Excel" class="btn btn-info btn-round btn_export" onClick="$('#table2Export').tableExport({type:'excel', format:'xls' ,escape:'false'});" />
-                                    </div>
-                                    <div class="pull-right">
-                                        <input id="btn_pisar" type="button" value="Sincronizar con stock de OCASA" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal" />
-                                    </div>
 
+
+                                    <div class="row">
+                                        <div class="pull-right">
+                                            <input id="btn_pisar" type="button" value="Sincronizar con stock de OCASA" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalActualizar" />
+                                        </div>
+                                        <div class="pull-left">
+                                            <input id="btn_reclamo" type="button" value="Enviar reclamo a OCASA" class="btn btn-danger btn-round" data-toggle="modal" data-target="#modalReclamo" />
+                                        </div>
+                                    </div>
                                 </div>
                                 <table id="table2export" style="visibility:collapse">
                                     <thead>
@@ -462,6 +490,7 @@
             var counter = @counter;
             if (counter == 0) {
                 document.getElementById('btn_pisar').setAttribute('style', 'visibility: collapse');
+                document.getElementById('btn_reclamo').setAttribute('style', 'visibility: collapse');
                 document.getElementById('btn_export').setAttribute('style', 'visibility: collapse');
             }
         })

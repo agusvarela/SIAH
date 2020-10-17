@@ -75,6 +75,10 @@ namespace SIAH.Controllers
                 {
                     ViewBag.success = true;
                 }
+                else if (param.CompareTo("Reclamo") == 0)
+                {
+                    ViewBag.reclamo = true;
+                }
                 else
                 {
                     ViewBag.success = false;

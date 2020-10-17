@@ -62,9 +62,14 @@ namespace SIAH.Controllers
             return View();
         }
 
-        public async Task<ActionResult> ActualizarStock()
+        public async Task<ActionResult> ReclamarOcasa()
         {
             await sendEmailAsync();
+            return RedirectToAction("DirectorArea", "Home", new { param = "Reclamo" });
+        }
+
+        public ActionResult ActualizarStock()
+        {
             try
             {
                 Uri baseUri = new Uri("http://localhost:3000");
