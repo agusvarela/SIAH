@@ -54,7 +54,7 @@
                 <div class="form-card__content group">
                     <div id="cuadritos" class="container col-md-12">
                         <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
-                            <li class="text-info">
+                            <li class="text-info" id="4" onclick="stateFilter('4')">
                                 <a class="list-group-item-grey soft-grey" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue cancelado antes de ser autorizado.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">clear</i>
                                     <span style="user-select: none">Cancelado</span>
@@ -63,7 +63,7 @@
                             </li>
                         </ul>
                         <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
-                            <li class="text-info">
+                            <li class="text-info" id="5" onclick="stateFilter('5')">
                                 <a class="list-group-item-success soft-success" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue recibido por el hospital y confirmado.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">check_circle</i>
                                     <span style="user-select: none">Recibido</span>
@@ -72,7 +72,7 @@
                             </li>
                         </ul>
                         <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
-                            <li class="text-info">
+                            <li class="text-info" id="7" onclick="stateFilter('7')">
                                 <a class="list-group-item-danger soft-danger" style="vertical-align:central" data-toggle="tooltip" title="El pedido tiene un reclamo pendiente de resolución.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">error_outline</i>
                                     <span style="user-select: none">Reclamado</span>
@@ -81,7 +81,7 @@
                             </li>
                         </ul>
                         <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
-                            <li class="text-info">
+                            <li class="text-info" id="6" onclick="stateFilter('6')">
                                 <a class="list-group-item-info soft-info" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue entregado al hospital y está pendiente de confirmación por parte del responsable de farmacia.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">markunread</i>
                                     <span style="user-select: none">Entregado</span>
@@ -90,7 +90,7 @@
                             </li>
                         </ul>
                         <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
-                            <li class="text-info">
+                            <li class="text-info" id="3" onclick="stateFilter('3')">
                                 <a class="list-group-item-orange soft-orange" style="vertical-align:central" data-toggle="tooltip" title="El pedido está siendo enviado por OCASA al hospital correspondiente.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">local_shipping</i>
                                     <span style="user-select: none">En Proceso de Envío</span>
@@ -99,7 +99,7 @@
                             </li>
                         </ul>
                         <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
-                            <li class="text-info">
+                            <li class="text-info" id="2" onclick="stateFilter('2')">
                                 <a class="list-group-item-warning soft-warning" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue autorizado y se encuentra listo para que sus datos sean enviados a OCASA.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">spellcheck</i>
                                     <span style="user-select: none">Autorizado</span>
@@ -108,7 +108,7 @@
                             </li>
                         </ul>
                         <ul class="nav nav-pills nav-stacked pull-right" style="padding-right:5px">
-                            <li class="text-info">
+                            <li class="text-info" id="1" onclick="stateFilter('1')">
                                 <a class="list-group-item" style="vertical-align:central" data-toggle="tooltip" title="El pedido fue generado por el hospital y se encuentra listo para ser autorizado.">
                                     <i class="material-icons" style="padding: 0px; user-select: none">send</i>
                                     <span style="user-select: none">Generado</span>
@@ -117,6 +117,31 @@
                             </li>
                         </ul>
 
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-sm-9" style="padding-top:45px; padding-bottom:9px; padding-left:0px; padding-right:0px;">
+                            <div class="col-sm-3" style="padding-left:5px; padding-right:0px; padding-top: 5px;">
+                                @Html.Label("Desde:", htmlAttributes: new { @class = "control-label", @style = "font-size: 18px; font-weight: bold; color: #000000d1;" })
+                                <input id="inicio" style="font-size:16px; padding-left: 10px; width: 95px; border: 0; background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2);
+                                            background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" value="@ViewBag.fechaInicio.ToString("dd/MM/yyyy")" readonly />
+                            </div>
+
+                            <div class="col-sm-3" style="padding-right:0px; padding-top: 5px;">
+                                @Html.Label("Hasta:", htmlAttributes: new { @class = "control-label", @style = "font-size: 18px; font-weight: bold; color: #000000d1;" })
+                                <input id="fin" style="font-size:16px; padding-left: 10px; width:95px; border: 0; background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2);
+                                            background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" value="@ViewBag.fechaFin.ToString("dd/MM/yyyy")" readonly />
+                            </div>
+
+                            <div class="col-sm-3" style="padding-left:15px;">
+                                <button id="aplicarFiltros" class="btn btn-round btn-success" style="vertical-align:bottom">Aplicar Filtros</button><br />
+                            </div>
+
+                            <div class="col-sm-3" style="padding-left:15px;">
+                                <button id="limpiarFiltros" class="btn btn-round btn-danger" style="vertical-align:bottom">Limpiar Filtros</button><br />
+                            </div>
+                        </div>
+                        <br>
                     </div>
 
                     <div class="animated zoomIn col-md-12">
@@ -394,24 +419,131 @@
 
 </div>
 @section Scripts {
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css" />
     <script type="text/javascript">
+        var table;
+        var stateFilterNumber = "@ViewBag.stateFilter";
+        var oldStateFilter = "";
+        var fechaInicio = "@ViewBag.fechaInicio";
+        var fechaFin = "@ViewBag.fechaFin";
+        var fechaInicioCorta = "@ViewBag.fechaInicioDefault";
+        var fechaFinCorta = "@ViewBag.fechaFinDefault";
+        var fechaFinDefault = new Date();
+        var fechaInicioDefault = new Date(fechaFinDefault.getFullYear() - 1, fechaFinDefault.getMonth(), fechaFinDefault.getDate());
+
         $(document).ready(function () {
+            if (stateFilterNumber != "") {
+                document.getElementById(stateFilterNumber).classList.add("active");
+                oldStateFilter = stateFilterNumber;
+            }
+            
+            $('#aplicarFiltros').prop('disabled', true);
+            $('#limpiarFiltros').hide();
+
             $('#maintable tr td:nth-child(n)').hover(function () {
                 $(this).parents('tr').attr('title', 'Ver detalle');
             });
 
-            var diaDeHoy = new Date();
+            if (fechaFinDefault.toLocaleDateString() != fechaFinCorta || fechaInicioDefault.toLocaleDateString() != fechaInicioCorta || stateFilterNumber != "") {
+                $('#limpiarFiltros').show();
+            }
 
             $.ajax({
                 url: '@Url.Action("cantidadPedidosPorEstado", "Pedidos")',
                 type: 'GET',
-                data: { fechaInicio: new Date(diaDeHoy.getFullYear() - 1, diaDeHoy.getMonth(), diaDeHoy.getDate()).toUTCString(), fechaFin: diaDeHoy.toUTCString() },
+                data: { fechaI: fechaInicio.toString(), fechaF: fechaFin.toString(), hospital: document.getElementById("idHospital").value },
                 cache: false,
                 success: function (result) {
+
                     for (var i = 0; i < result.length; i++) {
                         $('#estado' + (i+1)).html(result[i]);
                     }
                 }
+            });
+
+            $('#inicio').datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+                onClose: function (selectedDate) {
+                    $("#fin").datepicker("option", "minDate", selectedDate);
+                },
+                monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                showMonthAfterYear: true,
+                closeText: 'Cerrar',
+                currentText: 'Hoy',
+                showButtonPanel: true
+            });
+
+            $('#fin').datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+                onClose: function (selectedDate) {
+                    $("#inicio").datepicker("option", "maxDate", selectedDate);
+                },
+                monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                showMonthAfterYear: true,
+                closeText: 'Cerrar',
+                currentText: 'Hoy',
+                showMonthAfterYear: true
+            });
+
+            $(document).on('change', '#inicio', function (event) {
+                if ($('#inicio').val() != fechaInicioCorta || $('#fin').val() != fechaFinCorta || stateFilterNumber != "") {
+                    $('#aplicarFiltros').prop('disabled', false);
+                } else {
+                    $('#aplicarFiltros').prop('disabled', true);
+                }
+            });
+
+            $(document).on('change', '#fin', function (event) {
+                if ($('#fin').val() != fechaFinCorta || $('#inicio').val() != fechaInicioCorta || stateFilterNumber != "") {
+                    $('#aplicarFiltros').prop('disabled', false);
+                } else {
+                    $('#aplicarFiltros').prop('disabled', true);
+                }
+            });
+
+            $(document).on('click', '#aplicarFiltros', function (event)
+            {
+                event.preventDefault();
+                var url = '@Url.Action("RespFarmacia", "Pedidos", new { fechaI = "START" , fechaF = "END" })';
+
+                var desde = $("#inicio").val().toString();
+                desde = desde.replace(/\//g, "%2F");
+
+                var hasta = $("#fin").val().toString();
+                hasta = hasta.replace(/\//g, "%2F");
+
+                url = url.replace("START", desde.toString());
+                url = url.replace("END", hasta.toString());
+                url = url.replace("amp;", "");
+
+                url = url.concat("&stateFilter=" + stateFilterNumber.toString());
+                
+                location.href = url;
+            });
+
+            $(document).on('click', '#limpiarFiltros', function (event)
+            {
+                event.preventDefault();
+                var url = '@Url.Action("RespFarmacia", "Pedidos", new { fechaI = "START" , fechaF = "END" })';
+
+                var desde = fechaInicioDefault.toLocaleDateString();
+                desde = desde.replace(/\//g, "%2F");
+
+                var hasta = fechaFinDefault.toLocaleDateString();
+                hasta = hasta.replace(/\//g, "%2F");
+
+                url = url.replace("START", desde.toString());
+                url = url.replace("END", hasta.toString());
+                url = url.replace("amp;", "");
+                location.href = url;
             });
 
             $(document).on('click', '#nuevopedido', function (event) {
@@ -475,7 +607,6 @@
 
             }
 
-
             var myNewURL = refineURL();
             //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
             window.history.pushState("object or string", "Title", "/" + myNewURL);
@@ -494,6 +625,7 @@
 
                 return "Pedidos/"+beforeQueryString;
             }
+
             function moveScroll() {
                 var scroll = $(window).scrollTop();
                 var anchor_top = $("#maintable").offset().top;
@@ -518,13 +650,34 @@
                     $("#clone").remove();
                 }
             }
+
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
-            $("#maintable").DataTable({
+            table = $("#maintable").DataTable({
                 "order": [[0, "desc"]],
-                "oLanguage": { "sEmptyTable": "Aún no tiene pedidos" }
+                "oLanguage": { "sEmptyTable": "Aún no tiene pedidos realizados, o no se han encontrado pedidos para los filtros seleccionados." }
             });;
         });
 
+        function stateFilter(stateNumber) {
+            if (stateFilterNumber != stateNumber) {
+                if (stateFilterNumber != "") {
+                    var oldstate = stateFilterNumber;
+                    document.getElementById(oldstate).classList.remove('active');
+                }
+
+                stateFilterNumber = stateNumber;
+                document.getElementById(stateFilterNumber).classList.add("active");
+
+                $('#aplicarFiltros').prop('disabled', false);
+            } else if (stateNumber == stateFilterNumber) {
+                document.getElementById(stateNumber).classList.remove('active');
+                stateFilterNumber = "";
+
+                if ($('#fin').val() == fechaFinCorta && $('#inicio').val() == fechaInicioCorta && oldStateFilter == stateFilterNumber) {
+                    $('#aplicarFiltros').prop('disabled', true);
+                }
+            }
+        }
     </script>
 }
