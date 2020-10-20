@@ -16,6 +16,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using SIAH.Models;
+using Newtonsoft.Json;
 
 namespace SIAH.Controllers
 {
@@ -62,26 +63,91 @@ namespace SIAH.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage CargarRemito(Remito remito)
+        public ActionResult CargarRemito(Remito remito)
         {
+            if (remito.pedidoId == 0 || remito.fechaEntregaEfectiva.ToShortDateString() == "1/1/0001" || remito.fechaEntregaEfectiva > DateTime.Today)
+            {
+                string errorValue = "No se encontro el número de pedido o la fecha de entrega efectiva en la peticion.";
+                var result = Content(JsonConvert.SerializeObject(new { error = errorValue }), "application/json; charset=utf-8");
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return result;
+            }
+
+            if (!db.Pedidos.Where(p => p.id.Equals(remito.pedidoId)).Any())
+            {
+                string errorValue = "El numero de pedido ingresado no existe en el sistema.";
+                var result = Content(JsonConvert.SerializeObject(new { error = errorValue }), "application/json; charset=utf-8");
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return result;
+            }
+
+            var listaItems = db.DetallesPedido
+                                .Where(d => d.pedidoId == remito.pedidoId)
+                                .Select(x => new
+                                {
+                                    insumoId = x.insumoId,
+                                    cantAutorizada = x.cantidadAutorizada
+                                }).ToList();
+
+            if (listaItems.Count != remito.detallesRemito.Count)
+            {
+                string errorValue = "La cantidad de insumos ingresadas no corresponde con la cantidad de insumos pedidos.";
+                var result = Content(JsonConvert.SerializeObject(new { error = errorValue }), "application/json; charset=utf-8");
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return result;
+            }
+
+            remito.id = remito.pedidoId;
+            remito.estadoId = 1;
+
+            foreach (DetalleRemito detalle in remito.detallesRemito)
+            {
+                var item = listaItems.Find(l => l.insumoId == detalle.insumoId);
+
+                if (item == null)
+                {
+                    string errorValue = "El insumoId: " + detalle.insumoId + " no existe para el número de pedido ingresado.";
+                    var result = Content(JsonConvert.SerializeObject(new { error = errorValue }), "application/json; charset=utf-8");
+                    HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return result;
+                }
+                else if (detalle.cantidadEntregada > item.cantAutorizada || detalle.cantidadEntregada < 0)
+                {
+                    string errorValue = "El insumoId: " + detalle.insumoId + " posee una canidad incorrecta.";
+                    var result = Content(JsonConvert.SerializeObject(new { error = errorValue }), "application/json; charset=utf-8");
+                    HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return result;
+                }
+                else if (detalle.cantidadEntregada < item.cantAutorizada && (detalle.observacion == null || detalle.observacion == ""))
+                {
+                    string errorValue = "El insumoId: " + detalle.insumoId + " posee una cantidad menor a la autorizada pero no posee una observación.";
+                    var result = Content(JsonConvert.SerializeObject(new { error = errorValue }), "application/json; charset=utf-8");
+                    HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return result;
+                }
+
+                detalle.remitoId = remito.id;
+            }
+
             try
             {
-                remito.id = remito.pedidoId;
-                remito.estadoId = 1;
-                foreach (DetalleRemito detalle in remito.detallesRemito)
-                {
-                    detalle.remitoId = remito.id;
-                }
                 db.Remitos.Add(remito);
                 db.SaveChanges();
                 ActualizarStockConDetallesRemito(remito.id);
                 ActualizarPedido(remito.pedidoId);
-                return new HttpResponseMessage(HttpStatusCode.Accepted);
+
+                string acceptValue = "La peticion fue exitosa.";
+                var result = Content(JsonConvert.SerializeObject(new { message = acceptValue }), "application/json; charset=utf-8");
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.Accepted;
+                return result;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                string acceptValue = "El remito ya se encuentra cargado.";
+                var result = Content(JsonConvert.SerializeObject(new { error = acceptValue }), "application/json; charset=utf-8");
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return result;
             }
         }
 
@@ -97,7 +163,7 @@ namespace SIAH.Controllers
         }
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         //POST: Remitos/ControlPedidoRemito
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public ActionResult ControlPedidoRemito(int id)
         {
             Remito remito = db.Remitos.Find(id);
@@ -163,6 +229,7 @@ namespace SIAH.Controllers
                 db.SaveChanges();
             }
         }
+
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         //GET: Remitos/DetallesPedidoRemito
         public JsonResult GetDetallesPedidoRemito(int idPedido)
