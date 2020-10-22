@@ -65,14 +65,6 @@ namespace SIAH.Controllers
         [HttpPost]
         public ActionResult CargarRemito(Remito remito)
         {
-            if (remito.pedidoId == 0 || remito.fechaEntregaEfectiva.ToShortDateString() == "1/1/0001" || remito.fechaEntregaEfectiva > DateTime.Today)
-            {
-                string errorValue = "No se encontro el número de pedido o la fecha de entrega efectiva en la peticion.";
-                var result = Content(JsonConvert.SerializeObject(new { error = errorValue }), "application/json; charset=utf-8");
-                HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return result;
-            }
-
             if (!db.Pedidos.Where(p => p.id.Equals(remito.pedidoId)).Any())
             {
                 string errorValue = "El numero de pedido ingresado no existe en el sistema.";
@@ -114,13 +106,6 @@ namespace SIAH.Controllers
                 else if (detalle.cantidadEntregada > item.cantAutorizada || detalle.cantidadEntregada < 0)
                 {
                     string errorValue = "El insumoId: " + detalle.insumoId + " posee una canidad incorrecta.";
-                    var result = Content(JsonConvert.SerializeObject(new { error = errorValue }), "application/json; charset=utf-8");
-                    HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return result;
-                }
-                else if (detalle.cantidadEntregada < item.cantAutorizada && (detalle.observacion == null || detalle.observacion == ""))
-                {
-                    string errorValue = "El insumoId: " + detalle.insumoId + " posee una cantidad menor a la autorizada pero no posee una observación.";
                     var result = Content(JsonConvert.SerializeObject(new { error = errorValue }), "application/json; charset=utf-8");
                     HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     return result;
