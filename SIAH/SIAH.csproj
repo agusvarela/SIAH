@@ -372,6 +372,7 @@
     <Content Include="Content\img\back.jpg" />
     <Content Include="Content\img\hospital.jpg" />
     <Content Include="Content\img\logo.jpg" />
+    <Content Include="Content\img\ocasa.png" />
     <Content Include="Content\img\power-bi-2.jpg" />
     <Content Include="Content\img\power-bi-1.jpg" />
     <Content Include="Content\img\wave-2.png" />
@@ -640,6 +641,7 @@
     <Content Include="Views\Registros\Details.cshtml" />
     <Content Include="Views\Registros\Edit.cshtml" />
     <Content Include="Views\Registros\Index.cshtml" />
+    <Content Include="Views\Insumos\OcasaInventario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

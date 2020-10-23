@@ -1,0 +1,220 @@
+﻿@model IList<SIAH.Models.InsumoOcasa>
+@{
+    ViewBag.Title = "OcasaInventario";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
+}
+
+
+@using (Html.BeginForm("OcasaInventario", "Insumos", FormMethod.Post, new { id = "ocasaForm" }))
+{
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-9">
+                <h1>Inventario de Insumos de OCASA</h1>
+                <div class="banner-catalog__content">Lleve un control de inventario de los insumos disponibles en OCASA.</div>
+            </div>
+            <div class="col-lg-3">
+                <img class="pull-right" src="~/Content/img/ocasa.png" style="max-height:100px; max-width:200px; margin-top:20px" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style=" padding-bottom: 30px;">
+        <div class="form-horizontal">
+            <br>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__content group">
+
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert  animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Actualice los valores de la lista y confirme presionando el botón Actualizar Stock</span>
+                                </div>
+                            </div>
+
+                            <div class="animated zoomIn">
+                                <div class="col-md-12">
+                                    <div id="table-container">
+                                        <table id="maintable" class="table table-condensed">
+                                            <thead class="listado">
+                                                <tr class="list-group-item-info" style="border-bottom: solid">
+                                                    <th class="text-center" style="width: 70%">
+                                                        <h4> <strong> @Html.Name("Insumo")</strong></h4>
+                                                    </th>
+                                                    <th class="text-center" style="width: 30%">
+                                                        <h4> <strong> @Html.Name("Cantidad Disponible")</strong></h4>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            @for (var i = 0; i < Model.Count; i++)
+                                            {
+                                                <tr>
+                                                    <td class="text-center" style="width: 70%">
+                                                        <h5> <strong>@Html.DisplayFor(modelItem => modelItem[i].nombre)</strong></h5>
+                                                        @Html.TextBoxFor(modelItem => modelItem[i].id, htmlAttributes: new { @type = "hidden", @readonly = "readonly" })
+                                                    </td>
+                                                    <td class="text-center" style="width: 30%">
+                                                        @if (Model[i].stockFisico > 0)
+                                                        {
+                                                            @Html.TextBoxFor(modelItem => modelItem[i].stockFisico, htmlAttributes: new { @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFisico, @onkeyup = "return textBoxChange(event);" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.TextBoxFor(modelItem => modelItem[i].stockFisico, htmlAttributes: new { @readonly = "readonly", @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFisico, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                        <div id="bottom_anchor">
+                                            <input type="submit" id="botonActualizar" class="btn btn-round pull-right btn-success" value="Actualizar Stock" onclick="return actualizar(event)" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script src="~/Content/js/jquery.TablaDatos.min.js"></script>
+
+    <script type="text/javascript">
+
+        function textBoxChange(event) {
+            var teclaCorrecta = false;
+            var element = event.srcElement;
+
+            if ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 || event.charCode == 0) {
+                teclaCorrecta = true;
+                if (element.value == '' || element.value == '00') {
+                    element.value = 0;
+                } else if (parseInt(element.value) > 0) {
+                    element.value = parseInt(element.value);
+                }
+            }
+            return teclaCorrecta;
+        };
+
+        function actualizar(event) {
+            if (document.getElementById('ocasaForm').checkValidity()) {
+                event.stopImmediatePropagation();
+
+                Swal.fire({
+                    title: 'Actualizar Stock',
+                    text: "¿Está seguro que desea actualizar el stock?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Actualizar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        //postTable();
+                        $('#ocasaForm').submit();
+                    }
+                });
+                return false;
+            }
+        };
+
+        $(document).ready(function () {
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            var table = $("#maintable").DataTable({
+                "order": [[0, "asc"]]
+            });
+
+            // Handle form submission event
+            $('#ocasaForm').on('submit', function (e) {
+                var form = this;
+
+                // Encode a set of form elements from all pages as an array of names and values
+                var params = table.$('input,select,textarea').serializeArray();
+
+                // Iterate over all form elements
+                $.each(params, function () {
+                    // If element doesn't exist in DOM
+                    if (!$.contains(document, form[this.name])) {
+                        // Create a hidden element
+                        $(form).append(
+                            $('<input>')
+                                .attr('type', 'hidden')
+                                .attr('name', this.name)
+                                .val(this.value)
+                        );
+                    }
+                });
+            });
+             if (@ViewBag.success.ToString().ToLower() ===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'Se guardo el stock de Ocasa correctamente'
+                    }, {
+                            type: 'success',
+                            offset: {
+                                x: 20,
+                                y: 90
+                            }
+                        },
+                    );
+
+                }
+                else {
+                if (@ViewBag.validacion.ToString().ToLower()===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: '@ViewBag.problem '
+                    }, {
+                            type: 'danger',
+                            offset: {
+                                x: 20,
+                                y: 80
+                            }
+                        },
+                    );
+                }
+
+            }
+        });
+
+    </script>
+}
