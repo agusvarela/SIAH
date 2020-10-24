@@ -64,14 +64,7 @@
                                                         @Html.TextBoxFor(modelItem => modelItem[i].id, htmlAttributes: new { @type = "hidden", @readonly = "readonly" })
                                                     </td>
                                                     <td class="text-center" style="width: 30%">
-                                                        @if (Model[i].stockFisico > 0)
-                                                        {
-                                                            @Html.TextBoxFor(modelItem => modelItem[i].stockFisico, htmlAttributes: new { @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFisico, @onkeyup = "return textBoxChange(event);" })
-                                                        }
-                                                        else
-                                                        {
-                                                            @Html.TextBoxFor(modelItem => modelItem[i].stockFisico, htmlAttributes: new { @readonly = "readonly", @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFisico, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
-                                                        }
+                                                        @Html.TextBoxFor(modelItem => modelItem[i].stockFisico, htmlAttributes: new { @type = "number", @class = "form-control text-center", @min = 0, @onkeyup = "return textBoxChange(event);" })
                                                     </td>
                                                 </tr>
                                             }
