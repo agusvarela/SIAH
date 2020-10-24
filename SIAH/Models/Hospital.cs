@@ -29,6 +29,9 @@ namespace SIAH.Models
         [Display(Name = "Teléfono")]
         public String telefono { get; set; }
 
+        [Display(Name = "Dirección")]
+        public String direccion { get; set; }
+
         public ICollection<Pedidos.Pedido> Pedidos { get; set; }
 
         public ICollection<StockFarmacia> StockFarmacias { get; set; }
