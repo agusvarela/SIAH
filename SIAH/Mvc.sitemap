@@ -36,7 +36,7 @@
       <mvcSiteMapNode title="Reporte Consolidado" controller="Reportes" action="ReporteConsolidado"/>
     </mvcSiteMapNode>
     <mvcSiteMapNode title="Mis Reclamos" controller="Reclamos" action="ReclamosRespFarmacia"/>
-
+    <mvcSiteMapNode title="Stock OCASA" controller="Insumos" action="OcasaInventario"/>
     <mvcSiteMapNode title="Stock de Farmacia" controller="StockFarmacia" action="Index"/>
   </mvcSiteMapNode>
 

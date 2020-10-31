@@ -340,6 +340,46 @@ namespace SIAH.Controllers
             return RedirectToAction("StockInsumos");
         }
 
+        // GET: Insumos/OcasaInventario
+        public ActionResult OcasaInventario(string param = null)
+        {
+            if (param != null)
+            {
+                if (param.CompareTo("Success") == 0)
+                {
+                    ViewBag.success = true;
+                }
+                else
+                {
+                    ViewBag.success = false;
+                    ViewBag.problem = param;
+                };
+            }
+            var insumosList = db.InsumoOcasa.ToList();
+
+            return View(insumosList);
+        }
+
+        // POST: Insumos/OcasaInventario
+        [HttpPost]
+        public ActionResult OcasaInventario(IList<InsumoOcasa> newStock)
+        {
+            var oldStock = db.InsumoOcasa;
+            foreach (var insumo in newStock)
+            {
+                oldStock.Find(insumo.id).stockFisico = insumo.stockFisico;
+            }
+            try
+            {
+                db.SaveChanges();
+                return RedirectToAction("OcasaInventario", "Insumos", new { param = "Success" });
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("OcasaInventario", "Insumos", new { param = e.Message });
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
