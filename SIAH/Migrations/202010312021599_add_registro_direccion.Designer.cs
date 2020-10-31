@@ -7,13 +7,13 @@ namespace SIAH.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class create_table_registro_uso_insumo : IMigrationMetadata
+    public sealed partial class add_registro_direccion : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(create_table_registro_uso_insumo));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(add_registro_direccion));
         
         string IMigrationMetadata.Id
         {
-            get { return "202009122229159_create_table_registro_uso_insumo"; }
+            get { return "202010312021599_add_registro_direccion"; }
         }
         
         string IMigrationMetadata.Source

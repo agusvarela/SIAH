@@ -3,7 +3,7 @@ namespace SIAH.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class create_table_registro_uso_insumo : DbMigration
+    public partial class add_registro_direccion : DbMigration
     {
         public override void Up()
         {
@@ -37,18 +37,20 @@ namespace SIAH.Migrations
                 .Index(t => t.usuarioId)
                 .Index(t => t.hospitalId);
             
+            AddColumn("dbo.Hospital", "direccion", c => c.String());
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.DetalleRegistro", "registroId", "dbo.Registro");
             DropForeignKey("dbo.Registro", "usuarioId", "dbo.UserAccount");
             DropForeignKey("dbo.Registro", "hospitalId", "dbo.Hospital");
+            DropForeignKey("dbo.DetalleRegistro", "registroId", "dbo.Registro");
             DropForeignKey("dbo.DetalleRegistro", "insumoId", "dbo.Insumo");
             DropIndex("dbo.Registro", new[] { "hospitalId" });
             DropIndex("dbo.Registro", new[] { "usuarioId" });
             DropIndex("dbo.DetalleRegistro", new[] { "insumoId" });
             DropIndex("dbo.DetalleRegistro", new[] { "registroId" });
+            DropColumn("dbo.Hospital", "direccion");
             DropTable("dbo.Registro");
             DropTable("dbo.DetalleRegistro");
         }
