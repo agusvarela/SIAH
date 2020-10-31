@@ -325,6 +325,10 @@
     <Compile Include="Migrations\202006202310411_add_userID_field_pedidos.Designer.cs">
       <DependentUpon>202006202310411_add_userID_field_pedidos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010242114369_adding-direction-to-hospital.cs" />
+    <Compile Include="Migrations\202010242114369_adding-direction-to-hospital.Designer.cs">
+      <DependentUpon>202010242114369_adding-direction-to-hospital.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202009122229159_create_table_registro_uso_insumo.cs" />
     <Compile Include="Migrations\202009122229159_create_table_registro_uso_insumo.Designer.cs">
       <DependentUpon>202009122229159_create_table_registro_uso_insumo.cs</DependentUpon>
@@ -745,6 +749,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006202310411_add_userID_field_pedidos.resx">
       <DependentUpon>202006202310411_add_userID_field_pedidos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010242114369_adding-direction-to-hospital.resx">
+      <DependentUpon>202010242114369_adding-direction-to-hospital.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009122229159_create_table_registro_uso_insumo.resx">
       <DependentUpon>202009122229159_create_table_registro_uso_insumo.cs</DependentUpon>
