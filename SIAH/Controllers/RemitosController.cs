@@ -148,7 +148,7 @@ namespace SIAH.Controllers
         }
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
         //POST: Remitos/ControlPedidoRemito
-        [System.Web.Http.HttpPost]
+        [HttpPost]
         public ActionResult ControlPedidoRemito(int id)
         {
             Remito remito = db.Remitos.Find(id);

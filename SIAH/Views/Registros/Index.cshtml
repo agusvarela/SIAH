@@ -75,21 +75,28 @@
                                             <th class="text-center">
                                                 <strong>  @Html.Name("Solicitante")</strong>
                                             </th>
+                                            <th class="text-center">
+                                                <strong>  @Html.Name("Acciones")</strong>
+                                            </th>
                                         </tr>
                                     </thead>
                                     @foreach (var item in Model)
                                     {
-                                    <tr class="" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Registros" }, Request.Url.Scheme)'">
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.id)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.fechaGeneracion)
-                                        </td>
-                                        <td class="text-center">
-                                            @Html.DisplayFor(modelItem => item.destinatario)
-                                        </td>
-                                    </tr>
+                                <tr class="" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Registros" }, Request.Url.Scheme)'">
+                                    <td class="text-center">
+                                        @Html.DisplayFor(modelItem => item.id)
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                    </td>
+                                    <td class="text-center">
+                                        @Html.DisplayFor(modelItem => item.destinatario)
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="button" value="Ver Detalle" class="btn btn-round btn-primary pull-center"
+                                               onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "Registros" }, Request.Url.Scheme)'" />
+                                    </td>
+                                </tr>
                                     }
 
                                 </table>

@@ -159,8 +159,13 @@
             <div class="col-sm-4" style="margin-top: 50px;">
                 <input type="button" value="Volver al listado de reclamos" class="btn pull-left btn-primary" onclick="location.href = '/Reclamos/ListadoReclamos'" />
             </div>
-
-            @if ((Model.estadoReclamoId == 1 && Session["rol"].ToString() != "DirectorArea") || Model.estadoReclamoId == 2 || (Session["rol"].ToString() == "RespFarmacia" && Model.estadoReclamoId == 3))
+            @{ 
+                var condicion1 = Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion"
+                                        || Model.estadoReclamoId == 2 && Session["rol"].ToString() == "DirectorArea";
+                var condicion2 = Model.estadoReclamoId == 1 && Session["rol"]?.ToString() == "RespAutorizacion";
+                var condicion3 = Model.estadoReclamoId == 3 && Session["rol"]?.ToString() == "RespFarmacia";
+            }
+            @if (condicion1 || condicion2 || condicion3)
             {
                 var columnasDeAcciones = 5;
                 if (Model.estadoReclamoId == 1 || Session["rol"].ToString() == "DirectorArea" || Session["rol"].ToString() == "RespFarmacia") { columnasDeAcciones = 3; };
@@ -175,8 +180,7 @@
                             </div>
                             <div class="form-card__content group" style="padding-bottom: 0px; padding-top: 0px;">
                                 <div class="form-group">
-                                    @if (Model.estadoReclamoId == 2 && int.Parse(Session["userId"].ToString()) == Model.responsableAsignadoId && Session["rol"].ToString() == "RespAutorizacion"
-                                        || Model.estadoReclamoId == 2 && Session["rol"].ToString() == "DirectorArea")
+                                    @if (condicion1)
                                     {
                                         <div class="col-sm-3 btn-margin" style="padding-left: 5px;">
                                             <input type="button" style="font-size: 14px;" id="btn_quitar" value="Quitar asignación" class="btn pull-left btn-round btn-danger" />
@@ -189,13 +193,13 @@
                                             </div>
                                         }
                                     }
-                                    else if (Model.estadoReclamoId == 1 && Session["rol"]?.ToString() == "RespAutorizacion")
+                                    else if (condicion2)
                                     {
                                         <div class="pull-right col-sm-9 btn-margin" style="padding-right: 10px;">
                                             <input type="button" style="font-size: 16px;" id="btn_assign" value="Asignarme" class="btn pull-right btn-round btn-success" />
                                         </div>
                                     }
-                                    else if (Model.estadoReclamoId == 3 && Session["rol"]?.ToString() == "RespFarmacia")
+                                    else if (condicion3)
                                     {
                                         <div class="pull-right col-sm-9 btn-margin" style="padding-right: 10px;">
                                             <input type="button" style="font-size: 16px;" id="btn_complete" value="Completar" class="btn pull-right btn-round btn-success" />

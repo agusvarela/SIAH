@@ -7,7 +7,7 @@
     <mvcSiteMapNode title="Listado Pedidos" controller="Pedidos" action="Listado">
       <mvcSiteMapNode title="Nuevo Pedido" controller="Pedidos" action="Create"/>
       <mvcSiteMapNode title="Detalle Pedido" controller="Pedidos" action="Details" preservedRouteParameters="id"/>
-      <mvcSiteMapNode title="Detalle Autorizacion" controller="Pedidos" action="Autorizacion" preservedRouteParameters="id"/>
+      <mvcSiteMapNode title="Detalle Autorización" controller="Pedidos" action="Autorizacion" preservedRouteParameters="id"/>
     </mvcSiteMapNode>
     <mvcSiteMapNode title="Listado Registros" controller="Registros" action="Index">
       <mvcSiteMapNode title="Nuevo Registro" controller="Registros" action="Create"/>
@@ -31,8 +31,8 @@
 
     </mvcSiteMapNode>
     <mvcSiteMapNode title="Reportes" controller="Reportes" action="Index">
-      <mvcSiteMapNode title="Reporte BI" controller="Reportes" action="ReporteBI"/>
-      <mvcSiteMapNode title="Reporte Comparacion" controller="Reportes" action="ReporteComparacion"/>
+      <mvcSiteMapNode title="Reportes BI" controller="Reportes" action="ReporteBI"/>
+      <mvcSiteMapNode title="Reporte Comparación" controller="Reportes" action="ReporteComparacion"/>
       <mvcSiteMapNode title="Reporte Consolidado" controller="Reportes" action="ReporteConsolidado"/>
     </mvcSiteMapNode>
     <mvcSiteMapNode title="Mis Reclamos" controller="Reclamos" action="ReclamosRespFarmacia"/>
