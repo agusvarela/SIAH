@@ -14,7 +14,7 @@
         <div class="container">
             <div class="col-lg-9">
                 <h1>Hospital @Html.DisplayFor(model => model.nombre)</h1>
-                <div class="banner-catalog__content"> <br /></div>
+                <div class="banner-catalog__content"> Detalles y ubicación del hospital</div>
             </div>
             <div class="col-lg-3">
                 <div class="icon icon-danger">
@@ -70,6 +70,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.direccion, "Dirección", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("Direccion", Model.direccion, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,7 +90,7 @@
                             </div>
                         </div>
                         <div class="form-card__content group";">
-                            <iframe id="map" width="800" height="313" frameborder="1" style="border:0;" allowfullscreen="true"></iframe>
+                            <iframe id="map" width="800" height="393" frameborder="1" style="border:0;" allowfullscreen="true"></iframe>
                         </div>
                     </div>
                 </div>

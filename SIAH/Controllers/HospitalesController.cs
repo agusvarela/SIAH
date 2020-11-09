@@ -113,7 +113,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nombre,localidadId, presupuesto, latitud, longitud, telefono")] Hospital hospital)
+        public ActionResult Edit([Bind(Include = "id,nombre,localidadId, presupuesto, latitud, longitud, telefono, direccion")] Hospital hospital)
         {
             if (ModelState.IsValid)
             {
