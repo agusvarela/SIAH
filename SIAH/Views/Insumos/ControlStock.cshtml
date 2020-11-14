@@ -87,10 +87,6 @@
                     <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                         <div class="form-card__content group">
                             <div class="form-group">
-
-                                <div class="pull-left">
-                                    <input id="btn_export" type="button" value="Exportar a Excel" class="btn btn-round btn_export" onClick="$('#table2Export').tableExport({type:'excel', format:'xls' ,escape:'false'});" />
-                                </div>
                                 <div id="contenedor" class="col-md-12">
 
                                     <div id="table-container">
@@ -416,12 +412,11 @@
     </div>
 </div>
 @section Scripts{
-                <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
                 <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
                 <script type="text/javascript">
         $(document).ready(function () {
             var table, rows, switching, i, x, y, shouldSwitch;
-            table = document.getElementById("stock");
+            table = document.getElementById("maintable");
             switching = true;
             /*Make a loop that will continue until
             no switching has been done:*/
@@ -485,7 +480,14 @@
                 "order": [[6, "desc"]],
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-                }
+                },
+                dom: "<'row'B>lfrtip",
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text:'Exportar tabla a Excel',
+                        className:'btn btn-round btn-export'
+                    }]
             });
         });
 

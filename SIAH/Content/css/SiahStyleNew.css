@@ -12045,3 +12045,8 @@ img.blur {
 #target {
     width: 345px;
 }
+
+button.btn-export.btn.btn-round {
+    color: white;
+    margin-bottom: 20px;
+}
