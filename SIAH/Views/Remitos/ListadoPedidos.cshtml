@@ -193,7 +193,10 @@
             $("#clone").DataTable();
             $("#maintable").DataTable({
                 "oLanguage": { "sEmptyTable": "No hay remitos cargados." },
-                "order": [[3, "desc"], [0, "asc"]]
+                "order": [[3, "desc"], [0, "asc"]],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
             });;
             sessionStorage.setItem("From", "Remitos");
         });

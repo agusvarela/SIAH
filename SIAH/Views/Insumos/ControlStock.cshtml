@@ -482,7 +482,10 @@
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
             dataTable = $("#maintable").DataTable({
-                "order": [[6, "desc"]]
+                "order": [[6, "desc"]],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
             });
         });
 

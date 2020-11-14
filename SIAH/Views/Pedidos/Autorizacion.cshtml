@@ -389,7 +389,11 @@
                         indice++;
 
                     }
-                    var table = $("#detalles").DataTable();
+                    var table = $("#detalles").DataTable({
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                        }
+                    });
 
                     var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
 
@@ -399,7 +403,10 @@
                     if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) < total) {
                         $('#presuSpan').text("El costo del pedido supera el presupuesto");
                     }
-                    var table = $("#detalles").DataTable();
+                    var table = $("#detalles").DataTable({
+                        "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    }});
                     calcularSubtotal();
                 });
             });

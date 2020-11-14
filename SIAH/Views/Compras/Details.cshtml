@@ -138,7 +138,11 @@
             }
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
-            $("#maintable").DataTable({ "oLanguage": { "sEmptyTable": "No hay insumos en la compra." } });;
+            $("#maintable").DataTable({
+                "oLanguage": { "sEmptyTable": "No hay insumos en la compra." },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                } });;
             sessionStorage.setItem("From", "Compras");
         });
 

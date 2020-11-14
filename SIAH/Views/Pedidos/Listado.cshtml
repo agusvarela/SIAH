@@ -116,26 +116,26 @@
 
                                 <div class="col-md-12">
                                     <hr />
-                                    <div id="table-container" style="overflow-y: auto; height: 400px; width: 1024px">
-                                        <table id="maintable" class="table table-condensed" style="width: 1024px">
-                                            <thead class="list-group-item-info" style="border-bottom: solid; position: sticky; top: 0;">
-                                                <tr style="border-bottom: solid; position: sticky; top: 0;">
-                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
+                                    <div id="table-container" style=" height: 400px; width: 75em">
+                                        <table id="maintable" class="table table-condensed" style="width: 75em">
+                                            <thead class="list-group-item-info" style="border-bottom: solid;">
+                                                <tr style="border-bottom: solid;">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7;">
                                                         <strong> @Html.Name("Nº Pedido")</strong>
                                                     </th>
-                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7;">
                                                         <strong> @Html.Name("Fecha Generación")</strong>
                                                     </th>
-                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7;">
                                                         <strong> @Html.Name("Hospital")</strong>
                                                     </th>
-                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7;">
                                                         <strong> @Html.Name("Urgente")</strong>
                                                     </th>
-                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7;">
                                                         <strong>  @Html.Name("Estado")</strong>
                                                     </th>
-                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7; position: sticky; top: 0; z-index:1;">
+                                                    <th class="text-center" style="border-bottom: solid; background-color:#d9edf7;">
                                                         <strong>  @Html.Name("Acciones")</strong>
                                                     </th>
                                                 </tr>
@@ -535,7 +535,13 @@
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
             $("#maintable").DataTable({
-                "order": [[0, "desc"]]
+                "order": [[0, "desc"]],
+                "fixedHeader": true,
+                "scrollY": "400px",
+                "scrollCollapse": true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
             });;
         });
 

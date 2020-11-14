@@ -219,7 +219,10 @@
             $("#clone").DataTable();
             $("#maintable").DataTable({
                 "order": [[0, "desc"]],
-                "oLanguage": { "sEmptyTable": "Aún no tiene registros" }
+                "oLanguage": { "sEmptyTable": "Aún no tiene registros" },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
             });;
         });
 

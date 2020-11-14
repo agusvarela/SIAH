@@ -655,6 +655,12 @@
             $("#clone").DataTable();
             table = $("#maintable").DataTable({
                 "order": [[0, "desc"]],
+                "fixedHeader": true,
+                "scrollY": "400px",
+                "scrollCollapse": true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                },
                 "oLanguage": { "sEmptyTable": "Aún no tiene pedidos realizados, o no se han encontrado pedidos para los filtros seleccionados." }
             });;
         });

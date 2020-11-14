@@ -298,7 +298,11 @@
         //que se pueda submitear el form sin que los pida, ya que no son necesarios.
 
         //Este metodo Habilita el boton si insumo esta vacio para que pueda hacer las validaciones(Facu)
-        table = $("#insumos").DataTable({ "oLanguage": { "sEmptyTable": "No hay insumos cargados para este registro" } });
+            table = $("#insumos").DataTable({
+                "oLanguage": { "sEmptyTable": "No hay insumos cargados para este registro" },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                } });
 
         indice = table.length;
         $('#enviar').hide();

@@ -166,7 +166,10 @@
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
             var table = $("#maintable").DataTable({
-                "order": [[0, "asc"]]
+                "order": [[0, "asc"]],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
             });
 
             // Handle form submission event

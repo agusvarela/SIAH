@@ -121,7 +121,11 @@
             }
             $(window).scroll(moveScroll);
             $("#clone").DataTable();
-            $("#maintable").DataTable({ "oLanguage": { "sEmptyTable": "No hay compras cargadas." } });;
+            $("#maintable").DataTable({
+                "oLanguage": { "sEmptyTable": "No hay compras cargadas." },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                } });;
             sessionStorage.setItem("From", "Compras");
         });
 

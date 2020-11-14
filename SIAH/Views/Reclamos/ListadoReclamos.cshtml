@@ -272,7 +272,11 @@
 
             $("#clone").DataTable();
 
-            $("#maintable").DataTable({ "oLanguage": { "sEmptyTable": "No hay reclamos realizados." }, "order": [[0, "desc"]] });
+            $("#maintable").DataTable({
+                "oLanguage": { "sEmptyTable": "No hay reclamos realizados." }, "order": [[0, "desc"]],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                } });
         });
     </script>
 }

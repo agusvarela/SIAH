@@ -609,7 +609,7 @@ namespace SIAH.Controllers
             message.From = new MailAddress("siah.reclamos@gmail.com");
             message.Subject = string.Format("[SIAH] El pedido N°{0} fue actualizado", pedido.id);
             string body = string.Empty;
-            using (StreamReader reader = new StreamReader(Server.MapPath("../../Views/Shared/EmailCambioEstado.html")))
+            using (StreamReader reader = new StreamReader(Server.MapPath("~/Views/Shared/EmailCambioEstado.html")))
             {
                 body = reader.ReadToEnd();
             }

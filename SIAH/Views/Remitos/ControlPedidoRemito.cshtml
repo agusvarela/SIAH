@@ -682,7 +682,10 @@
                 })
             });
 
-            var table = $("#detalles").DataTable();
+            var table = $("#detalles").DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }});
             var idPedido = $('#idPedido').val();
 
             var urlDetalle = '/Remitos/GetDetallesPedidoRemito' + '?idPedido=' + idPedido;
