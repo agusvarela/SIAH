@@ -494,7 +494,7 @@
             });
 
             $(document).on('change', '#inicio', function (event) {
-                if ($('#inicio').val() != fechaInicioCorta || $('#fin').val() != fechaFinCorta || stateFilterNumber != "") {
+                if ($('#inicio').val() != fechaInicioCorta || $('#fin').val() != fechaFinCorta || stateFilterNumber != oldStateFilter) {
                     $('#aplicarFiltros').prop('disabled', false);
                 } else {
                     $('#aplicarFiltros').prop('disabled', true);
@@ -502,7 +502,7 @@
             });
 
             $(document).on('change', '#fin', function (event) {
-                if ($('#fin').val() != fechaFinCorta || $('#inicio').val() != fechaInicioCorta || stateFilterNumber != "") {
+                if ($('#fin').val() != fechaFinCorta || $('#inicio').val() != fechaInicioCorta || stateFilterNumber != oldStateFilter) {
                     $('#aplicarFiltros').prop('disabled', false);
                 } else {
                     $('#aplicarFiltros').prop('disabled', true);
@@ -666,6 +666,9 @@
         });
 
         function stateFilter(stateNumber) {
+            console.log("stateNumber: " + stateNumber);
+            console.log("stateFilterNumber: " + stateFilterNumber);
+            console.log("oldStateNumber: " + oldStateFilter);
             if (stateFilterNumber != stateNumber) {
                 if (stateFilterNumber != "") {
                     var oldstate = stateFilterNumber;
@@ -675,13 +678,19 @@
                 stateFilterNumber = stateNumber;
                 document.getElementById(stateFilterNumber).classList.add("active");
 
-                $('#aplicarFiltros').prop('disabled', false);
+                if (stateFilterNumber == oldStateFilter && $('#fin').val() == fechaFinCorta && $('#inicio').val() && fechaInicioCorta) {
+                    $('#aplicarFiltros').prop('disabled', true);
+                } else {
+                    $('#aplicarFiltros').prop('disabled', false);
+                }
             } else if (stateNumber == stateFilterNumber) {
                 document.getElementById(stateNumber).classList.remove('active');
                 stateFilterNumber = "";
 
                 if ($('#fin').val() == fechaFinCorta && $('#inicio').val() == fechaInicioCorta && oldStateFilter == stateFilterNumber) {
                     $('#aplicarFiltros').prop('disabled', true);
+                } else if (oldStateFilter != stateFilterNumber) {
+                    $('#aplicarFiltros').prop('disabled', false);
                 }
             }
         }

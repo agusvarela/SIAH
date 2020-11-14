@@ -246,8 +246,28 @@ namespace SIAH.Controllers
         //}
 
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea", UserRole3 = "RespFarmacia")]
-        public ActionResult Listado(String param)
+        public ActionResult Listado(String param, int? stateFilter, string fechaI, string fechaF)
         {
+            DateTime fechaInicio;
+            DateTime fechaFin;
+
+            if (fechaI == null || fechaF == null)
+            {
+                DateTime today = DateTime.Today;
+                fechaFin = today;
+                fechaInicio = today.AddYears(-1);
+            }
+            else
+            {
+                fechaInicio = DateTime.Parse(fechaI);
+                fechaFin = DateTime.Parse(fechaF);
+            }
+
+            ViewBag.fechaFin = fechaFin;
+            ViewBag.fechaInicio = fechaInicio;
+            ViewBag.fechaFinDefault = fechaFin.ToShortDateString();
+            ViewBag.fechaInicioDefault = fechaInicio.ToShortDateString();
+
             if (Session["rol"].ToString() == "RespFarmacia")
             {
                 return RedirectToAction("RespFarmacia", "Pedidos");
@@ -265,7 +285,24 @@ namespace SIAH.Controllers
                     ViewBag.problem = param;
                 };
             }
-            var pedidos = db.Pedidos.Include(p => p.hospital); // OrderBy(o => o.fechaGeneracion);
+
+            var pedidos = db.Pedidos.Include(p => p.hospital)
+                        .Where(p => p.fechaGeneracion >= fechaInicio && p.fechaGeneracion <= fechaFin);
+
+            if (stateFilter != null && stateFilter >= 1 && stateFilter <= 8)
+            {
+                if (stateFilter == 5)
+                {
+                    pedidos = pedidos.Where(p => p.estadoId == stateFilter || p.estadoId == 8);
+                }
+                else
+                {
+                    pedidos = pedidos.Where(p => p.estadoId == stateFilter);
+                }
+
+                ViewBag.stateFilter = stateFilter;
+            }
+
             return View(pedidos.OrderByDescending(p => p.id).ToList());
         }
 
@@ -630,15 +667,23 @@ namespace SIAH.Controllers
             }
         }
 
-        public JsonResult cantidadPedidosPorEstado(string fechaI, string fechaF, int hospital)
+        public JsonResult cantidadPedidosPorEstado(string fechaI, string fechaF, int? hospital)
         {
             DateTime fechaInicio = DateTime.Parse(fechaI);
             DateTime fechaFin = DateTime.Parse(fechaF);
 
-            var cantidadPedidosPorEstado = db.Pedidos
-                    .Include(p => p.estadoId)
-                    .Where(p => p.fechaGeneracion >= fechaInicio && p.fechaGeneracion <= fechaFin && p.hospitalId == hospital)
-                    .GroupBy(p => p.estadoId)
+            var query = db.Pedidos.Include(p => p.estadoId);
+
+            if (hospital == null)
+            {
+                query = query.Where(p => p.fechaGeneracion >= fechaInicio && p.fechaGeneracion <= fechaFin);
+            }
+            else
+            {
+                query = query.Where(p => p.fechaGeneracion >= fechaInicio && p.fechaGeneracion <= fechaFin && p.hospitalId == hospital);
+            }
+
+            var cantidadPedidosPorEstado = query.GroupBy(p => p.estadoId)
                     .Select(x => new
                     {
                         estadoId = x.Key,
@@ -646,7 +691,7 @@ namespace SIAH.Controllers
                     }).ToList();
 
             int[] cantidadPedidos = new int[7];
-            foreach(var estado in cantidadPedidosPorEstado)
+            foreach (var estado in cantidadPedidosPorEstado)
             {
                 if (estado.estadoId == 8) { cantidadPedidos[4] += estado.cantidad; }
                 else { cantidadPedidos[estado.estadoId - 1] = estado.cantidad; }
