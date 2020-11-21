@@ -22,7 +22,7 @@
 </div>
 <div class="container" style="padding-bottom: 30px;">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12
 
             <div class="col-md-12">
                 <div id="alertArea  animated zoomIn">
@@ -32,22 +32,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Reportes")'">
-                    <div class="card card-project col myhover hover-pointer">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-danger">
-                                    <i class="material-icons">insert_chart</i>
-                                </div>
-                                <h4 class="info-title">Reportes</h4>
-                                <p>Visualice reportes de pedidos actualizados en tiempo real. <br /> &nbsp;</p>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
                 <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Listado", "Pedidos")'">
                     <div class="card card-project col myhover hover-pointer">
 
@@ -203,6 +187,50 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-12">
+                <div id="alertArea  animated zoomIn">
+                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                        <i class="fa fa-arrow-right"></i>
+                        <span class="tituloPanel">Reportes</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="reporteConsolidado()">
+                    <div class="card card-project col myhover hover-pointer">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <i class="material-icons">show_chart</i>
+                                </div>
+                                <h4 class="info-title">Reporte consolidado</h4>
+                                <p>
+                                    Este reporte muestra la cantidad de insumos que han sido autorizados,
+                                    por cada hospital.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReporteBI", "Reportes")'">
+                    <div class="card card-project col myhover hover-pointer">
+
+                        <div class="content text-center">
+                            <div class="info">
+                                <div class="icon icon-danger">
+                                    <img src="~/Content/img/power-bi-1.jpg" style="max-height:90px; max-width:90px;" />
+                                </div>
+                                <h4 class="info-title">Reportes BI</h4>
+                                <p>
+                                    Estos reportes muestran información avanzada de Business Intelligence sobre los pedidos.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -271,6 +299,29 @@
                 return "Home/" + beforeQueryString;
             }
         });
+
+        function reporteConsolidado()
+        {
+            var url = '@Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = "START" , fechaFin = "END" })';
+
+            var nd = new Date();
+            nd.setDate(nd.getDate() - 30); // minus the date
+            var month = nd.getUTCMonth() + 1; //months from 1-12
+            var day = nd.getUTCDate();
+            var year = nd.getUTCFullYear();
+            start = day + "/" + month + "/" + year;
+
+            var dateObj = new Date();
+            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+            var day = dateObj.getUTCDate();
+            var year = dateObj.getUTCFullYear();
+            end = day + "/" + month + "/" + year;
+
+            url = url.replace("START", start);
+            url = url.replace("END", end);
+            url = url.replace("amp;", "");
+            location.href = url;
+        }
 
     </script>
 }
