@@ -63,7 +63,7 @@
 
                 @try
                 {
-                    if (Session != null)
+                    if (Session != null && Session["rol"] != null)
                     {
                         if (Session["rol"].ToString() == "RespAutorizacion")
                         {

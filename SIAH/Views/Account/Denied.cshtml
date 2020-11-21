@@ -16,41 +16,44 @@
 
                     @try
                     {
-                        if (Session["rol"].ToString() == "RespAutorizacion")
+                        if (Session["rol"] != null)
                         {
-                            <h3>
-                                Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
-                            </h3>
-                            <a " href="~/Home/RespAutorizacion">
-                                Ir a Página Principal
-                            </a>
-                            <a href="~/Home">
-                                Iniciar Sesión con otro usuario
-                            </a>
-                        }
-                        if (Session["rol"].ToString() == "RespFarmacia")
-                        {
-                            <h3>
-                                Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
-                            </h3>
-                            <a href="~/Home/RespFarmacia">
-                                Ir a Página Principal
-                            </a>
-                            <a href="~/Home">
-                                Iniciar Sesión con otro usuario
-                            </a>
-                        }
-                        if (Session["rol"].ToString() == "DirectorArea")
-                        {
-                            <h3>
-                                Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
-                            </h3>
-                            <a href="~/Home/DirectorArea">
-                                Ir a Página Principal
-                            </a>
-                            <a href="~/Home">
-                                Iniciar Sesión con otro usuario
-                            </a>
+                            if (Session["rol"].ToString() == "RespAutorizacion")
+                            {
+                                <h3>
+                                    Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
+                                </h3>
+                                <a " href="~/Home/RespAutorizacion">
+                                    Ir a Página Principal
+                                </a>
+                                <a href="~/Home">
+                                    Iniciar Sesión con otro usuario
+                                </a>
+                            }
+                            if (Session["rol"].ToString() == "RespFarmacia")
+                            {
+                                <h3>
+                                    Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
+                                </h3>
+                                <a href="~/Home/RespFarmacia">
+                                    Ir a Página Principal
+                                </a>
+                                <a href="~/Home">
+                                    Iniciar Sesión con otro usuario
+                                </a>
+                            }
+                            if (Session["rol"].ToString() == "DirectorArea")
+                            {
+                                <h3>
+                                    Parece que no tiene permisos para ingresar a esta vista. Compruebe que su usuario está autorizado e intente nuevamente. <br> <br><br>
+                                </h3>
+                                <a href="~/Home/DirectorArea">
+                                    Ir a Página Principal
+                                </a>
+                                <a href="~/Home">
+                                    Iniciar Sesión con otro usuario
+                                </a>
+                            }
                         }
                         if (Session["userid"] == null)
                         {
