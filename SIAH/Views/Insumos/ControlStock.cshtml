@@ -19,7 +19,9 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
                 <button id="reclamoOcasa" name="reclamoOcasa" type="button" class="btn btn-info btn-simple" data-dismiss="modal" onclick="url = '@Url.Action("ReclamarOcasa", "Insumos")';
-                    location.href = url;">Aceptar</button>
+                    location.href = url;">
+                    Aceptar
+                </button>
             </div>
         </div>
     </div>
@@ -62,7 +64,7 @@
         </div>
     </div>
 </div>
-<br/>
+<br />
 <div class="container" style=" padding-bottom: 30px;">
 
     <div class="form-horizontal">
@@ -256,151 +258,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <table id="table2export" style="visibility:collapse">
-                                    <thead>
-                                        <tr class="list-group-item-info" style="border-bottom: solid">
-                                            <th class="text-center">
-                                                @Html.Name("Id Insumo")
-                                            </th>
-                                            <th class="text-center">
-                                                @Html.Name("Nombre")
-                                            </th>
-                                            <th class="text-center">
-                                                @Html.Name("Tipo")
-                                            </th>
-                                            <th class="text-center">
-                                                @Html.Name("Stock Fisico SIAH")
-                                            </th>
-                                            <th class="text-center">
-                                                @Html.Name("Stock Fisico Ocasa")
-                                            </th>
-                                            <th class="text-center">
-                                                @Html.Name("Diferencia")
-                                            </th>
-                                            <th class="text-center">
-                                                @Html.Name("Porcentaje Error")
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{
-                                            foreach (var item in ViewBag.insumos)
-                                            {
-                                                int p;
-                                                int diferencia = 0;
-                                                int stockOcasa = item.GetType().GetProperty("stockOcasa").GetValue(item, null);
-                                                int stock = item.GetType().GetProperty("stock").GetValue(item, null);
-                                                int id = item.GetType().GetProperty("id").GetValue(item, null);
-                                                String tipo = item.GetType().GetProperty("tipo").GetValue(item, null);
-                                                String nombre = item.GetType().GetProperty("nombre").GetValue(item, null);
-                                                diferencia = Math.Abs(stockOcasa - stock);
-                                                if (diferencia == 0) { continue; }
-                                                if (stock != 0 && stockOcasa != 0) { p = diferencia * 100 / stock; }
-                                                else { p = diferencia; }
-
-                                                if (p < 5)
-                                                {
-
-
-                                                    <tr class="text-center list-group-item-success">
-                                                        <td>
-                                                            @id
-                                                        </td>
-                                                        <td>
-                                                            @nombre
-                                                        </td>
-                                                        <td>
-                                                            @tipo
-                                                        </td>
-
-                                                        <td>
-                                                            @stock
-                                                        </td>
-                                                        <td>
-                                                            @stockOcasa
-
-                                                        </td>
-
-                                                        <td>
-
-                                                            @diferencia
-
-                                                        </td>
-                                                        <td>
-                                                            @p %
-                                                        </td>
-
-                                                    </tr>
-                                                }
-                                                else
-                                                {
-                                                    if (p < 15)
-                                                    {
-                                                        <tr class="text-center list-group-item-warning">
-                                                            <td>
-                                                                @id
-                                                            </td>
-                                                            <td>
-                                                                @nombre
-                                                            </td>
-                                                            <td>
-                                                                @tipo
-                                                            </td>
-
-                                                            <td>
-                                                                @stock
-                                                            </td>
-                                                            <td>
-                                                                @stockOcasa
-
-                                                            </td>
-                                                            <td>
-
-                                                                @diferencia
-
-                                                            </td>
-                                                            <td>
-                                                                @p %
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                    else
-                                                    {
-                                                        <tr class="text-center list-group-item-danger">
-                                                            <td>
-                                                                @id
-                                                            </td>
-                                                            <td>
-                                                                @nombre
-                                                            </td>
-                                                            <td>
-                                                                @tipo
-                                                            </td>
-
-                                                            <td>
-                                                                @stock
-                                                            </td>
-                                                            <td>
-                                                                @stockOcasa
-
-                                                            </td>
-                                                            <td>
-
-                                                                @diferencia
-
-                                                            </td>
-                                                            <td>
-                                                                @p %
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                                <div id="bottom_anchor"></div>
-
                             </div>
 
                         </div>
@@ -412,8 +269,8 @@
     </div>
 </div>
 @section Scripts{
-                <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
-                <script type="text/javascript">
+    <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
+    <script type="text/javascript">
         $(document).ready(function () {
             var table, rows, switching, i, x, y, shouldSwitch;
             table = document.getElementById("maintable");
@@ -447,9 +304,8 @@
                     switching = true;
                 }
             }
-        });
 
-        $(document).ready(function () {
+
             function moveScroll() {
                 var scroll = $(window).scrollTop();
                 var anchor_top = $("#maintable").offset().top;
@@ -489,9 +345,7 @@
                         className:'btn btn-round btn-export'
                     }]
             });
-        });
 
-        $(document).ready(function () {
             var counter = @counter;
             if (counter == 0) {
                 document.getElementById('btn_pisar').setAttribute('style', 'visibility: collapse');
@@ -500,5 +354,5 @@
             }
         })
 
-                </script>
+    </script>
 }

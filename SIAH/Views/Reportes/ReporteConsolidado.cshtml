@@ -103,77 +103,75 @@
                         @using (Html.BeginForm())
                         {
 
-                            <section class="">
-                                <div class="t-container">
-                                    <table id="tablaReporte" class="table1">
+                            <div class="form-group">
+                                <div id="contenedor" class="col-md-12">
+                                    <div id="table-container">
+                                        <table id="tablaReporte" class="table table-condensed table1">
 
-                                        @foreach (var i in Model)
-                                        {
-
-                                            if (isFirst == false)
+                                            @foreach (var i in Model)
                                             {
-                                                <tr>
-                                                    @{var total = 0;
-                                                        var firstColumn = true;
-                                                        var style = "";
-                                                        foreach (var e in i)
-                                                        {
-                                                            if (firstColumn) { style = "border-left-width: 0px;"; firstColumn = false; }
-                                                            else { style = ""; }
 
-                                                            var celda = e.AsInt(0);
-                                                            if (e.AsInt(1) == 0)
+                                                if (isFirst == false)
+                                                {
+                                                    <tr>
+                                                        @{var total = 0;
+                                                            var firstColumn = true;
+                                                            var style = "";
+                                                            foreach (var e in i)
                                                             {
+                                                                if (firstColumn) { style = "border-left-width: 0px;"; firstColumn = false; }
+                                                                else { style = ""; }
 
-                                                                <td class="v text-center"></td>
+                                                                var celda = e.AsInt(0);
+                                                                if (e.AsInt(1) == 0)
+                                                                {
+
+                                                                    <td class="v text-center"></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td class="v text-center" style="@style">@e</td>
+                                                                }
+
+                                                                total += celda;
+                                                            }
+                                                            if (total != 0)
+                                                            {
+                                                                <td class="v  text-center" style="font-size: large"><strong>@total</strong></td>
                                                             }
                                                             else
                                                             {
-                                                                <td class="v text-center" style="@style">@e</td>
+                                                                <td class="v  text-center"></td>
                                                             }
 
-                                                            total += celda;
-                                                        }
-                                                        if (total != 0)
-                                                        {
-                                                            <td class="v  text-center" style="font-size: large"><strong>@total</strong></td>
-                                                        }
-                                                        else
-                                                        {
-                                                            <td class="v  text-center"></td>
-                                                        }
 
-
-                                                    }
-                                                </tr>
-                                            }
-                                            else
-                                            {
-                                                <thead>
-                                                    <tr class=" v">
-                                                        @{foreach (var e in i)
-                                                            {
-                                                                var styleFirstRow = "border-left-width: 0px;";
-                                                                if (!isFirst) { styleFirstRow = ""; }
-                                                                <th class="v  text-center" style="@styleFirstRow"><strong>@e</strong></th>
-                                                                isFirst = false;
-                                                            }
-                                                            <th class="v  text-center">Total</th>
                                                         }
                                                     </tr>
-                                                </thead>
-                                            }
+                                                }
+                                                else
+                                                {
+                                                    <thead>
+                                                        <tr class=" v">
+                                                            @{foreach (var e in i)
+                                                                {
+                                                                    var styleFirstRow = "border-left-width: 0px;";
+                                                                    if (!isFirst) { styleFirstRow = ""; }
+                                                                    <th class="v  text-center" style="@styleFirstRow"><strong>@e</strong></th>
+                                                                    isFirst = false;
+                                                                }
+                                                                <th class="v  text-center">Total</th>
+                                                            }
+                                                        </tr>
+                                                    </thead>
+                                                }
 
-                                        }
-                                    </table>
+                                            }
+                                        </table>
+                                    </div>
                                 </div>
-                            </section>
+                            </div>
 
                         }
-                        <br />
-                        <div class=" col-md-12 pull-right">
-                            <input id="btn_export" type="button" value="Exportar Excel" class="btn btn-success btn-round btn_export" onClick="exportarExcel()" />
-                        </div>
                     </div>
 
                 </div>
@@ -183,6 +181,7 @@
     </div>
 </div>
 @section Scripts{
+    <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
     <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css" />
     <script type="text/javascript">
@@ -194,6 +193,7 @@
         }
 
         $(document).ready(function () {
+
             document.querySelector('#fin').style.borderBottom = "1px dotted #D2D2D2";
             document.querySelector('#fin').style.backgroundImage = "none";
 
@@ -249,6 +249,21 @@
                 $("#clearFechaFin").hide();
                 $('#fin').val('@DateTime.Today.ToString("dd/MM/yyyy")');
                 $("#inicio").datepicker("option", "maxDate", $('#fin').val());
+            });
+            $("#tablaReporte").DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                },
+                dom: 'lfrtip<"row col-md-12"B>',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text:'Exportar tabla a Excel',
+                        className: 'btn btn-round btn-primary',
+                        exportOptions: {
+                            columns:[0,1,2,3,4]
+                        }
+                    }]
             });
         });
 

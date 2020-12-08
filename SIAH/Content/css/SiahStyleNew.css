@@ -3081,7 +3081,8 @@ select.form-control[multiple],
 }
 
 .nav-pills>li>a:hover {
-    background-color: rgba(200, 200, 200, 0.2)
+    background-color: rgba(200, 200, 200, 0.2);
+    cursor: pointer;
 }
 
 .nav-pills>li i {
@@ -12049,4 +12050,8 @@ img.blur {
 button.btn-export.btn.btn-round {
     color: white;
     margin-bottom: 20px;
+}
+div.dt-buttons {
+        position: relative;
+        float: right;
 }

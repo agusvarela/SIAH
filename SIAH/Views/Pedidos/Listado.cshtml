@@ -3,19 +3,19 @@
 
 
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Listado de Pedidos";
-                //WebGrid grid = new WebGrid(Model);
-                Layout = "~/Views/Shared/_NewLayout.cshtml";
-                ViewBag.validacion = true;
-                ViewBag.hayautorizados = false;
-                if (ViewBag.success == null)
-                {
-                    ViewBag.success = false;
-                    ViewBag.validacion = false;
+    ViewBag.Title = "Listado de Pedidos";
+    //WebGrid grid = new WebGrid(Model);
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.validacion = true;
+    ViewBag.hayautorizados = false;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
 
-                }
+    }
 }
 <div class="banner-catalog">
     <div class="container">
@@ -691,7 +691,17 @@
                 "oLanguage": { "sEmptyTable": "Aún no tiene pedidos realizados, o no se han encontrado pedidos para los filtros seleccionados." },
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-                }
+                },
+                dom: 'lfrtip<"row col-md-12"B>',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text:'Exportar tabla a Excel',
+                        className: 'btn btn-round btn-primary',
+                        exportOptions: {
+                            columns:[0,1,2,3,4]
+                        }
+                    }]
             });;
         });
 
