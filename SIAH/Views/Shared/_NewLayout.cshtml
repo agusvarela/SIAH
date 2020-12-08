@@ -63,7 +63,7 @@
 
                 @try
                 {
-                    if (Session != null)
+                    if (Session != null && Session["rol"] != null)
                     {
                         if (Session["rol"].ToString() == "RespAutorizacion")
                         {
@@ -107,7 +107,6 @@
                                         Mis Vistas <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Reportes")'">Reportes</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Administrar Pedidos</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
                                         <li role="separator" class="divider"></li>
@@ -118,6 +117,9 @@
                                         <li role="separator" class="divider"></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Account")'">Usuarios</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Hospitales")'">Hospitales</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="reporteConsolidado()">Reporte consolidado</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReporteBI", "Reportes")'">Reportes BI</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -240,28 +242,28 @@
 </html>
 @section Scripts{
     <script type="text/javascript">
-        $(document).on('click', '#reporte', function (event)
+
+        function reporteConsolidado()
         {
-            event.preventDefault();
-            var url = '@Url.Action("ReporteConsolidado", "DetallesPedido", new { fechaInicio = "START" , fechaFin = "END" })';
+            var url = '@Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = "START" , fechaFin = "END" })';
 
             var nd = new Date();
             nd.setDate(nd.getDate() - 30); // minus the date
             var month = nd.getUTCMonth() + 1; //months from 1-12
             var day = nd.getUTCDate();
             var year = nd.getUTCFullYear();
-            start = year + "-" + month + "-" + day;
+            start = day + "/" + month + "/" + year;
 
             var dateObj = new Date();
             var month = dateObj.getUTCMonth() + 1; //months from 1-12
             var day = dateObj.getUTCDate();
             var year = dateObj.getUTCFullYear();
-            end = year + "-" + month + "-" + day;
+            end = day + "/" + month + "/" + year;
 
             url = url.replace("START", start);
-            url = url.replace("END",end);
+            url = url.replace("END", end);
             url = url.replace("amp;", "");
             location.href = url;
-        });
+        }
     </script>
 }
