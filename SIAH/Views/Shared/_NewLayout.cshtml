@@ -197,15 +197,26 @@
                                     {
                                         if (Session["rol"].ToString() == "RespAutorizacion")
                                         {
+                                            <li><a style="font-weight:bold; font-style:italic">Rol: @SIAH.Models.Enums.DefaultRoles.Autorizacion</a></li>
+                                            <li role="separator" class="divider"></li>
                                             <li>@Html.ActionLink("Ir al Inicio", "RespAutorizacion", "Home")</li>
                                         }
                                         else if (Session["rol"].ToString() == "DirectorArea")
                                         {
+                                            <li><a style="font-weight:bold; font-style:italic">Rol: @SIAH.Models.Enums.DefaultRoles.Director</a></li>
+                                            <li role="separator" class="divider"></li>
                                             <li>@Html.ActionLink("Ir al Inicio", "DirectorArea", "Home")</li>
                                         }
                                         else if (Session["rol"].ToString() == "RespFarmacia")
                                         {
+                                            <li><a style="font-weight:bold; font-style:italic">Rol: @SIAH.Models.Enums.DefaultRoles.Farmacia</a></li>
+                                            <li role="separator" class="divider"></li>
                                             <li>@Html.ActionLink("Ir al Inicio", "RespFarmaciaDashboard", "Home")</li>
+                                        }
+                                        else if (Session["rol"].ToString() == "Compras")
+                                        {
+                                            <li><a style="font-weight:bold; font-style:italic">Rol: @SIAH.Models.Enums.DefaultRoles.Compras</a></li>
+                                            <li role="separator" class="divider"></li>
                                         }
                                         if (Session["userid"] != null)
                                         {
