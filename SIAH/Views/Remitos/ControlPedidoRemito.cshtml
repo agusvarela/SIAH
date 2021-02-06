@@ -768,8 +768,8 @@
 
         function verObservacion(observacion) {
             Swal.fire({
-                title: 'Observacion',
-                text: observacion.toString(),
+                title: 'Observación',
+                text: observacion.toString() == "null" ? "No hay observación" : observacion.toString(),
                 icon: 'info',
                 confirmButtonColor: "#3085d6",
                 showCloseButton: true,

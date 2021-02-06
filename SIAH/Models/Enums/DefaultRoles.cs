@@ -11,9 +11,6 @@ namespace SIAH.Models.Enums
         Farmacia,
         Autorizacion,
         Director,
-        Reportes,
-        Administrador,
-        Invitado,
         Compras
     }
 }

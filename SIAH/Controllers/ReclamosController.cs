@@ -279,8 +279,8 @@ namespace SIAH.Controllers
                     IdReclamo = x.IdReclamo,
                     Tipo = x.Tipo,
                     Hospital = x.Hospital, 
-                    FechaInicioReclamo = string.Format("{0:MM/dd/yyyy}", x.FechaInicioReclamo), 
-                    FechaFinReclamo = string.Format("{0:MM/dd/yyyy}", x.FechaFinReclamo), 
+                    FechaInicioReclamo = string.Format("{0:dd/MM/yyyy}", x.FechaInicioReclamo), 
+                    FechaFinReclamo = string.Format("{0:dd/MM/yyyy}", x.FechaFinReclamo), 
                     EstaResuelto = IsResolved(x.IdReclamo),
                     Periodo = string.Format("{0:MM/dd/yyyy}", new DateTime(x.FechaInicioReclamo.Year, x.FechaInicioReclamo.Month, 1))
                     }); ;

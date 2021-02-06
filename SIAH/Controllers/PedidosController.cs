@@ -582,9 +582,9 @@ namespace SIAH.Controllers
                 .ToList().Select(x => new { 
                     IdPedido = x.IdPedido, 
                     Hospital = x.Hospital, 
-                    FechaMes = string.Format("{0:MM/dd/yyyy}", x.FechaMes), 
+                    FechaMes = string.Format("{0:dd/MM/yyyy}", x.FechaMes), 
                     TotalPedidoPorMes = GetTotalPedido(x.IdPedido),
-                    Periodo = string.Format("{0:MM/dd/yyyy}", x.Periodo) });
+                    Periodo = string.Format("{0:dd/MM/yyyy}", x.Periodo) });
             return Json(dataset, JsonRequestBehavior.AllowGet);
         }
 
