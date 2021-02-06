@@ -6,6 +6,10 @@
     bool isFirst = true;
     //WebGrid grid = new WebGrid(source: Model.GetEnumerator().Current);
 }
+<div id="loading">  <div class="spinner">
+    <div class="double-bounce1"></div>
+    <div class="double-bounce2"></div> 
+</div> </div>
 
 <div class="banner-catalog">
     <div class="container">
@@ -155,8 +159,9 @@
                                                             @{foreach (var e in i)
                                                                 {
                                                                     var styleFirstRow = "border-left-width: 0px;";
-                                                                    if (!isFirst) { styleFirstRow = ""; }
-                                                                    <th class="v  text-center" style="@styleFirstRow"><strong>@e</strong></th>
+                                                                    var prefix = ""; 
+                                                                    if (!isFirst) { styleFirstRow = ""; prefix = "Hospital"; }
+                                                                    <th class="v  text-center" style="@styleFirstRow"><strong>@prefix @e</strong></th>
                                                                     isFirst = false;
                                                                 }
                                                                 <th class="v  text-center">Total</th>
@@ -170,7 +175,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         }
                     </div>
 
@@ -193,7 +197,6 @@
         }
 
         $(document).ready(function () {
-
             document.querySelector('#fin').style.borderBottom = "1px dotted #D2D2D2";
             document.querySelector('#fin').style.backgroundImage = "none";
 
@@ -250,7 +253,11 @@
                 $('#fin').val('@DateTime.Today.ToString("dd/MM/yyyy")');
                 $("#inicio").datepicker("option", "maxDate", $('#fin').val());
             });
-            $("#tablaReporte").DataTable({
+            $("#tablaReporte")
+                .on('draw.dt', function () { $("#loading").css("display", "none");})
+                .DataTable({
+                 columnDefs: [{ width: 300, targets: 0 }],
+                 fixedColumns: true, 
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 },
@@ -263,7 +270,8 @@
                         exportOptions: {
                             columns:[0,1,2,3,4]
                         }
-                    }]
+                    }],
+                scrollX: true
             });
         });
 
