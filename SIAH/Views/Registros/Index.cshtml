@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="alertArea  animated zoomIn">
-                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" id="nuevoregistro" ">
+                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" id="nuevoregistro">
                                     <strong class="">+ Nuevo Registro</strong>
                                 </button>
                             </div>
@@ -119,20 +119,6 @@
         $(document).ready(function () {
             $('#maintable tr td:nth-child(n)').hover(function () {
                 $(this).parents('tr').attr('title', 'Ver detalle');
-            });
-
-            var diaDeHoy = new Date();
-
-            $.ajax({
-                url: '@Url.Action("cantidadPedidosPorEstado", "Pedidos")',
-                type: 'GET',
-                data: { fechaInicio: new Date(diaDeHoy.getFullYear() - 1, diaDeHoy.getMonth(), diaDeHoy.getDate()).toUTCString(), fechaFin: diaDeHoy.toUTCString() },
-                cache: false,
-                success: function (result) {
-                    for (var i = 0; i < result.length; i++) {
-                        $('#estado' + (i+1)).html(result[i]);
-                    }
-                }
             });
 
             sessionStorage.setItem("User", "RespFarmacia");
