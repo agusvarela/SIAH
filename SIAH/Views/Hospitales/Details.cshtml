@@ -42,7 +42,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.localidad.nombre, "Localidad", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBox("Localidad", Model.localidad.nombre, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        <text class="form-control">@Model.localidad.nombre</text>
                                     </div>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.telefono, "Teléfono", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBox("Telefono", Model.telefono, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        <text class="form-control">@Model.telefono</text>
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.presupuesto, "Presupuesto", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBox("Presupuesto", "$" + Model.presupuesto.ToString(), htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        <text class="form-control">@("$" + Model.presupuesto.ToString())</text>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.presupuesto, "Responsable", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBox("Responsable", responsable, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        <text class="form-control">@responsable</text>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.direccion, "Dirección", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-12">
-                                        @Html.TextBox("Direccion", Model.direccion, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        <text class="form-control">@Model.direccion</text>
                                     </div>
                                 </div>
                             </div>
@@ -112,6 +112,25 @@
         var query = "https://www.google.com/maps/embed/v1/view?key=@System.Configuration.ConfigurationManager.AppSettings["googleApiKey"]&center="
             + latitud + ', ' + longitud + '&zoom=17&maptype=roadmap';
         document.getElementById('map').setAttribute('src', query);
+    });
+
+    $(document).on('click', '#volver', function (event) {
+        Swal.fire({
+            title: '¿Está seguro que desea volver?',
+            text: "Cualquier cambio realizado se perdera",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#28a745",
+            confirmButtonText: 'Aceptar',
+            cancelButtonColor: "#dc3545",
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                event.preventDefault();
+                location.href = "/Hospitales";
+            }
+        })
     });
 </script>    
 }
