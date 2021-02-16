@@ -34,7 +34,7 @@ namespace System.Web.Mvc
             {
                 try
                 {
-                    rol = HttpContext.Current.Session["rol"].ToString();
+                    rol = HttpContext.Current?.Session["rol"]?.ToString();
                 }
                 catch(Exception e)
                 {

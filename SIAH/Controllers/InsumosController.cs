@@ -54,10 +54,11 @@ namespace SIAH.Controllers
             return Json(new { data = insumos.ToArray() }, JsonRequestBehavior.AllowGet);
         }
 
-            public ActionResult ControlStock()
+        public ActionResult ControlStock()
         {
-            var insumos = db.Insumos.Include(i => i.tiposInsumo).Join(db.InsumoOcasa, d => d.id, s => s.id, (d, s) => new { d, s }).
-                Select(x => new { id = x.d.id, nombre = x.d.nombre, tipo = x.d.tiposInsumo.nombre, stock = x.d.stockFisico, stockOcasa = x.s.stockFisico }).ToList();
+            var insumos = db.Insumos.Include(i => i.tiposInsumo).Join(db.InsumoOcasa, d => d.id, s => s.id, (d, s) => new { d, s })
+                .Where(x => x.d.stockFisico != x.s.stockFisico)
+                .Select(x => new { id = x.d.id, nombre = x.d.nombre, tipo = x.d.tiposInsumo.nombre, stock = x.d.stockFisico, stockOcasa = x.s.stockFisico }).ToList();
             ViewBag.insumos = insumos;
             return View();
         }
@@ -68,27 +69,28 @@ namespace SIAH.Controllers
             return RedirectToAction("DirectorArea", "Home", new { param = "Reclamo" });
         }
 
-        public ActionResult ActualizarStock()
+        public ActionResult ActualizarStock(string[] syncData)
         {
             try
             {
                 Uri baseUri = new Uri("http://localhost:3000");
-                Uri myUri = new Uri(baseUri, "/reclamo?name=success");
-                var response = client.GetAsync(myUri);
-                if (response.Result.StatusCode != HttpStatusCode.OK) return RedirectToAction("DirectorArea", "Home", new { param = "Failed" });
-                var insumosOcasa = db.InsumoOcasa.Select(x => new { id = x.id, stockOcasa = x.stockFisico }).ToList();
+                // Uri myUri = new Uri(baseUri, "/reclamo?name=success");
+                // var response = client.GetAsync(myUri);
+                // if (response.Result.StatusCode != HttpStatusCode.OK) return RedirectToAction("DirectorArea", "Home", new { param = "Failed" });
+                // var insumosOcasa = db.InsumoOcasa.Select(x => new { id = x.id, stockOcasa = x.stockFisico }).ToList();
                
-                foreach (var item in insumosOcasa)
+                foreach (var id in syncData)
                 {
-                    var insumoActual = db.Insumos.Find(item.id);
+                    var insumoActual = db.Insumos.Find(int.Parse(id));
+                    var insumoOcasaActual = db.InsumoOcasa.Find(int.Parse(id));
                     if (insumoActual != null)
                     {   //Asumimos que el Stock Fisico (entregado) es mayor al stock (comprometido por las autorizaciones)
                         //por lo tanto calculamos la diferencia para mantener la misma respecto al nuevo stock
                         //Ej: Stock fisico = 100; Stock comprometido = 30; Stock Ocasa = 90
                         //Resultado -> Stock fisico 90; Stock comprometido = 20
                         var diff = insumoActual.stockFisico - insumoActual.stock; 
-                        insumoActual.stockFisico = item.stockOcasa;
-                        insumoActual.stock = item.stockOcasa - diff;
+                        insumoActual.stockFisico = insumoOcasaActual.stockFisico <= 0 ? 0 : insumoOcasaActual.stockFisico;
+                        insumoActual.stock = insumoActual.stockFisico - diff <= 0 ? 0 : insumoActual.stockFisico - diff;
                         db.Entry(insumoActual).State = EntityState.Modified;
                     }
 

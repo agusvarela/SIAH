@@ -41,10 +41,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancelar</button>
-                <button id="updateStock" name="updateStock" type="button" class="btn btn-info btn-simple" data-dismiss="modal" onclick="url = '@Url.Action("ActualizarStock", "Insumos")';
-                    location.href = url;">
-                    Aceptar
-                </button>
+                <button id="updateStock" type="button" onclick="syncStock();" class="btn btn-info btn-simple" data-dismiss="modal">Aceptar</button>
             </div>
         </div>
     </div>
@@ -116,6 +113,10 @@
                                                     <th class="text-center">
                                                         @Html.Name("Porcentaje Error")
                                                     </th>
+                                                    <th class="text-center">
+                                                        @Html.Name("Sincronizar")
+                                                        <input id="syncAll" name="syncAll" type="checkbox" class="sync-all" onchange="allChecked();" />
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -136,13 +137,21 @@
                                                         counter++;
                                                         if (stock != 0 && stockOcasa != 0) { p = diferencia * 100 / stock; }
                                                         else { p = diferencia; }
-
+                                                        var rowClass = "text-center list-group-item-danger";
                                                         if (p < 5)
                                                         {
+                                                            rowClass = "text-center list-group-item-success";
+                                                        }
 
-
-                                                            <tr class="text-center list-group-item-success">
-                                                                <td>
+                                                        else
+                                                        {
+                                                            if (p < 15)
+                                                            {
+                                                                rowClass = "text-center list-group-item-warning";
+                                                            }
+                                                        }
+                                                            <tr class="@rowClass">
+                                                                <td class="insumo-id">
                                                                     @id
                                                                 </td>
                                                                 <td>
@@ -168,72 +177,10 @@
                                                                 <td>
                                                                     @p %
                                                                 </td>
-
+                                                                <td>
+                                                                    <input id="sync" name="sync" type="checkbox"  class="sync-box" onchange="checkBoxClicked();"/>
+                                                                </td>
                                                             </tr>
-                                                        }
-                                                        else
-                                                        {
-                                                            if (p < 15)
-                                                            {
-                                                                <tr class="text-center list-group-item-warning">
-                                                                    <td>
-                                                                        @id
-                                                                    </td>
-                                                                    <td>
-                                                                        @nombre
-                                                                    </td>
-                                                                    <td>
-                                                                        @tipo
-                                                                    </td>
-
-                                                                    <td>
-                                                                        @stock
-                                                                    </td>
-                                                                    <td>
-                                                                        @stockOcasa
-
-                                                                    </td>
-                                                                    <td>
-
-                                                                        @diferencia
-
-                                                                    </td>
-                                                                    <td>
-                                                                        @p %
-                                                                    </td>
-                                                                </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                <tr class="text-center list-group-item-danger">
-                                                                    <td>
-                                                                        @id
-                                                                    </td>
-                                                                    <td>
-                                                                        @nombre
-                                                                    </td>
-                                                                    <td>
-                                                                        @tipo
-                                                                    </td>
-
-                                                                    <td>
-                                                                        @stock
-                                                                    </td>
-                                                                    <td>
-                                                                        @stockOcasa
-
-                                                                    </td>
-                                                                    <td>
-
-                                                                        @diferencia
-
-                                                                    </td>
-                                                                    <td>
-                                                                        @p %
-                                                                    </td>
-                                                                </tr>
-                                                            }
-                                                        }
                                                     }
                                                     if (counter == 0)
                                                     {
@@ -249,9 +196,9 @@
                                     </div>
 
 
-                                    <div class="row">
+                                    <div class="row" style="margin-top: 20px;">
                                         <div class="pull-right">
-                                            <input id="btn_pisar" type="button" value="Sincronizar con stock de OCASA" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalActualizar" />
+                                            <input id="btn_pisar" type="button" value="Sincronizar con stock de OCASA" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalActualizar" style="visibility: collapse;"/>
                                         </div>
                                         <div class="pull-left">
                                             <input id="btn_reclamo" type="button" value="Enviar reclamo a OCASA" class="btn btn-danger btn-round" data-toggle="modal" data-target="#modalReclamo" />
@@ -348,11 +295,60 @@
 
             var counter = @counter;
             if (counter == 0) {
-                document.getElementById('btn_pisar').setAttribute('style', 'visibility: collapse');
                 document.getElementById('btn_reclamo').setAttribute('style', 'visibility: collapse');
                 document.getElementById('btn_export').setAttribute('style', 'visibility: collapse');
             }
         })
 
+        function syncStock() {
+            var syncList = [];
+            $('#maintable > tbody  > tr').each(function () {
+                var shouldSync = $(this).find('.sync-box')[0];
+                var insumoId = $(this).find('.insumo-id')[0];
+                if (shouldSync.checked) {
+                    syncList.push(insumoId.innerText);
+                }
+            });
+            $.ajax({
+            url: '@Url.Action("ActualizarStock", "Insumos")',
+            type: 'POST',
+            cache: false,
+            contentType: 'application/json',
+            data: JSON.stringify({ syncData: syncList }),
+                success: function (result) {
+                    debugger;
+                location.reload();
+            }
+        });
+        }
+
+        function checkBoxClicked() {
+            var counter = 0;
+            $('#maintable > tbody  > tr').each(function () {
+                var shouldSync = $(this).find('.sync-box')[0];
+                if (shouldSync.checked) {
+                    counter++;
+                }
+            });
+
+            if (counter == 0) {
+                document.getElementById('btn_pisar').setAttribute('style', 'visibility: collapse');
+            } else {
+                document.getElementById('btn_pisar').setAttribute('style', 'visibility: visible');
+            }
+        }
+
+        function allChecked() {
+            if ($('#syncAll').prop('checked')) {
+                $('#maintable > tbody  > tr').each(function () {
+                    $(this).find('.sync-box')[0].checked = true;
+                });
+            } else {
+                $('#maintable > tbody  > tr').each(function () {
+                    $(this).find('.sync-box')[0].checked = false;
+                });
+            }
+            checkBoxClicked();
+        }
     </script>
 }
