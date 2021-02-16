@@ -366,10 +366,15 @@ namespace SIAH.Controllers
         [HttpPost]
         public ActionResult OcasaInventario(IList<InsumoOcasa> newStock)
         {
-            var oldStock = db.InsumoOcasa;
+            var oldStockList = db.InsumoOcasa.ToList();
             foreach (var insumo in newStock)
             {
-                oldStock.Find(insumo.id).stockFisico = insumo.stockFisico;
+                var oldInsumo = oldStockList.Find(x => x.id == insumo.id && x.stockFisico != insumo.stockFisico);
+                if (oldInsumo != null)
+                {
+                    oldInsumo.stockFisico = insumo.stockFisico;
+                    db.Entry(oldInsumo).State = EntityState.Modified;
+                }
             }
             try
             {

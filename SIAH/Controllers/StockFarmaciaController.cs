@@ -46,11 +46,15 @@ namespace SIAH.Controllers
         public ActionResult Index(IList<StockFarmacia> stocks)
         {
             int hospitalId = stocks.First().hospitalId;
+            var oldStocks = db.StockFarmacias.Where(x => x.hospitalId == hospitalId).ToList();
             foreach (StockFarmacia stock in stocks)
             {
-                var stockToModify = db.StockFarmacias.Where(x => x.hospitalId == stock.hospitalId && x.insumoId == stock.insumoId).FirstOrDefault();
-                stockToModify.stockFarmacia = stock.stockFarmacia;
-                db.Entry(stockToModify).State = EntityState.Modified;
+                var stockToModify = oldStocks.Find(x => x.hospitalId == stock.hospitalId && x.insumoId == stock.insumoId && x.stockFarmacia != stock.stockFarmacia);
+                if (stockToModify != null)
+                {
+                    stockToModify.stockFarmacia = stock.stockFarmacia;
+                    db.Entry(stockToModify).State = EntityState.Modified;
+                }
             }
 
             if (ModelState.IsValid)
