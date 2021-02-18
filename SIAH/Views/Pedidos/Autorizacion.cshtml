@@ -324,7 +324,7 @@
 
                 var indice = $('#detallesPedido > tr').not('.empty').length;
                 var idPedido = $('#idPedido').val();
-                var urlDetalle = '/Pedidos/GetDetalles' + '?idPedido=' + idPedido;
+                var urlDetalle = '/Pedidos/GetDetallesAutorizacion' + '?idPedido=' + idPedido;
                 $.get(urlDetalle, null, function (lista) {
                     var total = 0;
 

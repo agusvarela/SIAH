@@ -30,7 +30,7 @@ namespace SIAH.Controllers
             var remitos = db.Remitos.Include(r => r.pedido);
             return View(remitos.ToList());
         }
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         public ActionResult ListadoPedidos()
         {
             var pedidos = db.Pedidos.Include(r => r.hospital);
@@ -136,7 +136,7 @@ namespace SIAH.Controllers
             }
         }
 
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         //GET: Remitos/ControlPedidoRemito
         public ActionResult ControlPedidoRemito(int? id)
         {
@@ -146,7 +146,7 @@ namespace SIAH.Controllers
             ViewBag.hospital = db.Hospitales.Include(hospital => hospital.nombre).Where(hospital => hospital.id == pedido.hospitalId).Select(r => new { hospital = r.nombre }).First().hospital;
             return View(tuplaPedidoRemito);
         }
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         //POST: Remitos/ControlPedidoRemito
         [HttpPost]
         public ActionResult ControlPedidoRemito(int id)
@@ -215,7 +215,7 @@ namespace SIAH.Controllers
             }
         }
 
-        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion")]
+        [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]
         //GET: Remitos/DetallesPedidoRemito
         public JsonResult GetDetallesPedidoRemito(int idPedido)
         {

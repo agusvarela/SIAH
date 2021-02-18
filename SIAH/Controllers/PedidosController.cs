@@ -343,6 +343,27 @@ namespace SIAH.Controllers
         public JsonResult GetDetalles(int idPedido)
         {
             var idHospital = db.Pedidos.Find(idPedido).hospitalId;
+            var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == idPedido)
+                                .Select(x => new
+                                {
+                                    pedidoId = x.pedidoId,
+                                    insumoId = x.insumoId,
+                                    nombre = x.insumo.nombre,
+                                    precioUnitario = x.insumo.precioUnitario,
+                                    cantidad = x.cantidad,
+                                    cantidadAutorizada = x.cantidadAutorizada
+                                    ,
+                                    tipo = x.insumo.tiposInsumo.nombre,
+                                    stock = x.insumo.stock
+                                });
+
+            return Json(detallesPedido, JsonRequestBehavior.AllowGet);
+        }
+
+        //GET: Pedidos/DetallesPedido
+        public JsonResult GetDetallesAutorizacion(int idPedido)
+        {
+            var idHospital = db.Pedidos.Find(idPedido).hospitalId;
             var queryStock = db.StockFarmacias.Where(s => s.hospitalId == idHospital);
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == idPedido)
                                 .Join(queryStock, d => d.insumoId, s => s.insumoId, (d, s) => new { d, s }) //TODO: Si el Insumo no existe en el Stock de la farmacia directamente no se muestra
