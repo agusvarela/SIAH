@@ -95,21 +95,7 @@
 
         $(document).ready(function () {
             $('#volver').on('click', function (event) {
-                Swal.fire({
-                    title: '¿Está seguro que desea volver?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: "#28a745",
-                    confirmButtonText: 'Aceptar',
-                    cancelButtonColor: "#dc3545",
-                    cancelButtonText: 'Cancelar',
-                    showCloseButton: true,
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-                        location.href = '/Compras';
-                    }
-                });
+                location.href = '/Compras';
             });
 
             function moveScroll() {

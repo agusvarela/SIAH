@@ -182,8 +182,22 @@
             })
         });
         $(document).on('click', '#moreInfo', function (event) {
-            const urlMoreInfo = '/Reclamos/MoreInfo?idReclamo=' + document.getElementById('pedidoId').value;
-            location.href = urlMoreInfo;
+            Swal.fire({
+                title: '¿Está seguro que desea solicitar mas información al hospital sobre su reclamo?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                confirmButtonText: 'Aceptar',
+                cancelButtonColor: "#dc3545",
+                cancelButtonText: 'Cancelar',
+                showCloseButton: true,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    const urlMoreInfo = '/Reclamos/MoreInfo?idReclamo=' + document.getElementById('pedidoId').value;
+                    location.href = urlMoreInfo;
+                }
+            });
         });
         $(document).ready(function () {
             $('#volverAlListado').on('click', function (event) {
