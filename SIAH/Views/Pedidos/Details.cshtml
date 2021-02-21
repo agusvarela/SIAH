@@ -838,11 +838,11 @@
                 $('#totalAturizadoText').html("$" + $totalAutorizadoAMostrar);
                 $('#totalAutorizadoAMostrar').html("$" + $totalAutorizadoAMostrar);
 
-                if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) < total) {
+                if (parseFloat($('#presupuesto').val().replace("$", "").replaceAll(".", "")) < total) {
                     $('#presuSpan').text("El costo del pedido supera el presupuesto");
                 }
                 if (totalAutorizado > 0) {
-                    if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) > totalAutorizado) {
+                    if (parseFloat($('#presupuesto').val().replace("$", "").replaceAll(".", "")) > totalAutorizado) {
 
                         $('#autoSpan').text("El costo autorizado está dentro del presupuesto");
                     } else {

@@ -436,10 +436,9 @@
                                     var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
                                     $('#total').val("$" + $totalAMostrar);
                                     $('#totalAMostrar').html("$" + $totalAMostrar);
-
                                     //Verificacion del costo del pedido respecto al presupuesto
-                                    if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) < total) {
-                                        $('#totalSpan').text("El costo del pedido supera el presupuesto")
+                                    if (parseInt($('#presupuesto').text().replace("$", "").replaceAll(".", "")) < total) {
+                                        $('#totalSpan').text("El costo del pedido supera el presupuesto disponible")
                                     }
 
                                     $('#enviar').show();
@@ -529,7 +528,7 @@
             actualizarIndicesTabla(idActual);
         }
 
-        if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) > total) {
+        if (parseFloat($('#presupuesto').text().replace("$", "").replaceAll(".", "")) > total) {
             $('#totalSpan').text("")
         }
     });
@@ -618,7 +617,7 @@
                         $('#totalAMostrar').html("$" + $totalAMostrar);
 
                 //Verificacion del costo del pedido respecto al presupuesto
-                if (parseFloat($('#presupuesto').text().replace("$", "").replace(".", "")) < total) {
+                if (parseFloat($('#presupuesto').text().replace("$", "").replaceAll(".", "")) < total) {
                     $('#totalSpan').text("El costo del pedido supera el presupuesto")
                 }
 

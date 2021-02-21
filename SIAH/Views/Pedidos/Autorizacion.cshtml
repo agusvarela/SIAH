@@ -394,7 +394,7 @@
                     $('#total').val("$" + $totalAMostrar);
                     $('#totalAMostrar').html("$" + $totalAMostrar);
 
-                    if (parseFloat($('#presupuesto').val().replace("$", "").replace(".", "")) < total) {
+                    if (parseFloat($('#presupuesto').val().replace("$", "").replaceAll(".", "")) < total) {
                         $('#presuSpan').text("El costo del pedido supera el presupuesto");
                     }
                     var table = $("#detalles").DataTable({
