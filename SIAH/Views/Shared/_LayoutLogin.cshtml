@@ -64,13 +64,13 @@
                     <li class="">
                         @if (Session["userid"] != null)
                         {
-                            <a>Ha iniciado sesion como @Session["nombre"].ToString()</a>
+                            <a>Ha iniciado sesión como @Session["nombre"].ToString()</a>
                         }
                     </li>
                     @*<li>@Html.ActionLink("Nuevo Usuario", "Register", "Account")</li>*@
                     @if (Session["userid"] != null)
                     {
-                        <li>@Html.ActionLink("Cerrar Sesion", "Logout", "Account")</li>
+                        <li>@Html.ActionLink("Cerrar Sesión", "Logout", "Account")</li>
                     }
                 </ul>
             </div>

@@ -109,7 +109,6 @@
                                     <ul class="dropdown-menu">
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Administrar Pedidos</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
-                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">Remitos</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Stock</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Control de Stock</a></li>
@@ -160,18 +159,33 @@
                             </a>
                         }
                     }
+                    else
+                    {
+                        <a class="logo-container" href="@Url.Action("index", "Home", null)">
+                            <div class="logo">
+                                <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                            </div>
+                            @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                        </a>
+                    }
                 }
                 catch (Exception e)
                 {
 
-                   <a class="logo-container" href="@Url.Action("Account", "Login", null)">
-                    <div class="logo">
-                        <img src="~/Content/img/logo.jpg" alt="AH Logo">
-                    </div>
-                    @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                    <a class="logo-container" href="@Url.Action("index", "Home", null)">
+                        <div class="logo">
+                            <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                        </div>
+                        @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
                     </a>
                 }
-
+                @if (Session == null || Session["userid"] == null)
+                {<a class="logo-container" href="@Url.Action("index", "Home", null)">
+                        <div class="logo">
+                            <img src="~/Content/img/logo.jpg" alt="AH Logo">
+                        </div>
+                        @Html.Label(" Autorizaciones Hospitalarias", new { @class = " logo-container brand" })
+                    </a>}
             </div>
             @if (Session != null && Session["userid"] != null)
             {

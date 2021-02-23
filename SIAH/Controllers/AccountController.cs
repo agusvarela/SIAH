@@ -411,7 +411,7 @@ namespace SIAH.Controllers
         {
             ViewBag.resultMessage = success ? 
                 "Su nueva contraseña fue enviada correctamente a su dirección de correo" 
-                : "El usuario no existe, intentelo nuevamente";
+                : "El usuario no existe, inténtelo nuevamente";
             return View();
         }
     }
