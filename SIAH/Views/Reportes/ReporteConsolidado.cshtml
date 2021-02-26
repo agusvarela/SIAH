@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<String[]>
 
 @{
-    ViewBag.Title = "ReporteConsolidado";
+    ViewBag.Title = "Reporte Consolidado";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     bool isFirst = true;
     //WebGrid grid = new WebGrid(source: Model.GetEnumerator().Current);
@@ -14,7 +14,7 @@
 <div class="banner-catalog">
     <div class="container">
         <div class="col-lg-9">
-            <h1>Reporte de Consolidado</h1>
+            <h1>Reporte Consolidado</h1>
             <div class="banner-catalog__content">
                 Este reporte muestra la cantidad de insumos que han sido autorizados para
                 cada hospital en el período especificado en la sección "Período del reporte".
@@ -76,7 +76,7 @@
                                 <div class="col-sm-3" style="padding-right:0px;">
                                     @Html.Label("Hasta:", htmlAttributes: new { @class = "control-label", @style = "font-size: 16px; font-weight: bold; color: #000000d1;" })
                                     <input id="fin" style="width:95px; border: 0; background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2);
-                                                background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" value="@DateTime.Today.ToString("dd/MM/yyyy")" readonly disabled />
+                                                background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" readonly disabled />
                                 </div>
                                 <div class="col-sm-1" style="padding-top:7px; padding-left:0px;">
                                     <span id="clearFechaFin" class="hover-pointer">
@@ -141,7 +141,7 @@
                                                             }
                                                             if (total != 0)
                                                             {
-                                                                <td class="v  text-center" style="font-size: large"><strong>@total</strong></td>
+                                                                <td class="v  text-center" style="font-size: large"><strong>@String.Format("{0:n0}", total)</strong></td>
                                                             }
                                                             else
                                                             {
@@ -243,14 +243,14 @@
                 document.querySelector('#fin').style.backgroundImage = "none";
 
                 $("#clearFechaFin").hide();
-                $('#fin').val('@DateTime.Today.ToString("dd/MM/yyyy")');
+                $('#fin').val('');
                 $("#inicio").datepicker("option", "maxDate", $('#fin').val());
 
                 $('#reporte').prop('disabled', true);
             });
             $('#clearFechaFin').on('click', function (event) {
                 $("#clearFechaFin").hide();
-                $('#fin').val('@DateTime.Today.ToString("dd/MM/yyyy")');
+                $('#fin').val('');
                 $("#inicio").datepicker("option", "maxDate", $('#fin').val());
             });
             $("#tablaReporte")
