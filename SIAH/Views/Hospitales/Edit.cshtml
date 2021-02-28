@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
-@using (Html.BeginForm("Edit", "Hospitales", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Hospitales", FormMethod.Post, new { enctype = "multipart/form-data" ,  id = "updateHospital"}))
 {
     @Html.AntiForgeryToken()
 
@@ -130,7 +130,7 @@
                             <div class="row">
                                 <div class="col-md-12">
 
-                                    <input type="submit" value="Guardar hospital" class="btn btn-round btn-success pull-right" />
+                                    <input id="guardarHospital" type="submit" value="Guardar hospital" class="btn btn-round btn-success pull-right" />
 
                                 </div>
                             </div>
@@ -153,8 +153,8 @@
 
         function myMap() { 
             var mapProp = {
-                center: new google.maps.LatLng(-31.425, -64.183), //Coordinates from Cordoba, Cordoba, Argentina
-                zoom: 14,
+                center: new google.maps.LatLng(document.getElementById("latitud").value, document.getElementById("longitud").value), //Coordinates from Cordoba, Cordoba, Argentina
+                zoom: 18,
             };
             var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
             var geocoder = new google.maps.Geocoder();
@@ -254,6 +254,26 @@
                 }).then((result) => {
                     if (result.value) {
                         location.href = '/Hospitales';
+                    }
+                });
+            });
+        });
+         $(document).ready(function () {
+             $('#guardarHospital').on('click', function (event) {
+                 event.preventDefault();
+                Swal.fire({
+                    title: '¿Está seguro que desea guardar el hospital?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    showCloseButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $('#updateHospital').submit();
                     }
                 });
             });
