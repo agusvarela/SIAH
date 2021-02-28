@@ -93,6 +93,7 @@ namespace SIAH.Controllers
                // Para mostrar el total
                //GroupBy(x => x.t.x.s.nombre, x => x.t.x.d.cantidad, (key, g) => new { Insumo = key, Total = g.Sum() }).
                GroupBy(x => new { hospital = x.h.nombre, insumo = x.t.x.s.nombre }, x => x.t.x.d.cantidad, (key, g) => new { Hospital = key.hospital, Insumo = key.insumo, Cantidad = g.Sum() }).
+               // Select(x => new { Hospital = x.Hospital, Insumo = x.Insumo, Cantidad = String.Format("{0:n0}", x.Cantidad) }).
                ToList();
 
             //Declaro la cantidad de filas y de columnas
@@ -128,7 +129,7 @@ namespace SIAH.Controllers
                         {
                             if (report[i][0] == r.Insumo)
                             {
-                                report[i][j] = r.Cantidad.ToString();
+                                report[i][j] = String.Format("{0:n0}", r.Cantidad);
                             }
                             else
                             {
@@ -144,7 +145,7 @@ namespace SIAH.Controllers
 
                             if (report[i][0] == r.Insumo)
                             {
-                                report[i][j] = r.Cantidad.ToString();
+                                report[i][j] = String.Format("{0:n0}", r.Cantidad);
                             }
                             else
                             {
