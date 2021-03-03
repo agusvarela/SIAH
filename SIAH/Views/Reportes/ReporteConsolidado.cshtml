@@ -117,40 +117,47 @@
 
                                                 if (isFirst == false)
                                                 {
-                                                    <tr>
-                                                        @{var total = 0;
-                                                            var firstColumn = true;
-                                                            var style = "";
-                                                            foreach (var e in i)
+                                            <tr>
+                                                @{var total = 0;
+                                                    var firstColumn = true;
+                                                    var style = "";
+                                                    foreach (var e in i)
+                                                    {
+                                                        if (firstColumn) { style = "border-left-width: 0px;"; firstColumn = false; }
+                                                        else { style = ""; }
+
+                                                        var celda = e.AsInt(0);
+                                                        if (e.AsInt(1) == 0)
+                                                        {
+
+                                                            <td class="v text-center"></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (e.AsInt(-1) == -1)
                                                             {
-                                                                if (firstColumn) { style = "border-left-width: 0px;"; firstColumn = false; }
-                                                                else { style = ""; }
-
-                                                                var celda = e.AsInt(0);
-                                                                if (e.AsInt(1) == 0)
-                                                                {
-
-                                                                    <td class="v text-center"></td>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td class="v text-center" style="@style">@e</td>
-                                                                }
-
-                                                                total += celda;
-                                                            }
-                                                            if (total != 0)
-                                                            {
-                                                                <td class="v  text-center" style="font-size: large"><strong>@String.Format("{0:n0}", total)</strong></td>
+                                                                <td class="v text-center" style="@style">@e</td>
                                                             }
                                                             else
                                                             {
-                                                                <td class="v  text-center"></td>
+                                                                <td class="v text-center" style="@style">@String.Format("{0:n0}", celda)</td>
                                                             }
-
-
                                                         }
-                                                    </tr>
+
+                                                        total += celda;
+                                                    }
+                                                    if (total != 0)
+                                                    {
+                                                        <td class="v  text-center" style="font-size: large"><strong>@String.Format("{0:n0}", total)</strong></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="v  text-center"></td>
+                                                    }
+
+
+                                                }
+                                            </tr>
                                                 }
                                                 else
                                                 {
