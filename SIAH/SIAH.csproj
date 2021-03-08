@@ -494,6 +494,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Shared\EmailCreacionPedido.html" />
     <Content Include="Views\Shared\EmailPassword.html" />
     <Content Include="Views\Shared\EmailDiferenciaStock.html" />
     <Content Include="Views\Shared\EmailCambioEstado.html" />
