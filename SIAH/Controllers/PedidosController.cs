@@ -167,26 +167,26 @@ namespace SIAH.Controllers
             {
                 listPedidos.Add(pedido);
             }
-
             //Body que se enviará a OCASA con los pedidos en formato JSON 
             var jsonPedidos = JsonConvert.SerializeObject(listPedidos, Formatting.Indented, new JsonSerializerSettings() { MaxDepth = 1, ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
             var content = new StringContent(jsonPedidos, Encoding.UTF8, "application/json");
             //LLamada a API ficticia que devuelve siempre un 200 (OK) con el tracking number de cada pedido
             try
             {
-                var response = await client.PostAsync("http://localhost:3000/envio", content);
+                //var response = await client.PostAsync("http://localhost:3000/envio", content);
+                var response = apiOcasa(content);
                 if (response.IsSuccessStatusCode)
                 {
                     try
                     {
                         var responseContent = await response.Content.ReadAsStringAsync();
-                        var responseArray = JsonConvert.DeserializeAnonymousType(responseContent, new[] { new { idPedido = "sample", tracking = "sample" }, new { idPedido = "sample", tracking = "sample" } });
+                        var responseArray = JsonConvert.DeserializeAnonymousType(responseContent, new[] { new { id = "sample", trackingNumber = "sample" }, new { id = "sample", trackingNumber = "sample" } });
 
                         foreach (var responseObject in responseArray)
                         {
-                            int idPedido = int.Parse(responseObject.idPedido);
+                            int idPedido = int.Parse(responseObject.id);
                             Pedido pedido = db.Pedidos.Find(idPedido);
-                            pedido.trackingNumber = responseObject.tracking;
+                            pedido.trackingNumber = responseObject.trackingNumber;
                             pedido.estadoId = 3;
                             db.Entry(pedido).State = EntityState.Modified;
                             await SendEmailCambioEstadoAsync(pedido);
@@ -756,5 +756,26 @@ namespace SIAH.Controllers
             }
         }
 
+        private HttpResponseMessage apiOcasa(StringContent tuvieja)
+        {
+            var jsonContent = tuvieja.ReadAsStringAsync().Result;
+            var jsonRequest = JsonConvert.DeserializeAnonymousType(jsonContent, new[] { new { id = "sample", trackingNumber = "sample" }, new { id = "sample", trackingNumber = "sample" } });
+
+            var listPedidos = new List<Pedido>();
+            var rand = new Random();
+            foreach (var autorizado in jsonRequest)
+            {
+                string tracking = "EC";
+                tracking += Math.Round(rand.NextDouble() * 100000000000);
+
+                Pedido pedido = new Pedido();
+                pedido.id = int.Parse(autorizado.id);
+                pedido.trackingNumber = tracking;
+                listPedidos.Add(pedido);
+            }
+
+            var jsonResponse = JsonConvert.SerializeObject(listPedidos, Formatting.Indented, new JsonSerializerSettings() { MaxDepth = 1, ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(jsonResponse, Encoding.UTF8, "application/json") };
+        }
     }
 }
