@@ -144,7 +144,7 @@ namespace SIAH.Controllers
                 UserAccount responsable = db.UserAccounts.Find(pedido.responsableAsignadoId);
                 pedido.responsableAsignado = responsable;
             }
-            
+
             if (pedido == null)
             {
                 return HttpNotFound();
@@ -230,7 +230,7 @@ namespace SIAH.Controllers
             //ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
             bool hasLastPedido = true;
             var pedidos = db.Pedidos.Where(r => r.hospitalId == idHospital).Include(p => p.detallesPedido).OrderByDescending(o => o.fechaGeneracion).ToList();
-            if(pedidos.Count() == 0)
+            if (pedidos.Count() == 0)
             {
                 hasLastPedido = false;
             }
@@ -390,7 +390,7 @@ namespace SIAH.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
-        public ActionResult Create([Bind(Include = "id,periodo,fechaGeneracion,esUrgente,estaAutorizado,hospitalId,detallesPedido")] Pedido pedido)
+        public async Task<ActionResult> Create([Bind(Include = "id,periodo,fechaGeneracion,esUrgente,estaAutorizado,hospitalId,detallesPedido")] Pedido pedido)
         {
             pedido.fechaEntrega = null;
             pedido.estadoId = db.Estados.Find(1).id;
@@ -407,8 +407,8 @@ namespace SIAH.Controllers
                 {
                     if (db.SaveChanges() > 0)
                     {
+                        await SendEmailNuevoPedido(pedido);
                         return RedirectToAction("RespFarmacia", new { param = "Success" });
-
                     }
                 }
                 catch (Exception e)
@@ -600,12 +600,14 @@ namespace SIAH.Controllers
         public JsonResult PedidosDatasetBI()
         {
             var dataset = db.Pedidos.Include(x => x.hospital).Select(x => new { IdPedido = x.id, Hospital = x.hospital.nombre, FechaMes = x.fechaGeneracion, Periodo = x.periodo })
-                .ToList().Select(x => new { 
-                    IdPedido = x.IdPedido, 
-                    Hospital = x.Hospital, 
-                    FechaMes = string.Format("{0:dd/MM/yyyy}", x.FechaMes), 
+                .ToList().Select(x => new
+                {
+                    IdPedido = x.IdPedido,
+                    Hospital = x.Hospital,
+                    FechaMes = string.Format("{0:dd/MM/yyyy}", x.FechaMes),
                     TotalPedidoPorMes = GetTotalPedido(x.IdPedido),
-                    Periodo = string.Format("{0:dd/MM/yyyy}", x.Periodo) });
+                    Periodo = string.Format("{0:dd/MM/yyyy}", x.Periodo)
+                });
             return Json(dataset, JsonRequestBehavior.AllowGet);
         }
 
@@ -719,5 +721,40 @@ namespace SIAH.Controllers
             }
             return Json(cantidadPedidos, JsonRequestBehavior.AllowGet);
         }
+
+        private async Task SendEmailNuevoPedido(Pedido pedido)
+        {
+            var users = db.UserAccounts.Where(ua => ua.rolID == 2 || ua.rolID == 3).ToList();
+            var messages = new List<MailMessage>();
+            foreach (var user in users)
+            {
+                var message = new MailMessage();
+                message.To.Add(new MailAddress(user.email));
+                message.From = new MailAddress("siah.reclamos@gmail.com");
+                string body = string.Empty;
+                using (StreamReader reader = new StreamReader(Server.MapPath("~/Views/Shared/EmailCreacionPedido.html")))
+                {
+                    body = reader.ReadToEnd();
+                }
+                body = body.Replace("{pedidoId}", pedido.id.ToString());
+                body = body.Replace("{fechaPedido}", pedido.fechaGeneracion.ToShortDateString());
+                Hospital hospital = db.Hospitales.Find(pedido.hospitalId);
+                body = body.Replace("{hospitalName}", hospital.nombre);
+                var estado = db.Estados.Find(pedido.estadoId);
+                body = body.Replace("{estadoName}", estado.nombreEstado);
+
+                message.Subject = string.Format("[SIAH] Se generó un nuevo pedido N°{0} para el hospital {1}", pedido.id, hospital.nombre);
+
+                message.Body = body;
+
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient())
+                {
+                    await smtp.SendMailAsync(message);
+                }
+            }
+        }
+
     }
 }
