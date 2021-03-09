@@ -465,7 +465,7 @@
         var fechaInicioCorta = "@ViewBag.fechaInicioDefault";
         var fechaFinCorta = "@ViewBag.fechaFinDefault";
         var fechaFinDefault = new Date();
-        var fechaInicioDefault = new Date(fechaFinDefault.getFullYear() - 1, fechaFinDefault.getMonth(), fechaFinDefault.getDate());
+        var fechaInicioDefault = new Date(fechaFinDefault.getFullYear(), fechaFinDefault.getMonth() - 1, fechaFinDefault.getDate());
 
         $(document).on('click', '#enviar', function (event) {
             setTimeout(function () { location.reload() }, 2000);

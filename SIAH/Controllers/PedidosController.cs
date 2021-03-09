@@ -255,7 +255,7 @@ namespace SIAH.Controllers
             {
                 DateTime today = DateTime.Today;
                 fechaFin = today;
-                fechaInicio = today.AddYears(-1);
+                fechaInicio = today.AddMonths(-1);
             }
             else
             {
