@@ -60,7 +60,7 @@ namespace SIAH.Controllers
                     return response;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 //response.Content = new StringContent("Ocurrió un error al intentar realizar el cambio de estado");
@@ -89,7 +89,7 @@ namespace SIAH.Controllers
                 db.SaveChanges();
                 await SendEmailCambioEstadoAsync(pedido);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -112,7 +112,7 @@ namespace SIAH.Controllers
                 db.SaveChanges();
                 await SendEmailCambioEstadoAsync(pedido);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -200,7 +200,7 @@ namespace SIAH.Controllers
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return RedirectToAction("Listado", "Pedidos", new { param = "Hubo un problema inesperado" });
             }
@@ -343,21 +343,24 @@ namespace SIAH.Controllers
         public JsonResult GetDetalles(int idPedido)
         {
             var idHospital = db.Pedidos.Find(idPedido).hospitalId;
-            var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == idPedido)
-                                .Select(x => new
-                                {
-                                    pedidoId = x.pedidoId,
-                                    insumoId = x.insumoId,
-                                    nombre = x.insumo.nombre,
-                                    precioUnitario = x.insumo.precioUnitario,
-                                    cantidad = x.cantidad,
-                                    cantidadAutorizada = x.cantidadAutorizada
-                                    ,
-                                    tipo = x.insumo.tiposInsumo.nombre,
-                                    stock = x.insumo.stock
-                                });
-
-            return Json(detallesPedido, JsonRequestBehavior.AllowGet);
+            var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).Where(d => d.pedidoId == idPedido);
+            var detallesRemito = db.DetallesRemito.Include(d => d.remito).
+               Where(d => d.remitoId == idPedido).
+               Select(x => new { insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada });
+            var detallesPedidoRemito = detallesPedido.Join(detallesRemito, s => s.insumoId, r => r.insumoRemitoId, (s, r) => new { s, r }).
+                Select(x => new
+                {
+                    pedidoId = x.s.pedidoId,
+                    insumoId = x.s.insumoId,
+                    nombre = x.s.insumo.nombre,
+                    precioUnitario = x.s.insumo.precioUnitario,
+                    cantidad = x.s.cantidad,
+                    cantidadAutorizada = x.s.cantidadAutorizada,
+                    tipo = x.s.insumo.tiposInsumo.nombre,
+                    stock = x.s.insumo.stock,
+                    cantidadEntregada = x.r.cantidadEntregada
+                }).ToList();
+            return Json(detallesPedidoRemito, JsonRequestBehavior.AllowGet);
         }
 
         //GET: Pedidos/DetallesPedido

@@ -79,10 +79,92 @@ namespace SIAH.Controllers
             }
 
         }
-
         // GET: DetallesPedido/GenerarReporte
         [AllowAnonymousAttribute]
         public IEnumerable<String[]> GenerarReporte(DateTime fechaInicio, DateTime fechaFin)
+        {
+            //Consulta a la BD para traer cada detalle con su hospital, su insumo y su cantidad
+            var result = db.DetallesRemito.Join(db.Insumos, d => d.insumoId, s => s.id, (d, s) => new { d, s }).
+                Join(db.Pedidos, x => x.d.remitoId, p => p.id, (x, p) => new { x, p }).
+                Join(db.Hospitales, t => t.p.hospitalId, h => h.id, (t, h) => new { t, h }).
+                Join(db.Remitos, m => m.t.p.id, a => a.id, (m, r) => new { m, r }).
+                //Filtro por fecha
+                Where(k => DbFunctions.TruncateTime(k.m.t.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) && DbFunctions.TruncateTime(k.m.t.p.fechaGeneracion) <= DbFunctions.TruncateTime(fechaFin)).
+               // Para mostrar el total
+               //GroupBy(x => x.t.x.s.nombre, x => x.t.x.d.cantidad, (key, g) => new { Insumo = key, Total = g.Sum() }).
+               GroupBy(x => new { hospital = x.m.h.nombre, insumo = x.m.t.x.s.nombre }, x => x.m.t.x.d.cantidadEntregada, (key, g) => new { Hospital = key.hospital, Insumo = key.insumo, Cantidad = g.Sum() }).
+               // Select(x => new { Hospital = x.Hospital, Insumo = x.Insumo, Cantidad = String.Format("{0:n0}", x.Cantidad) }).
+               ToList();
+
+            //Declaro la cantidad de filas y de columnas
+            var rows = db.Insumos.ToList().Count() + 1;
+            var columns = db.Hospitales.Join(db.Pedidos, x => x.id, p => p.hospitalId, (x, p) => new { x, p }).
+                Join(db.Remitos, m => m.p.id, a => a.id, (m,r) => new {m,r}).
+                Where(k => DbFunctions.TruncateTime(k.m.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) &&
+                DbFunctions.TruncateTime(k.m.p.fechaGeneracion) <= DbFunctions.TruncateTime(fechaFin)).
+                GroupBy(x => new { hospital = x.m.x.nombre }, (key, g) => new { Hospital = key.hospital }).
+                Count() + 1;
+
+            //Armo el Vector
+            String[][] report = new String[rows][]; //columns en segundo argumento
+            for (int i = 0; i < rows; i++) { report[i] = new String[columns]; }
+            report[0][0] = "Insumo";
+            /* var hospitales = db.Hospitales.Select(x => new { x.nombre }).ToList();
+             var p = 1;
+             foreach( var h in hospitales) { report[0, p] = h.nombre; p++; }*/
+
+            var insumos = db.Insumos.Select(x => new { x.nombre }).ToList();
+            var q = 1;
+            foreach (var s in insumos) { report[q][0] = s.nombre; q++; }
+
+            var j = 0;
+            foreach (var r in result)
+            {
+                if (j < columns)
+                {
+                    if (report[0][j] != r.Hospital)
+                    {
+                        j++;
+                        report[0][j] = r.Hospital;
+                        for (var i = 1; i < rows; i++)
+                        {
+                            if (report[i][0] == r.Insumo)
+                            {
+                                report[i][j] = String.Format("{0:n0}", r.Cantidad);
+                            }
+                            else
+                            {
+                                if (report[i][j] == null) { report[i][j] = "0"; }
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        for (var i = 1; i < rows; i++)
+                        {
+
+                            if (report[i][0] == r.Insumo)
+                            {
+                                report[i][j] = String.Format("{0:n0}", r.Cantidad);
+                            }
+                            else
+                            {
+                                if (report[i][j] == null) { report[i][j] = "0"; }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            List<String[]> list = report.ToList();
+            return list;
+        }
+
+        // GET: DetallesPedido/GenerarReporte
+        [AllowAnonymousAttribute]
+        public IEnumerable<String[]> GenerarReporteLegacy(DateTime fechaInicio, DateTime fechaFin)
         {
             //Consulta a la BD para traer cada detalle con su hospital, su insumo y su cantidad
             var result = db.DetallesPedido.Join(db.Insumos, d => d.insumoId, s => s.id, (d, s) => new { d, s }).

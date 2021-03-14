@@ -626,6 +626,7 @@
                                                 <th class="text-center">Tipo </th>
                                                 <th class="text-center">Cantidad Solicitada</th>
                                                 <th class="text-center">Cantidad Autorizada</th>
+                                                <th class="text-center">Cantidad Entregada</th>
                                                 <th class="text-center">Precio Unitario</th>
                                                 <th class="text-center">Subtotal Autorizado</th>
                                             </tr>
@@ -810,6 +811,7 @@
 
                     var $tdCantidad = $('<td class="text-center">').append(item.cantidad);
                     var $tdCantidadAutorizada = $('<td class="text-center">').append(item.cantidadAutorizada);
+                    var $tdCantidadEntregada = $('<td class="text-center">').append(item.cantidadEntregada);
 
                     var $precioAMostrar = new Intl.NumberFormat('de-DE').format(item.precioUnitario);
                     var $tdPrecioUnitario = $('<td class="text-center">').append("$" + $precioAMostrar);
@@ -821,7 +823,7 @@
                     var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
                     var $tdSubtotalAutorizado = $('<td class="text-center">').append("$" + $subtotalAutAMostrar);
 
-                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdPrecioUnitario, $tdSubtotalAutorizado);
+                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdCantidadEntregada, $tdPrecioUnitario, $tdSubtotalAutorizado);
                     total += $subtotalCalculado;
                     totalAutorizado += $subtotalAutorizado;
 
