@@ -211,7 +211,7 @@ namespace SIAH.Controllers
                         {
                             if (report[i][0] == r.Insumo)
                             {
-                                report[i][j] = String.Format("{0:n0}", r.Cantidad);
+                                report[i][j] = r.Cantidad.ToString();
                             }
                             else
                             {
@@ -227,7 +227,7 @@ namespace SIAH.Controllers
 
                             if (report[i][0] == r.Insumo)
                             {
-                                report[i][j] = String.Format("{0:n0}", r.Cantidad);
+                                report[i][j] = r.Cantidad.ToString();
                             }
                             else
                             {

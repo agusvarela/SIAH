@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using SIAH.Context;
@@ -62,7 +65,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,observacionFamacia,fechaInicioReclamo,tipoReclamoId,pedidoId,hospitalId,estadoReclamoId")] Reclamo reclamo)
+        public async Task<ActionResult> Create([Bind(Include = "id,observacionFamacia,fechaInicioReclamo,tipoReclamoId,pedidoId,hospitalId,estadoReclamoId")] Reclamo reclamo)
         {
             Pedido pedido = db.Pedidos.Find(reclamo.pedidoId);
             if (ModelState.IsValid)
@@ -77,6 +80,7 @@ namespace SIAH.Controllers
                 reclamo.responsableAsignadoId = null;
                 //Guardar toda la transacción en DB
                 db.SaveChanges();
+                await SendEmailReclamo(reclamo);
                 return RedirectToAction("ReclamosRespFarmacia", "Reclamos");
             }
 
@@ -87,6 +91,41 @@ namespace SIAH.Controllers
             ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre", reclamo.responsableAsignadoId);
             ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
             return View(reclamo);
+        }
+
+        private async Task SendEmailReclamo(Reclamo reclamo)
+        {
+            var users = db.UserAccounts.Where(ua => ua.rolID == 2 || ua.rolID == 3).ToList();
+            var messages = new List<MailMessage>();
+            foreach (var user in users)
+            {
+                var message = new MailMessage();
+                message.To.Add(new MailAddress(user.email));
+                message.From = new MailAddress("siah.reclamos@gmail.com");
+                message.Subject = string.Format("[SIAH] Se generó un reclamo para el pedido N°{0}", reclamo.pedidoId);
+                string body = string.Empty;
+                using (StreamReader reader = new StreamReader(Server.MapPath("~/Views/Shared/EmailReclamoPedido.html")))
+                {
+                    body = reader.ReadToEnd();
+                }
+                body = body.Replace("{pedidoId}", reclamo.pedidoId.ToString());
+                body = body.Replace("{observacionFamacia}", reclamo.observacionFamacia.ToString());
+                var tipo = db.TipoReclamoes.Find(reclamo.tipoReclamoId);
+                body = body.Replace("{tipo}", tipo.tipo.ToString());
+                var hospital = db.Hospitales.Find(reclamo.hospitalId);
+                body = body.Replace("{hospital}", hospital.nombre.ToString());
+                message.Body = body;
+                message.IsBodyHtml = true;
+                messages.Add(message);
+            }
+
+            using (var smtp = new SmtpClient())
+            {
+                foreach (var message in messages)
+                {
+                    await smtp.SendMailAsync(message);
+                }
+            }
         }
 
         // GET: Reclamos/Edit/5
