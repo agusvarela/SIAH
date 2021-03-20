@@ -347,20 +347,39 @@ namespace SIAH.Controllers
             var detallesRemito = db.DetallesRemito.Include(d => d.remito).
                Where(d => d.remitoId == idPedido).
                Select(x => new { insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada });
-            var detallesPedidoRemito = detallesPedido.Join(detallesRemito, s => s.insumoId, r => r.insumoRemitoId, (s, r) => new { s, r }).
-                Select(x => new
-                {
-                    pedidoId = x.s.pedidoId,
-                    insumoId = x.s.insumoId,
-                    nombre = x.s.insumo.nombre,
-                    precioUnitario = x.s.insumo.precioUnitario,
-                    cantidad = x.s.cantidad,
-                    cantidadAutorizada = x.s.cantidadAutorizada,
-                    tipo = x.s.insumo.tiposInsumo.nombre,
-                    stock = x.s.insumo.stock,
-                    cantidadEntregada = x.r.cantidadEntregada
-                }).ToList();
-            return Json(detallesPedidoRemito, JsonRequestBehavior.AllowGet);
+            if (detallesRemito.ToList().Count > 0)
+            {
+                var detallesPedidoRemito = detallesPedido.Join(detallesRemito, s => s.insumoId, r => r.insumoRemitoId, (s, r) => new { s, r }).
+                    Select(x => new
+                    {
+                        pedidoId = x.s.pedidoId,
+                        insumoId = x.s.insumoId,
+                        nombre = x.s.insumo.nombre,
+                        precioUnitario = x.s.insumo.precioUnitario,
+                        cantidad = x.s.cantidad,
+                        cantidadAutorizada = x.s.cantidadAutorizada,
+                        tipo = x.s.insumo.tiposInsumo.nombre,
+                        stock = x.s.insumo.stock,
+                        cantidadEntregada = x.r.cantidadEntregada
+                    }).ToList();
+                return Json(detallesPedidoRemito, JsonRequestBehavior.AllowGet);
+            } else
+            {
+                var detallesPedidoRemito = detallesPedido.
+                    Select(x => new
+                    {
+                        pedidoId = x.pedidoId,
+                        insumoId = x.insumoId,
+                        nombre = x.insumo.nombre,
+                        precioUnitario = x.insumo.precioUnitario,
+                        cantidad = x.cantidad,
+                        cantidadAutorizada = x.cantidadAutorizada,
+                        tipo = x.insumo.tiposInsumo.nombre,
+                        stock = x.insumo.stock,
+                        cantidadEntregada = 0
+                    }).ToList();
+                return Json(detallesPedidoRemito, JsonRequestBehavior.AllowGet);
+            }
         }
 
         //GET: Pedidos/DetallesPedido
