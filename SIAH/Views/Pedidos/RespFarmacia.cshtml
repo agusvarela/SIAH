@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="alertArea  animated zoomIn">
-                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" id="nuevopedido" ">
+                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" id="nuevopedido">
                                     <strong class="">+ Nuevo Pedido</strong>
                                 </button>
                             </div>
@@ -548,30 +548,8 @@
 
             $(document).on('click', '#nuevopedido', function (event) {
                 event.preventDefault();
-                Swal.fire({
-                    title: 'Revisión de Stock',
-                    text: "¿Desea actualizar el stock de Farmacia actual antes de realizar un pedido nuevo?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    showCloseButton: true,
-                    confirmButtonColor: "#28a745",
-                    confirmButtonText: 'Continuar',
-                    cancelButtonColor: "#dc3545",
-                    cancelButtonText: 'Actualizar Stock',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-                       var idHospital = $('#idHospital').val();
-                       location.href = "/Pedidos/Create?idHospital=" + idHospital;
-                      } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                         var idPedido = $('#idPedido').val();
-                        var idHospital = $('#idHospital').val();
-                        location.href = '/StockFarmacia/Index?hospitalId=' + idHospital + '&' + 'fromDashboard=' + false;
-                      }
-                })
+                var idHospital = $('#idHospital').val();
+                location.href = "/Pedidos/Create?idHospital=" + idHospital;
 
             });
 

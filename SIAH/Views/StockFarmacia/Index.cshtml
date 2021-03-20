@@ -63,14 +63,7 @@
                                                         @Html.TextBoxFor(modelItem => modelItem[i].hospitalId, htmlAttributes: new { @type = "hidden", @readonly = "readonly" })
                                                     </td>
                                                     <td class="text-center" style="width: 30%">
-                                                        @if (Model[i].stockFarmacia > 0)
-                                                        {
-                                                            @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFarmacia, @onkeyup = "return textBoxChange(event);" })
-                                                        }
-                                                        else
-                                                        {
                                                             @Html.TextBoxFor(modelItem => modelItem[i].stockFarmacia, htmlAttributes: new { @readonly = "readonly", @type = "number", @class = "form-control text-center", @min = 0, @max = Model[i].stockFarmacia, @onkeypress = "return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13 " })
-                                                        }
                                                     </td>
                                                 </tr>
                                             }
