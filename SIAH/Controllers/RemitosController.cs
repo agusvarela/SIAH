@@ -118,7 +118,8 @@ namespace SIAH.Controllers
             {
                 db.Remitos.Add(remito);
                 db.SaveChanges();
-                ActualizarStockConDetallesRemito(remito.id);
+                ActualizarStockSiahConDetallesRemito(remito.id);
+                ActualizarStockFarmacia(remito);
                 ActualizarPedido(remito.pedidoId);
 
                 string acceptValue = "La peticion fue exitosa.";
@@ -160,27 +161,39 @@ namespace SIAH.Controllers
         {
             var pedido = db.Pedidos.Where(p => p.id == idPedido).Include(t => t.estado).Include(d => d.detallesPedido).First();
             pedido.estadoId = 6;
-            foreach (DetallePedido item in pedido.detallesPedido)
-            {
-                ActualizarStockFarmacia(pedido, item);
-            }
             db.Entry(pedido).State = EntityState.Modified;
             db.SaveChanges();
         }
 
-        private void ActualizarStockFarmacia(Pedido pedido, DetallePedido item)
+        private void ActualizarStockFarmacia(Remito remito)
         {
-            StockFarmacia insumo = db.StockFarmacias.Where(p => p.hospitalId == pedido.hospitalId &&
+            var hospitalId = db.Pedidos.Where(p => p.id == remito.pedidoId).First().hospitalId;
+            foreach (DetalleRemito item in remito.detallesRemito)
+            {
+                ActualizarItem(item, hospitalId);
+            }
+        }
+
+        private void ActualizarItem(DetalleRemito item, int hospitalId)
+        {
+            StockFarmacia insumo = db.StockFarmacias.Where(p => p.hospitalId == hospitalId &&
                                             p.insumoId == item.insumoId).First();
             if (insumo != null)
             {
-                insumo.stockFarmacia = insumo.stockFarmacia + item.cantidadAutorizada;
+                insumo.stockFarmacia = insumo.stockFarmacia + item.cantidadEntregada;
                 db.Entry(insumo).State = EntityState.Modified;
             }
-            //TODO: Si el insumo no existe se deberia insertar en la BD
+            else
+            {
+                var newStock = new StockFarmacia();
+                newStock.hospitalId = hospitalId;
+                newStock.insumoId = item.insumoId;
+                newStock.stockFarmacia = item.cantidadEntregada;
+                db.StockFarmacias.Add(newStock);
+            }
         }
 
-        private void ActualizarStockConDetallesRemito(int idPedido)
+        private void ActualizarStockSiahConDetallesRemito(int idPedido)
         {
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).
                 Where(d => d.pedidoId == idPedido).

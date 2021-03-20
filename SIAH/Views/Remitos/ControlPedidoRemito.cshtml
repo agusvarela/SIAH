@@ -701,7 +701,7 @@
                     var $tdCantidadAutorizada = $('<td align="center">').append(item.cantidadAutorizada);
                     var $tdCantidadEntregada = $('<td align="center">').append(item.cantidadEntregada);
 
-                    var $diferencia = Math.abs(item.cantidadEntregada - item.cantidadAutorizada);
+                    var $diferencia = item.cantidadEntregada - item.cantidadAutorizada;
                     var $tdDiferencia = $('<td align="center">').append($diferencia);
 
                     var $precioAMostrar = new Intl.NumberFormat('de-DE').format(item.precioUnitario);
