@@ -1,4 +1,6 @@
 ﻿using SIAH.Context;
+using SIAH.Models;
+using SIAH.Models.Insumos;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -53,7 +55,8 @@ namespace SIAH.Controllers
         // GET: Reportes/ReporteConsolidado
         public ActionResult ReporteConsolidado(String fechaInicio, String fechaFin)
         {
-            if(fechaFin != null && fechaInicio != null){
+            if (fechaFin != null && fechaInicio != null)
+            {
                 var start = fechaInicio.Split('/');
                 var end = fechaFin.Split('/');
 
@@ -99,7 +102,7 @@ namespace SIAH.Controllers
             //Declaro la cantidad de filas y de columnas
             var rows = db.Insumos.ToList().Count() + 1;
             var columns = db.Hospitales.Join(db.Pedidos, x => x.id, p => p.hospitalId, (x, p) => new { x, p }).
-                Join(db.Remitos, m => m.p.id, a => a.id, (m,r) => new {m,r}).
+                Join(db.Remitos, m => m.p.id, a => a.id, (m, r) => new { m, r }).
                 Where(k => DbFunctions.TruncateTime(k.m.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) &&
                 DbFunctions.TruncateTime(k.m.p.fechaGeneracion) <= DbFunctions.TruncateTime(fechaFin)).
                 GroupBy(x => new { hospital = x.m.x.nombre }, (key, g) => new { Hospital = key.hospital }).
@@ -249,5 +252,55 @@ namespace SIAH.Controllers
             return View();
         }
 
+        //GET Reportes/ReporteStockFarmacias
+        public ActionResult ReporteStockFarmacias()
+        {
+            return View();
+        }
+
+        //GET Reportes/ReporteStockFarmaciaData
+        public JsonResult ReporteStockFarmaciaData()
+        {
+            List<List<int>> values = new List<List<int>>();
+            List<Hospital> hospitales;
+            List<Insumo> insumos;
+            hospitales = db.Hospitales.Select(x => x).OrderBy(x => x.id).ToList();
+            var hospitalList = hospitales.Select(x => x.nombre).ToList();
+            insumos = db.Insumos.Select(x => x).OrderBy(x => x.id).ToList();
+            var insumolist = insumos.Select(x => x.nombre).ToList();
+
+            var stockFarmacia = db.StockFarmacias
+                .Select(x => x).ToList();
+
+            foreach (var insumo in insumos)
+            {
+                var row = new List<int>(new int[40]);
+                var stockRow = stockFarmacia.Where(x => x.insumoId == insumo.id)
+                    .Select(x => new { hosp = x.hospitalId, stock = x.stockFarmacia })
+                    .ToList();
+                foreach(var stock in stockRow)
+                {
+                    row.Insert(stock.hosp - 2, stock.stock); // Hack porque los ID arrancan en 2
+                }
+                values.Add(row);
+            }
+
+            var response = new ResponseStockFarmacia(values, hospitalList, insumolist);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+    }
+}
+
+internal class ResponseStockFarmacia
+{
+    public List<List<int>> values = new List<List<int>>();
+    public List<string> hospitales;
+    public List<string> insumos;
+    public ResponseStockFarmacia(List<List<int>> vls, List<string> hosp, List<string> ins)
+    {
+        values = vls;
+        hospitales = hosp;
+        insumos = ins;
     }
 }

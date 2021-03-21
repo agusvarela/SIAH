@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Reporte Stock de Hospitales";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<div id="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Reporte Stock de Hospitales</h1>
+            <div class="banner-catalog__content">
+                Este reporte muestra la cantidad de insumos que tiene disponible cada hospital en su respectiva farmacia.
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-info">
+                <i class="material-icons pull-right" style="font-size: 100px">dashboard</i>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="container" style=" padding-bottom: 30px;">
+
+    <div class="form-horizontal ">
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                    <div class="form-card__content group">
+
+                        <div class="form-group">
+                            <div id="contenedor" class="col-md-12">
+                                <div id="table-container">
+                                    <table id="tablaReporte" class="table table-condensed table1">
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            const url = '/Reportes/ReporteStockFarmaciaData'
+            $.get(url, null, function (data) {
+                const headers = [{ title: 'Insumo' }];
+                const hospitales = data.hospitales;
+                hospitales.forEach(hospital => {
+                    headers.push({ title: 'Hospital ' + hospital });
+                });
+                var table = $("#tablaReporte").DataTable({
+                    columnDefs: [{ width: 300, targets: 0 }],
+                    fixedColumns: true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    },
+                    scrollX: true,
+                    columns: headers,
+                });
+
+
+                table.draw();
+                for (let i = 0; i < data.values.length; i++) {
+                    var currentRow = $('<tr>');
+                    currentRow.append('<td class="text-center" style="font-weight: bold;">' + data.insumos[i] + '</td>');
+                    for (let j = 0; j < 40; j++) {
+                        if (data.values[i][j] !== undefined) {
+                            currentRow.append('<td class="text-center">' + data.values[i][j] + '</td>');
+                        } else {
+                            currentRow.append('<td class="text-center">0</td>');
+                        }
+                    }
+                    currentRow.append('</tr>');
+                    table.row.add(currentRow);
+                }
+                console.log(table);
+                table.draw();
+                table.on('draw.dt', function () { $("#loading").css("display", "none"); })
+            });
+
+        });
+
+    </script>
+}

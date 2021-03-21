@@ -25,6 +25,7 @@
     <mvcSiteMapNode title="Compras" controller="Compras" action="Index"/>
     <mvcSiteMapNode title="Reportes BI" controller="Reportes" action="ReporteBI"/>
     <mvcSiteMapNode title="Reporte Consolidado" controller="Reportes" action="ReporteConsolidado"/>
+    <mvcSiteMapNode title="Reporte Stock de Hospitales" controller="Reportes" action="ReporteStockFarmacias"/>
     <mvcSiteMapNode title="Usuarios" controller="Account" action="Index"/>
     <mvcSiteMapNode title="Hospitales" controller="Hospitales" action="Index"/>
     <mvcSiteMapNode title="Remitos" controller="Remitos" action="Index">
