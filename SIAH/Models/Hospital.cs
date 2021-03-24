@@ -19,6 +19,7 @@ namespace SIAH.Models
         public Localidad localidad { get; set; }
 
         public Decimal presupuesto { get; set; }
+        public Decimal presupuestoDisponible { get; set; }
 
         [Display(Name = "Latitud")]
         public String latitud { get; set; }

@@ -42,5 +42,7 @@ namespace SIAH.Models.Reclamos
 
         public int estadoReclamoId { get; set; }
         public EstadoReclamo estadoReclamo { get; set; }
+
+
     }
 }

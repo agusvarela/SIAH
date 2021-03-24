@@ -1,14 +1,9 @@
 ﻿using SIAH.Models;
 using SIAH.Models.Insumos;
 using SIAH.Models.Pedidos;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Web;
-using System.Web.Configuration;
 using SIAH.Models.Remitos;
 using SIAH.Models.Compras;
 
@@ -70,6 +65,10 @@ namespace SIAH.Context
         public DbSet<Models.Registro.Registro> Registros { get; set; }
 
         public DbSet<Models.Registro.DetalleRegistro> DetallesRegistro { get; set; }
+
+        public DbSet<Models.AjusteSIAH.AjusteSIAH> AjusteSIAHs { get; set; }
+
+        public DbSet<Models.AjusteSIAH.DetalleAjusteSIAH> DetalleAjusteSIAHs { get; set; }
     }
 
 }

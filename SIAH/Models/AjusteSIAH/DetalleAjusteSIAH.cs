@@ -2,14 +2,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SIAH.Models.Registro
+namespace SIAH.Models.AjusteSIAH
 {
-    public class DetalleRegistro
+    public class DetalleAjusteSIAH
     {
         [Key]
         [Column(Order = 1)]
-        public int registroId { get; set; }
-        public Registro registro { get; set; }
+        public int ajusteId { get; set; }
+        public AjusteSIAH ajuste { get; set; }
 
         [Key]
         [Column(Order = 2)]
@@ -17,5 +17,7 @@ namespace SIAH.Models.Registro
         public Insumo insumo { get; set; }
         public int cantidad { get; set; }
         public bool isNegative { get; set; }
+        public string info { get; set; }
+
     }
 }

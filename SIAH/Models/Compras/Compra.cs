@@ -17,8 +17,14 @@ namespace SIAH.Models.Compras
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaEntregaEfectiva { get; set; }
+        public DateTime fechaCargaCompra { get; set; }
 
         public ICollection<DetalleCompra> detallesCompra { get; set; }
+
+        public string proveedor { get; set; }
+        public string cuilProveedor { get; set; }
+        public string numeroComprobante { get; set; }
+
         public Compra()
         {
             this.detallesCompra = new HashSet<DetalleCompra>();

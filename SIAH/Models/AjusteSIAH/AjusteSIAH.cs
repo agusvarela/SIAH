@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 
-namespace SIAH.Models.Registro
+namespace SIAH.Models.AjusteSIAH
 {
-    public class Registro
+    public class AjusteSIAH
     {
-        [Display(Name = "Id Registro")]
+        [Display(Name = "Id Ajuste")]
         [Key]
         public int id { get; set; }
 
@@ -15,20 +17,9 @@ namespace SIAH.Models.Registro
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime fechaGeneracion { get; set; }
 
-        [Display(Name = "Destinatario")]
-        public string destinatario { get; set; }
         public string info { get; set; }
-        public string tipo { get; set; }
+
         public int usuarioId { get; set; }
         public UserAccount usuario { get; set; }
-        public int hospitalId { get; set; }
-        public Hospital hospital { get; set; }
-
-        public ICollection<DetalleRegistro> detallesRegistro { get; set; }
-
-        public Registro()
-        {
-            detallesRegistro = new HashSet<DetalleRegistro>();
-        }
     }
 }

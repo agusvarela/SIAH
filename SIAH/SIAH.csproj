@@ -340,7 +340,17 @@
     <Compile Include="Migrations\202010312021599_add_registro_direccion.Designer.cs">
       <DependentUpon>202010312021599_add_registro_direccion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202103242246213_ajuste_compras_registro_presupuesto.cs" />
+    <Compile Include="Migrations\202103242246213_ajuste_compras_registro_presupuesto.designer.cs">
+      <DependentUpon>202103242246213_ajuste_compras_registro_presupuesto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103242252525_ajuste_detalle.cs" />
+    <Compile Include="Migrations\202103242252525_ajuste_detalle.designer.cs">
+      <DependentUpon>202103242252525_ajuste_detalle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AjusteSIAH\AjusteSIAH.cs" />
+    <Compile Include="Models\AjusteSIAH\DetalleAjusteSIAH.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
     <Compile Include="Models\Enums\DefaultRoles.cs" />
@@ -352,6 +362,7 @@
     <Compile Include="Models\Pedidos\DetallePedido.cs" />
     <Compile Include="Models\Pedidos\Estado.cs" />
     <Compile Include="Models\Pedidos\Pedido.cs" />
+    <Compile Include="Models\Reclamos\DetalleReclamo.cs" />
     <Compile Include="Models\Reclamos\EstadoReclamo.cs" />
     <Compile Include="Models\Reclamos\Reclamo.cs" />
     <Compile Include="Models\Registro\DetalleRegistro.cs" />
@@ -819,6 +830,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010312021599_add_registro_direccion.resx">
       <DependentUpon>202010312021599_add_registro_direccion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103242246213_ajuste_compras_registro_presupuesto.resx">
+      <DependentUpon>202103242246213_ajuste_compras_registro_presupuesto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103242252525_ajuste_detalle.resx">
+      <DependentUpon>202103242252525_ajuste_detalle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
