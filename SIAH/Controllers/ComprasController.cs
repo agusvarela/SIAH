@@ -50,27 +50,47 @@ namespace SIAH.Controllers
         {
             try
             {
-                string fileExtension = Path.GetExtension(file.FileName);
-                if (fileExtension != ".xls" && fileExtension != ".xlsx")
-                {
-                    return RedirectToAction("CargarCompra", new { param = "failure" });
-                }
                 string fileName = Path.GetFileName(file.FileName);
                 string path = Path.Combine(Server.MapPath("~/CargaRemitosCSV"), fileName);
                 file.SaveAs(path);
 
-                ViewBag.Message = "";
+                ViewBag.Message = "Archivo Subido";
                 ExportToCSV(path);
                 System.IO.File.Delete(path);
                 CargarRemitoCompra(fechaEntregaEfectiva);
                 System.IO.File.Delete($"{Server.MapPath("~/CargaRemitosCSV")}/RemitoCompra.csv");
-                return RedirectToAction("CargarCompra", new { param = "success" });
+                return View();
             }
             catch (Exception e)
             {
+                System.IO.File.Delete($"{Server.MapPath("~/CargaRemitosCSV")}/RemitoCompra.csv");
+                ViewBag.Message = "No selecciono ningun archivo";
                 Console.WriteLine(e.Message);
-                return RedirectToAction("CargarCompra", new { param = "failure" });
+                return View();
             }
+            //try
+            //{
+            //    string fileExtension = Path.GetExtension(file.FileName);
+            //    if (fileExtension != ".xls" && fileExtension != ".xlsx")
+            //    {
+            //        return RedirectToAction("CargarCompra", new { param = "failure" });
+            //    }
+            //    string fileName = Path.GetFileName(file.FileName);
+            //    string path = Path.Combine(Server.MapPath("~/CargaRemitosCSV"), fileName);
+            //    file.SaveAs(path);
+
+            //    ViewBag.Message = "";
+            //    ExportToCSV(path);
+            //    System.IO.File.Delete(path);
+            //    CargarRemitoCompra(fechaEntregaEfectiva);
+            //    System.IO.File.Delete($"{Server.MapPath("~/CargaRemitosCSV")}/RemitoCompra.csv");
+            //    return RedirectToAction("CargarCompra", new { param = "success" });
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //    return RedirectToAction("CargarCompra", new { param = "failure" });
+            //}
         }
 
         //GET: Compras/Details
@@ -111,7 +131,8 @@ namespace SIAH.Controllers
 
         private void ActualizarDatos(int compraId, StreamReader reader)
         {
-            var line = reader.ReadLine();
+            var line = reader.ReadLine().Replace("\"","");
+            
             var values = line.Split(',');
             var insumoId = int.Parse(values[0]);
             var cantidadComprada = int.Parse(values[1]);
