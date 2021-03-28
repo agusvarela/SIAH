@@ -69,6 +69,9 @@ namespace SIAH.Context
         public DbSet<Models.AjusteSIAH.AjusteSIAH> AjusteSIAHs { get; set; }
 
         public DbSet<Models.AjusteSIAH.DetalleAjusteSIAH> DetalleAjusteSIAHs { get; set; }
+
+        public DbSet<Models.Reclamos.DetalleReclamo> DetallesReclamo { get; set; }
+
     }
 
 }

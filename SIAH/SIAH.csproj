@@ -348,6 +348,10 @@
     <Compile Include="Migrations\202103242252525_ajuste_detalle.designer.cs">
       <DependentUpon>202103242252525_ajuste_detalle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202103282151075_cantidad_detalle_reclamo.cs" />
+    <Compile Include="Migrations\202103282151075_cantidad_detalle_reclamo.designer.cs">
+      <DependentUpon>202103282151075_cantidad_detalle_reclamo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AjusteSIAH\AjusteSIAH.cs" />
     <Compile Include="Models\AjusteSIAH\DetalleAjusteSIAH.cs" />
@@ -836,6 +840,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103242252525_ajuste_detalle.resx">
       <DependentUpon>202103242252525_ajuste_detalle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103282151075_cantidad_detalle_reclamo.resx">
+      <DependentUpon>202103282151075_cantidad_detalle_reclamo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

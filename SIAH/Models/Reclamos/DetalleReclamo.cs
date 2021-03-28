@@ -5,14 +5,15 @@ namespace SIAH.Models.Reclamos
 {
     public class DetalleReclamo
     {
-        [Key, ForeignKey("Reclamo")]
-        [Column(Order = 0)]
+        [Key]
+        [Column(Order = 1)]
         public int pedidoId { get; set; }
         public Reclamo reclamo { get; set; }
 
         [Key]
         [Column(Order = 2)]
         public int insumoId { get; set; }
+        public int cantidad { get; set; }
 
         public Insumos.Insumo insumo { get; set; }
 
