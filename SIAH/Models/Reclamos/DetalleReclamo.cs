@@ -16,6 +16,8 @@ namespace SIAH.Models.Reclamos
         public int cantidad { get; set; }
 
         public Insumos.Insumo insumo { get; set; }
+        public int tipoReclamoId { get; set; }
+        public TipoReclamo tipoReclamo { get; set; }
 
         public string observacion { get; set; }
 

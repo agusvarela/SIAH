@@ -43,6 +43,10 @@ namespace SIAH.Models.Reclamos
         public int estadoReclamoId { get; set; }
         public EstadoReclamo estadoReclamo { get; set; }
 
-
+        public ICollection<DetalleReclamo> detallesReclamo { get; set; }
+        public Reclamo()
+        {
+            this.detallesReclamo = new HashSet<DetalleReclamo>();
+        }
     }
 }
