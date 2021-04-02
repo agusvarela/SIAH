@@ -20,9 +20,21 @@ namespace SIAH.Controllers
         private SIAHContext db = new SIAHContext();
 
         // GET: Compras
-        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
-        public ActionResult Index()
+        [AuthorizeUserAccessLevel(UserRole = "Compras", UserRole2 = "DirectorArea")]
+        public ActionResult Index(String param)
         {
+            if (param != null)
+            {
+                if (param.CompareTo("success") == 0)
+                {
+                    ViewBag.success = true;
+                }
+                else
+                {
+                    ViewBag.success = false;
+                    ViewBag.problem = param;
+                };
+            }
             return View(db.Compras.ToList());
         }
 
@@ -50,6 +62,16 @@ namespace SIAH.Controllers
         [HttpPost]
         public ActionResult CargarCompra(Compra compra)
         {
+            var compraCargada = db.Compras.Any(compraDB => compraDB.numeroComprobante == compra.numeroComprobante && compraDB.cuilProveedor == compra.cuilProveedor);
+
+            if (compraCargada)
+            {
+                string acceptValue = "La compra ya se encuentra cargada.";
+                var result = Content(JsonConvert.SerializeObject(new { error = acceptValue }), "application/json; charset=utf-8");
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return result;
+            }
+
             compra.id = db.Insumos.ToList().Last().id + 1;
 
             try
@@ -68,7 +90,7 @@ namespace SIAH.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
-                string acceptValue = "La compra ya se encuentra cargada.";
+                string acceptValue = "Ocurrio un error inesperado al intentar guardar la compra.";
                 var result = Content(JsonConvert.SerializeObject(new { error = acceptValue }), "application/json; charset=utf-8");
                 HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return result;
@@ -76,7 +98,7 @@ namespace SIAH.Controllers
         }
 
         //GET: Compras/Details
-        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
+        [AuthorizeUserAccessLevel(UserRole = "Compras", UserRole2 = "DirectorArea")]
         public ActionResult Details(int id)
         {
             Compra compra = db.Compras.Include(d => d.detallesCompra).Include(c => c.detallesCompra.Select(x => x.insumo)).Where(r => r.id == id).First();

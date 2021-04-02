@@ -17,6 +17,8 @@ namespace SIAH.Models.Compras
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaEntregaEfectiva { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaCargaCompra { get; set; }
 
         public ICollection<DetalleCompra> detallesCompra { get; set; }

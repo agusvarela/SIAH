@@ -3,6 +3,13 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
 }
 
 
@@ -21,6 +28,7 @@
             </div>
         </div>
     </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <br />
     <div class="container" style=" padding-bottom: 30px;">
         <div class="form-horizontal">
@@ -60,7 +68,9 @@
                                     <thead>
                                         <tr class="list-group-item-info" style="border-bottom: solid">
                                             <th class="text-center">Número de Compra</th>
+                                            <th class="text-center">N° Comprobante</th>
                                             <th class="text-center">Fecha de Compra</th>
+                                            <th class="text-center">Fecha de Entrega</th>
                                         </tr>
                                     </thead>
 
@@ -70,6 +80,12 @@
                                             <tr onclick="location.href='@Url.Action("Details", "Compras", new { id = item.id }, Request.Url.Scheme)'" title="Ver detalle">
                                                 <td class="text-center">
                                                     @Html.DisplayFor(modelItem => item.id)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.numeroComprobante)
+                                                </td>
+                                                <td class="text-center">
+                                                    @Html.DisplayFor(modelItem => item.fechaCargaCompra)
                                                 </td>
                                                 <td class="text-center">
                                                     @Html.DisplayFor(modelItem => item.fechaEntregaEfectiva)
@@ -128,6 +144,36 @@
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 } });;
             sessionStorage.setItem("From", "Compras");
+
+            if (@ViewBag.success.ToString().ToLower() === true) {
+                $.notify({
+                    title: '<strong>Aviso!</strong><br/>',
+                    message: 'Compra impactada correctamente.'
+                }, {
+                    type: 'success',
+                    offset: {
+                        x: 20,
+                        y: 90
+                    }
+                },
+                );
+
+            }
+            else {
+                if (@ViewBag.validacion.ToString().ToLower()=== true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'Hubo un error en la carga de la compra.'
+                    }, {
+                        type: 'danger',
+                        offset: {
+                            x: 20,
+                            y: 80
+                        }
+                    },
+                    );
+                }
+            }
         });
 
 

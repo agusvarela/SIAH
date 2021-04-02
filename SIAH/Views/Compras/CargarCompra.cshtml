@@ -11,7 +11,7 @@
 
     }
 }
-@using (Html.BeginForm())
+@using (Html.BeginForm("CargarCompra", "Compras", FormMethod.Post, new { id = "cargarCompraForm" }))
 {
     <div class="banner-catalog">
         <div class="container">
@@ -21,6 +21,7 @@
             </div>
         </div>
     </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <br />
     <div class="container" style=" padding-bottom: 30px;">
 
@@ -41,8 +42,8 @@
                                     <div class="form-group">
                                         @Html.Label("Nombre", htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-8">
-                                            <input class="form-control text-box single-line valid" type="text" data-val="true" data-val-length="El campo proveedor debe ser una cadena con una longitud máxima de 255."
-                                                   data-val-length-max="255" data-val-required="El nombre del proveedor es obligatorio." id="proveedor" name="proveedor" required placeholder="Ingrese el nombre del proveedor" />
+                                            <input class="form-control text-box single-line valid" id="proveedor" name="proveedor" required type="text" data-val="true" 
+                                                   placeholder="Ingrese el nombre del proveedor" oninput="checkText(this, 5);" />
                                             @Html.ValidationMessageFor(model => model.cuilProveedor, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -51,8 +52,8 @@
                                     <div class="form-group">
                                         @Html.Label("CUIL", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-6">
-                                            <input class="form-control text-box single-line valid" type="number" data-val="true" data-val-length="El campo debe poseer una longitud de 11 dígitos." data-val-length-max="11"
-                                                   min="11" data-val-required="El CUIL es obligatorio." id="cuil" name="cuil" required placeholder="CUIL del proveedor" />
+                                            <input class="form-control text-box single-line valid" type="text" data-val="true" data-val-length="El campo debe poseer una longitud de 11 dígitos." data-val-length-max="11"
+                                                   min="11" data-val-required="El CUIL es obligatorio." oninput="checkNumber(this, 11);" id="cuil" name="cuil" required placeholder="CUIL del proveedor" />
                                             @Html.ValidationMessageFor(model => model.proveedor, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -64,8 +65,8 @@
                                     <div class="form-group">
                                         @Html.Label("Número Comprobante", htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-6">
-                                            <input class="form-control text-box single-line valid" type="number" data-val="true" data-val-length="El campo debe poseer una longitud de 12 dígitos." data-val-length-max="12"
-                                                   min="12" data-val-required="El número de factura es obligatorio." id="numeroComprobante" name="numeroComprobante" required placeholder="Número de comprobante" style="margin-top: 10px;" />
+                                            <input class="form-control text-box single-line valid" type="text" data-val="true" data-val-length="El campo debe poseer una longitud de 12 dígitos." pattern="[0-9]+" data-val-length-max="12"
+                                                   min="12" data-val-required="El número de comprobante es obligatorio." oninput="checkNumber(this, 12);" id="numeroComprobante" name="numeroComprobante" required placeholder="Número de comprobante" style="margin-top: 10px;" />
                                             @Html.ValidationMessageFor(model => model.numeroComprobante, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -74,8 +75,8 @@
                                     <div class="form-group">
                                         @Html.Label("Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-8">
-                                            <input id="fechaEntregaEfectiva" style="font-size:16px; padding-top: 10px; padding-left: 10px; width: 125px; border: 0; background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2);
-                                                background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" readonly />
+                                            <input id="fechaEntregaEfectiva" type="date" onchange="checkFecha()" style="font-size:16px; padding-top: 10px; padding-left: 10px; width: 150px; border: 0; background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2);
+                                                background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" required />
                                             @Html.ValidationMessageFor(model => model.fechaEntregaEfectiva, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -84,7 +85,7 @@
                             <div class="row" style="padding-top: 40px;"></div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input type="file" class="form-control-file btn btn-info btn-round" id="file" name="file" accept=".csv" onchange="checkfile(this);" style="width: 500px;" />
+                                    <input type="file" class="form-control-file btn btn-info btn-round" id="file" name="file" accept=".csv" onchange="checkfile(this);" style="width: 500px;" required />
                                     <label for="file" style="border-left-width: 10px; padding-left: 30px; padding-top: 10px;">Seleccione un archivo con extensión .csv</label>
                                     <input type="button" id="cargarCompra" value="Cargar compra" class="btn btn-round btn-success pull-right" data-toggle="modal" data-target="#myModal" style="margin-right: 20px; margin-top: 20px;" />
                                 </div>
@@ -94,12 +95,9 @@
                 </div>
             </div>
         </div>
-        @if (Session["rol"].ToString() == "DirectorArea")
-        {
-            <div class="col-sm-4">
-                <input type="button" style="margin-top: 40px;" id="volver" value="Volver al listado de compras" class="btn pull-left btn-primary" />
-            </div>
-        }
+        <div class="col-sm-4">
+            <input type="button" style="margin-top: 40px;" id="volver" value="Volver al listado de compras" class="btn pull-left btn-primary" />
+        </div>
     </div>
 
     @Html.TextBox("fechaCargaCompra", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = DateTime.Today, @name = "fechaEntregaEfectiva", @id = "fechaCargaCompra", @type = "hidden", style = "margin-top: 0px;" })
@@ -109,33 +107,56 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css" />
     <script type="text/javascript">
         var detalleJson;
+        var fileSelected;
 
         $(document).ready(function () {
+            document.getElementById('fechaEntregaEfectiva').setCustomValidity('La fecha de entrega es requerida.');
+
             $('#cargarCompra').click(function () {
-                $.ajax({
-                    url: "/Compras/CargarCompra",
-                    type: "POST",
-                    data: JSON.stringify({
-                        cuilProveedor: $('#cuil').val(),
-                        proveedor: $('#proveedor').val(),
-                        fechaEntregaEfectiva: $('#fechaEntregaEfectiva').val(),
-                        fechaCargaCompra: $('#fechaCargaCompra').val(),
-                        numeroComprobante: $('#numeroComprobante').val(),
-                        detallesCompra: detalleJson
-                    }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        console.log(response);
-                    },
-                    error: function (xhr, error) {
-                        console.debug(xhr); console.debug(error);
-                    }
-                });
+                if (document.getElementById('cargarCompraForm').reportValidity()) {
+                    $.ajax({
+                        url: "/Compras/CargarCompra",
+                        type: "POST",
+                        data: JSON.stringify({
+                            cuilProveedor: $('#cuil').val(),
+                            proveedor: $('#proveedor').val(),
+                            fechaEntregaEfectiva: $('#fechaEntregaEfectiva').val(),
+                            fechaCargaCompra: $('#fechaCargaCompra').val(),
+                            numeroComprobante: $('#numeroComprobante').val(),
+                            detallesCompra: detalleJson
+                        }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            location.href = '/Compras?param=success';
+                        },
+                        error: function (error) {
+                            if (error.status == 403) {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: "El comprobante que esta deseando cargar, ya se encuentra previamente cargado.",
+                                    icon: 'error',
+                                    confirmButtonColor: "#3085d6",
+                                    showCloseButton: true,
+                                    confirmButtonText: 'Ok',
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: "Hubo un error inesperado al intentar guardar el comprobante.",
+                                    icon: 'error',
+                                    confirmButtonColor: "#3085d6",
+                                    showCloseButton: true,
+                                    confirmButtonText: 'Ok',
+                                });
+                            }
+                        }
+                    });
+                }
             });
 
             $('#fechaEntregaEfectiva').datepicker({
-                dateFormat: 'dd/mm/yy',
+                dateFormat: 'yy-mm-dd',
                 changeMonth: true,
                 changeYear: true,
                 maxDate: 0,
@@ -198,6 +219,32 @@
             }
         });
 
+        function checkFecha() {
+            if (document.getElementById('fechaEntregaEfectiva').value != '') {
+                document.getElementById('fechaEntregaEfectiva').setCustomValidity('');
+            }
+        }
+
+        function checkNumber(event, length) {
+            if ((event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105)) {
+                return false;
+            }
+
+            if (event.value.length != length) {
+                document.getElementById(event.id).setCustomValidity("El número debe ser de " + length + " dígitos.");
+            } else {
+                document.getElementById(event.id).setCustomValidity("");
+            }
+        }
+
+        function checkText(event, length) {
+            if (event.value.length < length) {
+                document.getElementById(event.id).setCustomValidity("El nombre debe poseer mínimo " + length + " caracteres.");
+            } else {
+                document.getElementById(event.id).setCustomValidity("");
+            }
+        }
+
         // convert csv to json
         function csvJSON(csvText) {
             let lines = [];
@@ -229,13 +276,22 @@
         function checkfile(sender) {
             var validExts = ".csv";
             var fileExt = sender.value;
+            fileSelected = fileExt;
             fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
 
             if (validExts != fileExt) {
+
+                Swal.fire({
+                    title: 'Observación',
+                    text: "No seleccionó ningún archivo o la extensión no era del tipo .csv, por favor seleccione nuevamente.",
+                    icon: 'info',
+                    confirmButtonColor: "#3085d6",
+                    showCloseButton: true,
+                    confirmButtonText: 'Ok',
+                });
+
                 detalleJson = "";
                 $('#file').val('');
-                alert("El archivo seleccionado es invalido, el tipo de archivo valido es: " +
-                    validExts.toString());
                 return false;
             }
 
