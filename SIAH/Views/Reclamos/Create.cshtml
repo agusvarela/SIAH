@@ -9,6 +9,8 @@
     String hospital = ViewBag.hospital;
     ViewBag.Title = "Generar Nuevo Reclamo";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
+    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+    var detallesPedido = jss.Serialize(ViewBag.detallesPedido);
 }
 
 @using (Html.BeginForm("Create", "Reclamos", FormMethod.Post, new { id = "reclamoForm" }))
@@ -30,43 +32,7 @@
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="row">
-                <div class="col-md-4">
-                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
-                        <div class="form-card__title info-header">
-                            <div class="alert-icon">
-                                <i class="material-icons">info_outline</i>
-                                <strong>Información general del Reclamo</strong>
-                            </div>
-                        </div>
-
-                        <div class="form-card__content group">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.fechaInicioReclamo, htmlAttributes: new { @class = "control-label col-md-7 " })
-                                    <div class="col-md-5">
-                                        @Html.TextBox("fechaInicioReclamo", DateTime.Today.ToString("yyyy-MM-dd"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today, @type = "hidden" })
-                                        <text class="form-control"><strong> @DateTime.Today.ToString("yyyy-MM-dd") </strong></text>
-                                        @Html.ValidationMessageFor(model => model.fechaInicioReclamo, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.pedidoId, "Número de Pedido", htmlAttributes: new { @class = "control-label col-md-7 " })
-                                    <div class="col-md-5">
-                                        @Html.TextBox("pedidoId", pedidoId, htmlAttributes: new { @class = "form-control pull-left", @readonly = "readonly", @type = "hidden" })
-                                        <text class="form-control"><strong> @pedidoId </strong></text>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="col-md-8" id="det">
+                <div class="col-md-12" id="det">
                     <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                         <div class="form-card__title purple-header">
                             <div class="alert-icon">
@@ -75,34 +41,94 @@
                             </div>
                         </div>
                         <div class="form-card__content group">
-                            <div class="col-sm-8">
+                            <div class="col-sm-12">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.tipoReclamoId, "Tipo Reclamo", htmlAttributes: new { @class = "control-label col-md-3" })
-                                    <div class="col-md-9">
-                                        @Html.DropDownList("tipoReclamoId", null, htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.tipoReclamoId, "", new { @class = "text-danger" })
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.fechaInicioReclamo, htmlAttributes: new { @class = "control-label col-md-7 " })
+                                        <div class="col-md-5">
+                                            @Html.TextBox("fechaInicioReclamo", DateTime.Today.ToString("yyyy-MM-dd"), htmlAttributes: new { @class = "form-control text-center", @readonly = "readonly", @value = DateTime.Today, @type = "hidden" })
+                                            <text class="form-control text-center"><strong> @DateTime.Today.ToString("yyyy-MM-dd") </strong></text>
+                                            @Html.ValidationMessageFor(model => model.fechaInicioReclamo, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-3" })
-                                    <div class="col-md-9">
-                                        @Html.TextBox("hospital", hospital, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
-                                        @Html.TextBox("hospitalId", hospitalId, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
-                                        <text class="form-control">@hospital</text>
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.pedidoId, "Número de Pedido", htmlAttributes: new { @class = "control-label col-md-7 " })
+                                        <div class="col-md-5">
+                                            @Html.TextBox("pedidoId", pedidoId, htmlAttributes: new { @class = "form-control  text-center", @readonly = "readonly", @type = "hidden" })
+                                            <text class="form-control text-center"><strong> @pedidoId </strong></text>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.observacionFamacia, htmlAttributes: new { @class = "control-label col-md-3" })
-                                    <div class="col-md-9">
-                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 150, htmlAttributes: new { @class = "form-control", @maxlength = "500", @onkeyup = "countChar(this)", @placeholder = "Detalle sus inconformidades respecto al pedido recibido para que sean evaluadas por la Oficina de Autorizaciones Hospitalarias", @required = "required" })
-                                        @Html.ValidationMessageFor(model => model.observacionFamacia, "", new { @class = "text-danger" })
+                                    <div class="col-md-4">
+                                        @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-5" })
+                                        <div class="col-md-7">
+                                            <text class="form-control text-center"><strong>@hospital</strong></text>
+                                            @Html.TextBox("hospital", hospital, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                            @Html.TextBox("hospitalId", hospitalId, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                            @Html.TextBox("tipoReclamoId", 1, htmlAttributes: new { @class = "form-control", @type = "hidden", @readonly = "readonly" })
+                                        </div>
                                     </div>
                                 </div>
 
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="col-md-12">
+                                <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                                    <div class="form-card__title  violet-header">
+                                        <div class="alert-icon">
+                                            <i class="material-icons">storage</i>
+                                            <strong>Listado de Insumos</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-card__content group">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table id="maintable" class=" table table-hover table-condensed">
+                                                        <thead>
+                                                            <tr class="text-center list-group-item-info">
+                                                                <th class="text-center">Nombre</th>
+                                                                <th class="text-center">Tipo </th>
+                                                                <th class="text-center">Cantidad</th>
+                                                                <th class="text-center">Precio Unitario</th>
+                                                                <th class="text-center">
+                                                                    Reclamar
+                                                                    <input id="syncAll" name="syncAll" type="checkbox" class="sync-all" onchange="allChecked();" />
+                                                                </th>
+                                                                <th class="text-center">Observación</th>
+                                                                <th class="text-center">Tipo de Reclamo</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody name="detallesReclamo" id="detallesReclamo">
+                                                            @foreach (var detalle in (IEnumerable<SIAH.Controllers.ReclamosController.DetallesForReclamo>)ViewBag.detallesPedido)
+                                                            {
+                                                                <tr>
+                                                                    <td class="text-center">@detalle.nombre <input class="insId" readonly type="hidden" value="@detalle.insumoId"></td>
+                                                                    <td class="text-center">@detalle.tipo</td>
+                                                                    <td class="text-center"><input class="cant form-control text-center" readonly value="@detalle.cantidad"></td>
+                                                                    <td class="text-center">@detalle.precioUnitario</td>
+                                                                    <td class="text-center">
+                                                                        <input id="sync" name="sync" type="checkbox" class="sync-box" onchange="checkBoxClicked();" />
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 30, htmlAttributes: new { @name = "dummyObservacion", @class = "form-control obs", @maxlength = "500", @placeholder = "Detalle sus inconformidades respecto al insumo recibido para que sean evaluadas por la Oficina de Autorizaciones Hospitalarias", @disabled = "disabled" })
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        @Html.DropDownListFor(model => model.tipoReclamoId, null,
+                                                                        "-- Seleccione un tipo --", 
+                                                                        htmlAttributes: new { @class = "form-control type", @style = "min-width: 200px;", @disabled = "disabled" })
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12" style="padding-top: 20px;">
                                 <div class="pull-right col-md-2">
                                     <input id="btn_reclamar" type="button" value="Generar Reclamo" class="btn pull-right btn-primary" />
                                 </div>
@@ -128,27 +154,35 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script type="text/javascript">
-            $(document).on('click', '#btn_reclamar', function () {
-                document.getElementById('observacionFamacia').reportValidity();
-                if (document.getElementById('observacionFamacia').checkValidity()) {
-                    Swal.fire({
-                        title: 'Se generará su reclamo',
-                        text: "¿Está seguro que desea continuar?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: "#28a745",
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonColor: "#dc3545",
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.value) {
-                            $('#reclamoForm').submit();
-                        }
-                    })
-                }
-            });
+<script type="text/javascript">
+        $(document).on('click', '#btn_reclamar', function () {
+                Swal.fire({
+                    title: 'Se generará su reclamo',
+                    text: "¿Está seguro que desea continuar?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var count = 0;
+                        $('#maintable > tbody  > tr').each(function () {
+                            var shouldSync = $(this).find('.sync-box')[0];
+                            if (shouldSync.checked) {
+                                $(this).find('.obs')[0].setAttribute("name", `detallesReclamo[${count}][observacion]`);
+                                $(this).find('.insId')[0].setAttribute("name", `detallesReclamo[${count}][insumoId]`);
+                                $(this).find('.cant')[0].setAttribute("name", `detallesReclamo[${count}][cantidad]`);
+                                $(this).find('.type')[0].setAttribute("name", `detallesReclamo[${count}][tipoReclamoId]`);
+                                count++;
+                            }
+                        });
+                        $('#reclamoForm').submit();
+                    }
+                })
+        });
 
         $(document).on('click', '#btn_cancelar', function () {
             Swal.fire({
@@ -171,21 +205,39 @@
             })
         });
         $(document).ready(function () {
-            var len = $('#observacionFamacia').val().length;
-            var countToShow = (500 - len).toString();
-            countToShow += '/500';
-            $('#charNum').text(countToShow);
         });
-        function countChar(val) {
-            var len = val.value.length;
-            let countToShow = '';
-            if (len >= 500) {
-                val.value = val.value.substring(0, 500);
+
+        function checkBoxClicked() {
+            $('#maintable > tbody  > tr').each(function () {
+                var shouldSync = $(this).find('.sync-box')[0];
+                if (shouldSync.checked) {
+                    $(this).find('.obs')[0].removeAttribute("disabled");
+                    $(this).find('.type')[0].removeAttribute("disabled");
+                } else {
+                    $(this).find('.obs')[0].setAttribute("disabled", "disabled");
+                    $(this).find('.type')[0].setAttribute("disabled", "disabled");
+                }
+
+            });
+
+        }
+
+        function allChecked() {
+            if ($('#syncAll').prop('checked')) {
+                $('#maintable > tbody  > tr').each(function () {
+                    $(this).find('.sync-box')[0].checked = true;
+                    $(this).find('.obs')[0].removeAttribute("disabled");
+                    $(this).find('.type')[0].removeAttribute("disabled");
+
+                });
             } else {
-                countToShow = (500 - len).toString();
-                countToShow += '/500';
-                $('#charNum').text(countToShow);
+                $('#maintable > tbody  > tr').each(function () {
+                    $(this).find('.sync-box')[0].checked = false;
+                    $(this).find('.obs')[0].setAttribute("disabled", "disabled");
+                    $(this).find('.type')[0].setAttribute("disabled", "disabled");
+                });
             }
-        };
-    </script>
+            checkBoxClicked();
+        }
+</script>
 }

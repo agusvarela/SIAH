@@ -57,7 +57,38 @@ namespace SIAH.Controllers
             ViewBag.hospitalId = hospitalId;
             ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre");
             ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo");
+            var detallesRemito = db.DetallesRemito.Include(d => d.remito).
+               Where(d => d.remitoId == pedidoId).
+               Select(x => new { insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada });
+            var detallesPedido = db.DetallesPedido.Include(x => x.insumo).Include("insumo.tiposInsumo").Where(x => x.pedidoId == pedidoId)
+            .Select(x => new DetallesForReclamo
+            {
+                nombre = x.insumo.nombre,
+                tipo = x.insumo.tiposInsumo.nombre,
+                cantidad = x.cantidad,
+                precioUnitario = x.insumo.precioUnitario,
+                insumoId = x.insumoId,
+            });
+            var detallesPedidoRemito = detallesPedido.Join(detallesRemito, s => s.insumoId, r => r.insumoRemitoId, (s, r) => new { s, r }).
+                Select(x => new DetallesForReclamo
+                {
+                    nombre = x.s.nombre,
+                    tipo = x.s.tipo,
+                    cantidad = x.r.cantidadEntregada,
+                    precioUnitario = x.s.precioUnitario,
+                    insumoId = x.s.insumoId,
+                }).ToList();
+            ViewBag.detallesPedido = detallesPedidoRemito;
             return View();
+        }
+
+        public class DetallesForReclamo
+        {
+            public string nombre {get; set;}
+            public string tipo { get; set; }
+            public int cantidad { get; set; }
+            public int insumoId { get; set; }
+            public decimal precioUnitario { get; set; }
         }
 
         // POST: Reclamos/Create
@@ -65,7 +96,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "id,observacionFamacia,fechaInicioReclamo,tipoReclamoId,pedidoId,hospitalId,estadoReclamoId")] Reclamo reclamo)
+        public async Task<ActionResult> Create([Bind(Include = "id,observacionFamacia,fechaInicioReclamo,tipoReclamoId,pedidoId,hospitalId,estadoReclamoId,detallesReclamo")] Reclamo reclamo)
         {
             Pedido pedido = db.Pedidos.Find(reclamo.pedidoId);
             if (ModelState.IsValid)
