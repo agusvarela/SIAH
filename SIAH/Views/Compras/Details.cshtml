@@ -18,7 +18,7 @@
 
     <div class="form-horizontal">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-12">
                 <div class="form-card form-card--purple form-card--tight animated zoomIn">
                     <div class="form-card__title  info-header">
                         <div class="alert-icon">
@@ -27,20 +27,65 @@
                         </div>
                     </div>
                     <div class="form-card__content group">
-
-
-                        <div class="form-group">
-                            @Html.Label("", "Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota " })
-                            <div class="col-md-12">
-                                @Html.TextBox("fechaEntregaEfectiva", Model.fechaEntregaEfectiva.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = Model.fechaEntregaEfectiva, @name = "fechaEntregaEfectiva", @type = "hidden" })
-                                <text class="form-control">@Model.fechaEntregaEfectiva.ToShortDateString()</text>
-                                @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.proveedor, "Proveedor", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                <div class="col-md-7">
+                                    @Html.TextBox("proveedor", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @type = "hidden" })
+                                    <text class="form-control">@Model.proveedor</text>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.cuilProveedor, "CUIL", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                <div class="col-md-7">
+                                    @Html.TextBox("cuil", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @type = "hidden" })
+                                    <text class="form-control">@Model.cuilProveedor</text>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.numeroComprobante, "Número Comprobante", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                <div class="col-md-7">
+                                    @Html.TextBox("numeroComprobante", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @type = "hidden" })
+                                    <text class="form-control">@Model.numeroComprobante</text>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.fechaEntregaEfectiva, "Fecha de Entrega", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                <div class="col-md-7">
+                                    @Html.TextBox("fechaEntrega", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @type = "hidden" })
+                                    <text class="form-control">@Model.fechaEntregaEfectiva.ToShortDateString()</text>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.fechaCargaCompra, "Fecha de Carga", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                <div class="col-md-7">
+                                    @Html.TextBox("fechaCarga", null, htmlAttributes: new { @readonly = "readonly", @class = "form-control", @type = "hidden" })
+                                    <text class="form-control">@Model.fechaCargaCompra.ToShortDateString()</text>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col-md-12">
                 <div class="form-card form-card--purple form-card--tight animated zoomIn">
                     <div class="form-card__title  violet-header">
                         <div class="alert-icon">
