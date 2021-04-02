@@ -9,6 +9,9 @@ using System.Data.Entity;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Office.Interop.Excel;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace SIAH.Controllers
 {
@@ -40,57 +43,36 @@ namespace SIAH.Controllers
                     ViewBag.problem = param;
                 };
             }
-            return View();
+            return View(new Compra());
         }
 
         // POST: Cargar compra
-        [AuthorizeUserAccessLevel(UserRole = "Compras", UserRole2 = "DirectorArea")]
         [HttpPost]
-        public ActionResult CargarCompra(HttpPostedFileBase file, DateTime fechaEntregaEfectiva)
+        public ActionResult CargarCompra(Compra compra)
         {
+            compra.id = db.Insumos.ToList().Last().id + 1;
+
             try
             {
-                string fileName = Path.GetFileName(file.FileName);
-                string path = Path.Combine(Server.MapPath("~/CargaRemitosCSV"), fileName);
-                file.SaveAs(path);
+                db.Compras.Add(compra);
+                foreach(var detalle in compra.detallesCompra) {
+                    ActualizarDatos(compra.id, detalle);
+                }
+                db.SaveChanges();
 
-                ViewBag.Message = "Archivo Subido";
-                ExportToCSV(path);
-                System.IO.File.Delete(path);
-                CargarRemitoCompra(fechaEntregaEfectiva);
-                System.IO.File.Delete($"{Server.MapPath("~/CargaRemitosCSV")}/RemitoCompra.csv");
-                return View();
+                string acceptValue = "La compra se cargo exitosamente.";
+                var result = Content(JsonConvert.SerializeObject(new { message = acceptValue }), "application/json; charset=utf-8");
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.Accepted;
+                return result;
             }
             catch (Exception e)
             {
-                System.IO.File.Delete($"{Server.MapPath("~/CargaRemitosCSV")}/RemitoCompra.csv");
-                ViewBag.Message = "No selecciono ningun archivo";
-                Console.WriteLine(e.Message);
-                return View();
+                Console.WriteLine(e.StackTrace);
+                string acceptValue = "La compra ya se encuentra cargada.";
+                var result = Content(JsonConvert.SerializeObject(new { error = acceptValue }), "application/json; charset=utf-8");
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return result;
             }
-            //try
-            //{
-            //    string fileExtension = Path.GetExtension(file.FileName);
-            //    if (fileExtension != ".xls" && fileExtension != ".xlsx")
-            //    {
-            //        return RedirectToAction("CargarCompra", new { param = "failure" });
-            //    }
-            //    string fileName = Path.GetFileName(file.FileName);
-            //    string path = Path.Combine(Server.MapPath("~/CargaRemitosCSV"), fileName);
-            //    file.SaveAs(path);
-
-            //    ViewBag.Message = "";
-            //    ExportToCSV(path);
-            //    System.IO.File.Delete(path);
-            //    CargarRemitoCompra(fechaEntregaEfectiva);
-            //    System.IO.File.Delete($"{Server.MapPath("~/CargaRemitosCSV")}/RemitoCompra.csv");
-            //    return RedirectToAction("CargarCompra", new { param = "success" });
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e.Message);
-            //    return RedirectToAction("CargarCompra", new { param = "failure" });
-            //}
         }
 
         //GET: Compras/Details
@@ -110,38 +92,11 @@ namespace SIAH.Controllers
             xlWorkBook.Close(false, "", true);
         }
 
-        private void CargarRemitoCompra(DateTime fechaEntregaEfectiva)
+        private void ActualizarDatos(int compraId, DetalleCompra detalleCompra)
         {
-            Compra compra = new Compra();
-            compra.fechaEntregaEfectiva = fechaEntregaEfectiva;
-            db.Compras.Add(compra);
-            db.SaveChanges();
-            var compraId = compra.id;
-            using (var reader = new StreamReader($"{Server.MapPath("~/CargaRemitosCSV")}/RemitoCompra.csv"))
-            {
-                var headerLine = reader.ReadLine();
-                while (!reader.EndOfStream)
-                {
-                    ActualizarDatos(compraId, reader);
-                }
-            }
-
-            db.SaveChanges();
-        }
-
-        private void ActualizarDatos(int compraId, StreamReader reader)
-        {
-            var line = reader.ReadLine().Replace("\"","");
-            
-            var values = line.Split(',');
-            var insumoId = int.Parse(values[0]);
-            var cantidadComprada = int.Parse(values[1]);
-            DetalleCompra detalleCompra = new DetalleCompra();
             detalleCompra.compraId = compraId;
-            detalleCompra.insumoId = insumoId;
-            detalleCompra.cantidadComprada = cantidadComprada;
             db.DetallesCompra.Add(detalleCompra);
-            ActualizarStock(insumoId, cantidadComprada);
+            ActualizarStock(detalleCompra.insumoId, detalleCompra.cantidadComprada);
         }
 
         private void ActualizarStock(int insumoId, int cantidadComprada)
@@ -149,7 +104,7 @@ namespace SIAH.Controllers
             Insumo insumo = db.Insumos.Find(insumoId);
             insumo.stock += cantidadComprada;
             insumo.stockFisico += cantidadComprada;
+            db.Entry(insumo).State = EntityState.Modified;
         }
-
     }
 }

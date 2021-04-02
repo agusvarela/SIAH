@@ -11,7 +11,7 @@
 
     }
 }
-@using (Html.BeginForm("CargarCompra", "Compras", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm())
 {
     <div class="banner-catalog">
         <div class="container">
@@ -31,16 +31,62 @@
                         <div class="form-card__title  purple-header">
                             <div class="alert-icon">
                                 <i class="material-icons">add</i>
-                                <strong>Carga de archivo</strong>
+                                <strong>Carga de detalles</strong>
                             </div>
                         </div>
                         <div class="form-card__content group">
 
                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("Nombre", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line valid" type="text" data-val="true" data-val-length="El campo proveedor debe ser una cadena con una longitud máxima de 255."
+                                                   data-val-length-max="255" data-val-required="El nombre del proveedor es obligatorio." id="proveedor" name="proveedor" required placeholder="Ingrese el nombre del proveedor" />
+                                            @Html.ValidationMessageFor(model => model.cuilProveedor, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("CUIL", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6">
+                                            <input class="form-control text-box single-line valid" type="number" data-val="true" data-val-length="El campo debe poseer una longitud de 11 dígitos." data-val-length-max="11"
+                                                   min="11" data-val-required="El CUIL es obligatorio." id="cuil" name="cuil" required placeholder="CUIL del proveedor" />
+                                            @Html.ValidationMessageFor(model => model.proveedor, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("Número Comprobante", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-6">
+                                            <input class="form-control text-box single-line valid" type="number" data-val="true" data-val-length="El campo debe poseer una longitud de 12 dígitos." data-val-length-max="12"
+                                                   min="12" data-val-required="El número de factura es obligatorio." id="numeroComprobante" name="numeroComprobante" required placeholder="Número de comprobante" style="margin-top: 10px;" />
+                                            @Html.ValidationMessageFor(model => model.numeroComprobante, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.Label("Fecha Entrega", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            <input id="fechaEntregaEfectiva" style="font-size:16px; padding-top: 10px; padding-left: 10px; width: 125px; border: 0; background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2);
+                                                background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" readonly />
+                                            @Html.ValidationMessageFor(model => model.fechaEntregaEfectiva, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top: 40px;"></div>
+                            <div class="row">
                                 <div class="col-md-12">
-                                    <input type="file" class="form-control-file btn btn-info btn-round" id="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                                    <label for="file">Seleccione un archivo con extensión .xls (Excel)</label>
-                                    <input type="submit" value="Cargar compra" class="btn btn-round btn-success pull-right" data-toggle="modal" data-target="#myModal" />
+                                    <input type="file" class="form-control-file btn btn-info btn-round" id="file" name="file" accept=".csv" onchange="checkfile(this);" style="width: 500px;" />
+                                    <label for="file" style="border-left-width: 10px; padding-left: 30px; padding-top: 10px;">Seleccione un archivo con extensión .csv</label>
+                                    <input type="button" id="cargarCompra" value="Cargar compra" class="btn btn-round btn-success pull-right" data-toggle="modal" data-target="#myModal" style="margin-right: 20px; margin-top: 20px;" />
                                 </div>
                             </div>
                         </div>
@@ -56,12 +102,52 @@
         }
     </div>
 
-    @Html.TextBox("fechaEntregaEfectiva", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = DateTime.Today, @name = "fechaEntregaEfectiva", @id = "fecha", @type = "hidden", style = "margin-top: 0px;" })
+    @Html.TextBox("fechaCargaCompra", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = DateTime.Today, @name = "fechaEntregaEfectiva", @id = "fechaCargaCompra", @type = "hidden", style = "margin-top: 0px;" })
 
 }
-    @section Scripts {
+@section Scripts {
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css" />
     <script type="text/javascript">
+        var detalleJson;
+
         $(document).ready(function () {
+            $('#cargarCompra').click(function () {
+                $.ajax({
+                    url: "/Compras/CargarCompra",
+                    type: "POST",
+                    data: JSON.stringify({
+                        cuilProveedor: $('#cuil').val(),
+                        proveedor: $('#proveedor').val(),
+                        fechaEntregaEfectiva: $('#fechaEntregaEfectiva').val(),
+                        fechaCargaCompra: $('#fechaCargaCompra').val(),
+                        numeroComprobante: $('#numeroComprobante').val(),
+                        detallesCompra: detalleJson
+                    }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (xhr, error) {
+                        console.debug(xhr); console.debug(error);
+                    }
+                });
+            });
+
+            $('#fechaEntregaEfectiva').datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0,
+                onClose: function (selectedDate) {},
+                monthNamesShort: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                showMonthAfterYear: true,
+                closeText: 'Cerrar',
+                currentText: 'Hoy',
+                showMonthAfterYear: true
+            });
+
             $('#volver').on('click', function (event) {
                 Swal.fire({
                     title: '¿Está seguro que desea volver?',
@@ -86,12 +172,12 @@
                     title: '<strong>Aviso!</strong><br/>',
                     message: 'Compra impactada correctamente.'
                 }, {
-                        type: 'success',
-                        offset: {
-                            x: 20,
-                            y: 90
-                        }
-                    },
+                    type: 'success',
+                    offset: {
+                        x: 20,
+                        y: 90
+                    }
+                },
                 );
 
             }
@@ -101,16 +187,64 @@
                         title: '<strong>Aviso!</strong><br/>',
                         message: 'Hubo un error en la carga de la compra.'
                     }, {
-                            type: 'danger',
-                            offset: {
-                                x: 20,
-                                y: 80
-                            }
-                        },
+                        type: 'danger',
+                        offset: {
+                            x: 20,
+                            y: 80
+                        }
+                    },
                     );
                 }
-
             }
-        })
+        });
+
+        // convert csv to json
+        function csvJSON(csvText) {
+            let lines = [];
+            const linesArray = csvText.split('\n');
+            // for trimming and deleting extra space
+            linesArray.forEach((e) => {
+                const row = e.replace(/[\s]+[,]+|[,]+[\s]+/g, ',').trim();
+                lines.push(row);
+            });
+            // for removing empty record
+            lines.splice(lines.length - 1, 1);
+            const result = [];
+            const headers = lines[0].split(",");
+
+            for (let i = 1; i < lines.length; i++) {
+
+                const obj = {};
+                const currentline = lines[i].split(",");
+
+                for (let j = 0; j < headers.length; j++) {
+                    obj[headers[j]] = currentline[j];
+                }
+                result.push(obj);
+            }
+            return result; //JavaScript object
+            //return JSON.stringify(result); //JSON
+        }
+
+        function checkfile(sender) {
+            var validExts = ".csv";
+            var fileExt = sender.value;
+            fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+
+            if (validExts != fileExt) {
+                detalleJson = "";
+                $('#file').val('');
+                alert("El archivo seleccionado es invalido, el tipo de archivo valido es: " +
+                    validExts.toString());
+                return false;
+            }
+
+            const reader = new FileReader();
+            reader.readAsText(sender.files[0]);
+            reader.onload = () => {
+                const text = reader.result;
+                detalleJson = this.csvJSON(text);
+            };
+        }
     </script>
 }
