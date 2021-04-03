@@ -53,7 +53,7 @@
                                         @Html.Label("CUIL", htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-6">
                                             <input class="form-control text-box single-line valid" type="text" data-val="true" data-val-length="El campo debe poseer una longitud de 11 dígitos." data-val-length-max="11"
-                                                   min="11" data-val-required="El CUIL es obligatorio." oninput="checkNumber(this, 11);" id="cuil" name="cuil" required placeholder="CUIL del proveedor" />
+                                                   min="11" data-val-required="El CUIL es obligatorio." onkeypress="return checkNumber(event, 11)" onkeydown="return borrado(event)" id="cuil" name="cuil" required placeholder="CUIL del proveedor" />
                                             @Html.ValidationMessageFor(model => model.proveedor, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -66,7 +66,7 @@
                                         @Html.Label("Número Comprobante", htmlAttributes: new { @class = "control-label col-md-3" })
                                         <div class="col-md-6">
                                             <input class="form-control text-box single-line valid" type="text" data-val="true" data-val-length="El campo debe poseer una longitud de 12 dígitos." pattern="[0-9]+" data-val-length-max="12"
-                                                   min="12" data-val-required="El número de comprobante es obligatorio." oninput="checkNumber(this, 12);" id="numeroComprobante" name="numeroComprobante" required placeholder="Número de comprobante" style="margin-top: 10px;" />
+                                                   min="12" data-val-required="El número de comprobante es obligatorio." onkeypress="return checkNumber(event, 12)" onkeydown="return borrado(event)" id="numeroComprobante" name="numeroComprobante" required placeholder="Número de comprobante" style="margin-top: 10px;" />
                                             @Html.ValidationMessageFor(model => model.numeroComprobante, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -226,14 +226,35 @@
         }
 
         function checkNumber(event, length) {
-            if ((event.which >= 48 && event.which <= 57) || (event.which >= 96 && event.which <= 105)) {
-                return false;
+            var theEvent = event || window.event;
+
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+                // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var newLength = document.getElementById(event.currentTarget.id).value.length + 1;
+            var regex = /[0-9]/;
+            if (!regex.test(key) || newLength > length) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
             }
 
-            if (event.value.length != length) {
-                document.getElementById(event.id).setCustomValidity("El número debe ser de " + length + " dígitos.");
+            if (newLength < length) {
+                document.getElementById(event.currentTarget.id).setCustomValidity("El número debe ser de " + length + " dígitos.");
             } else {
-                document.getElementById(event.id).setCustomValidity("");
+                if (theEvent.returnValue) {
+                    document.getElementById(event.currentTarget.id).setCustomValidity("");
+                }
+            }
+        }
+
+        function borrado(event) {
+            if (event.keyCode == 8 || event.keyCode == 46) {
+                document.getElementById(event.currentTarget.id).setCustomValidity("El número debe ser de " + length + " dígitos.");
             }
         }
 
