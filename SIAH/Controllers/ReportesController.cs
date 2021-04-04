@@ -280,7 +280,7 @@ namespace SIAH.Controllers
                     .ToList();
                 foreach(var stock in stockRow)
                 {
-                    row.Insert(stock.hosp - 2, stock.stock); // Hack porque los ID arrancan en 2
+                    row[stock.hosp - 2] = stock.stock; // Hack porque los ID arrancan en 2
                 }
                 values.Add(row);
             }

@@ -3803,12 +3803,6 @@ section {
     height: 400px;
 }
 
-.table1 {
-    border-spacing: 0;
-    width: 100%;
-
-    border-width: 0;
-}
 .webgrid-table {
     font-family: Arial,Helvetica,sans-serif;
     font-size: 16px;
@@ -3835,6 +3829,32 @@ table.table1 td + table.table1 td {
     border-left: 1px solid #eee;
 }
 
+.table2 {
+    border-spacing: 0;
+    width: 100%;
+    border-width: 0;
+}
+
+table.table2 td, table.table2 th {
+    border-bottom: 1px solid #eee;
+    background: #ddd;
+    color: #000;
+    padding: 10px 25px;
+    border-left: solid thin white;
+}
+
+table.table2 th {
+    background-color: #9c27b0;
+    color: white;
+    border-color: white;
+}
+
+.table1 {
+    border-spacing: 0;
+    width: 100%;
+    border-width: 0;
+}
+
 table.table1 td, table.table1 th {
     border-bottom: 1px solid #eee;
     background: #ddd;
@@ -3853,7 +3873,7 @@ table.table1 tr td:last-child {
     background-color: #c075cd;
     color: #fff;
 }
-    th.v {
+th.v {
         position: sticky;
         background: #9c27b0;
         background-color: #9c27b0;
@@ -3867,7 +3887,7 @@ table.table1 tr td:last-child {
         /*max-width:initial;
     width:100%*/
         border-color:white;
-    }
+}
 
 
 .table {

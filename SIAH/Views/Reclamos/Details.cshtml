@@ -73,43 +73,15 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.tipoReclamo.tipo, "Tipo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
-                                        <text class="form-control">@Model.tipoReclamo.tipo</text>
-                                        <span>
-                                            @Model.tipoReclamo.descripcion
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
                                     @Html.LabelFor(model => model.Pedido, $"Pedido N°: {Model.pedidoId}", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                     <div class="col-md-10" style="padding: 10px 0px 0px 15px">
                                         <input type="button" id="btn_pedido" value="DETALLE DEL PEDIDO RECLAMADO" class="btn-info btn-sm bold" />
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br />
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
-                        <div class="form-card__title alert-header">
-                            <div class="alert-icon">
-                                <i class="material-icons">warning</i>
-                                <strong>Importante</strong>
-                            </div>
-                        </div>
-                        <div class="form-card__content group">
-
                             @if (Model.fechaFinReclamo.HasValue)
                             {
-                                <div class="col-sm-9">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.fechaFinReclamo, "Fecha resolución de reclamo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                         <div class="col-md-4">
@@ -118,38 +90,67 @@
                                     </div>
                                 </div>
                             }
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.observacionFamacia, "Observación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
-                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 10, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @placeholder = "Sin observación" })
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <br />
 
-                <div class="col-md-6">
-
+            <div class="row">
+                <div class="col-md-12">
                     <div class="form-card form-card--purple form-card--tight  animated zoomIn">
-                        <div class="form-card__title purple-header">
+                        <div class="form-card__title violet-header">
                             <div class="alert-icon">
-                                <i class="material-icons">info</i>
-                                <strong>Respuesta de la oficina de autorizaciones hospitalarias</strong>
+                                <i class="material-icons">storage</i>
+                                <strong>Listado de insumos reclamados</strong>
                             </div>
                         </div>
                         <div class="form-card__content group">
+
                             <div class="col-sm-12">
-                                @{
-                                    var textAreaRows = Model.fechaFinReclamo.HasValue ? 9 : 5;
-                                }
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.respuesta, "Respuesta", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
-                                        @Html.TextAreaFor(model => model.respuesta, textAreaRows, 10, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @placeholder = "Sin respuesta" })
-                                    </div>
-                                </div>
+                                <table id="maintable" class=" table table-hover table-condensed">
+                                    <thead>
+                                        <tr class="text-center list-group-item-info">
+                                            <th class="text-center">Nombre</th>
+                                            <th class="text-center">Tipo</th>
+                                            <th class="text-center">Cantidad</th>
+                                            <th class="text-center">Observación</th>
+                                            <th class="text-center">Tipo de Reclamo</th>
+                                            <th class="text-center">Respuesta</th>
+                                            <th class="text-center">Aceptado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody name="detallesReclamo" id="detallesReclamo">
+                                        @foreach (var detalle in (IEnumerable<SIAH.Controllers.ReclamosController.DetallesReclamoDTO>)ViewBag.DetallesReclamo)
+                                        {
+                                        <tr>
+                                            <td class="text-center">@detalle.nombre</td>
+                                            <td class="text-center">@detalle.tipo</td>
+                                            <td class="text-center">@detalle.cantidad</td>
+                                            <td class="text-center">@detalle.observacion</td>
+                                            <td class="text-center">@detalle.tipoReclamo</td>
+                                            <td class="text-center">@detalle.respuesta</td>
+                                            <td class="text-center">
+                                                @if (Model.estadoReclamoId != 41)
+                                                {
+                                                    <i class="material-icons icon-info" data-toggle="tooltip" title="El reclamo aun sigue en revisión">help_outline</i>
+                                                }
+                                                else
+                                                {
+                                                    if (detalle.accepted)
+                                                    {
+                                                        <i class="material-icons icon-success" data-toggle="tooltip" title="El reclamo por este insumo fue aceptado">done</i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="material-icons icon-danger" data-toggle="tooltip" title="El reclamo por este insumo fue rechazado">close</i>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -222,6 +223,14 @@
 
 @section Scripts {
     <script type="text/javascript">
+        $(document).ready(() => {
+            table = $("#maintable").DataTable({
+                "oLanguage": { "sEmptyTable": "No hay insumos cargados para este pedido" },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
+            });
+        });
         //Funcion para autoasignarse el reclamo
         $(document).on('click', '#btn_assign', function (event) {
             event.preventDefault();

@@ -9,8 +9,6 @@
     String hospital = ViewBag.hospital;
     ViewBag.Title = "Generar Nuevo Reclamo";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
-    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
-    var detallesPedido = jss.Serialize(ViewBag.detallesPedido);
 }
 
 @using (Html.BeginForm("Create", "Reclamos", FormMethod.Post, new { id = "reclamoForm" }))
@@ -37,7 +35,7 @@
                         <div class="form-card__title purple-header">
                             <div class="alert-icon">
                                 <i class="material-icons">add</i>
-                                <strong>Complete la informacion sobre su Reclamo</strong>
+                                <strong>Información general del reclamo</strong>
                             </div>
                         </div>
                         <div class="form-card__content group">
@@ -70,71 +68,83 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
-                                    <div class="form-card__title  violet-header">
-                                        <div class="alert-icon">
-                                            <i class="material-icons">storage</i>
-                                            <strong>Listado de Insumos</strong>
-                                        </div>
-                                    </div>
-                                    <div class="form-card__content group">
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <table id="maintable" class=" table table-hover table-condensed">
-                                                        <thead>
-                                                            <tr class="text-center list-group-item-info">
-                                                                <th class="text-center">Nombre</th>
-                                                                <th class="text-center">Tipo </th>
-                                                                <th class="text-center">Cantidad</th>
-                                                                <th class="text-center">Precio Unitario</th>
-                                                                <th class="text-center">
-                                                                    Reclamar
-                                                                    <input id="syncAll" name="syncAll" type="checkbox" class="sync-all" onchange="allChecked();" />
-                                                                </th>
-                                                                <th class="text-center">Observación</th>
-                                                                <th class="text-center">Tipo de Reclamo</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody name="detallesReclamo" id="detallesReclamo">
-                                                            @foreach (var detalle in (IEnumerable<SIAH.Controllers.ReclamosController.DetallesForReclamo>)ViewBag.detallesPedido)
-                                                            {
-                                                                <tr>
-                                                                    <td class="text-center">@detalle.nombre <input class="insId" readonly type="hidden" value="@detalle.insumoId"></td>
-                                                                    <td class="text-center">@detalle.tipo</td>
-                                                                    <td class="text-center"><input class="cant form-control text-center" readonly value="@detalle.cantidad"></td>
-                                                                    <td class="text-center">@detalle.precioUnitario</td>
-                                                                    <td class="text-center">
-                                                                        <input id="sync" name="sync" type="checkbox" class="sync-box" onchange="checkBoxClicked();" />
-                                                                    </td>
-                                                                    <td class="text-center">
-                                                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 30, htmlAttributes: new { @name = "dummyObservacion", @class = "form-control obs", @maxlength = "500", @placeholder = "Detalle sus inconformidades respecto al insumo recibido para que sean evaluadas por la Oficina de Autorizaciones Hospitalarias", @disabled = "disabled" })
-                                                                    </td>
-                                                                    <td class="text-center">
-                                                                        @Html.DropDownListFor(model => model.tipoReclamoId, null,
-                                                                        "-- Seleccione un tipo --", 
-                                                                        htmlAttributes: new { @class = "form-control type", @style = "min-width: 200px;", @disabled = "disabled" })
-                                                                    </td>
-
-                                                                </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-12" style="padding-top: 20px;">
-                                <div class="pull-right col-md-2">
-                                    <input id="btn_reclamar" type="button" value="Generar Reclamo" class="btn pull-right btn-primary" />
-                                </div>
-                            </div>
                         </div>
 
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                        <div class="form-card__title  violet-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">storage</i>
+                                <strong>Listado de Insumos del pedido</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-card__content group">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="alertArea  animated zoomIn" class="col-md-12">
+                                        <div class="alert alert-info pq-alert  animated zoomIn col-md-12">
+                                            <i class="fa fa-arrow-right"></i>
+                                            <span>Marque los insumos a reclamar, luego seleccione la cantidad, tipo de reclamo y agregue una observación</span>
+                                        </div>
+
+                                    </div>
+                                    <table id="maintable" class=" table table-hover table-condensed">
+                                        <thead>
+                                            <tr class="text-center list-group-item-info">
+                                                <th class="text-center">Nombre</th>
+                                                <th class="text-center">Tipo </th>
+                                                <th class="text-center">Cantidad</th>
+                                                <th class="text-center">Precio Unitario</th>
+                                                <th class="text-center">
+                                                    Reclamar
+                                                    <input id="syncAll" name="syncAll" type="checkbox" class="sync-all" onchange="allChecked();" />
+                                                </th>
+                                                <th class="text-center">Observación</th>
+                                                <th class="text-center">Tipo de Reclamo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="detallesReclamo" id="detallesReclamo">
+                                            @foreach (var detalle in (IEnumerable<SIAH.Controllers.ReclamosController.DetallesReclamoDTO>)ViewBag.detallesPedido)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">@detalle.nombre <input class="insId" readonly type="hidden" value="@detalle.insumoId"></td>
+                                                    <td class="text-center">@detalle.tipo</td>
+                                                    <td class="text-center"><input type="number" class="cant form-control text-center" max="@detalle.cantidad" min="0" readonly value="@detalle.cantidad"></td>
+                                                    <td class="text-center">@detalle.precioUnitario</td>
+                                                    <td class="text-center">
+                                                        <input id="sync" name="sync" type="checkbox" class="sync-box" onchange="checkBoxClicked();" />
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 30, htmlAttributes: new { @name = "dummyObservacion", @class = "form-control obs", @maxlength = "500", @placeholder = "Detalle sus inconformidades respecto al insumo recibido para que sean evaluadas por la Oficina de Autorizaciones Hospitalarias", @disabled = "disabled" })
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DropDownListFor(model => model.tipoReclamoId, null,
+                                                        "-- Seleccione un tipo --",
+                                                        htmlAttributes: new { @class = "form-control type", @style = "min-width: 200px;", @disabled = "disabled" })
+                                                    </td>
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group col-md-12" style="padding-top: 20px;">
+                            <div class="pull-right col-md-2">
+                                <input id="btn_reclamar" type="button" value="Generar Reclamo" class="btn pull-right btn-primary" style="visibility:collapse;" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,8 +164,17 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-<script type="text/javascript">
+    <script type="text/javascript">
+        $(document).ready(() => {
+            table = $("#maintable").DataTable({
+                "oLanguage": { "sEmptyTable": "No hay insumos cargados para este pedido" },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
+            });
+        });
         $(document).on('click', '#btn_reclamar', function () {
+            if (document.getElementById('reclamoForm').reportValidity()) {
                 Swal.fire({
                     title: 'Se generará su reclamo',
                     text: "¿Está seguro que desea continuar?",
@@ -182,6 +201,8 @@
                         $('#reclamoForm').submit();
                     }
                 })
+            }
+
         });
 
         $(document).on('click', '#btn_cancelar', function () {
@@ -208,36 +229,43 @@
         });
 
         function checkBoxClicked() {
+            var counter = 0;
             $('#maintable > tbody  > tr').each(function () {
                 var shouldSync = $(this).find('.sync-box')[0];
                 if (shouldSync.checked) {
+                    counter++;
                     $(this).find('.obs')[0].removeAttribute("disabled");
+                    $(this).find('.obs')[0].setAttribute("required", "");
                     $(this).find('.type')[0].removeAttribute("disabled");
+                    $(this).find('.cant')[0].removeAttribute("readonly");
                 } else {
                     $(this).find('.obs')[0].setAttribute("disabled", "disabled");
+                    $(this).find('.obs')[0].removeAttribute("required");
                     $(this).find('.type')[0].setAttribute("disabled", "disabled");
+                    $(this).find('.cant')[0].setAttribute("readonly", "readonly");
                 }
 
             });
 
+            if (counter == 0) {
+                document.getElementById('btn_reclamar').setAttribute('style', 'visibility: collapse');
+            } else {
+                document.getElementById('btn_reclamar').setAttribute('style', 'visibility: visible');
+            }
         }
 
         function allChecked() {
             if ($('#syncAll').prop('checked')) {
                 $('#maintable > tbody  > tr').each(function () {
                     $(this).find('.sync-box')[0].checked = true;
-                    $(this).find('.obs')[0].removeAttribute("disabled");
-                    $(this).find('.type')[0].removeAttribute("disabled");
 
                 });
             } else {
                 $('#maintable > tbody  > tr').each(function () {
                     $(this).find('.sync-box')[0].checked = false;
-                    $(this).find('.obs')[0].setAttribute("disabled", "disabled");
-                    $(this).find('.type')[0].setAttribute("disabled", "disabled");
                 });
             }
             checkBoxClicked();
         }
-</script>
+    </script>
 }

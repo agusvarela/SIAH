@@ -41,13 +41,29 @@ namespace SIAH.Controllers
             {
                 return HttpNotFound();
             }
+            List<DetallesReclamoDTO> detallesReclamo = db.DetallesReclamo.
+                Include(x => x.insumo).Include("insumo.tiposInsumo").Include(x => x.tipoReclamo).
+                Where(x => x.pedidoId == reclamo.pedidoId).
+                Select(x => new DetallesReclamoDTO
+                {
+                    nombre = x.insumo.nombre,
+                    tipo = x.insumo.tiposInsumo.nombre,
+                    cantidad = x.cantidad,
+                    precioUnitario = x.insumo.precioUnitario,
+                    insumoId = x.insumoId,
+                    tipoReclamo = x.tipoReclamo.tipo,
+                    observacion = x.observacion,
+                    accepted = x.accepted,
+                }).ToList();
+
+            ViewBag.DetallesReclamo = detallesReclamo;
             return View(reclamo);
         }
 
         // GET: Reclamos/Create
         public ActionResult Create(int? pedidoId, int? hospitalId)
         {
-            if(pedidoId == null || hospitalId == null)
+            if (pedidoId == null || hospitalId == null)
             {
                 return HttpNotFound();
             }
@@ -61,7 +77,7 @@ namespace SIAH.Controllers
                Where(d => d.remitoId == pedidoId).
                Select(x => new { insumoRemitoId = x.insumoId, cantidadEntregada = x.cantidadEntregada });
             var detallesPedido = db.DetallesPedido.Include(x => x.insumo).Include("insumo.tiposInsumo").Where(x => x.pedidoId == pedidoId)
-            .Select(x => new DetallesForReclamo
+            .Select(x => new DetallesReclamoDTO
             {
                 nombre = x.insumo.nombre,
                 tipo = x.insumo.tiposInsumo.nombre,
@@ -70,7 +86,7 @@ namespace SIAH.Controllers
                 insumoId = x.insumoId,
             });
             var detallesPedidoRemito = detallesPedido.Join(detallesRemito, s => s.insumoId, r => r.insumoRemitoId, (s, r) => new { s, r }).
-                Select(x => new DetallesForReclamo
+                Select(x => new DetallesReclamoDTO
                 {
                     nombre = x.s.nombre,
                     tipo = x.s.tipo,
@@ -82,13 +98,17 @@ namespace SIAH.Controllers
             return View();
         }
 
-        public class DetallesForReclamo
+        public class DetallesReclamoDTO
         {
-            public string nombre {get; set;}
+            public string nombre { get; set; }
             public string tipo { get; set; }
             public int cantidad { get; set; }
             public int insumoId { get; set; }
             public decimal precioUnitario { get; set; }
+            public string tipoReclamo { get; set; }
+            public string observacion { get; set; }
+            public string respuesta { get; set; }
+            public bool accepted { get; set; }
         }
 
         // POST: Reclamos/Create
@@ -140,9 +160,6 @@ namespace SIAH.Controllers
                     body = reader.ReadToEnd();
                 }
                 body = body.Replace("{pedidoId}", reclamo.pedidoId.ToString());
-                body = body.Replace("{observacionFamacia}", reclamo.observacionFamacia.ToString());
-                var tipo = db.TipoReclamoes.Find(reclamo.tipoReclamoId);
-                body = body.Replace("{tipo}", tipo.tipo.ToString());
                 var hospital = db.Hospitales.Find(reclamo.hospitalId);
                 body = body.Replace("{hospital}", hospital.nombre.ToString());
                 message.Body = body;
@@ -176,8 +193,8 @@ namespace SIAH.Controllers
 
             return View(reclamo);
         }
-        
-        public ActionResult Resolucion (int? id)
+
+        public ActionResult Resolucion(int? id)
         {
             if (id == null)
             {
@@ -216,7 +233,7 @@ namespace SIAH.Controllers
             ViewBag.estadoReclamoId = new SelectList(db.EstadoReclamoes, "id", "nombreEstado", reclamo.estadoReclamoId);
             ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre", reclamo.hospitalId);
             ViewBag.pedidoId = new SelectList(db.Pedidos, "id", "id", reclamo.pedidoId);
-             ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre", reclamo.responsableAsignadoId);
+            ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre", reclamo.responsableAsignadoId);
             ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
             return View(reclamo);
         }
@@ -344,16 +361,17 @@ namespace SIAH.Controllers
         public JsonResult ReclamosDatasetBI()
         {
             var dataset = db.Reclamoes.Include(x => x.hospital).Include(x => x.tipoReclamo)
-                .Select(x => new { IdReclamo = x.pedidoId, Tipo = x.tipoReclamo.tipo, Hospital = x.hospital.nombre, FechaInicioReclamo = x.fechaInicioReclamo, FechaFinReclamo = x.fechaFinReclamo})
-                .ToList().Select(x => new {
+                .Select(x => new { IdReclamo = x.pedidoId, Tipo = x.tipoReclamo.tipo, Hospital = x.hospital.nombre, FechaInicioReclamo = x.fechaInicioReclamo, FechaFinReclamo = x.fechaFinReclamo })
+                .ToList().Select(x => new
+                {
                     IdReclamo = x.IdReclamo,
                     Tipo = x.Tipo,
-                    Hospital = x.Hospital, 
-                    FechaInicioReclamo = string.Format("{0:dd/MM/yyyy}", x.FechaInicioReclamo), 
-                    FechaFinReclamo = string.Format("{0:dd/MM/yyyy}", x.FechaFinReclamo), 
+                    Hospital = x.Hospital,
+                    FechaInicioReclamo = string.Format("{0:dd/MM/yyyy}", x.FechaInicioReclamo),
+                    FechaFinReclamo = string.Format("{0:dd/MM/yyyy}", x.FechaFinReclamo),
                     EstaResuelto = IsResolved(x.IdReclamo),
                     Periodo = string.Format("{0:MM/dd/yyyy}", new DateTime(x.FechaInicioReclamo.Year, x.FechaInicioReclamo.Month, 1))
-                    }); ;
+                }); ;
             return Json(dataset, JsonRequestBehavior.AllowGet);
         }
 
