@@ -356,12 +356,19 @@
     <Compile Include="Migrations\202104022305588_tipo_reclamo_detalle.designer.cs">
       <DependentUpon>202104022305588_tipo_reclamo_detalle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104070007146_create_tables_historico.cs" />
+    <Compile Include="Migrations\202104070007146_create_tables_historico.designer.cs">
+      <DependentUpon>202104070007146_create_tables_historico.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AjusteSIAH\AjusteSIAH.cs" />
     <Compile Include="Models\AjusteSIAH\DetalleAjusteSIAH.cs" />
     <Compile Include="Models\Compras\Compra.cs" />
     <Compile Include="Models\Compras\DetalleCompra.cs" />
     <Compile Include="Models\Enums\DefaultRoles.cs" />
+    <Compile Include="Models\Historico\HistoricoFisico.cs" />
+    <Compile Include="Models\Historico\HistoricoSIAH.cs" />
+    <Compile Include="Models\Historico\HistoricoFarmacia.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\InsumoOcasa.cs" />
     <Compile Include="Models\Insumos\Insumo.cs" />
@@ -850,6 +857,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104022305588_tipo_reclamo_detalle.resx">
       <DependentUpon>202104022305588_tipo_reclamo_detalle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104070007146_create_tables_historico.resx">
+      <DependentUpon>202104070007146_create_tables_historico.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -72,6 +72,12 @@ namespace SIAH.Context
 
         public DbSet<Models.Reclamos.DetalleReclamo> DetallesReclamo { get; set; }
 
+        public DbSet<Models.Historico.HistoricoFarmacia> HistoricoFarmacia { get; set; }
+
+        public DbSet<Models.Historico.HistoricoFisico> HistoricoFisico { get; set; }
+
+        public DbSet<Models.Historico.HistoricoSIAH> HistoricoSIAH { get; set; }
+
     }
 
 }
