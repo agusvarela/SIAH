@@ -54,6 +54,7 @@ namespace SIAH.Controllers
                     tipoReclamo = x.tipoReclamo.tipo,
                     observacion = x.observacion,
                     accepted = x.accepted,
+                    respuesta = x.respuesta,
                 }).ToList();
 
             ViewBag.DetallesReclamo = detallesReclamo;
@@ -211,13 +212,29 @@ namespace SIAH.Controllers
             ViewBag.tipo = db.TipoReclamoes.Find(reclamo.tipoReclamoId).tipo;
             ViewBag.pedidoId = reclamo.pedidoId;
             ViewBag.tipoReclamoId = reclamo.tipoReclamoId;
+            List<DetallesReclamoDTO> detallesReclamo = db.DetallesReclamo.
+                Include(x => x.insumo).Include("insumo.tiposInsumo").Include(x => x.tipoReclamo).
+                Where(x => x.pedidoId == reclamo.pedidoId).
+                Select(x => new DetallesReclamoDTO
+                {
+                    nombre = x.insumo.nombre,
+                    tipo = x.insumo.tiposInsumo.nombre,
+                    cantidad = x.cantidad,
+                    precioUnitario = x.insumo.precioUnitario,
+                    insumoId = x.insumoId,
+                    tipoReclamo = x.tipoReclamo.tipo,
+                    observacion = x.observacion,
+                    accepted = x.accepted,
+                }).ToList();
+
+            ViewBag.DetallesReclamo = detallesReclamo;
             return View(reclamo);
         }
 
         //POST: Reclamos/Resolucion
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Resolucion([Bind(Include = "observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId")] Reclamo reclamo)
+        public ActionResult Resolucion([Bind(Include = "observacionFamacia,respuesta,fechaInicioReclamo,fechaFinReclamo,tipoReclamoId,pedidoId,hospitalId,responsableAsignadoId,detallesReclamo")] Reclamo reclamo)
         {
             if (ModelState.IsValid)
             {
@@ -225,6 +242,14 @@ namespace SIAH.Controllers
                 //reclamo.fechaFinReclamo = DateTime.Now;
                 Pedido p = db.Pedidos.Find(reclamo.pedidoId);
                 p.estadoId = 8; //Reclamo Resuelto
+                foreach(var detalle in reclamo.detallesReclamo)
+                {
+                    var rowDetalle = db.DetallesReclamo.Where(x => x.insumoId == detalle.insumoId && x.pedidoId == detalle.pedidoId).FirstOrDefault();
+                    rowDetalle.respuesta = detalle.respuesta;
+                    rowDetalle.accepted = detalle.accepted;
+                    db.Entry(rowDetalle).State = EntityState.Modified;
+                }
+                reclamo.detallesReclamo = null;
                 db.Entry(reclamo).State = EntityState.Modified;
                 db.Entry(p).State = EntityState.Modified;
                 db.SaveChanges();

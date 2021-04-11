@@ -13,7 +13,7 @@
     <div class="container">
         <div class="col-lg-9">
             <h1>Resolución de Reclamo Nº: @Html.DisplayFor(model => model.pedidoId)</h1>
-            <div class="banner-catalog__content"> Brinde una respuesta al reclamo en el campo correspondiente.</div>
+            <div class="banner-catalog__content"> Brinde una respuesta por cada detalle del reclamo en el campo correspondiente.</div>
         </div>
         <div class="col-lg-3">
             <div class="icon icon-success">
@@ -23,7 +23,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("Resolucion", "Reclamos", FormMethod.Post, new { id = "pedidoForm" }))
+@using (Html.BeginForm("Resolucion", "Reclamos", FormMethod.Post, new { id = "reclamoForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -65,18 +65,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        @Html.LabelFor(model => model.tipoReclamoId, "Tipo Reclamo", htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="col-md-7">
-                                        @Html.TextBox("tipo", tipo, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
-                                        <text class="form-control">@tipo</text>
-                                        @Html.TextBox("tipoReclamoId", tipoReclamoId, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -84,20 +72,11 @@
                                         @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="col-md-7">
+
                                         @Html.TextBox("hospital", hospital, htmlAttributes: new { @class = "form-control", @readonly = "readonly", type = "hidden" })
                                         <text class="form-control">@hospital</text>
+                                        @Html.TextBox("tipoReclamoId", 1, htmlAttributes: new { @class = "form-control", @type = "hidden", @readonly = "readonly" })
                                         @Html.TextBox("hospitalId", hospitalId, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12" style="padding-top: 15px;">
-                                <div class="form-group">
-                                    <div class="col-md-2">
-                                        @Html.LabelFor(model => model.observacionFamacia, htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="col-md-10">
-                                        @Html.TextAreaFor(model => model.observacionFamacia, 5, 100, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                                     </div>
                                 </div>
                             </div>
@@ -112,16 +91,49 @@
                         <div class="form-card__title purple-header">
                             <div class="alert-icon">
                                 <i class="material-icons">info_outline</i>
-                                <strong>Respuesta para la resolución del reclamo</strong>
+                                <strong>Detalles del reclamo</strong>
                             </div>
                         </div>
                         <div class="form-card__content group">
                             <div class="col-md-12">
-                                <div class="form-group">
-                                    @Html.TextAreaFor(model => model.respuesta, 5, 150, htmlAttributes: new { @class = "form-control", @maxlength = "500", @onkeyup = "countChar(this)", @value = "" })
-                                    <div id="charNum"></div>
-                                    @Html.ValidationMessageFor(model => model.respuesta, "", new { @class = "text-danger" })
-                                </div>
+                                <table id="maintable" class=" table table-hover table-condensed">
+                                    <thead>
+                                        <tr class="text-center list-group-item-info">
+                                            <th class="text-center">Nombre</th>
+                                            <th class="text-center">Tipo</th>
+                                            <th class="text-center">Cantidad</th>
+                                            <th class="text-center">Observación</th>
+                                            <th class="text-center">Tipo de Reclamo</th>
+                                            <th class="text-center">Respuesta</th>
+                                            <th class="text-center">
+                                                Aceptar
+                                                <input id="syncAll" name="syncAll" type="checkbox" class="sync-all" onchange="allChecked();" />
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody name="detallesReclamo" id="detallesReclamo">
+                                        @foreach (var detalle in (IEnumerable<SIAH.Controllers.ReclamosController.DetallesReclamoDTO>)ViewBag.DetallesReclamo)
+                                        {
+                                        <tr>
+                                            <td class="text-center">
+                                            @detalle.nombre 
+                                            <input class="insId" readonly type="hidden" value="@detalle.insumoId">
+                                            <input class="pedId" readonly type="hidden" value="@Model.pedidoId">
+                                            </td>
+                                            <td class="text-center">@detalle.tipo</td>
+                                            <td class="text-center">@detalle.cantidad</td>
+                                            <td class="text-center">@detalle.observacion</td>
+                                            <td class="text-center">@detalle.tipoReclamo</td>
+                                            <td class="text-center">
+                                                @Html.TextAreaFor(model => model.respuesta, 5, 30, htmlAttributes: new { @name = "dummyRespuesta", @class = "form-control res", @maxlength = "500", @placeholder = "Detalle la respuesta que desea brindar respecto al reclamo de este insumo", @required = "required" })
+                                            </td>
+                                            <td class="text-center">
+                                                <input id="sync" name="sync" type="checkbox" class="sync-box" onchange="checkBoxClicked();" />
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -137,7 +149,7 @@
         </div>
 
         <div class="row">
-            <div class="pull-right col-sm-6">
+            <div class="pull-right col-sm-3">
                 <div class="form-card form-card--tight animated zoomIn">
                     <div class="form-card__title alert-header">
                         <div class="alert-icon">
@@ -147,10 +159,10 @@
                     </div>
                     <div class="form-card__content group" style="padding-bottom: 0px; padding-top: 0px;">
                         <div class="form-group">
-                            <div class="col-sm-3 btn-margin" style="padding-left: 5px;">
+                            @*<div class="col-sm-3 btn-margin" style="padding-left: 5px;">
                                 <input type="button" style="font-size: 14px;" id="moreInfo" value="Solicitar información" class="btn pull-left btn-round btn-info" />
-                            </div>
-                            <div class="pull-right col-sm-4 btn-margin" style="padding-right: 0px;">
+                            </div>*@
+                            <div class="col-sm-12 btn-margin ">
                                 <input type="button" style="font-size: 14px;" id="cerrarReclamo" value="Cerrar reclamo" class="btn pull-right btn-round btn-success" />
                             </div>
                         </div>
@@ -164,23 +176,34 @@
 
 @section Scripts {
     <script type="text/javascript">
+
         $(document).on('click', '#cerrarReclamo', function (event) {
-            Swal.fire({
-                title: 'Cerrar Reclamo!',
-                text: "¿Está seguro que desea continuar?",
-                icon: 'success',
-                showCancelButton: true,
-                confirmButtonColor: "#28a745",
-                confirmButtonText: 'Aceptar',
-                cancelButtonColor: "#dc3545",
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
-                    $('#pedidoForm').submit();
-                }
-            })
-        });
+            if (document.getElementById('reclamoForm').reportValidity()) {
+                Swal.fire({
+                    title: 'Cerrar Reclamo!',
+                    text: "¿Está seguro que desea continuar?",
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var count = 0;
+                        $('#maintable > tbody  > tr').each(function () {
+                            $(this).find('.sync-box')[0].setAttribute("name", `detallesReclamo[${count}][accepted]`);
+                            $(this).find('.res')[0].setAttribute("name", `detallesReclamo[${count}][respuesta]`);
+                            $(this).find('.insId')[0].setAttribute("name", `detallesReclamo[${count}][insumoId]`);
+                            $(this).find('.pedId')[0].setAttribute("name", `detallesReclamo[${count}][pedidoId]`);
+                            count++;
+                        });
+                        $('#reclamoForm').submit();
+                    }
+                })
+            }
+         });
         $(document).on('click', '#moreInfo', function (event) {
             Swal.fire({
                 title: '¿Está seguro que desea solicitar mas información al hospital sobre su reclamo?',
@@ -200,6 +223,12 @@
             });
         });
         $(document).ready(function () {
+            table = $("#maintable").DataTable({
+                "oLanguage": { "sEmptyTable": "No hay insumos cargados para este pedido" },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
+            });
             $('#volverAlListado').on('click', function (event) {
                 var urlRecibido = '/Reclamos/ListadoReclamos';
                 location.href = urlRecibido;
@@ -221,5 +250,31 @@
                 $('#charNum').text(countToShow);
             }
         };
+
+        function checkBoxClicked() {
+            $('#maintable > tbody  > tr').each(function () {
+                var shouldSync = $(this).find('.sync-box')[0];
+                if (shouldSync.checked) {
+                    $(this).find('.sync-box').val("true");
+                } else {
+                    $(this).find('.sync-box').val("false");
+                }
+
+            });
+        }
+
+        function allChecked() {
+            if ($('#syncAll').prop('checked')) {
+                $('#maintable > tbody  > tr').each(function () {
+                    $(this).find('.sync-box')[0].checked = true;
+
+                });
+            } else {
+                $('#maintable > tbody  > tr').each(function () {
+                    $(this).find('.sync-box')[0].checked = false;
+                });
+            }
+            checkBoxClicked();
+        }
     </script>
 }

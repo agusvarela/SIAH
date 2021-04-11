@@ -84,7 +84,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.fechaFinReclamo, "Fecha resolución de reclamo", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                        <div class="col-md-4">
+                                        <div class="col-md-10">
                                             <text class="form-control">@Model.fechaFinReclamo.Value.ToShortDateString()</text>
                                         </div>
                                     </div>
@@ -131,7 +131,7 @@
                                             <td class="text-center">@detalle.tipoReclamo</td>
                                             <td class="text-center">@detalle.respuesta</td>
                                             <td class="text-center">
-                                                @if (Model.estadoReclamoId != 41)
+                                                @if (Model.estadoReclamoId != 4)
                                                 {
                                                     <i class="material-icons icon-info" data-toggle="tooltip" title="El reclamo aun sigue en revisión">help_outline</i>
                                                 }
