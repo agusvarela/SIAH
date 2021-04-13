@@ -360,6 +360,10 @@
     <Compile Include="Migrations\202104070007146_create_tables_historico.designer.cs">
       <DependentUpon>202104070007146_create_tables_historico.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104132227034_agregado_saldos_tablas_historicos.cs" />
+    <Compile Include="Migrations\202104132227034_agregado_saldos_tablas_historicos.designer.cs">
+      <DependentUpon>202104132227034_agregado_saldos_tablas_historicos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AjusteSIAH\AjusteSIAH.cs" />
     <Compile Include="Models\AjusteSIAH\DetalleAjusteSIAH.cs" />
@@ -737,12 +741,16 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Reportes\ReporteStockFarmacias.cshtml" />
+    <Content Include="Views\StockFarmacia\HistoricoFarmacia.cshtml" />
+    <Content Include="Views\Insumos\HistoricoFisico.cshtml" />
+    <Content Include="Views\Insumos\HistoricoSIAH.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="CargaRemitosCSV\" />
     <Folder Include="UploadedFiles\" />
     <Folder Include="Views\Formularios\" />
+    <Folder Include="Views\Historico\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
@@ -860,6 +868,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104070007146_create_tables_historico.resx">
       <DependentUpon>202104070007146_create_tables_historico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104132227034_agregado_saldos_tablas_historicos.resx">
+      <DependentUpon>202104132227034_agregado_saldos_tablas_historicos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
