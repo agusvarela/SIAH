@@ -17,6 +17,7 @@ namespace SIAH.Models.Historico
 
         [Key]
         [Column(Order = 2)]
+        public int id { get; set; }
         public int insumoId { get; set; }
         public Insumo insumo { get; set; }
 

@@ -356,13 +356,9 @@
     <Compile Include="Migrations\202104022305588_tipo_reclamo_detalle.designer.cs">
       <DependentUpon>202104022305588_tipo_reclamo_detalle.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104070007146_create_tables_historico.cs" />
-    <Compile Include="Migrations\202104070007146_create_tables_historico.designer.cs">
-      <DependentUpon>202104070007146_create_tables_historico.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202104132227034_agregado_saldos_tablas_historicos.cs" />
-    <Compile Include="Migrations\202104132227034_agregado_saldos_tablas_historicos.designer.cs">
-      <DependentUpon>202104132227034_agregado_saldos_tablas_historicos.cs</DependentUpon>
+    <Compile Include="Migrations\202104140044500_creado_tablas_historico.cs" />
+    <Compile Include="Migrations\202104140044500_creado_tablas_historico.designer.cs">
+      <DependentUpon>202104140044500_creado_tablas_historico.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AjusteSIAH\AjusteSIAH.cs" />
@@ -866,11 +862,8 @@
     <EmbeddedResource Include="Migrations\202104022305588_tipo_reclamo_detalle.resx">
       <DependentUpon>202104022305588_tipo_reclamo_detalle.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104070007146_create_tables_historico.resx">
-      <DependentUpon>202104070007146_create_tables_historico.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104132227034_agregado_saldos_tablas_historicos.resx">
-      <DependentUpon>202104132227034_agregado_saldos_tablas_historicos.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104140044500_creado_tablas_historico.resx">
+      <DependentUpon>202104140044500_creado_tablas_historico.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

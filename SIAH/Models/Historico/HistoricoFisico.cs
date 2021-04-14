@@ -11,6 +11,7 @@ namespace SIAH.Models.Historico
     public class HistoricoFisico
     {
         [Key]
+        public int id { get; set; }
         public int insumoId { get; set; }
         public Insumo insumo { get; set; }
 
