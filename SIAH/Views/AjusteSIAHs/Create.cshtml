@@ -1,0 +1,525 @@
+﻿@model SIAH.Models.AjusteSIAH.AjusteSIAH
+@{
+    ViewBag.Title = "Generar Ajuste de Stock";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    var userId = Int32.Parse(Session["userid"].ToString());
+    var userName = Session["nombre"].ToString();
+    var userLastName = Session["apellido"].ToString();
+}
+
+@using (Html.BeginForm("Create", "AjustesSIAH", FormMethod.Post, new { id = "registroForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-9">
+                <h1>Generar Ajuste de stock de insumos</h1>
+                <div class="banner-catalog__content">  Carge el formulario de ajuste de stock para registrar las bajas o subas de stock con su correspondiente justificación.</div>
+            </div>
+            <div class="col-lg-3">
+                <div class="icon icon-info">
+                    <i class="material-icons pull-right" style="font-size: 100px">sync</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="container" style=" padding-bottom: 30px;">
+
+        <div class="form-horizontal">
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info_outline</i>
+                                <strong>Información general del registro</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("fechaGeneracion", DateTime.Now.ToString("o"), htmlAttributes: new { @class = "form-control", @readonly = "readonly", @value = DateTime.Today, @type = "hidden" })
+                                        <text class="form-control">@DateTime.Now.ToString("dd-MM-yyyy hh:mm")</text>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.usuarioId, "Usuario responsable", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("usuarioId", userId, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @type = "hidden" })
+                                        <text class="form-control">@userName @userLastName</text>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <strong>Aclaraciones generales:</strong>
+                            </div>
+                        </div>
+
+                        <div class="form-card__content group">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.info, "Información general de los ajustes", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                <div class="col-md-12">
+                                    @Html.TextAreaFor(model => model.info, 12, 20, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8" id="det">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+
+                        <div class="form-card__title purple-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">add</i>
+                                <strong>Agregue Insumos</strong>
+                            </div>
+                        </div>
+
+                        <div class="form-card__content group">
+                            <div class="col-sm-12">
+                                <div class="col-sm-6" style="padding-left: 0px;">
+                                    <div class="form-group">
+                                        <select class="form-control" id="tipo">
+                                            <option value="">Seleccione un tipo de Insumo</option>
+                                            @{ var tipoInsumo = ViewBag.tipoInsumo;}
+                                            @foreach (var item in tipoInsumo)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div id="insu" class="form-group label-floating">
+                                    @Html.LabelFor(model => model.detallesAjuste, " Insumo", htmlAttributes: new { @class = "control-label " })
+                                    <input id="q" class="form-control buscador ui-autocomplete-input" type="text" value="" autocomplete="on" onkeypress="return event.charCode != 13">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4 col-md-offset-1">
+                                <div id="canti" class="form-group label-floating">
+                                    @Html.Label("Cantidad y tipo de ajuste", null, htmlAttributes: new { @class = "control-label" })
+                                    @*AGREGAR LIMITE PARA CANTIDAD DE STOCK*@
+                                    <input type="number" maxlength="7" id="cantidad" class="form-control" min="1" max="999999" required onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                                    <input id="sumar" name="tipoAjuste" type="radio" value="Sumar" checked/>
+                                    <label for="sumar">Sumar</label><br />
+                                    <input id="restar" name="tipoAjuste" type="radio" value="Restar" />
+                                    <label for="restar">Restar</label><br />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                @Html.Label("Detalle la justificación del ajuste", null, htmlAttributes: new { @class = "control-label " })
+                                <input id="justificacion" class="form-control" type="text" />
+                            </div>
+
+                            <div class="col-xs-12">
+                                <br />
+                                <input id="btn_addInsumo" type="submit" value="Agregar Insumo" class="btn btn-round btn-success pull-right btn_addInsumo" />
+                            </div>
+                            <br>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
+                        <div class="form-card__title  violet-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">storage</i>
+                                <strong>Listado de Insumos</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table id="insumos" class=" table table-hover table-condensed">
+                                            <thead>
+                                                <tr class="text-center list-group-item-info">
+                                                    <th class="text-center">Nombre</th>
+                                                    <th class="text-center">Tipo </th>
+                                                    <th class="text-center">Cantidad</th>
+                                                    <th class="text-center">Justificación</th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody name="detallesAjuste" id="detallesAjuste"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <br />
+
+                                <div class="col-xs-12">
+                                    <br />
+                                    <input type="button" id="enviar" value="Guardar Registro" class="btn pull-right btn-success" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div>
+            <input type="button" id="volver" value="Volver al listado de ajustes" class="btn pull-left btn-primary" onclick="location.href = '/Registros/Index'" />
+        </div>
+    </div>
+}
+@section Scripts {
+    <script type="text/javascript">
+        var indice;
+        var table;
+        var nombreInsumoBtnAdd;
+        var submitted = false;
+        $(document).on('click', '#enviar', function (event) {
+                event.preventDefault();
+                document.getElementById("q").removeAttribute('required');
+                document.getElementById("cantidad").removeAttribute('required');
+
+                Swal.fire({
+                    title: 'Se guardará su registro',
+                    text: "¿Está seguro que desea continuar?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonColor: "#dc3545",
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $('#registroForm').submit();
+                    }
+                })
+        });
+
+        $(document).ready(function () {
+            // Handle form submission event
+            $('#registroForm').on('submit', function (e) {
+                var form = this;
+
+                // Encode a set of form elements from all pages as an array of names and values
+                var params = table.$('input,select,textarea').serializeArray();
+
+                // Iterate over all form elements
+                $.each(params, function () {
+                    // If element doesn't exist in DOM
+                    if (!$.contains(document, form[this.name])) {
+                        // Create a hidden element
+                        $(form).append(
+                            $('<input>')
+                                .attr('type', 'hidden')
+                                .attr('name', this.name)
+                                .val(this.value)
+                        );
+                    }
+                });
+            });
+
+            //Deshabilita el boton add insumo al cargar la página
+            $('#btn_addInsumo').attr('disabled', true);
+            //begin hack: Show confirm dialog when refreshing page
+            $(window).on('beforeunload', function (e) {
+
+                if (!submitted) {
+                    var message = "¿Está seguro que desea abandonar el sitio?", e = e || window.event;
+                    if (e) {
+                        e.returnValue = message;
+                    }
+                    return message;
+                }
+            });
+
+            $('#registroForm').submit(function (event) {
+                console.log("registroForm");
+                submitted = true;
+            });
+
+            //Borra nombre insumo si se quiere borrar y deshabilita el boton add insumo
+            $('#q').on('keyup', function (event) {
+                if ($('#q').val() != nombreInsumoBtnAdd) {
+                    $('#btn_addInsumo').attr('disabled', true);
+                    if (event.keyCode == 8) {
+                        $('#q').val('');
+                    }
+                } else if ($('#cantidad').val() != '') {
+                    $('#btn_addInsumo').attr('disabled', false);
+                }
+            });
+            //No deja ingresar cantidad cero y si deja cantidad vacia el boton add insum se deshabilita
+            $('#cantidad').on('keyup mouseup', function (event) {
+
+                if ($('#cantidad').val() < 1 || event.keyCode == 8) {
+                    $('#cantidad').val('');
+                    $('#btn_addInsumo').attr('disabled', true);
+                } else if ($('#cantidad').val() > 999999) {
+                    $('#btn_addInsumo').attr('disabled', true);
+                } else if ($('#cantidad').val() > 0 && $('#q').val() == nombreInsumoBtnAdd && $('#q').val() != '') {
+                    $('#btn_addInsumo').attr('disabled', false);
+                }
+            });
+            //Este método borra los campos requeridos de insumo y cantidad para
+        //que se pueda submitear el form sin que los pida, ya que no son necesarios.
+
+        //Este metodo Habilita el boton si insumo esta vacio para que pueda hacer las validaciones(Facu)
+            table = $("#insumos").DataTable({
+                "oLanguage": { "sEmptyTable": "No hay insumos cargados para este registro" },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                } });
+
+        indice = table.length;
+        $('#enviar').hide();
+        var data = '';
+
+        $("#q").autocomplete({
+        minLength: 0,
+        source: function (request, response) {
+
+            $.ajax({
+                url: '@Url.Action("../Insumos/BuscarInsumos")',
+                dataType: "json",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                data: {
+                    term: request.term,
+                    id: $('#tipo').val()
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        },
+        select: function (event, p) {
+            data = p.item;
+            $('#q').val(p.item.nombre);
+            $('#idInsumo').val(p.item.id);
+            nombreInsumoBtnAdd = p.item.nombre;
+
+            if ($('#cantidad').val() != '') {
+                $('#btn_addInsumo').attr('disabled', false);
+            }
+            return false;
+        }
+    }).autocomplete("instance")._renderItem = function (ul, item) {
+        return $("<li>")
+            .append("<div><strong>" + item.nombre + "<\/strong><br><em>" + item.tipo + "<\/em><\/div>")
+            .appendTo(ul);
+                }
+
+
+            $(document).on('click', '#btn-eliminar-detallesAjuste', function () {
+                //Elimina la fila entera del detalle y verifica si la lista esta vacia para ocultar el boton
+
+                var idActual = parseInt($(this).closest("tr").remove().children().get(2).id.substring(1, 2));
+                table.row($(this).parents()).remove().draw();
+
+                if ($('#detallesAjuste > tr').length == 1 && $('#detallesAjuste > tr').get(0).cells.length == 1) {
+                    $('#enviar').hide();
+                    $('#detallesAjuste .empty').show();
+                } else {
+                    actualizarIndicesTabla(idActual);
+                }
+            });
+
+
+            //Boton para agregar insumo a la lista
+            $(document).on('click', '#btn_addInsumo', function (event) {
+                nombreInsumoBtnAdd = '';
+                //Previene que se submitee el Form con este botón. Solo valide los campos vacios.
+                event.preventDefault();
+                var cantidad = $('#cantidad').val();
+                var justificacion = $('#justificacion').val();
+                if (data != '' && cantidad != "") {
+                    $('#enviar').show();
+                    if ($('#detallesAjuste .empty').is(':visible')) {
+                        $('#detallesAjuste .empty').hide();
+                    }
+
+                    //Evaluar si el insumo ya fue ingresado
+                    var elementoInsumoId;
+                    var insumoId;
+                    var idFila = 0;
+                    var flag = true;
+                    for (var i = 0; i < $('#detallesAjuste > tr').length; i++) {
+                        elementoInsumoId = document.getElementById('detallesAjuste[' + i + '][insumoId]');
+                        if (elementoInsumoId != null) {
+                            insumoId = elementoInsumoId.getAttribute("value");
+                            if (data.id == insumoId) {
+                                flag = false;
+                                idFila = i;
+
+                                Swal.fire({
+                                    title: 'El insumo ya se encuentra agregado',
+                                    text: "¿Desea sumar la cantidad ingresada?",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#28a745",
+                                    confirmButtonText: 'Actualizar',
+                                    cancelButtonColor: "#dc3545",
+                                    cancelButtonText: 'Cancelar',
+                                    reverseButtons: true
+                                }).then((result) => {
+                                    addInsumoDialog(result, idFila);
+                                })
+                            }
+                        }
+                    }
+
+                    //En el caso que nunca fue ingresado se procede al agregado en la lista, caso contrario no se agrega
+                    if (flag == true) {
+                        var $insumo_id = $('<input>').attr('type', 'hidden').attr('name', 'detallesAjuste[' + indice + '][insumo][id]').attr('id', 'detallesAjuste[' + indice + '][insumo][id]').val(data.id);
+                        var $insumoId = $('<input>').attr('type', 'hidden').attr('name', 'detallesAjuste[' + indice + '][insumoId]').attr('id', 'detallesAjuste[' + indice + '][insumoId]').val(data.id);
+                        var $nombre = $('<input>').attr('type', 'hidden').attr('name', 'detallesAjuste[' + indice + '][insumo][nombre]').attr('id', 'detallesAjuste[' + indice + '][insumo][nombre]').val(data.nombre);
+                        var $tdInsumo = $('<td>').html(data.nombre).append($insumoId, $insumo_id, $nombre).addClass('text-center');
+
+                        var $tipo = $('<input>').attr('type', 'hidden').attr('name', 'detallesAjuste[' + indice + '][insumo][tiposInsumo][nombre]').attr('id', 'detallesAjuste[' + indice + '][insumo][tiposInsumo][nombre]').val(data.tipo);
+                        var $tdTipo = $('<td>').html(data.tipo).append($tipo).addClass('text-center');
+
+
+                        var cantidadNumerica = parseInt($('#cantidad').val());
+                        if ($('#restar')[0].checked) {
+                            cantidadNumerica *= -1;
+                        }
+                        var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesAjuste[' + indice + '][cantidad]').attr('id', 'detallesAjuste[' + indice + '][cantidad]').val(cantidadNumerica);
+                        var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(cantidadNumerica).append($cantidad);
+
+                        var $just = $('<input>').attr('type', 'hidden').attr('name', 'detallesAjuste[' + indice + '][info]').attr('id', 'detallesAjuste[' + indice + '][info]').val(justificacion);
+                        var $tdJustificacion = $('<td>').addClass('text-center').attr('id', '[' + indice + ']justvisible').html(justificacion).append($just);
+
+                        var $boton = $('<button>').attr('type', 'button').attr('id', 'btn-eliminar-detallesAjuste').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs ').append($('<i>').addClass('fa fa-times'));
+                        var $tdAccion = $('<td>').addClass('td-actions').append($boton).addClass('text-center');
+
+                        var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdJustificacion, $tdAccion);
+
+                        indice++;
+                        table.row.add($tr);
+                        table.draw();
+                        data = '';
+
+                        vaciarTextBox();
+                        reiniciarInputs();
+
+                        //Enfocar el campo de texto insumo para que siga agregando
+                        $('#q').focus();
+                    }
+                }
+            });
+        });
+
+        function vaciarTextBox() {
+            //Vacia los text box
+            $('#q').val("");
+            $('#cantidad').val("");
+            $('#justificacion').val("");
+            $('#tipo').val("");
+            $('#btn_addInsumo').attr('disabled', true);
+        }
+        function reiniciarInputs() {
+            //Agrega un atributo a la clase, para que se reinicien los inputs
+            $('#insu').attr('class', 'form-group label-floating is-empty');
+            $('#canti').attr('class', 'form-group label-floating is-empty');
+        }
+
+        function actualizarIndicesTabla(idActual) {
+            if (idActual >= $('#detallesAjuste > tr').length) { return; }
+
+            for (idActual; idActual < $('#detallesAjuste > tr').length; idActual++) {
+                idADesplazar = idActual + 1;
+
+                actualizarCelda('[insumo][id]', idActual, idADesplazar, false);
+                actualizarCelda('[insumoId]', idActual, idADesplazar, false);
+                actualizarCelda('[insumo][nombre]', idActual, idADesplazar, false);
+                actualizarCelda('[insumo][tiposInsumo][nombre]', idActual, idADesplazar, false);
+                actualizarCelda('[cantidad]', idActual, idADesplazar, false);
+                actualizarCelda('cantidadVisible', idActual, idADesplazar, true);
+            }
+        }
+
+        function actualizarCelda(celda, idActual, idADesplazar, esEspecial) {
+            var especial = 'detallesAjuste';
+            var idActualString = '[' + idActual + ']';
+            var idADesplazarString = '[' + idADesplazar + ']';
+
+            if (esEspecial) {
+                especial = '';
+                var element = document.getElementById(especial + idADesplazarString + celda);
+                element.id = element.id.replace(idADesplazarString, idActualString);
+                return;
+            } else {
+                var element = document.getElementById(especial + idADesplazarString + celda);
+                element.name = element.name.replace(idADesplazarString, idActualString);
+                element.id = element.id.replace(idADesplazarString, idActualString);
+            }
+        }
+
+
+        function addInsumoDialog(result, i) {
+            if (result.value) {
+
+                //Se obtienen los elementos HTML de cantidad para modificar en la tabla
+                var elementoCantidad = document.getElementById('detallesAjuste[' + i + '][cantidad]');
+                //Se obtienen las respectivas cantidades a modificar
+                var cantidadAnterior = parseInt(elementoCantidad.getAttribute("value"));
+                var cantidadIngresada = parseInt($('#cantidad').val());
+                var cantidadNueva = (cantidadAnterior + cantidadIngresada).toString();
+                //Se modifica la cantidad en la fila de la tabla correspondiente
+                elementoCantidad.setAttribute("value", cantidadNueva);
+
+                var elementoCantidadVisible = document.getElementById('[' + i + ']cantidadVisible');
+                elementoCantidadVisible.innerHTML = elementoCantidadVisible.innerHTML.replace(cantidadAnterior.toString(), cantidadNueva);
+
+
+                Swal.fire(
+                    'Actualizacion realizada!',
+                    'La cantidad se agregó correctamente.',
+                    'success'
+                )
+
+                vaciarTextBox();
+                reiniciarInputs();
+
+            } else {
+                vaciarTextBox();
+                reiniciarInputs();
+
+                Swal.fire(
+                    'Cancelado!',
+                    'El insumo no fue actualizado.',
+                    'error'
+                )
+            }
+        }
+    </script>
+}

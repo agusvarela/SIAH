@@ -21,5 +21,12 @@ namespace SIAH.Models.AjusteSIAH
 
         public int usuarioId { get; set; }
         public UserAccount usuario { get; set; }
+
+        public ICollection<DetalleAjusteSIAH> detallesAjuste { get; set; }
+
+        public AjusteSIAH()
+        {
+            detallesAjuste = new HashSet<DetalleAjusteSIAH>();
+        }
     }
 }

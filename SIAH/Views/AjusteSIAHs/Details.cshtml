@@ -1,0 +1,43 @@
+﻿@model SIAH.Models.AjusteSIAH.AjusteSIAH
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AjusteSIAH</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.usuario.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.usuario.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaGeneracion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaGeneracion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.info)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.info)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

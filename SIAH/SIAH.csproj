@@ -199,6 +199,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Context\SIAHContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AjusteSIAHsController.cs" />
     <Compile Include="Controllers\AuthorizeUserAccessLevel.cs" />
     <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\DetallesPedidoController.cs" />
@@ -740,6 +741,11 @@
     <Content Include="Views\StockFarmacia\HistoricoFarmacia.cshtml" />
     <Content Include="Views\Insumos\HistoricoFisico.cshtml" />
     <Content Include="Views\Insumos\HistoricoSIAH.cshtml" />
+    <Content Include="Views\AjusteSIAHs\Create.cshtml" />
+    <Content Include="Views\AjusteSIAHs\Delete.cshtml" />
+    <Content Include="Views\AjusteSIAHs\Details.cshtml" />
+    <Content Include="Views\AjusteSIAHs\Edit.cshtml" />
+    <Content Include="Views\AjusteSIAHs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
