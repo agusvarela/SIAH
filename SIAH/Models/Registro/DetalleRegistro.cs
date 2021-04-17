@@ -17,5 +17,6 @@ namespace SIAH.Models.Registro
         public Insumo insumo { get; set; }
         public int cantidad { get; set; }
         public bool isNegative { get; set; }
+        public string info { get; set; }
     }
 }

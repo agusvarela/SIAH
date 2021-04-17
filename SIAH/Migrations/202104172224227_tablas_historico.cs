@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class creado_tablas_historico : DbMigration
+    public partial class tablas_historico : DbMigration
     {
         public override void Up()
         {
@@ -11,8 +11,8 @@
                 "dbo.HistoricoFarmacia",
                 c => new
                     {
+                        id = c.Int(nullable: false, identity: true),
                         hospitalId = c.Int(nullable: false),
-                        id = c.Int(nullable: false),
                         insumoId = c.Int(nullable: false),
                         fechaMovimiento = c.DateTime(nullable: false),
                         descripcion = c.String(),
@@ -20,7 +20,7 @@
                         saldo = c.Int(nullable: false),
                         isNegative = c.Boolean(nullable: false),
                     })
-                .PrimaryKey(t => new { t.hospitalId, t.id })
+                .PrimaryKey(t => t.id)
                 .ForeignKey("dbo.Hospital", t => t.hospitalId, cascadeDelete: true)
                 .ForeignKey("dbo.Insumo", t => t.insumoId, cascadeDelete: true)
                 .Index(t => t.hospitalId)

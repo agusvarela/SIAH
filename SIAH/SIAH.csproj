@@ -357,9 +357,13 @@
     <Compile Include="Migrations\202104022305588_tipo_reclamo_detalle.designer.cs">
       <DependentUpon>202104022305588_tipo_reclamo_detalle.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104140044500_creado_tablas_historico.cs" />
-    <Compile Include="Migrations\202104140044500_creado_tablas_historico.designer.cs">
-      <DependentUpon>202104140044500_creado_tablas_historico.cs</DependentUpon>
+    <Compile Include="Migrations\202104172224227_tablas_historico.cs" />
+    <Compile Include="Migrations\202104172224227_tablas_historico.designer.cs">
+      <DependentUpon>202104172224227_tablas_historico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104172255302_added_info_registro.cs" />
+    <Compile Include="Migrations\202104172255302_added_info_registro.designer.cs">
+      <DependentUpon>202104172255302_added_info_registro.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AjusteSIAH\AjusteSIAH.cs" />
@@ -746,6 +750,8 @@
     <Content Include="Views\AjusteSIAHs\Details.cshtml" />
     <Content Include="Views\AjusteSIAHs\Edit.cshtml" />
     <Content Include="Views\AjusteSIAHs\Index.cshtml" />
+    <Content Include="Views\Registros\IndexAjuste.cshtml" />
+    <Content Include="Views\Registros\CreateAjuste.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -867,8 +873,11 @@
     <EmbeddedResource Include="Migrations\202104022305588_tipo_reclamo_detalle.resx">
       <DependentUpon>202104022305588_tipo_reclamo_detalle.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104140044500_creado_tablas_historico.resx">
-      <DependentUpon>202104140044500_creado_tablas_historico.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104172224227_tablas_historico.resx">
+      <DependentUpon>202104172224227_tablas_historico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104172255302_added_info_registro.resx">
+      <DependentUpon>202104172255302_added_info_registro.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

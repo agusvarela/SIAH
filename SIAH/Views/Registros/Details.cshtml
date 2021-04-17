@@ -10,11 +10,26 @@
         <div class="container">
             <div class="col-lg-9">
                 <h1>Detalle del registro Nº: @Html.DisplayFor(model => model.id)</h1>
-                <div class="banner-catalog__content"> Descripción detallada del registro.</div>
+                @if (Model.tipo == "registro")
+                {
+                    <div class="banner-catalog__content"> Descripción detallada del registro.</div>
+                }
+                else
+                {
+                    <div class="banner-catalog__content"> Descripción detallada del ajuste.</div>
+                }
             </div>
             <div class="col-lg-3">
                 <div class="icon icon-primary">
-                    <i class="material-icons pull-right" style="font-size: 100px">receipt</i>
+
+                    @if (Model.tipo == "registro")
+                    {
+                        <i class="material-icons pull-right" style="font-size: 100px">receipt</i>
+                    }
+                    else
+                    {
+                        <i class="material-icons pull-right" style="font-size: 100px">sync</i>
+                    }
                 </div>
             </div>
         </div>
@@ -57,14 +72,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.destinatario, "Destinatario", htmlAttributes: new { @class = "control-label col-md-12 tota" })
-                                    <div class="col-md-12">
-                                        @Html.TextBox("destinatario", Model.destinatario, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+
+                            @if (Model.tipo == "registro")
+                            {
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.destinatario, "Destinatario", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                        <div class="col-md-12">
+                                            @Html.TextBox("destinatario", Model.destinatario, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.info, "Información", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                        <div class="col-md-12">
+                                            @Html.TextBox("informacion", Model.info, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -92,6 +122,11 @@
                                                 <th class="text-center">Nombre</th>
                                                 <th class="text-center">Tipo </th>
                                                 <th class="text-center">Cantidad Solicitada</th>
+
+                                                @if (Model.tipo == "ajuste")
+                                                {
+                                                    <th class="text-center">Justificación</th>
+                                                }
                                             </tr>
                                         </thead>
 
@@ -132,9 +167,14 @@
                     var $tdTipo = $('<td class="text-center">').append(item.tipo);
 
                     var $tdCantidad = $('<td class="text-center">').append(item.cantidad);
-                   
+                    var $tr;
+                    if (item.info) {
+                        var $tdInfo = $('<td class="text-center">').append(item.info);
+                        $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdInfo);
+                    } else {
+                        $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad);
+                    }
 
-                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad);
 
                     table.row.add($tr);
                     table.draw();

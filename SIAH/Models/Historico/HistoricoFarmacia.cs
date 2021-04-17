@@ -11,13 +11,10 @@ namespace SIAH.Models.Historico
     public class HistoricoFarmacia
     {
         [Key]
-        [Column(Order = 1)]
+        public int id { get; set; }
         public int hospitalId { get; set; }
         public Hospital hospital { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
-        public int id { get; set; }
         public int insumoId { get; set; }
         public Insumo insumo { get; set; }
 

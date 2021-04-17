@@ -1,6 +1,6 @@
 ﻿@model SIAH.Models.Registro.Registro
 @{
-    ViewBag.Title = "Generar Registro de Uso";
+    ViewBag.Title = "Generar Ajuste de Stock";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     var hid = Int32.Parse(Session["hospitalId"].ToString());
     var hosp = Session["hospital"].ToString();
@@ -9,19 +9,19 @@
     var userLastName = Session["apellido"].ToString();
 }
 
-@using (Html.BeginForm("Create", "Registros", FormMethod.Post, new { id = "registroForm" }))
+@using (Html.BeginForm("CreateAjuste", "Registros", FormMethod.Post, new { id = "registroForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="banner-catalog">
         <div class="container">
             <div class="col-lg-9">
-                <h1>Generar Registro de Uso de insumos</h1>
-                <div class="banner-catalog__content">  En este formulario puede generar su Registro de uso de insumos que actualizará su stock disponible</div>
+                <h1>Generar Ajuste de stock de insumos</h1>
+                <div class="banner-catalog__content">  Carge el formulario de ajuste de stock para registrar las bajas o subas de stock con su correspondiente justificación.</div>
             </div>
             <div class="col-lg-3">
-                <div class="icon icon-primary">
-                    <i class="material-icons pull-right" style="font-size: 100px">receipt</i>
+                <div class="icon icon-info">
+                    <i class="material-icons pull-right" style="font-size: 100px">sync</i>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                         <div class="form-card__title info-header">
                             <div class="alert-icon">
                                 <i class="material-icons">info_outline</i>
-                                <strong>Información general del registro</strong>
+                                <strong>Información general del ajuste</strong>
                             </div>
                         </div>
                         <div class="form-card__content group">
@@ -62,6 +62,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.hospitalId, "Hospital", htmlAttributes: new { @class = "control-label col-md-12 tota" })
@@ -84,16 +85,16 @@
 
                         <div class="form-card__title info-header">
                             <div class="alert-icon">
-                                <strong>Pedido solicitado por:</strong>
+                                <strong>Aclaraciones generales:</strong>
                             </div>
                         </div>
 
                         <div class="form-card__content group">
                             <div class="form-group">
-                                @Html.LabelFor(model => model.destinatario, "Destinatario", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                @Html.LabelFor(model => model.info, "Información general de los ajustes", htmlAttributes: new { @class = "control-label col-md-12 tota" })
                                 <div class="col-md-12">
-                                    @Html.TextBox("tipo", "registro", htmlAttributes: new { @class = "form-control  text-center", @readonly = "readonly", @type = "hidden", @value = "registro", @name = "tipo" })
-                                    @Html.TextBox("destinatario", null, htmlAttributes: new { @class = "form-control", @required = "required" })
+                                    @Html.TextBox("tipo", "ajuste", htmlAttributes: new { @class = "form-control  text-center", @readonly = "readonly", @type = "hidden", @value= "ajuste", @name = "tipo" })
+                                    @Html.TextAreaFor(model => model.info, 12, 20, htmlAttributes: new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
@@ -113,7 +114,7 @@
                             <div class="col-sm-12">
                                 <div class="col-sm-6" style="padding-left: 0px;">
                                     <div class="form-group">
-                                        <select class="form-control" id="tipo">
+                                        <select class="form-control" id="tipoIns">
                                             <option value="">Seleccione un tipo de Insumo</option>
                                             @{ var tipoInsumo = ViewBag.tipoInsumo;}
                                             @foreach (var item in tipoInsumo)
@@ -128,17 +129,25 @@
                             <div class="col-sm-6">
                                 <div id="insu" class="form-group label-floating">
                                     @Html.LabelFor(model => model.detallesRegistro, " Insumo", htmlAttributes: new { @class = "control-label " })
-                                    <input id="q" class="form-control style='background-color: white' buscador ui-autocomplete-input" type="text" value="" autocomplete="on" onkeypress="return event.charCode != 13">
+                                    <input id="q" class="form-control buscador ui-autocomplete-input" type="text" value="" autocomplete="on" onkeypress="return event.charCode != 13">
                                 </div>
                             </div>
 
                             <div class="col-sm-4 col-md-offset-1">
                                 <div id="canti" class="form-group label-floating">
-                                    @Html.Label("Cantidad", null, htmlAttributes: new { @class = "control-label" })
+                                    @Html.Label("Cantidad y tipo de ajuste", null, htmlAttributes: new { @class = "control-label" })
                                     @*AGREGAR LIMITE PARA CANTIDAD DE STOCK*@
                                     <input type="number" maxlength="7" id="cantidad" class="form-control" min="1" max="999999" required onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
-                                    <span class="help-block" data-valmsg-for="cantidad">Entre 1 y 999999</span>
+                                    <input id="sumar" name="tipoAjuste" type="radio" value="Sumar" checked />
+                                    <label for="sumar">Sumar</label><br />
+                                    <input id="restar" name="tipoAjuste" type="radio" value="Restar" />
+                                    <label for="restar">Restar</label><br />
                                 </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                @Html.Label("Detalle la justificación del ajuste", null, htmlAttributes: new { @class = "control-label " })
+                                <input id="justificacion" class="form-control" type="text" />
                             </div>
 
                             <div class="col-xs-12">
@@ -173,6 +182,7 @@
                                                     <th class="text-center">Nombre</th>
                                                     <th class="text-center">Tipo </th>
                                                     <th class="text-center">Cantidad</th>
+                                                    <th class="text-center">Justificación</th>
                                                     <th class="text-center">Acciones</th>
                                                 </tr>
                                             </thead>
@@ -185,7 +195,7 @@
 
                                 <div class="col-xs-12">
                                     <br />
-                                    <input type="button" id="enviar" value="Guardar Registro" class="btn pull-right btn-success" />
+                                    <input type="button" id="enviar" value="Guardar Ajuste" class="btn pull-right btn-success" />
                                 </div>
                             </div>
                         </div>
@@ -195,7 +205,7 @@
         </div>
         <br />
         <div>
-            <input type="button" id="volver" value="Volver al listado de registros" class="btn pull-left btn-primary" onclick="location.href = '/Registros/Index'" />
+            <input type="button" id="volver" value="Volver al listado de ajustes" class="btn pull-left btn-primary" onclick="location.href = '/Registros/IndexAjuste'" />
         </div>
     </div>
 }
@@ -206,14 +216,12 @@
         var nombreInsumoBtnAdd;
         var submitted = false;
         $(document).on('click', '#enviar', function (event) {
-            document.getElementById('destinatario').reportValidity();
-            if (document.getElementById('destinatario').checkValidity()) {
                 event.preventDefault();
                 document.getElementById("q").removeAttribute('required');
                 document.getElementById("cantidad").removeAttribute('required');
 
                 Swal.fire({
-                    title: 'Se guardará su registro',
+                    title: 'Se guardará su ajuste',
                     text: "¿Está seguro que desea continuar?",
                     icon: 'warning',
                     showCancelButton: true,
@@ -227,7 +235,6 @@
                         $('#registroForm').submit();
                     }
                 })
-            }
         });
 
         $(document).ready(function () {
@@ -300,7 +307,7 @@
 
         //Este metodo Habilita el boton si insumo esta vacio para que pueda hacer las validaciones(Facu)
             table = $("#insumos").DataTable({
-                "oLanguage": { "sEmptyTable": "No hay insumos cargados para este registro" },
+                "oLanguage": { "sEmptyTable": "No hay ajustes cargados" },
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 } });
@@ -320,7 +327,7 @@
                 contentType: "application/json; charset=utf-8",
                 data: {
                     term: request.term,
-                    id: $('#tipo').val()
+                    id: $('#tipoIns').val()
                 },
                 success: function (data) {
                     response(data);
@@ -366,7 +373,7 @@
                 //Previene que se submitee el Form con este botón. Solo valide los campos vacios.
                 event.preventDefault();
                 var cantidad = $('#cantidad').val();
-
+                var justificacion = $('#justificacion').val();
                 if (data != '' && cantidad != "") {
                     $('#enviar').show();
                     if ($('#detallesRegistro .empty').is(':visible')) {
@@ -415,13 +422,19 @@
 
 
                         var cantidadNumerica = parseInt($('#cantidad').val());
+                        if ($('#restar')[0].checked) {
+                            cantidadNumerica *= -1;
+                        }
                         var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesRegistro[' + indice + '][cantidad]').attr('id', 'detallesRegistro[' + indice + '][cantidad]').val(cantidadNumerica);
                         var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(cantidadNumerica).append($cantidad);
+
+                        var $just = $('<input>').attr('type', 'hidden').attr('name', 'detallesRegistro[' + indice + '][info]').attr('id', 'detallesRegistro[' + indice + '][info]').val(justificacion);
+                        var $tdJustificacion = $('<td>').addClass('text-center').attr('id', '[' + indice + ']justvisible').html(justificacion).append($just);
 
                         var $boton = $('<button>').attr('type', 'button').attr('id', 'btn-eliminar-detallesRegistro').attr('rel', 'tooltip').attr('title', 'Eliminar Insumo').addClass('btn btn-danger btn-simple btn-xs ').append($('<i>').addClass('fa fa-times'));
                         var $tdAccion = $('<td>').addClass('td-actions').append($boton).addClass('text-center');
 
-                        var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdAccion);
+                        var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdJustificacion, $tdAccion);
 
                         indice++;
                         table.row.add($tr);
@@ -442,7 +455,8 @@
             //Vacia los text box
             $('#q').val("");
             $('#cantidad').val("");
-            $('#tipo').val("");
+            $('#justificacion').val("");
+            $('#tipoIns').val("");
             $('#btn_addInsumo').attr('disabled', true);
         }
         function reiniciarInputs() {
@@ -461,7 +475,6 @@
                 actualizarCelda('[insumoId]', idActual, idADesplazar, false);
                 actualizarCelda('[insumo][nombre]', idActual, idADesplazar, false);
                 actualizarCelda('[insumo][tiposInsumo][nombre]', idActual, idADesplazar, false);
-                actualizarCelda('[insumo][precioUnitario]', idActual, idADesplazar, false);
                 actualizarCelda('[cantidad]', idActual, idADesplazar, false);
                 actualizarCelda('cantidadVisible', idActual, idADesplazar, true);
             }
@@ -522,4 +535,4 @@
             }
         }
     </script>
-    }
+}

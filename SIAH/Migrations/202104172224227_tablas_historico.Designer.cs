@@ -7,13 +7,13 @@ namespace SIAH.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class creado_tablas_historico : IMigrationMetadata
+    public sealed partial class tablas_historico : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(creado_tablas_historico));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(tablas_historico));
         
         string IMigrationMetadata.Id
         {
-            get { return "202104140044500_creado_tablas_historico"; }
+            get { return "202104172224227_tablas_historico"; }
         }
         
         string IMigrationMetadata.Source

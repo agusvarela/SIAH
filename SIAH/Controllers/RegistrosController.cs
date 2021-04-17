@@ -33,7 +33,7 @@ namespace SIAH.Controllers
                 };
             }
             var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
-            var registros = db.Registros.Where(r => r.hospitalId == hospitalActual).Include(p => p.hospital);
+            var registros = db.Registros.Where(r => r.hospitalId == hospitalActual && r.tipo == "registro").Include(p => p.hospital);
             return View(registros.OrderByDescending(o => o.id).ToList());
         }
 
@@ -48,6 +48,7 @@ namespace SIAH.Controllers
                                     insumoId = x.insumoId,
                                     nombre = x.insumo.nombre,
                                     cantidad = x.cantidad,
+                                    info = x.info,
                                     tipo = x.insumo.tiposInsumo.nombre,
                                 });
 
@@ -88,7 +89,7 @@ namespace SIAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,fechaGeneracion,destinatario,usuarioId,hospitalId,detallesRegistro")] Registro registro)
+        public ActionResult Create([Bind(Include = "id,fechaGeneracion,destinatario,tipo,usuarioId,hospitalId,detallesRegistro")] Registro registro)
         {
             foreach (var detalle in registro.detallesRegistro)
             {
@@ -128,6 +129,7 @@ namespace SIAH.Controllers
                 var stockFarmacia = db.StockFarmacias.Where(x => x.hospitalId == idHospital && x.insumoId == detalle.insumoId).FirstOrDefault();
                 if (stockFarmacia != null)
                 {
+                    detalle.isNegative = true;
                     stockFarmacia.stockFarmacia -= detalle.cantidad;
                     if(stockFarmacia.stockFarmacia < 0)
                     {
@@ -140,15 +142,54 @@ namespace SIAH.Controllers
             }
         }
 
+        private void ActualizarStockFarmaciaAjuste(int idHospital, ICollection<DetalleRegistro> detalles, Registro registro)
+        {
+            foreach (var detalle in detalles)
+            {
+                // Buscar el stock farmacia de ese hospital y ese insumo
+                var stockFarmacia = db.StockFarmacias.Where(x => x.hospitalId == idHospital && x.insumoId == detalle.insumoId).FirstOrDefault();
+                if (stockFarmacia != null)
+                {
+                    if (detalle.cantidad < 0)
+                    {
+                        detalle.isNegative = true;
+                    }
+                    stockFarmacia.stockFarmacia += detalle.cantidad;
+                    if (stockFarmacia.stockFarmacia < 0)
+                    {
+                        stockFarmacia.stockFarmacia = 0;
+                    }
+                    db.Entry(stockFarmacia).State = EntityState.Modified;
+
+                    agregarHistoricoAjuste(detalle, stockFarmacia.stockFarmacia, registro);
+                }
+            }
+        }
+
         private void agregarHistorico(DetalleRegistro detalleRegistro, int saldo, Registro registro)
         {
             HistoricoFarmacia historicoFarmacia = new HistoricoFarmacia();
             historicoFarmacia.insumoId = detalleRegistro.insumoId;
             historicoFarmacia.fechaMovimiento = registro.fechaGeneracion;
+            historicoFarmacia.hospitalId = registro.hospitalId;
             historicoFarmacia.descripcion = "Entrega de uso a: " + registro.destinatario;
             historicoFarmacia.saldo = saldo;
             historicoFarmacia.isNegative = detalleRegistro.isNegative;
             historicoFarmacia.cantidad = detalleRegistro.cantidad;
+
+            db.HistoricoFarmacia.Add(historicoFarmacia);
+        }
+
+        private void agregarHistoricoAjuste(DetalleRegistro detalleRegistro, int saldo, Registro registro)
+        {
+            HistoricoFarmacia historicoFarmacia = new HistoricoFarmacia();
+            historicoFarmacia.insumoId = detalleRegistro.insumoId;
+            historicoFarmacia.fechaMovimiento = registro.fechaGeneracion;
+            historicoFarmacia.hospitalId = registro.hospitalId;
+            historicoFarmacia.descripcion = "Ajuste de stock: " + registro.info;
+            historicoFarmacia.saldo = saldo;
+            historicoFarmacia.isNegative = detalleRegistro.isNegative;
+            historicoFarmacia.cantidad = Math.Abs(detalleRegistro.cantidad);
 
             db.HistoricoFarmacia.Add(historicoFarmacia);
         }
@@ -222,5 +263,73 @@ namespace SIAH.Controllers
             }
             base.Dispose(disposing);
         }
+
+        // GET: Registros
+        public ActionResult IndexAjuste(string param)
+        {
+            if (param != null)
+            {
+                if (param.CompareTo("Success") == 0)
+                {
+                    ViewBag.success = true;
+                }
+                else
+                {
+                    ViewBag.success = false;
+                    ViewBag.problem = param;
+                };
+            }
+            var hospitalActual = Int32.Parse(Session["hospitalId"].ToString());
+            var registros = db.Registros.Where(r => r.hospitalId == hospitalActual && r.tipo == "ajuste").Include(p => p.hospital);
+            return View(registros.OrderByDescending(o => o.id).ToList());
+        }
+
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
+        // GET: Registros/Create
+        public ActionResult CreateAjuste()
+        {
+            ViewBag.tipoInsumo = new SelectList(db.TiposInsumo.OrderBy(tipo => tipo.nombre), "id", "nombre");
+            ViewBag.hospitalId = new SelectList(db.Hospitales, "id", "nombre");
+            ViewBag.usuarioId = new SelectList(db.UserAccounts, "id", "nombre");
+            return View();
+        }
+
+        // POST: Registros/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateAjuste([Bind(Include = "id,fechaGeneracion,info,tipo,usuarioId,hospitalId,detallesRegistro")] Registro registro)
+        {
+            foreach (var detalle in registro.detallesRegistro)
+            {
+                detalle.insumo = null;
+            }
+
+            if (ModelState.IsValid)
+            {
+                db.Registros.Add(registro);
+
+                try
+                {
+                    // Actualizar el stock
+                    ActualizarStockFarmaciaAjuste(registro.hospitalId, registro.detallesRegistro, registro);
+                    // Guardar el registro en la DB
+                    if (db.SaveChanges() > 0)
+                    {
+                        return RedirectToAction("IndexAjuste", new { param = "Success" });
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("IndexAjuste", new { param = "Ocurrio un error inesperado al enviar el registro" });
+
+                }
+            }
+            return RedirectToAction("IndexAjuste", new { param = "Ocurrio un error inesperado al enviar el registro" });
+
+        }
+
     }
 }
