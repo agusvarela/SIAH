@@ -57,7 +57,7 @@ namespace SIAH.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AjusteSIAH ajusteSIAH = db.AjusteSIAHs.Find(id);
+            AjusteSIAH ajusteSIAH = db.AjusteSIAHs.Include(x => x.usuario).Where(x => x.id == id).FirstOrDefault();
             if (ajusteSIAH == null)
             {
                 return HttpNotFound();
@@ -85,17 +85,18 @@ namespace SIAH.Controllers
             {
                 detalle.insumo = null;
                 var insumo = db.Insumos.Find(detalle.insumoId);
-                var insumoOcasa = db.InsumoOcasa.Find(detalle.insumoId);
                 // Si es negativo se resta, si es positivo se suma
                 insumo.stock = insumo.stock + detalle.cantidad;
                 insumo.stockFisico = insumo.stockFisico + detalle.cantidad;
-                insumoOcasa.stockFisico = insumoOcasa.stockFisico + detalle.cantidad;
+
+                db.Entry(insumo).State = EntityState.Modified;
 
             }
             if (ModelState.IsValid)
             {
                 try
                 {
+                    db.AjusteSIAHs.Add(ajusteSIAH);
                     // Guardar el registro en la DB
                     if (db.SaveChanges() > 0)
                     {

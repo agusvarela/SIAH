@@ -1,46 +1,216 @@
 ﻿@model IEnumerable<SIAH.Models.AjusteSIAH.AjusteSIAH>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ajustes de stock de insumos";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.validacion = true;
+    if (ViewBag.success == null)
+    {
+        ViewBag.success = false;
+        ViewBag.validacion = false;
+
+    }
 }
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Ajustes</h1>
+            <div class="banner-catalog__content">Genere nuevos ajustes de stock y revise ajustes previos.</div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-info">
+                <i class="material-icons pull-right" style="font-size: 100px">sync</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="page" style="min-height: 363px;">
+    <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+        <div class="row">
+            <div class=" col-sm-12">
 
-<h2>Index</h2>
+                <div class=" col-sm-10">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <div id="alertArea  animated zoomIn">
+                                <div class="alert alert-info pq-alert animated zoomIn">
+                                    <i class="fa fa-arrow-right"></i>
+                                    <span>Histórico de Ajustes de stock</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-sm-2">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="alertArea  animated zoomIn">
+                                <button class="btn btn-round btn-success  btn-lg pull-right animated zoomIn" id="nuevoregistro">
+                                    <strong class="">+ Nuevo Ajuste</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.usuario.nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaGeneracion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.info)
-        </th>
-        <th></th>
-    </tr>
+        <div class="col-md-12">
+            <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                <div class="form-card__content group">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.usuario.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaGeneracion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.info)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+                    <div class="animated zoomIn col-md-12">
+
+                        <div class="col-md-12">
+                            <hr />
+                            <div id="table-container">
+                                <table id="maintable" class="table table-condensed">
+                                    <thead class="listado">
+                                        <tr class="text-center list-group-item-info">
+                                            <th class="text-center">
+                                                <strong> @Html.Name("Nº Ajuste")</strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong> @Html.Name("Fecha Generación")</strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong>  @Html.Name("Responsable")</strong>
+                                            </th>
+                                            <th class="text-center">
+                                                <strong>  @Html.Name("Acciones")</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="" onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "AjusteSIAHs" }, Request.Url.Scheme)'">
+                                            <td class="text-center">
+                                                @Html.DisplayFor(modelItem => item.id)
+                                            </td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(modelItem => item.fechaGeneracion)
+                                            </td>
+                                            <td class="text-center">
+                                                @Html.DisplayFor(modelItem => item.usuario.nombre)
+                                                <p> </p>
+                                                @Html.DisplayFor(modelItem => item.usuario.apellido)
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="button" value="Ver Detalle" class="btn btn-round btn-primary pull-center"
+                                                       onclick="location.href='@Url.Action("Details", null, new { area = string.Empty, id = item.id, controller = "AjusteSIAHs" }, Request.Url.Scheme)'" />
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                                <div id="bottom_anchor"></div>
+
+                            </div>
+                        </div>
+                        <br><br>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#maintable tr td:nth-child(n)').hover(function () {
+                $(this).parents('tr').attr('title', 'Ver detalle');
+            });
+
+            sessionStorage.setItem("User", "RespFarmacia");
+            if (@ViewBag.success.ToString().ToLower() ===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'El ajuste fue cargado exitosamente.'
+                    }, {
+                            type: 'success',
+                            offset: {
+                                x: 20,
+                                y: 90
+                            }
+                        },
+                    );
+
+                }
+                else {
+                if (@ViewBag.validacion.ToString().ToLower()===true) {
+                    $.notify({
+                        title: '<strong>Aviso!</strong><br/>',
+                        message: 'El ajuste no fue cargado: @ViewBag.problem '
+                    }, {
+                            type: 'danger',
+                            offset: {
+                                x: 20,
+                                y: 80
+                            }
+                        },
+                    );
+                }
+
+            }
+            $(document).on('click', '#nuevoregistro', function (event) {
+                event.preventDefault();
+                location.href = "/AjusteSIAHs/Create";
+
+            });
+
+            var myNewURL = refineURL();
+            //here you pass the new URL extension you want to appear after the domains '/'. Note that the previous identifiers or "query string" will be replaced.
+            window.history.pushState("object or string", "Title", "/" + myNewURL);
+            //Helper function to extract the URL between the last '/' and before '?'
+            //If URL is www.example.com/one/two/file.php?user=55 this function will return 'file.php'
+            //pseudo code: edit to match your URL settings
+            function refineURL() {
+                //get full URL
+                var currURL = window.location.href; //get current address
+
+                //Get the URL between what's after '/' and befor '?'
+                //1- get URL after'/'
+                var afterDomain = currURL.substring(currURL.lastIndexOf('/') + 1);
+                //2- get the part before '?'
+                var beforeQueryString = afterDomain.split("?")[0];
+
+                return "AjusteSIAHs/"+beforeQueryString;
+            }
+            function moveScroll() {
+                var scroll = $(window).scrollTop();
+                var anchor_top = $("#maintable").offset().top;
+                var anchor_bottom = $("#bottom_anchor").offset().top;
+                if (scroll > anchor_top && scroll < anchor_bottom) {
+                    clone_table = $("#clone");
+                    if (clone_table.length == 0) {
+                        clone_table = $("#maintable").clone();
+                        clone_table.attr('id', 'clone');
+                        clone_table.css({
+                            position: 'fixed',
+                            'pointer-events': 'none',
+                            top: 0
+                        });
+                        clone_table.width($("#maintable").width());
+                        $("#table-container").append(clone_table);
+                        $("#clone").css({ visibility: 'hidden' });
+                        $("#clone thead").css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+
+                    }
+                } else {
+                    $("#clone").remove();
+                }
+            }
+            $(window).scroll(moveScroll);
+            $("#clone").DataTable();
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]],
+                "oLanguage": { "sEmptyTable": "Aún no tiene ajustes" },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
+            });;
+        });
+
+    </script>
 }
-
-</table>

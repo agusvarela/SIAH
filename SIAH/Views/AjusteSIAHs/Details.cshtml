@@ -1,43 +1,140 @@
 ﻿@model SIAH.Models.AjusteSIAH.AjusteSIAH
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalle del ajuste";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "detailsForm" }))
+{
+    <div class="banner-catalog">
+        <div class="container">
+            <div class="col-lg-9">
+                <h1>Detalle del ajuste Nº: @Html.DisplayFor(model => model.id)</h1>
+                <div class="banner-catalog__content"> Descripción detallada del ajuste.</div>
+            </div>
+            <div class="col-lg-3">
+                <div class="icon icon-info">
+                    <i class="material-icons pull-right" style="font-size: 100px">sync</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
 
-<h2>Details</h2>
+    <div class="container" style=" padding-bottom: 30px;">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                        <div class="form-card__title info-header">
+                            <div class="alert-icon">
+                                <i class="material-icons">info_outline</i>
+                                <strong>Información general del ajuste</strong>
+                            </div>
+                        </div>
+                        <div class="form-card__content group">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.fechaGeneracion, "Fecha Generación", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("fechaGeneracion", Model.fechaGeneracion, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.usuario.nombre, "Responsable", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("destinatario", Model.usuario.nombre + ' ' + Model.usuario.apellido, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.info, "Información extra", htmlAttributes: new { @class = "control-label col-md-12 tota" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("info", Model.info, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight animated zoomIn">
+                    <div class="form-card__title  violet-header">
+                        <div class="alert-icon">
+                            <i class="material-icons">storage</i>
+                            <strong>Listado de Insumos</strong>
+                        </div>
+                    </div>
+                    <div class="form-card__content group">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="detalles" class=" table table-hover table-condensed">
+                                        <thead>
+                                            <tr style="font-weight:bold" class="text-center list-group-item-info">
+                                                <th class="text-center">Nombre</th>
+                                                <th class="text-center">Tipo </th>
+                                                <th class="text-center">Cantidad Ajustada</th>
+                                                <th class="text-center">Justificacion</th>
+                                            </tr>
+                                        </thead>
 
-<div>
-    <h4>AjusteSIAH</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.usuario.nombre)
-        </dt>
+                                        <tbody name="detallesRegistro" id="detallesRegistro"></tbody>
+                                    </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.usuario.nombre)
-        </dd>
+                                </div>
+                            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaGeneracion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fechaGeneracion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.info)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.info)
-        </dd>
-
-    </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.id, htmlAttributes: new { @id = "idAjuste" })
+}
+<div class="container">
+    <input type="button" id="volver" value="Volver al listado de Ajustes" class="btn pull-left btn-primary" onclick="location.href = '/AjusteSIAHs/Index'" />
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var table = $("#detalles").DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }});
+            var idAjuste = $('#idAjuste').val();
+            var urlDetalle = '/AjusteSIAHs/GetDetalles' + '?idAjuste=' + idAjuste;
+            $.get(urlDetalle, null, function (lista) {
+                for (var i = 0, len = lista.length; i < len; i++) {
+                    var item = lista[i];
+                    var $tdInsumo = $('<td class="text-center">').append(item.nombre);
+
+                    var $tdTipo = $('<td class="text-center">').append(item.tipo);
+
+                    var $tdCantidad = $('<td class="text-center">').append(item.cantidad);
+                    var $tdJustificacion = $('<td class="text-center">').append(item.justificacion);
+
+
+                    var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdJustificacion);
+
+                    table.row.add($tr);
+                    table.draw();
+                }
+
+
+            });
+        });
+
+    </script>
+}

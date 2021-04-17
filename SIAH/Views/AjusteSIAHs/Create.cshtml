@@ -7,7 +7,7 @@
     var userLastName = Session["apellido"].ToString();
 }
 
-@using (Html.BeginForm("Create", "AjustesSIAH", FormMethod.Post, new { id = "registroForm" }))
+@using (Html.BeginForm("Create", "AjusteSIAHs", FormMethod.Post, new { id = "registroForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -38,7 +38,7 @@
                         <div class="form-card__title info-header">
                             <div class="alert-icon">
                                 <i class="material-icons">info_outline</i>
-                                <strong>Información general del registro</strong>
+                                <strong>Información general del ajuste</strong>
                             </div>
                         </div>
                         <div class="form-card__content group">
@@ -182,7 +182,7 @@
 
                                 <div class="col-xs-12">
                                     <br />
-                                    <input type="button" id="enviar" value="Guardar Registro" class="btn pull-right btn-success" />
+                                    <input type="button" id="enviar" value="Guardar Ajuste" class="btn pull-right btn-success" />
                                 </div>
                             </div>
                         </div>
@@ -192,7 +192,7 @@
         </div>
         <br />
         <div>
-            <input type="button" id="volver" value="Volver al listado de ajustes" class="btn pull-left btn-primary" onclick="location.href = '/Registros/Index'" />
+            <input type="button" id="volver" value="Volver al listado de ajustes" class="btn pull-left btn-primary" onclick="location.href = '/AjusteSIAHs/Index'" />
         </div>
     </div>
 }
@@ -208,7 +208,7 @@
                 document.getElementById("cantidad").removeAttribute('required');
 
                 Swal.fire({
-                    title: 'Se guardará su registro',
+                    title: 'Se guardará su ajuste',
                     text: "¿Está seguro que desea continuar?",
                     icon: 'warning',
                     showCancelButton: true,
@@ -294,7 +294,7 @@
 
         //Este metodo Habilita el boton si insumo esta vacio para que pueda hacer las validaciones(Facu)
             table = $("#insumos").DataTable({
-                "oLanguage": { "sEmptyTable": "No hay insumos cargados para este registro" },
+                "oLanguage": { "sEmptyTable": "No hay ajustes cargados" },
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 } });
