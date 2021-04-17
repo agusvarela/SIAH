@@ -109,5 +109,14 @@ namespace SIAH.Controllers
             db.SaveChanges();
             return RedirectToAction("Index", "StockFarmacia", new { hospitalId = hospitalId });
         }
+
+        // GET: Historico
+        [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
+        public ActionResult HistoricoFarmacia(int insumoId, int hospitalId)
+        {
+            ViewBag.insumo = db.Insumos.Find(insumoId).nombre;
+            ViewBag.hospitalId = hospitalId;
+            return View(db.HistoricoFarmacia.Where(h => h.hospitalId == hospitalId && h.insumoId == insumoId).ToList());
+        }
     }
 }

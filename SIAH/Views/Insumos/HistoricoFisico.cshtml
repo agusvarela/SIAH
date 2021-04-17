@@ -1,0 +1,123 @@
+﻿@model IList<SIAH.Models.Historico.HistoricoFisico>
+
+@{
+    ViewBag.Title = "Historico Físico";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="banner-catalog">
+    <div class="container">
+        <div class="col-lg-9">
+            <h1>Histórico Físico de @ViewBag.insumo</h1>
+            <div class="banner-catalog__content"> Aquí encontrará los movimientos de stock relacionados a este insumo.</div>
+        </div>
+        <div class="col-lg-3">
+            <div class="icon icon-info">
+                <i class="material-icons pull-right" style="font-size: 100px">storage</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" style=" padding-bottom: 30px;">
+
+    <div class="form-horizontal">
+
+
+        <br>
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="form-card form-card--purple form-card--tight  animated zoomIn">
+                    <div class="form-card__content group">
+
+                        <div id="alertArea  animated zoomIn">
+                            <div class="alert alert-info pq-alert  animated zoomIn">
+                                <i class="fa fa-arrow-right"></i>
+                                <span>Listado de movimientos</span>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="animated zoomIn col-md-12">
+
+                            <div class="col-md-12">
+                                <div id="table-container">
+                                    <table id="maintable" class="table table-condensed">
+                                        <thead class="listado">
+                                            <tr class="list-group-item-info" style="border-bottom: solid">
+                                                <th class="text-center" style="width: 20%">
+                                                    <h4> <strong> @Html.Name("Fecha de Movimiento")</strong></h4>
+                                                </th>
+                                                <th class="text-center" style="width: 40%">
+                                                    <h4> <strong> @Html.Name("Descripción")</strong></h4>
+                                                </th>
+                                                <th class="text-center" style="width: 20%">
+                                                    <h4> <strong> @Html.Name("Cantidad")</strong></h4>
+                                                </th>
+                                                <th class="text-center" style="width: 20%">
+                                                    <h4> <strong> @Html.Name("Saldo")</strong></h4>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        @for (var i = 0; i < Model.Count; i++)
+                                        {
+                                            <tr>
+                                                <td class="text-center" style="width: 20%">
+                                                    <h5> <strong>@Html.DisplayFor(modelItem => modelItem[i].fechaMovimiento)</strong></h5>
+                                                </td>
+                                                <td class="text-center" style="width: 40%">
+                                                    @Html.DisplayFor(modelItem => modelItem[i].descripcion)
+                                                </td>
+                                                <td class="text-center" style="width: 20%">
+                                                    @Html.DisplayFor(modelItem => modelItem[i].cantidad)
+                                                </td>
+                                                <td class="text-center" style="width: 20%">
+                                                    @Html.DisplayFor(modelItem => modelItem[i].saldo)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                            <br><br>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="margin-bottom: 0px;" />
+        <div class="col-sm-4" style="margin-top: 0px;">
+            <input type="button" value="Volver al listado de Insumos" class="btn pull-left btn-primary" onclick="location.href = '/StockFarmacia/Index?hospitalId=@ViewBag.hospitalId&fromDashboard=true'" />
+        </div>
+    </div>
+</div>
+
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#clone").DataTable();
+            $("#maintable").DataTable({
+                "order": [[0, "desc"]],
+                "fixedHeader": true,
+                "scrollY": "400px",
+                "scrollCollapse": true,
+                "oLanguage": { "sEmptyTable": "Este insumo no posee movimientos de stock por el momento." },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                },
+                dom: 'lfrtip<"row col-md-12"B>',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text:'Exportar tabla a Excel',
+                        className: 'btn btn-round btn-primary',
+                        exportOptions: {
+                            columns:[0,1,2]
+                        }
+                    }]
+            });;
+        });
+
+    </script>
+}

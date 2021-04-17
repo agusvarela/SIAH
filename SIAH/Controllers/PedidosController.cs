@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SIAH.Context;
 using SIAH.Models;
+using SIAH.Models.Historico;
 using SIAH.Models.Insumos;
 using SIAH.Models.Pedidos;
 using SIAH.Models.Remitos;
@@ -498,10 +499,12 @@ namespace SIAH.Controllers
         {
             if (ModelState.IsValid)
             {
+                DateTime fechaAutorizacion = DateTime.Today;
+
                 //A cada detalle se le modifican los atributos
                 foreach (var detalle in pedido.detallesPedido)
                 {
-                    updateStock(detalle);
+                    updateStock(detalle, fechaAutorizacion, pedido);
                     detalle.insumo = null;
                     db.Entry(detalle).State = EntityState.Modified;
                     db.SaveChanges();
@@ -531,20 +534,32 @@ namespace SIAH.Controllers
             return RedirectToAction("Listado", new { param = "Hubo un problema inesperado" });
         }
 
-        private void updateStock(DetallePedido detalle)
+        private void updateStock(DetallePedido detalle, DateTime fechaAutorizacion, Pedido pedido)
         {
             Insumo ins = db.Insumos.Find(detalle.insumoId);
             int updatedStock = ins.stock - detalle.cantidadAutorizada;
-            if (updatedStock <= 0)
+            int saldoStock = updatedStock <= 0 ? 0 : updatedStock;
+            ins.stock = saldoStock;
+
+            if (detalle.cantidadAutorizada > 0)
             {
-                ins.stock = 0;
-            }
-            else
-            {
-                ins.stock = updatedStock;
+                agregarHistoricoSIAH(detalle, fechaAutorizacion, pedido, saldoStock);
             }
 
             db.Entry(ins).State = EntityState.Modified;
+        }
+
+        private void agregarHistoricoSIAH(DetallePedido detalle, DateTime fechaAutorizacion, Pedido pedido, int saldoStock)
+        {
+            HistoricoSIAH historicoSIAH = new HistoricoSIAH();
+            historicoSIAH.insumoId = detalle.insumoId;
+            historicoSIAH.fechaMovimiento = fechaAutorizacion;
+            historicoSIAH.descripcion = "Autorización realizada al Pedido número: " + pedido.id;
+            historicoSIAH.cantidad = detalle.cantidadAutorizada;
+            historicoSIAH.saldo = saldoStock;
+            historicoSIAH.isNegative = true;
+
+            db.HistoricoSIAH.Add(historicoSIAH);
         }
 
         [AuthorizeUserAccessLevel(UserRole = "RespReporte")]

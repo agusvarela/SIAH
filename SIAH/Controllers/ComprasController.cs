@@ -12,6 +12,7 @@ using Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Net;
+using SIAH.Models.Historico;
 
 namespace SIAH.Controllers
 {
@@ -78,7 +79,7 @@ namespace SIAH.Controllers
             {
                 db.Compras.Add(compra);
                 foreach(var detalle in compra.detallesCompra) {
-                    ActualizarDatos(compra.id, detalle);
+                    ActualizarDatos(compra.id, detalle, compra.fechaEntregaEfectiva);
                 }
                 db.SaveChanges();
 
@@ -114,19 +115,48 @@ namespace SIAH.Controllers
             xlWorkBook.Close(false, "", true);
         }
 
-        private void ActualizarDatos(int compraId, DetalleCompra detalleCompra)
+        private void ActualizarDatos(int compraId, DetalleCompra detalleCompra, DateTime fechaEntregaEfectiva)
         {
             detalleCompra.compraId = compraId;
             db.DetallesCompra.Add(detalleCompra);
-            ActualizarStock(detalleCompra.insumoId, detalleCompra.cantidadComprada);
+            ActualizarStock(detalleCompra.insumoId, detalleCompra.cantidadComprada, fechaEntregaEfectiva, compraId);
         }
 
-        private void ActualizarStock(int insumoId, int cantidadComprada)
+        private void ActualizarStock(int insumoId, int cantidadComprada, DateTime fechaEntregaEfectiva, int compraId)
         {
             Insumo insumo = db.Insumos.Find(insumoId);
             insumo.stock += cantidadComprada;
             insumo.stockFisico += cantidadComprada;
             db.Entry(insumo).State = EntityState.Modified;
+
+            if (cantidadComprada > 0)
+            {
+                AgregarHistorico(insumoId, cantidadComprada, insumo.stock, fechaEntregaEfectiva, compraId);
+            }
+        }
+
+        private void AgregarHistorico(int insumoId, int cantidadComprada, int saldo, DateTime fechaEntregaEfectiva, int compraId)
+        {
+            HistoricoSIAH historicoSIAH = new HistoricoSIAH();
+            historicoSIAH.insumoId = insumoId;
+            historicoSIAH.fechaMovimiento = fechaEntregaEfectiva;
+            historicoSIAH.descripcion = "Compra realizada, Compra número: " + compraId;
+            historicoSIAH.saldo = saldo;
+            historicoSIAH.isNegative = false;
+            historicoSIAH.cantidad = cantidadComprada;
+
+            db.HistoricoSIAH.Add(historicoSIAH);
+
+
+            HistoricoFisico historicoFisico = new HistoricoFisico();
+            historicoFisico.insumoId = insumoId;
+            historicoFisico.fechaMovimiento = fechaEntregaEfectiva;
+            historicoFisico.descripcion = "Compra realizada, Compra número: " + compraId;
+            historicoFisico.saldo = saldo;
+            historicoFisico.isNegative = false;
+            historicoFisico.cantidad = cantidadComprada;
+
+            db.HistoricoFisico.Add(historicoFisico);
         }
     }
 }

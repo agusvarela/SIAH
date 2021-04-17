@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Net.Mail;
 using SIAH.Models;
 using Newtonsoft.Json;
+using SIAH.Models.Historico;
 
 namespace SIAH.Controllers
 {
@@ -118,7 +119,7 @@ namespace SIAH.Controllers
             {
                 db.Remitos.Add(remito);
                 db.SaveChanges();
-                ActualizarStockSiahConDetallesRemito(remito.id);
+                ActualizarStockSiahConDetallesRemito(remito.id, remito.fechaEntregaEfectiva);
                 ActualizarStockFarmacia(remito);
                 ActualizarPedido(remito.pedidoId);
 
@@ -170,11 +171,11 @@ namespace SIAH.Controllers
             var hospitalId = db.Pedidos.Where(p => p.id == remito.pedidoId).First().hospitalId;
             foreach (DetalleRemito item in remito.detallesRemito)
             {
-                ActualizarItem(item, hospitalId);
+                ActualizarItem(item, hospitalId, remito);
             }
         }
 
-        private void ActualizarItem(DetalleRemito item, int hospitalId)
+        private void ActualizarItem(DetalleRemito item, int hospitalId, Remito remito)
         {
             StockFarmacia insumo = db.StockFarmacias.Where(p => p.hospitalId == hospitalId &&
                                             p.insumoId == item.insumoId).First();
@@ -182,6 +183,8 @@ namespace SIAH.Controllers
             {
                 insumo.stockFarmacia = insumo.stockFarmacia + item.cantidadEntregada;
                 db.Entry(insumo).State = EntityState.Modified;
+
+                agregarHistoricoFarmacia(item, insumo.stockFarmacia, remito);
             }
             else
             {
@@ -190,10 +193,25 @@ namespace SIAH.Controllers
                 newStock.insumoId = item.insumoId;
                 newStock.stockFarmacia = item.cantidadEntregada;
                 db.StockFarmacias.Add(newStock);
+
+                agregarHistoricoFarmacia(item, insumo.stockFarmacia, remito);
             }
         }
 
-        private void ActualizarStockSiahConDetallesRemito(int idPedido)
+        private void agregarHistoricoFarmacia(DetalleRemito detalleRemito, int saldo, Remito remito)
+        {
+            HistoricoFarmacia historicoFarmacia = new HistoricoFarmacia();
+            historicoFarmacia.insumoId = detalleRemito.insumoId;
+            historicoFarmacia.fechaMovimiento = remito.fechaEntregaEfectiva;
+            historicoFarmacia.descripcion = "Se recibió una entrega del ministerio. Remito número: " + remito.pedidoId;
+            historicoFarmacia.saldo = saldo;
+            historicoFarmacia.isNegative = false;
+            historicoFarmacia.cantidad = detalleRemito.cantidadEntregada;
+
+            db.HistoricoFarmacia.Add(historicoFarmacia);
+        }
+
+        private void ActualizarStockSiahConDetallesRemito(int idPedido, DateTime fechaEntregaEfectiva)
         {
             var detallesPedido = db.DetallesPedido.Include(d => d.insumo).Include(d => d.pedido).
                 Where(d => d.pedidoId == idPedido).
@@ -224,8 +242,24 @@ namespace SIAH.Controllers
                 var newStock = insumo.stock - diff;
                 insumo.stock = newStock > 0 ? newStock: 0;
                 db.Entry(insumo).State = EntityState.Modified;
+
+                agregarHistoricoFisico(i.insumoId, i.cantidadEntregada, insumo.stockFisico, fechaEntregaEfectiva, idPedido);
+
                 db.SaveChanges();
             }
+        }
+
+        private void agregarHistoricoFisico(int insumoId, int cantidadEntregada, int saldo, DateTime fechaEntregaEfectiva, int remitoId)
+        {
+            HistoricoFisico historicoFisico = new HistoricoFisico();
+            historicoFisico.insumoId = insumoId;
+            historicoFisico.fechaMovimiento = fechaEntregaEfectiva;
+            historicoFisico.descripcion = "Entrega realizada, Remito número: " + remitoId;
+            historicoFisico.saldo = saldo;
+            historicoFisico.isNegative = true;
+            historicoFisico.cantidad = cantidadEntregada;
+
+            db.HistoricoFisico.Add(historicoFisico);
         }
 
         [AuthorizeUserAccessLevel(UserRole = "RespAutorizacion", UserRole2 = "DirectorArea")]

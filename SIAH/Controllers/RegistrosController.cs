@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SIAH.Context;
+using SIAH.Models.Historico;
 using SIAH.Models.Registro;
 
 namespace SIAH.Controllers
@@ -101,7 +102,7 @@ namespace SIAH.Controllers
                 try
                 {
                     // Actualizar el stock
-                    ActualizarStockFarmacia(registro.hospitalId, registro.detallesRegistro);
+                    ActualizarStockFarmacia(registro.hospitalId, registro.detallesRegistro, registro);
                     // Guardar el registro en la DB
                     if (db.SaveChanges() > 0)
                     {
@@ -119,7 +120,7 @@ namespace SIAH.Controllers
 
         }
 
-        private void ActualizarStockFarmacia(int idHospital, ICollection<DetalleRegistro> detalles)
+        private void ActualizarStockFarmacia(int idHospital, ICollection<DetalleRegistro> detalles, Registro registro)
         {
             foreach(var detalle in detalles)
             {
@@ -133,8 +134,23 @@ namespace SIAH.Controllers
                         stockFarmacia.stockFarmacia = 0;
                     }
                     db.Entry(stockFarmacia).State = EntityState.Modified;
+
+                    agregarHistorico(detalle, stockFarmacia.stockFarmacia, registro);
                 }
             }
+        }
+
+        private void agregarHistorico(DetalleRegistro detalleRegistro, int saldo, Registro registro)
+        {
+            HistoricoFarmacia historicoFarmacia = new HistoricoFarmacia();
+            historicoFarmacia.insumoId = detalleRegistro.insumoId;
+            historicoFarmacia.fechaMovimiento = registro.fechaGeneracion;
+            historicoFarmacia.descripcion = "Entrega de uso a: " + registro.destinatario;
+            historicoFarmacia.saldo = saldo;
+            historicoFarmacia.isNegative = detalleRegistro.isNegative;
+            historicoFarmacia.cantidad = detalleRegistro.cantidad;
+
+            db.HistoricoFarmacia.Add(historicoFarmacia);
         }
 
         // GET: Registros/Edit/5

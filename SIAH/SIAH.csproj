@@ -752,7 +752,6 @@
     <Folder Include="CargaRemitosCSV\" />
     <Folder Include="UploadedFiles\" />
     <Folder Include="Views\Formularios\" />
-    <Folder Include="Views\Historico\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
