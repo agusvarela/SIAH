@@ -12130,3 +12130,14 @@ div.dt-buttons {
         -webkit-transform: scale(1.0);
     }
 }
+
+.added-html-examlpe {
+    padding-top: 110%;
+    text-align: center;
+    overflow: visible;
+    color: #fff;
+    opacity: 0.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -53,10 +53,13 @@ namespace SIAH.Controllers
         }
 
         // GET: Reportes/ReporteConsolidado
-        public ActionResult ReporteConsolidado(String fechaInicio, String fechaFin)
+        public ActionResult ReporteConsolidado(String fechaInicio, String fechaFin, String listaTipoInsumo)
         {
+
+
             if (fechaFin != null && fechaInicio != null)
             {
+
                 var start = fechaInicio.Split('/');
                 var end = fechaFin.Split('/');
 
@@ -70,11 +73,40 @@ namespace SIAH.Controllers
 
                 var fInicio = new DateTime(y1, m1, d1);
                 var fFin = new DateTime(y2, m2, d2);
-                var datos = this.GenerarReporte(fInicio, fFin);
+
+                IEnumerable<String[]> datos;
+                if (listaTipoInsumo != null)
+                {
+                    String[] listaString;
+                    listaString = listaTipoInsumo.Split(',');
+                    int[] listadoTipoInsumo = Array.ConvertAll(listaString, int.Parse);
+                    datos = this.GenerarReporte(fInicio, fFin, listadoTipoInsumo);
+                    String names = "";
+                    bool flag = false;
+                    foreach (var id in listadoTipoInsumo)
+                    {
+                        String nameInsumo = db.TiposInsumo.Find(id).nombre;
+                        if(flag == false)
+                        {
+                            names += nameInsumo;
+                        }
+                        else
+                        {
+                            names += ", " + nameInsumo;
+                        }
+                        flag =true;
+                    }
+                    ViewBag.nombresInsumo = names;
+
+                }
+                else
+                {
+                    datos = this.GenerarReporteLegacy(fInicio, fFin);
+                }
+
                 ViewBag.fechaInicio = fechaInicio;
                 ViewBag.fechaFin = fechaFin;
                 return View(datos);
-                //return View();
             }
             else
             {
@@ -84,13 +116,14 @@ namespace SIAH.Controllers
         }
         // GET: DetallesPedido/GenerarReporte
         [AllowAnonymousAttribute]
-        public IEnumerable<String[]> GenerarReporte(DateTime fechaInicio, DateTime fechaFin)
+        public IEnumerable<String[]> GenerarReporte(DateTime fechaInicio, DateTime fechaFin, int[] listaTipoInsumo)
         {
             //Consulta a la BD para traer cada detalle con su hospital, su insumo y su cantidad
             var result = db.DetallesRemito.Join(db.Insumos, d => d.insumoId, s => s.id, (d, s) => new { d, s }).
                 Join(db.Pedidos, x => x.d.remitoId, p => p.id, (x, p) => new { x, p }).
                 Join(db.Hospitales, t => t.p.hospitalId, h => h.id, (t, h) => new { t, h }).
                 Join(db.Remitos, m => m.t.p.id, a => a.id, (m, r) => new { m, r }).
+                Where(i => listaTipoInsumo.Contains(i.m.t.x.d.insumoId)).
                 //Filtro por fecha
                 Where(k => DbFunctions.TruncateTime(k.m.t.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) && DbFunctions.TruncateTime(k.m.t.p.fechaGeneracion) <= DbFunctions.TruncateTime(fechaFin)).
                // Para mostrar el total
@@ -160,7 +193,7 @@ namespace SIAH.Controllers
                 }
 
             }
-
+            ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
             List<String[]> list = report.ToList();
             return list;
         }
@@ -241,7 +274,7 @@ namespace SIAH.Controllers
                 }
 
             }
-
+            ViewBag.tipoInsumo = new SelectList(db.TiposInsumo, "id", "nombre");
             List<String[]> list = report.ToList();
             return list;
         }
@@ -278,7 +311,7 @@ namespace SIAH.Controllers
                 var stockRow = stockFarmacia.Where(x => x.insumoId == insumo.id)
                     .Select(x => new { hosp = x.hospitalId, stock = x.stockFarmacia })
                     .ToList();
-                foreach(var stock in stockRow)
+                foreach (var stock in stockRow)
                 {
                     row[stock.hosp - 2] = stock.stock; // Hack porque los ID arrancan en 2
                 }

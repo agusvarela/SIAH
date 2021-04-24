@@ -13,7 +13,15 @@
         ViewBag.reclamo = false;
     }
 }
-
+    <div id="loading">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+            <div class="added-html-examlpe">
+                <h4><strong>Estamos generando tu reporte</strong></h4>
+            </div>
+        </div>
+    </div>
 <div class="banner-catalog1 jumbotron jumbotron-fluid bg-dark">
     <div class="container">
         <h1 class="display-4">Director de Área</h1>
@@ -289,6 +297,7 @@
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {
+            //$("#loading").css("display", "none");
             if (@ViewBag.success.ToString().ToLower() ===true) {
                     $.notify({
                         title: '<strong>Aviso!</strong><br/>',
@@ -353,6 +362,7 @@
 
         function reporteConsolidado()
         {
+            $("#loading").css("display", "block");
             var url = '@Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = "START" , fechaFin = "END" })';
 
             var nd = new Date();

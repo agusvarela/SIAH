@@ -6,10 +6,15 @@
     bool isFirst = true;
     //WebGrid grid = new WebGrid(source: Model.GetEnumerator().Current);
 }
-<div id="loading">  <div class="spinner">
-    <div class="double-bounce1"></div>
-    <div class="double-bounce2"></div> 
-</div> </div>
+<div id="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+        <div class="added-html-examlpe">
+            <h4><strong>Estamos generando tu reporte</strong></h4>
+        </div>
+    </div>
+</div>
 
 <div class="banner-catalog">
     <div class="container">
@@ -34,23 +39,27 @@
     <div class="form-horizontal ">
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-card form-card--purple form-card--tight  animated zoomIn ">
                     <div class="form-card__title info-header">
                         <div class="alert-icon">
                             <i class="material-icons">date_range</i>
-                            <strong>Período de Reporte</strong>
+                            <strong>Información del Reporte</strong>
                         </div>
                     </div>
 
                     <div class="form-card__content group">
                         <div class="form-group text-center">
                             <h4 style="margin-top:0px"> Insumos autorizados del: <br /><strong> @ViewBag.fechaInicio</strong> al<strong> @ViewBag.fechaFin</strong></h4>
+                            @if (@ViewBag.nombresInsumo != null)
+                            {
+                                <h4 style="margin-top:0px"> Insumos de tipo: <strong>@ViewBag.nombresInsumo</strong></h4>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-8" id="det">
+            <div class="col-md-9" id="det" style="z-index: 10">
                 <div class="form-card form-card--purple form-card--tight  animated zoomIn">
                     <div class="form-card__title purple-header">
                         <div class="alert-icon">
@@ -62,28 +71,36 @@
 
                         <div class="form-group">
                             <div class="col-sm-12" style="padding-top:10px; padding-bottom:9px; padding-left:0px; padding-right:0px;">
-                                <div class="col-sm-3" style="padding-left:5px; padding-right:0px;">
+                                <div class="col-sm-2" style="padding-left:5px; padding-right:0px;">
                                     @Html.Label("Desde:", htmlAttributes: new { @class = "control-label", @style = "font-size: 16px; font-weight: bold; color: #000000d1;" })
                                     <input id="inicio" style="width: 95px; border: 0; background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2);
                                                 background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" readonly />
-                                </div>
-                                <div class="col-sm-1" style="padding-top:7px; padding-left:0px;">
                                     <span id="clearFechaInicio" class="hover-pointer">
                                         <i class="material-icons" style="font-size:26px; color:#ff0000bf;">highlight_off</i>
                                     </span>
                                 </div>
 
-                                <div class="col-sm-3" style="padding-right:0px;">
+                                <div class="col-sm-2" style=" padding-left:5px; padding-right:0px;">
                                     @Html.Label("Hasta:", htmlAttributes: new { @class = "control-label", @style = "font-size: 16px; font-weight: bold; color: #000000d1;" })
                                     <input id="fin" style="width:95px; border: 0; background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2);
                                                 background-size: 0 2px, 100% 1px; line-height: 1.82857; background-repeat: no-repeat; background-position: center bottom, center calc(100% - 1px); background-color: transparent;" placeholder="DD/MM/AAAA" readonly disabled />
-                                </div>
-                                <div class="col-sm-1" style="padding-top:7px; padding-left:0px;">
                                     <span id="clearFechaFin" class="hover-pointer">
                                         <i class="material-icons" style="font-size:26px; color:#ff0000bf;">highlight_off</i>
                                     </span>
                                 </div>
-                                <div class="col-sm-4" style="padding-left:35px;">
+
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <select id="tipo_insumo" class="selectpicker show-tick" multiple data-actions-box="true" data-selected-text-format="count" title="Filtre tipo de insumo" id="tipo">
+                                            @{ var tipoInsumo = ViewBag.tipoInsumo;}
+                                            @foreach (var item in tipoInsumo)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
                                     <button id="reporte" class="btn btn-round btn-success" style="vertical-align:bottom">Generar Reporte</button><br />
                                 </div>
                             </div>
@@ -110,54 +127,54 @@
                             <div class="form-group">
                                 <div id="contenedor" class="col-md-12">
                                     <div id="table-container">
-                                        <table id="tablaReporte" class="table table-condensed table1">
+                                        <table id="tablaReporte" class="table table-condensed table1" style="width:100%">
 
                                             @foreach (var i in Model)
                                             {
 
                                                 if (isFirst == false)
                                                 {
-                                            <tr>
-                                                @{var total = 0;
-                                                    var firstColumn = true;
-                                                    var style = "";
-                                                    foreach (var e in i)
-                                                    {
-                                                        if (firstColumn) { style = "border-left-width: 0px;"; firstColumn = false; }
-                                                        else { style = ""; }
-
-                                                        var celda = e.AsInt(0);
-                                                        if (e.AsInt(1) == 0)
-                                                        {
-
-                                                            <td class="v text-center"></td>
-                                                        }
-                                                        else
-                                                        {
-                                                            if (e.AsInt(-1) == -1)
+                                                    <tr>
+                                                        @{var total = 0;
+                                                            var firstColumn = true;
+                                                            var style = "";
+                                                            foreach (var e in i)
                                                             {
-                                                                <td class="v text-center" style="@style">@e</td>
+                                                                if (firstColumn) { style = "border-left-width: 0px;"; firstColumn = false; }
+                                                                else { style = ""; }
+
+                                                                var celda = e.AsInt(0);
+                                                                if (e.AsInt(1) == 0)
+                                                                {
+
+                                                                    <td class="v text-center"></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (e.AsInt(-1) == -1)
+                                                                    {
+                                                                        <td class="v text-center" style="@style">@e</td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td class="v text-center" style="@style">@String.Format("{0:n0}", celda)</td>
+                                                                    }
+                                                                }
+
+                                                                total += celda;
+                                                            }
+                                                            if (total != 0)
+                                                            {
+                                                                <td class="v  text-center" style="font-size: large"><strong>@String.Format("{0:n0}", total)</strong></td>
                                                             }
                                                             else
                                                             {
-                                                                <td class="v text-center" style="@style">@String.Format("{0:n0}", celda)</td>
+                                                                <td class="v  text-center"></td>
                                                             }
+
+
                                                         }
-
-                                                        total += celda;
-                                                    }
-                                                    if (total != 0)
-                                                    {
-                                                        <td class="v  text-center" style="font-size: large"><strong>@String.Format("{0:n0}", total)</strong></td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td class="v  text-center"></td>
-                                                    }
-
-
-                                                }
-                                            </tr>
+                                                    </tr>
                                                 }
                                                 else
                                                 {
@@ -166,7 +183,7 @@
                                                             @{foreach (var e in i)
                                                                 {
                                                                     var styleFirstRow = "border-left-width: 0px;";
-                                                                    var prefix = ""; 
+                                                                    var prefix = "";
                                                                     if (!isFirst) { styleFirstRow = ""; prefix = "Hospital"; }
                                                                     <th class="v  text-center" style="@styleFirstRow"><strong>@prefix @e</strong></th>
                                                                     isFirst = false;
@@ -195,6 +212,9 @@
     <script type="text/javascript" src="~/Scripts/jquery.base64.js"></script>
     <script type="text/javascript" src="~/Scripts/tableExport.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <script type="text/javascript">
         function exportarExcel() {
             $('#tablaReporte').tableExport({
@@ -222,6 +242,7 @@
                 currentText: 'Hoy',
                 showButtonPanel: true
             });
+
             $('#fin').datepicker({
                 dateFormat: 'dd/mm/yy',
                 changeMonth: true,
@@ -237,7 +258,6 @@
                 currentText: 'Hoy',
                 showMonthAfterYear: true
             });
-
             $("#clearFechaInicio").hide();
             $("#clearFechaFin").hide();
             $('#reporte').prop('disabled', true);
@@ -264,7 +284,7 @@
                 .on('draw.dt', function () { $("#loading").css("display", "none");})
                 .DataTable({
                  columnDefs: [{ width: 300, targets: 0 }],
-                 fixedColumns: true, 
+                 fixedColumns: true,
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 },
@@ -276,7 +296,16 @@
                         className: 'btn btn-round btn-primary',
                     }],
                 scrollX: true
+                });
+            $(function () {
+                $('#tipo_insumo').selectpicker({
+                    iconBase: 'fas',
+                    tickIcon: 'fa-check',
+                    width:'false'
+                });
             });
+
+
         });
 
         $(document).on('change', '#inicio', function (event) {
@@ -293,14 +322,19 @@
                 $("#clearFechaFin").show();
             }
         });
-
+        $(document).on('change', '#tipo_insumo', function (event) {
+            if ($('#tipo_insumo').val() != '') {
+                $('#reporte').prop('disabled', false);
+            }
+        });
         $(document).on('click', '#reporte', function (event)
         {
             event.preventDefault();
-            var url = '@Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = "START" , fechaFin = "END" })';
+            var url = '@Html.Raw(Url.Action("ReporteConsolidado", "Reportes", new { fechaInicio = "START" , fechaFin = "END", listaTipoInsumo = "LISTA_TIPOS_INSUMOS" }))';
 
-            url = url.replace("START", $("#inicio").val());
-            url = url.replace("END", $("#fin").val());
+            url = url.replace("START", $("#inicio").val() ? $("#inicio").val() : '@ViewBag.fechaInicio');
+            url = url.replace("END", $("#fin").val() ? $("#fin").val() :  '@ViewBag.fechaFin');
+            url = url.replace("LISTA_TIPOS_INSUMOS", $("#tipo_insumo").val())
             url = url.replace("amp;", "");
             location.href = url;
         });
