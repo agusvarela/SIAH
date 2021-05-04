@@ -20,7 +20,7 @@ namespace SIAH.Models.Historico
 
         [Display(Name = "Fecha de movimiento")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime fechaMovimiento { get; set; }
 
         public string descripcion { get; set; }

@@ -175,7 +175,7 @@ namespace SIAH.Controllers
             historicoFarmacia.descripcion = "Entrega de uso a: " + registro.destinatario;
             historicoFarmacia.saldo = saldo;
             historicoFarmacia.isNegative = detalleRegistro.isNegative;
-            historicoFarmacia.cantidad = detalleRegistro.cantidad;
+            historicoFarmacia.cantidad = detalleRegistro.cantidad * (-1);
 
             db.HistoricoFarmacia.Add(historicoFarmacia);
         }
@@ -186,10 +186,10 @@ namespace SIAH.Controllers
             historicoFarmacia.insumoId = detalleRegistro.insumoId;
             historicoFarmacia.fechaMovimiento = registro.fechaGeneracion;
             historicoFarmacia.hospitalId = registro.hospitalId;
-            historicoFarmacia.descripcion = "Ajuste de stock: " + registro.info;
+            historicoFarmacia.descripcion = "Ajuste de stock: " + detalleRegistro.info;
             historicoFarmacia.saldo = saldo;
             historicoFarmacia.isNegative = detalleRegistro.isNegative;
-            historicoFarmacia.cantidad = Math.Abs(detalleRegistro.cantidad);
+            historicoFarmacia.cantidad = detalleRegistro.cantidad;
 
             db.HistoricoFarmacia.Add(historicoFarmacia);
         }

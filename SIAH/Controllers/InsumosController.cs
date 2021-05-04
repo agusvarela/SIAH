@@ -395,5 +395,21 @@ namespace SIAH.Controllers
             }
             base.Dispose(disposing);
         }
+
+        // GET: Historico SIAH
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
+        public ActionResult HistoricoSIAH(int insumoId)
+        {
+            ViewBag.insumo = db.Insumos.Find(insumoId).nombre;
+            return View(db.HistoricoSIAH.Where(h => h.insumoId == insumoId).ToList());
+        }
+
+        // GET: Historico Fisico
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
+        public ActionResult HistoricoFisico(int insumoId)
+        {
+            ViewBag.insumo = db.Insumos.Find(insumoId).nombre;
+            return View(db.HistoricoFisico.Where(h => h.insumoId == insumoId).ToList());
+        }
     }
 }
