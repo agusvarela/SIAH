@@ -245,7 +245,11 @@ namespace SIAH.Controllers
                 db.Entry(insumo).State = EntityState.Modified;
 
                 agregarHistoricoFisico(i.insumoId, i.cantidadEntregada, insumo.stockFisico, fechaEntregaEfectiva, idPedido);
-                agregarHistoricoSIAH(i.insumoId, diff, insumo.stock, fechaEntregaEfectiva, idPedido);
+
+                if (diff > 0 )
+                {
+                    agregarHistoricoSIAH(i.insumoId, diff, insumo.stock, fechaEntregaEfectiva, idPedido);
+                }
 
                 db.SaveChanges();
             }
@@ -258,7 +262,7 @@ namespace SIAH.Controllers
             historicoSIAH.fechaMovimiento = fechaEntregaEfectiva;
             historicoSIAH.descripcion = "Ajuste de entrega realizada, Remito número: " + remitoId;
             historicoSIAH.saldo = saldo;
-            historicoSIAH.isNegative = true;
+            historicoSIAH.isNegative = false;
             historicoSIAH.cantidad = cantidadEntregada;
 
             db.HistoricoSIAH.Add(historicoSIAH);
@@ -272,7 +276,7 @@ namespace SIAH.Controllers
             historicoFisico.descripcion = "Entrega realizada, Remito número: " + remitoId;
             historicoFisico.saldo = saldo;
             historicoFisico.isNegative = true;
-            historicoFisico.cantidad = cantidadEntregada;
+            historicoFisico.cantidad = cantidadEntregada * (-1);
 
             db.HistoricoFisico.Add(historicoFisico);
         }

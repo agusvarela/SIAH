@@ -172,7 +172,7 @@ namespace SIAH.Controllers
             historicoFarmacia.descripcion = "Se realizó un reclamo, Pedido número: xxxx" + pedidoId;
             historicoFarmacia.saldo = saldo;
             historicoFarmacia.isNegative = true;
-            historicoFarmacia.cantidad = detalleReclamo.cantidad;
+            historicoFarmacia.cantidad = detalleReclamo.cantidad * (-1);
 
             db.HistoricoFarmacia.Add(historicoFarmacia);
         }

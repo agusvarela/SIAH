@@ -555,7 +555,7 @@ namespace SIAH.Controllers
             historicoSIAH.insumoId = detalle.insumoId;
             historicoSIAH.fechaMovimiento = fechaAutorizacion;
             historicoSIAH.descripcion = "Autorización realizada al Pedido número: " + pedido.id;
-            historicoSIAH.cantidad = detalle.cantidadAutorizada;
+            historicoSIAH.cantidad = detalle.cantidadAutorizada * (-1);
             historicoSIAH.saldo = saldoStock;
             historicoSIAH.isNegative = true;
 
