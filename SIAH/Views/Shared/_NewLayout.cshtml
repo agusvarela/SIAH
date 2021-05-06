@@ -146,8 +146,9 @@
                                         <li role="separator" class="divider"></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Registros")'">Gestionar Registros</a></li>
                                         <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("IndexAjuste", "Registros", new { hospitalId = Session["hospitalId"], fromDashboard = true})'">Ajustar Stock</a></li>
+                                        <li role="separator" class="divider"></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReclamosRespFarmacia", "Reclamos")'">Reclamos Realizados</a></li>
-                                        <li class="hover-pointer"><a onclick="'@Url.Action("IndexAjuste", "Registros", new { hospitalId = Session["hospitalId"], fromDashboard = true})'"></a></li>
                                     </ul>
                                 </li>
                             </ul>

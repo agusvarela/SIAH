@@ -100,7 +100,7 @@
         </div>
     </div>
 
-    @Html.TextBox("fechaCargaCompra", DateTime.Today.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = DateTime.Today, @name = "fechaEntregaEfectiva", @id = "fechaCargaCompra", @type = "hidden", style = "margin-top: 0px;" })
+    @Html.TextBox("fechaCargaCompra", DateTime.Now.ToShortDateString(), htmlAttributes: new { @class = "form-control", @value = DateTime.Now, @name = "fechaEntregaEfectiva", @id = "fechaCargaCompra", @type = "hidden", style = "margin-top: 0px;" })
 
 }
 @section Scripts {

@@ -43,9 +43,9 @@
                                 <div class="form-group">
                                     <div class="col-md-4">
                                         @Html.LabelFor(model => model.fechaInicioReclamo, htmlAttributes: new { @class = "control-label col-md-7 " })
-                                        <div class="col-md-5">
-                                            @Html.TextBox("fechaInicioReclamo", DateTime.Today.ToString("yyyy-MM-dd"), htmlAttributes: new { @class = "form-control text-center", @readonly = "readonly", @value = DateTime.Today, @type = "hidden" })
-                                            <text class="form-control text-center"><strong> @DateTime.Today.ToString("yyyy-MM-dd") </strong></text>
+                                        <div class="col-md-5" style="padding-right: 0px;">
+                                            @Html.TextBox("fechaInicioReclamo", DateTime.Now.ToString("yyyy-MM-dd hh:mm"), htmlAttributes: new { @class = "form-control text-center", @readonly = "readonly", @value = DateTime.Now, @type = "hidden" })
+                                            <text class="form-control text-center"><strong> @DateTime.Now.ToString("yyyy-MM-dd hh:mm") </strong></text>
                                             @Html.ValidationMessageFor(model => model.fechaInicioReclamo, "", new { @class = "text-danger" })
                                         </div>
                                     </div>

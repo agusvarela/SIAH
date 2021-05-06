@@ -155,7 +155,9 @@ namespace SIAH.Controllers
         {
             foreach (DetalleReclamo detalleReclamo in reclamo.detallesReclamo)
             {
-                StockFarmacia stockFarmacia  = db.StockFarmacias.Find(detalleReclamo.insumoId);
+                StockFarmacia stockFarmacia  = db.StockFarmacias.Where(s => s.insumoId == detalleReclamo.insumoId && s.hospitalId == reclamo.hospitalId)
+                    .FirstOrDefault();
+
                 stockFarmacia.stockFarmacia -= detalleReclamo.cantidad;
                 db.Entry(stockFarmacia).State = EntityState.Modified;
 
@@ -169,7 +171,7 @@ namespace SIAH.Controllers
             historicoFarmacia.insumoId = detalleReclamo.insumoId;
             historicoFarmacia.hospitalId = hospitalId;
             historicoFarmacia.fechaMovimiento = fechaInicioReclamo;
-            historicoFarmacia.descripcion = "Se realizó un reclamo, Pedido número: xxxx" + pedidoId;
+            historicoFarmacia.descripcion = "Se realizó un reclamo, Pedido número: " + pedidoId;
             historicoFarmacia.saldo = saldo;
             historicoFarmacia.isNegative = true;
             historicoFarmacia.cantidad = detalleReclamo.cantidad * (-1);

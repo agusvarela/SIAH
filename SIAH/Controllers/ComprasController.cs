@@ -141,7 +141,7 @@ namespace SIAH.Controllers
             HistoricoSIAH historicoSIAH = new HistoricoSIAH();
             historicoSIAH.insumoId = insumoId;
             historicoSIAH.fechaMovimiento = fechaEntregaEfectiva;
-            historicoSIAH.descripcion = "Compra realizada, Compra número: " + nuevoIdCompra;
+            historicoSIAH.descripcion = "Compra registrada, Compra número: " + nuevoIdCompra;
             historicoSIAH.saldo = saldo;
             historicoSIAH.isNegative = false;
             historicoSIAH.cantidad = cantidadComprada;
@@ -152,7 +152,7 @@ namespace SIAH.Controllers
             HistoricoFisico historicoFisico = new HistoricoFisico();
             historicoFisico.insumoId = insumoId;
             historicoFisico.fechaMovimiento = fechaEntregaEfectiva;
-            historicoFisico.descripcion = "Compra realizada, Compra número: " + nuevoIdCompra;
+            historicoFisico.descripcion = "Compra registrada, Compra número: " + nuevoIdCompra;
             historicoFisico.saldo = saldo;
             historicoFisico.isNegative = false;
             historicoFisico.cantidad = cantidadComprada;

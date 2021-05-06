@@ -499,7 +499,7 @@ namespace SIAH.Controllers
         {
             if (ModelState.IsValid)
             {
-                DateTime fechaAutorizacion = DateTime.Today;
+                DateTime fechaAutorizacion = DateTime.Now;
 
                 //A cada detalle se le modifican los atributos
                 foreach (var detalle in pedido.detallesPedido)
