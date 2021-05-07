@@ -197,11 +197,11 @@
 
 
                                     <div class="row" style="margin-top: 20px;">
-                                        @*<div class="pull-right">
+                                        <div class="pull-right">
                                             <input id="btn_pisar" type="button" value="Sincronizar con stock de OCASA" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalActualizar" style="visibility: collapse;"/>
-                                        </div>*@
+                                        </div>
                                         <div class="pull-left">
-                                            <input id="btn_reclamo" type="button" value="Enviar reclamo a OCASA" class="btn btn-danger btn-round" data-toggle="modal" data-target="#modalReclamo" />
+                                            <input id="btn_reclamo" type="button" value="Enviar reclamo a OCASA" class="btn btn-danger btn-round pull-right" data-toggle="modal" data-target="#modalReclamo" />
                                         </div>
                                     </div>
                                 </div>
@@ -314,7 +314,7 @@
             type: 'POST',
             cache: false,
             contentType: 'application/json',
-            data: JSON.stringify({ syncData: syncList }),
+            data: JSON.stringify({ syncData: syncList, userId: @Session["userid"] }),
                 success: function (result) {
                     debugger;
                 location.reload();

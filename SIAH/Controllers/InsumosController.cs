@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using System.Net.Mail;
 using System.IO;
 using System.Reflection;
+using SIAH.Models.AjusteSIAH;
+using SIAH.Models.Historico;
 
 namespace SIAH.Controllers
 {
@@ -69,16 +71,18 @@ namespace SIAH.Controllers
             return RedirectToAction("DirectorArea", "Home", new { param = "Reclamo" });
         }
 
-        public ActionResult ActualizarStock(string[] syncData)
+        public ActionResult ActualizarStock(string[] syncData, string userId)
         {
             try
             {
+                // TODO: crear un ajuste nuevo y al recorrer los insumos ir agregando los detalles
+                // No olvidar crear los historicos para cada insumo
+                var ajuste = new AjusteSIAH();
+                ajuste.fechaGeneracion = new DateTime();
+                ajuste.info = "Sincronización con stock OCASA";
+                ajuste.usuarioId = int.Parse(userId);
                 Uri baseUri = new Uri("http://localhost:3000");
-                // Uri myUri = new Uri(baseUri, "/reclamo?name=success");
-                // var response = client.GetAsync(myUri);
-                // if (response.Result.StatusCode != HttpStatusCode.OK) return RedirectToAction("DirectorArea", "Home", new { param = "Failed" });
-                // var insumosOcasa = db.InsumoOcasa.Select(x => new { id = x.id, stockOcasa = x.stockFisico }).ToList();
-               
+                var detalles = new List<DetalleAjusteSIAH>();
                 foreach (var id in syncData)
                 {
                     var insumoActual = db.Insumos.Find(int.Parse(id));
@@ -88,13 +92,21 @@ namespace SIAH.Controllers
                         //por lo tanto calculamos la diferencia para mantener la misma respecto al nuevo stock
                         //Ej: Stock fisico = 100; Stock comprometido = 30; Stock Ocasa = 90
                         //Resultado -> Stock fisico 90; Stock comprometido = 20
+                        var diferenciaStocks = insumoOcasaActual.stockFisico - insumoActual.stockFisico;
                         var diff = insumoActual.stockFisico - insumoActual.stock; 
                         insumoActual.stockFisico = insumoOcasaActual.stockFisico <= 0 ? 0 : insumoOcasaActual.stockFisico;
                         insumoActual.stock = insumoActual.stockFisico - diff <= 0 ? 0 : insumoActual.stockFisico - diff;
                         db.Entry(insumoActual).State = EntityState.Modified;
+                        var detalleAjuste = new DetalleAjusteSIAH();
+                        detalleAjuste.insumoId = insumoActual.id;
+                        detalleAjuste.info = "Ajuste por sincronizacion con OCASA";
+                        detalleAjuste.cantidad = diferenciaStocks;
+                        detalles.Add(detalleAjuste);
+                        agregarHistoricoSIAH(ajuste, insumoActual.stock, detalleAjuste);
+                        agregarHistoricoFisico(ajuste, insumoActual.stockFisico, detalleAjuste);
                     }
-
                 }
+                ajuste.detallesAjuste = detalles;
                 db.SaveChanges();
                 return RedirectToAction("DirectorArea", "Home", new { param = "Success" });
             }
@@ -107,6 +119,33 @@ namespace SIAH.Controllers
                 });
             }
 
+        }
+
+
+        private void agregarHistoricoSIAH(AjusteSIAH ajusteSIAH, int saldo, DetalleAjusteSIAH detalle)
+        {
+            HistoricoSIAH historicoSIAH = new HistoricoSIAH();
+            historicoSIAH.insumoId = detalle.insumoId;
+            historicoSIAH.fechaMovimiento = ajusteSIAH.fechaGeneracion;
+            historicoSIAH.descripcion = "Ajuste de stock: " + detalle.info;
+            historicoSIAH.saldo = saldo;
+            historicoSIAH.isNegative = detalle.cantidad < 0 ? true : false;
+            historicoSIAH.cantidad = detalle.cantidad;
+
+            db.HistoricoSIAH.Add(historicoSIAH);
+        }
+
+        private void agregarHistoricoFisico(AjusteSIAH ajusteSIAH, int saldo, DetalleAjusteSIAH detalle)
+        {
+            HistoricoFisico historicoFisico = new HistoricoFisico();
+            historicoFisico.insumoId = detalle.insumoId;
+            historicoFisico.fechaMovimiento = ajusteSIAH.fechaGeneracion;
+            historicoFisico.descripcion = "Ajuste de stock: " + detalle.info;
+            historicoFisico.saldo = saldo;
+            historicoFisico.isNegative = detalle.cantidad < 0 ? true : false;
+            historicoFisico.cantidad = detalle.cantidad;
+
+            db.HistoricoFisico.Add(historicoFisico);
         }
         private async Task sendEmailAsync()
         {
