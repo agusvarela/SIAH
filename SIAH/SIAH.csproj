@@ -879,6 +879,7 @@
     <Content Include="Views\AjusteSIAHs\Index.cshtml" />
     <Content Include="Views\Registros\IndexAjuste.cshtml" />
     <Content Include="Views\Registros\CreateAjuste.cshtml" />
+    <Content Include="Views\Hospitales\Presupuestos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

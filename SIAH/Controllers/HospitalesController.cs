@@ -151,6 +151,13 @@ namespace SIAH.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: Hospitals
+        [AuthorizeUserAccessLevel(UserRole = "DirectorArea")]
+        public ActionResult Presupuestos()
+        {
+            return View(db.Hospitales.ToList());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
