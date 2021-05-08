@@ -155,9 +155,32 @@ namespace SIAH.Controllers
         {
             Remito remito = db.Remitos.Find(id);
             changeRemitoState(remito, 2);
+            actualizarPresupuestoHospitalEntregaPedido(remito.pedidoId, remito.detallesRemito);
             return RedirectToAction("ListadoPedidos", "Remitos");
         }
+        private void actualizarPresupuestoHospitalEntregaPedido(int pedidoId, ICollection<DetalleRemito> detalleRemitos)
+        {
+            decimal montoPedidoAutorizado = 0;
+            decimal montoEntregado = 0;
+            var detallesPedidos = db.DetallesPedido.Where(dp => dp.pedidoId == pedidoId).ToList();
+            foreach (var detalle in detallesPedidos)
+            {
+                var precioInsumo = db.Insumos.Where(p => p.id == detalle.insumoId).First().precioUnitario;
+                montoPedidoAutorizado += precioInsumo * detalle.cantidadAutorizada;
+            }
 
+            foreach (var detalle in detalleRemitos)
+            {
+                var precioInsumo = db.Insumos.Include(p => p.precioUnitario).Where(p => p.id == detalle.insumoId).First().precioUnitario;
+                montoEntregado += precioInsumo * detalle.cantidadEntregada;
+            }
+            var montoAjuste = montoPedidoAutorizado - montoEntregado;
+            var hospitalId = db.Pedidos.Where(p => p.id == pedidoId).First().hospitalId;
+            var hospital = db.Hospitales.Where(h => h.id == hospitalId).First();
+            hospital.presupuestoDisponible += montoAjuste;
+            db.Entry(hospital).State = EntityState.Modified;
+            db.SaveChanges();
+        }
         private void ActualizarPedido(int idPedido)
         {
             var pedido = db.Pedidos.Where(p => p.id == idPedido).Include(t => t.estado).Include(d => d.detallesPedido).First();
@@ -241,12 +264,12 @@ namespace SIAH.Controllers
                 //Si la diferencia existe se debe restar para sumar si fue menor o restar si fue mayor,
                 //Si es 0 no modifica el stock
                 var newStock = insumo.stock - diff;
-                insumo.stock = newStock > 0 ? newStock: 0;
+                insumo.stock = newStock > 0 ? newStock : 0;
                 db.Entry(insumo).State = EntityState.Modified;
 
                 agregarHistoricoFisico(i.insumoId, i.cantidadEntregada, insumo.stockFisico, fechaEntregaEfectiva, idPedido);
 
-                if (diff > 0 )
+                if (diff > 0)
                 {
                     agregarHistoricoSIAH(i.insumoId, diff, insumo.stock, fechaEntregaEfectiva, idPedido);
                 }

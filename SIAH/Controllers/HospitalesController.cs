@@ -18,29 +18,31 @@ namespace SIAH.Controllers
         //GET: Presupuesto
         public String getPresupuesto(int idHospital)
         {
-            decimal presupuestoRestante = db.Hospitales.Find(idHospital).presupuesto;
-            var pedidosMesActual = db.Pedidos
-                .Include(d => d.detallesPedido)
-                .Include(d => d.detallesPedido.Select(x => x.insumo))
-                .Where(
-                        x => x.hospitalId == idHospital &&
-                        x.fechaGeneracion.Month == DateTime.Today.Month &&
-                        x.fechaGeneracion.Year == DateTime.Today.Year)
-                .ToList();
-            decimal presupuestoGastado = 0;
-            foreach(var pedido in pedidosMesActual)
-            {
-                decimal gastoPedido = 0;
-                foreach (var detalle in pedido.detallesPedido)
-                {
-                    gastoPedido += detalle.insumo.precioUnitario * detalle.cantidad;
-                }
-                presupuestoGastado += gastoPedido;
-            }
+            Hospital hospital = db.Hospitales.Where(s => s.id == idHospital).First();
+            return hospital.presupuestoDisponible.ToString();
+            //decimal presupuestoRestante = db.Hospitales.Find(idHospital).presupuesto;
+            //var pedidosMesActual = db.Pedidos
+            //    .Include(d => d.detallesPedido)
+            //    .Include(d => d.detallesPedido.Select(x => x.insumo))
+            //    .Where(
+            //            x => x.hospitalId == idHospital &&
+            //            x.fechaGeneracion.Month == DateTime.Today.Month &&
+            //            x.fechaGeneracion.Year == DateTime.Today.Year)
+            //    .ToList();
+            //decimal presupuestoGastado = 0;
+            //foreach(var pedido in pedidosMesActual)
+            //{
+            //    decimal gastoPedido = 0;
+            //    foreach (var detalle in pedido.detallesPedido)
+            //    {
+            //        gastoPedido += detalle.insumo.precioUnitario * detalle.cantidad;
+            //    }
+            //    presupuestoGastado += gastoPedido;
+            //}
 
-            presupuestoRestante -= presupuestoGastado;
-            if (presupuestoRestante <= 0) presupuestoRestante = 0;
-            return presupuestoRestante.ToString();
+            //presupuestoRestante -= presupuestoGastado;
+            //if (presupuestoRestante <= 0) presupuestoRestante = 0;
+            //return presupuestoRestante.ToString();
         }
 
         // GET: Hospitals

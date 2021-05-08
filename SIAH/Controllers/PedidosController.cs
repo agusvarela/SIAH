@@ -364,7 +364,8 @@ namespace SIAH.Controllers
                         cantidadEntregada = x.r.cantidadEntregada
                     }).ToList();
                 return Json(detallesPedidoRemito, JsonRequestBehavior.AllowGet);
-            } else
+            }
+            else
             {
                 var detallesPedidoRemito = detallesPedido.
                     Select(x => new
@@ -431,6 +432,7 @@ namespace SIAH.Controllers
                     if (db.SaveChanges() > 0)
                     {
                         await SendEmailNuevoPedido(pedido);
+                        actualizarPresupuestoHospitalCreacionPedido(pedido.hospitalId, pedido.detallesPedido);
                         return RedirectToAction("RespFarmacia", new { param = "Success" });
                     }
                 }
@@ -444,6 +446,35 @@ namespace SIAH.Controllers
             return RedirectToAction("RespFarmacia", new { param = "Ocurrio un error inesperado al enviar el pedido" });
         }
 
+        private void actualizarPresupuestoHospitalCreacionPedido(int hospitalId, ICollection<DetallePedido> detallesPedido)
+        {
+            decimal montoPedido = 0;
+            foreach (var detalle in detallesPedido)
+            {
+                var insumo = db.Insumos.Where(p => p.id == detalle.insumoId).First();
+                montoPedido += insumo.precioUnitario * detalle.cantidad;
+            }
+            var hospital = db.Hospitales.Where(h => h.id == hospitalId).First();
+            hospital.presupuestoDisponible -= montoPedido;
+            db.Entry(hospital).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+        private void actualizarPresupuestoHospitalAutorizacionPedido(int hospitalId, ICollection<DetallePedido> detallesPedido)
+        {
+            decimal montoPedido = 0;
+            decimal montoPedidoAutorizado = 0;
+            foreach (var detalle in detallesPedido)
+            {
+                var precioInsumo = db.Insumos.Where(p => p.id == detalle.insumoId).First().precioUnitario;
+                montoPedido += precioInsumo * detalle.cantidad;
+                montoPedidoAutorizado += precioInsumo * detalle.cantidadAutorizada;
+            }
+            var montoAjuste = montoPedido - montoPedidoAutorizado;
+            var hospital = db.Hospitales.Where(h => h.id == hospitalId).First();
+            hospital.presupuestoDisponible += montoAjuste;
+            db.Entry(hospital).State = EntityState.Modified;
+            db.SaveChanges();
+        }
         // GET: Pedidos/Delete/5
         [AuthorizeUserAccessLevel(UserRole = "RespFarmacia")]
         public ActionResult Delete(int? id)
@@ -519,6 +550,7 @@ namespace SIAH.Controllers
                 {
                     if (db.SaveChanges() > 0)
                     {
+                        actualizarPresupuestoHospitalAutorizacionPedido(pedido.hospitalId, pedido.detallesPedido);
                         return RedirectToAction("Listado", new { param = "Success" });
                     }
                 }

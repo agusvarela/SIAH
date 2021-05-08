@@ -134,7 +134,7 @@ namespace SIAH.Controllers
                 reclamo.fechaInicioReclamo = DateTime.Today;
                 reclamo.responsableAsignadoId = null;
 
-                impactarStockFarmacia(reclamo);
+                impactarStockFarmaciaYPresupuesto(reclamo);
 
                 //Guardar toda la transacción en DB
                 db.SaveChanges();
@@ -151,8 +151,10 @@ namespace SIAH.Controllers
             return View(reclamo);
         }
 
-        private void impactarStockFarmacia(Reclamo reclamo)
+        private void impactarStockFarmaciaYPresupuesto(Reclamo reclamo)
         {
+            decimal montoReclamado = 0;
+
             foreach (DetalleReclamo detalleReclamo in reclamo.detallesReclamo)
             {
                 StockFarmacia stockFarmacia  = db.StockFarmacias.Where(s => s.insumoId == detalleReclamo.insumoId && s.hospitalId == reclamo.hospitalId)
@@ -160,9 +162,15 @@ namespace SIAH.Controllers
 
                 stockFarmacia.stockFarmacia -= detalleReclamo.cantidad;
                 db.Entry(stockFarmacia).State = EntityState.Modified;
-
+                var precioInsumo = db.Insumos.Where(p => p.id == detalleReclamo.insumoId).First().precioUnitario;
+                montoReclamado += precioInsumo*detalleReclamo.cantidad;
                 agregarHistoricoFarmacia(detalleReclamo, reclamo.fechaInicioReclamo, reclamo.pedidoId, stockFarmacia.stockFarmacia, reclamo.hospitalId);
             }
+            var hospital = db.Hospitales.Where(h => h.id == reclamo.hospitalId).First();
+            hospital.presupuestoDisponible += montoReclamado;
+            db.Entry(hospital).State = EntityState.Modified;
+            db.SaveChanges();
+
         }
 
         private void agregarHistoricoFarmacia(DetalleReclamo detalleReclamo, DateTime fechaInicioReclamo, int pedidoId, int saldo, int hospitalId)
