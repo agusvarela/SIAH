@@ -78,11 +78,11 @@ namespace SIAH.Controllers
                 // TODO: crear un ajuste nuevo y al recorrer los insumos ir agregando los detalles
                 // No olvidar crear los historicos para cada insumo
                 var ajuste = new AjusteSIAH();
-                ajuste.fechaGeneracion = new DateTime();
+                ajuste.fechaGeneracion = DateTime.Today;
                 ajuste.info = "Sincronización con stock OCASA";
                 ajuste.usuarioId = int.Parse(userId);
                 Uri baseUri = new Uri("http://localhost:3000");
-                var detalles = new List<DetalleAjusteSIAH>();
+                var detalles = new HashSet<DetalleAjusteSIAH>();
                 foreach (var id in syncData)
                 {
                     var insumoActual = db.Insumos.Find(int.Parse(id));
@@ -107,6 +107,7 @@ namespace SIAH.Controllers
                     }
                 }
                 ajuste.detallesAjuste = detalles;
+                db.AjusteSIAHs.Add(ajuste);
                 db.SaveChanges();
                 return RedirectToAction("DirectorArea", "Home", new { param = "Success" });
             }
