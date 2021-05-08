@@ -45,16 +45,16 @@
                                         <thead class="listado">
                                             <tr class="list-group-item-info" style="border-bottom: solid">
                                                 <th class="text-center" style="width: 20%">
-                                                    <h4> <strong> @Html.Name("Fecha de Movimiento")</strong></h4>
+                                                    <strong> @Html.Name("Fecha de Movimiento")</strong>
                                                 </th>
                                                 <th class="text-center" style="width: 40%">
-                                                    <h4> <strong> @Html.Name("Descripción")</strong></h4>
+                                                    <strong> @Html.Name("Descripción")</strong>
                                                 </th>
                                                 <th class="text-center" style="width: 20%">
-                                                    <h4> <strong> @Html.Name("Cantidad")</strong></h4>
+                                                    <strong> @Html.Name("Cantidad")</strong>
                                                 </th>
                                                 <th class="text-center" style="width: 20%">
-                                                    <h4> <strong> @Html.Name("Saldo")</strong></h4>
+                                                    <strong> @Html.Name("Saldo")</strong>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -62,7 +62,7 @@
                                         {
                                             <tr>
                                                 <td class="text-center" style="width: 20%">
-                                                    <h5> <strong>@Html.DisplayFor(modelItem => modelItem[i].fechaMovimiento)</strong></h5>
+                                                    <strong>@Html.DisplayFor(modelItem => modelItem[i].fechaMovimiento)</strong>
                                                 </td>
                                                 <td class="text-center" style="width: 40%">
                                                     @Html.DisplayFor(modelItem => modelItem[i].descripcion)
@@ -113,7 +113,7 @@
                         text:'Exportar tabla a Excel',
                         className: 'btn btn-round btn-primary',
                         exportOptions: {
-                            columns:[0,1,2]
+                            columns:[0,1,2,3]
                         }
                     }]
             });;

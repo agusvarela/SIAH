@@ -74,12 +74,13 @@ namespace SIAH.Controllers
             }
 
             compra.id = db.Insumos.ToList().Last().id + 1;
+            var nuevoIdCompra = db.Compras.ToList().Last().id + 1;
 
             try
             {
                 db.Compras.Add(compra);
                 foreach(var detalle in compra.detallesCompra) {
-                    ActualizarDatos(compra.id, detalle, compra.fechaEntregaEfectiva);
+                    ActualizarDatos(compra.id, detalle, compra.fechaEntregaEfectiva, nuevoIdCompra);
                 }
                 db.SaveChanges();
 
@@ -115,14 +116,14 @@ namespace SIAH.Controllers
             xlWorkBook.Close(false, "", true);
         }
 
-        private void ActualizarDatos(int compraId, DetalleCompra detalleCompra, DateTime fechaEntregaEfectiva)
+        private void ActualizarDatos(int compraId, DetalleCompra detalleCompra, DateTime fechaEntregaEfectiva, int nuevoIdCompra)
         {
             detalleCompra.compraId = compraId;
             db.DetallesCompra.Add(detalleCompra);
-            ActualizarStock(detalleCompra.insumoId, detalleCompra.cantidadComprada, fechaEntregaEfectiva, compraId);
+            ActualizarStock(detalleCompra.insumoId, detalleCompra.cantidadComprada, fechaEntregaEfectiva, nuevoIdCompra);
         }
 
-        private void ActualizarStock(int insumoId, int cantidadComprada, DateTime fechaEntregaEfectiva, int compraId)
+        private void ActualizarStock(int insumoId, int cantidadComprada, DateTime fechaEntregaEfectiva, int nuevoIdCompra)
         {
             Insumo insumo = db.Insumos.Find(insumoId);
             insumo.stock += cantidadComprada;
@@ -131,16 +132,16 @@ namespace SIAH.Controllers
 
             if (cantidadComprada > 0)
             {
-                AgregarHistorico(insumoId, cantidadComprada, insumo.stock, fechaEntregaEfectiva, compraId);
+                AgregarHistorico(insumoId, cantidadComprada, insumo.stock, fechaEntregaEfectiva, nuevoIdCompra);
             }
         }
 
-        private void AgregarHistorico(int insumoId, int cantidadComprada, int saldo, DateTime fechaEntregaEfectiva, int compraId)
+        private void AgregarHistorico(int insumoId, int cantidadComprada, int saldo, DateTime fechaEntregaEfectiva, int nuevoIdCompra)
         {
             HistoricoSIAH historicoSIAH = new HistoricoSIAH();
             historicoSIAH.insumoId = insumoId;
             historicoSIAH.fechaMovimiento = fechaEntregaEfectiva;
-            historicoSIAH.descripcion = "Compra realizada, Compra número: " + compraId;
+            historicoSIAH.descripcion = "Compra registrada, Compra número: " + nuevoIdCompra;
             historicoSIAH.saldo = saldo;
             historicoSIAH.isNegative = false;
             historicoSIAH.cantidad = cantidadComprada;
@@ -151,7 +152,7 @@ namespace SIAH.Controllers
             HistoricoFisico historicoFisico = new HistoricoFisico();
             historicoFisico.insumoId = insumoId;
             historicoFisico.fechaMovimiento = fechaEntregaEfectiva;
-            historicoFisico.descripcion = "Compra realizada, Compra número: " + compraId;
+            historicoFisico.descripcion = "Compra registrada, Compra número: " + nuevoIdCompra;
             historicoFisico.saldo = saldo;
             historicoFisico.isNegative = false;
             historicoFisico.cantidad = cantidadComprada;

@@ -119,8 +119,8 @@
                                                         <a type="button" id="edit" class="btn btn-round btn-primary" href="/Insumos/Edit/@item.id.ToString()">Actualizar</a>
                                                     </td>
                                                     <td>
-                                                        <a type="button" id="historicoFisico" class="btn btn-round btn-primary" href="/Insumos/Edit/@item.id.ToString()">SIAH</a>
-                                                        <a type="button" id="historicoSIAH" class="btn btn-round btn-primary" href="/Insumos/Edit/@item.id.ToString()">Físico</a>
+                                                        <a type="button" id="historicoFisico" class="btn btn-round btn-primary" href="/Insumos/HistoricoSIAH?insumoId=@item.id.ToString()">SIAH</a>
+                                                        <a type="button" id="historicoSIAH" class="btn btn-round btn-primary" href="/Insumos/HistoricoFisico?insumoId=@item.id.ToString()" style="margin-top: 8px;">Físico</a>
                                                     </td>
                                                 </tr>
                                             }

@@ -184,7 +184,7 @@ namespace SIAH.Controllers
                 insumo.stockFarmacia = insumo.stockFarmacia + item.cantidadEntregada;
                 db.Entry(insumo).State = EntityState.Modified;
 
-                agregarHistoricoFarmacia(item, insumo.stockFarmacia, remito);
+                agregarHistoricoFarmacia(item, insumo.stockFarmacia, remito, hospitalId);
             }
             else
             {
@@ -194,14 +194,15 @@ namespace SIAH.Controllers
                 newStock.stockFarmacia = item.cantidadEntregada;
                 db.StockFarmacias.Add(newStock);
 
-                agregarHistoricoFarmacia(item, insumo.stockFarmacia, remito);
+                agregarHistoricoFarmacia(item, insumo.stockFarmacia, remito, hospitalId);
             }
         }
 
-        private void agregarHistoricoFarmacia(DetalleRemito detalleRemito, int saldo, Remito remito)
+        private void agregarHistoricoFarmacia(DetalleRemito detalleRemito, int saldo, Remito remito, int hospitalId)
         {
             HistoricoFarmacia historicoFarmacia = new HistoricoFarmacia();
             historicoFarmacia.insumoId = detalleRemito.insumoId;
+            historicoFarmacia.hospitalId = hospitalId;
             historicoFarmacia.fechaMovimiento = remito.fechaEntregaEfectiva;
             historicoFarmacia.descripcion = "Se recibió una entrega del ministerio. Remito número: " + remito.pedidoId;
             historicoFarmacia.saldo = saldo;
@@ -245,8 +246,26 @@ namespace SIAH.Controllers
 
                 agregarHistoricoFisico(i.insumoId, i.cantidadEntregada, insumo.stockFisico, fechaEntregaEfectiva, idPedido);
 
+                if (diff > 0 )
+                {
+                    agregarHistoricoSIAH(i.insumoId, diff, insumo.stock, fechaEntregaEfectiva, idPedido);
+                }
+
                 db.SaveChanges();
             }
+        }
+
+        private void agregarHistoricoSIAH(int insumoId, int cantidadEntregada, int saldo, DateTime fechaEntregaEfectiva, int remitoId)
+        {
+            HistoricoSIAH historicoSIAH = new HistoricoSIAH();
+            historicoSIAH.insumoId = insumoId;
+            historicoSIAH.fechaMovimiento = fechaEntregaEfectiva;
+            historicoSIAH.descripcion = "Ajuste de entrega realizada, Remito número: " + remitoId;
+            historicoSIAH.saldo = saldo;
+            historicoSIAH.isNegative = false;
+            historicoSIAH.cantidad = cantidadEntregada;
+
+            db.HistoricoSIAH.Add(historicoSIAH);
         }
 
         private void agregarHistoricoFisico(int insumoId, int cantidadEntregada, int saldo, DateTime fechaEntregaEfectiva, int remitoId)
@@ -257,7 +276,7 @@ namespace SIAH.Controllers
             historicoFisico.descripcion = "Entrega realizada, Remito número: " + remitoId;
             historicoFisico.saldo = saldo;
             historicoFisico.isNegative = true;
-            historicoFisico.cantidad = cantidadEntregada;
+            historicoFisico.cantidad = cantidadEntregada * (-1);
 
             db.HistoricoFisico.Add(historicoFisico);
         }

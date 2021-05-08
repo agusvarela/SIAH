@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using SIAH.Context;
+using SIAH.Models;
+using SIAH.Models.Historico;
+using SIAH.Models.Insumos;
 using SIAH.Models.Pedidos;
 using SIAH.Models.Reclamos;
 
@@ -130,6 +133,9 @@ namespace SIAH.Controllers
                 reclamo.estadoReclamoId = 1; //Generado
                 reclamo.fechaInicioReclamo = DateTime.Today;
                 reclamo.responsableAsignadoId = null;
+
+                impactarStockFarmacia(reclamo);
+
                 //Guardar toda la transacción en DB
                 db.SaveChanges();
                 await SendEmailReclamo(reclamo);
@@ -143,6 +149,34 @@ namespace SIAH.Controllers
             ViewBag.responsableAsignadoId = new SelectList(db.UserAccounts, "id", "nombre", reclamo.responsableAsignadoId);
             ViewBag.tipoReclamoId = new SelectList(db.TipoReclamoes, "id", "tipo", reclamo.tipoReclamoId);
             return View(reclamo);
+        }
+
+        private void impactarStockFarmacia(Reclamo reclamo)
+        {
+            foreach (DetalleReclamo detalleReclamo in reclamo.detallesReclamo)
+            {
+                StockFarmacia stockFarmacia  = db.StockFarmacias.Where(s => s.insumoId == detalleReclamo.insumoId && s.hospitalId == reclamo.hospitalId)
+                    .FirstOrDefault();
+
+                stockFarmacia.stockFarmacia -= detalleReclamo.cantidad;
+                db.Entry(stockFarmacia).State = EntityState.Modified;
+
+                agregarHistoricoFarmacia(detalleReclamo, reclamo.fechaInicioReclamo, reclamo.pedidoId, stockFarmacia.stockFarmacia, reclamo.hospitalId);
+            }
+        }
+
+        private void agregarHistoricoFarmacia(DetalleReclamo detalleReclamo, DateTime fechaInicioReclamo, int pedidoId, int saldo, int hospitalId)
+        {
+            HistoricoFarmacia historicoFarmacia = new HistoricoFarmacia();
+            historicoFarmacia.insumoId = detalleReclamo.insumoId;
+            historicoFarmacia.hospitalId = hospitalId;
+            historicoFarmacia.fechaMovimiento = fechaInicioReclamo;
+            historicoFarmacia.descripcion = "Se realizó un reclamo, Pedido número: " + pedidoId;
+            historicoFarmacia.saldo = saldo;
+            historicoFarmacia.isNegative = true;
+            historicoFarmacia.cantidad = detalleReclamo.cantidad * (-1);
+
+            db.HistoricoFarmacia.Add(historicoFarmacia);
         }
 
         private async Task SendEmailReclamo(Reclamo reclamo)

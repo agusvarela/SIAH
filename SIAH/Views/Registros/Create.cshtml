@@ -113,7 +113,7 @@
                             <div class="col-sm-12">
                                 <div class="col-sm-6" style="padding-left: 0px;">
                                     <div class="form-group">
-                                        <select class="form-control" id="tipo">
+                                        <select class="form-control" id="tipoIns">
                                             <option value="">Seleccione un tipo de Insumo</option>
                                             @{ var tipoInsumo = ViewBag.tipoInsumo;}
                                             @foreach (var item in tipoInsumo)
@@ -320,7 +320,7 @@
                 contentType: "application/json; charset=utf-8",
                 data: {
                     term: request.term,
-                    id: $('#tipo').val()
+                    id: $('#tipoIns').val()
                 },
                 success: function (data) {
                     response(data);
@@ -442,7 +442,7 @@
             //Vacia los text box
             $('#q').val("");
             $('#cantidad').val("");
-            $('#tipo').val("");
+            $('#tipoIns').val("");
             $('#btn_addInsumo').attr('disabled', true);
         }
         function reiniciarInputs() {

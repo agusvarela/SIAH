@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SIAH.Context;
 using SIAH.Models.AjusteSIAH;
+using SIAH.Models.Historico;
 
 namespace SIAH.Controllers
 {
@@ -89,6 +90,9 @@ namespace SIAH.Controllers
                 insumo.stock = insumo.stock + detalle.cantidad;
                 insumo.stockFisico = insumo.stockFisico + detalle.cantidad;
 
+                agregarHistoricoSIAH(ajusteSIAH, insumo.stock, detalle);
+                agregarHistoricoFisico(ajusteSIAH, insumo.stockFisico, detalle);
+
                 db.Entry(insumo).State = EntityState.Modified;
 
             }
@@ -114,6 +118,32 @@ namespace SIAH.Controllers
 
             ViewBag.usuarioId = new SelectList(db.UserAccounts, "id", "nombre", ajusteSIAH.usuarioId);
             return View(ajusteSIAH);
+        }
+
+        private void agregarHistoricoSIAH(AjusteSIAH ajusteSIAH, int saldo, DetalleAjusteSIAH detalle)
+        {
+            HistoricoSIAH historicoSIAH = new HistoricoSIAH();
+            historicoSIAH.insumoId = detalle.insumoId;
+            historicoSIAH.fechaMovimiento = ajusteSIAH.fechaGeneracion;
+            historicoSIAH.descripcion = "Ajuste de stock: " + detalle.info;
+            historicoSIAH.saldo = saldo;
+            historicoSIAH.isNegative = detalle.cantidad < 0 ? true : false;
+            historicoSIAH.cantidad = detalle.cantidad;
+
+            db.HistoricoSIAH.Add(historicoSIAH);
+        }
+
+        private void agregarHistoricoFisico(AjusteSIAH ajusteSIAH, int saldo, DetalleAjusteSIAH detalle)
+        {
+            HistoricoFisico historicoFisico = new HistoricoFisico();
+            historicoFisico.insumoId = detalle.insumoId;
+            historicoFisico.fechaMovimiento = ajusteSIAH.fechaGeneracion;
+            historicoFisico.descripcion = "Ajuste de stock: " + detalle.info;
+            historicoFisico.saldo = saldo;
+            historicoFisico.isNegative = detalle.cantidad < 0 ? true : false;
+            historicoFisico.cantidad = detalle.cantidad;
+
+            db.HistoricoFisico.Add(historicoFisico);
         }
 
         // GET: AjusteSIAHs/Edit/5

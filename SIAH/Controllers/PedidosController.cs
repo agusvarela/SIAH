@@ -499,7 +499,7 @@ namespace SIAH.Controllers
         {
             if (ModelState.IsValid)
             {
-                DateTime fechaAutorizacion = DateTime.Today;
+                DateTime fechaAutorizacion = DateTime.Now;
 
                 //A cada detalle se le modifican los atributos
                 foreach (var detalle in pedido.detallesPedido)
@@ -555,7 +555,7 @@ namespace SIAH.Controllers
             historicoSIAH.insumoId = detalle.insumoId;
             historicoSIAH.fechaMovimiento = fechaAutorizacion;
             historicoSIAH.descripcion = "Autorización realizada al Pedido número: " + pedido.id;
-            historicoSIAH.cantidad = detalle.cantidadAutorizada;
+            historicoSIAH.cantidad = detalle.cantidadAutorizada * (-1);
             historicoSIAH.saldo = saldoStock;
             historicoSIAH.isNegative = true;
 
