@@ -582,7 +582,7 @@
                                                 <th style="width:12%; font-weight:bold" class="text-center">Cantidad Entregada</th>
                                                 <th style="width:10%; font-weight:bold" class="text-center">Diferencia</th>
                                                 <th style="width:15%; font-weight:bold" class="text-center">Precio Unitario</th>
-                                                <th style="width:15%; font-weight:bold" text-align="center">Subtotal Autorizado</th>
+                                                <th style="width:15%; font-weight:bold" text-align="center">Subtotal Entregado</th>
                                                 <th style="width:15%; font-weight:bold" text-align="center">Observación Entrega</th>
                                             </tr>
                                         </thead>
@@ -594,7 +594,7 @@
                                         <div class="pull-right col-sm-4" id="cuadritos1" style="padding-right:10px;height: 50px;">
                                             <div class="card" style="box-shadow: 1px 1px 9px black; display:flex">
                                                 <div class="col-sm-6 text-center text-" style="display: flex; align-items: center;">
-                                                    @Html.Label("Total Autorizado", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px;" })
+                                                    @Html.Label("Total Entregado", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px;" })
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <strong>
@@ -708,7 +708,7 @@
                     var $tdPrecioUnitario = $('<td  style="width:17%" align="center">').append("$" + $precioAMostrar);
 
 
-                    var $subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
+                    var $subtotalAutorizado = item.precioUnitario * item.cantidadEntregada;
                     var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
                     var $tdSubtotalAutorizado = $('<td  style="width:15%" align="center">').append("$" + $subtotalAutAMostrar);
 

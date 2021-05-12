@@ -104,7 +104,7 @@ namespace SIAH.Controllers
                     HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     return result;
                 }
-                else if (detalle.cantidadEntregada > item.cantAutorizada || detalle.cantidadEntregada < 0)
+                else if (detalle.cantidadEntregada < 0)
                 {
                     string errorValue = "El insumoId: " + detalle.insumoId + " posee una canidad incorrecta.";
                     var result = Content(JsonConvert.SerializeObject(new { error = errorValue }), "application/json; charset=utf-8");
