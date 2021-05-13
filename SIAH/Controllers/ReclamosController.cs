@@ -131,7 +131,7 @@ namespace SIAH.Controllers
                 //Generacion del reclamo
                 db.Reclamoes.Add(reclamo);
                 reclamo.estadoReclamoId = 1; //Generado
-                reclamo.fechaInicioReclamo = DateTime.Today;
+                reclamo.fechaInicioReclamo = DateTime.Now;
                 reclamo.responsableAsignadoId = null;
 
                 impactarStockFarmaciaYPresupuesto(reclamo);
