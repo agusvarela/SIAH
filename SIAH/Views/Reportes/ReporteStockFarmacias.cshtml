@@ -72,6 +72,13 @@
                     },
                     scrollX: true,
                     columns: headers,
+                    dom: 'lfrtip<"row col-md-12"B>',
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: 'Exportar tabla a Excel',
+                            className: 'btn btn-round btn-primary',
+                        }],
                 });
 
 
