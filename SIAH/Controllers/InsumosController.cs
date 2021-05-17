@@ -78,7 +78,7 @@ namespace SIAH.Controllers
                 // TODO: crear un ajuste nuevo y al recorrer los insumos ir agregando los detalles
                 // No olvidar crear los historicos para cada insumo
                 var ajuste = new AjusteSIAH();
-                ajuste.fechaGeneracion = DateTime.Today;
+                ajuste.fechaGeneracion = DateTime.UtcNow;
                 ajuste.info = "Sincronización con stock OCASA";
                 ajuste.usuarioId = int.Parse(userId);
                 Uri baseUri = new Uri("http://localhost:3000");
