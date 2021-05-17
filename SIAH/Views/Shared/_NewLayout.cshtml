@@ -85,9 +85,11 @@
                                         <li role="separator" class="divider"></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Reportes")'">Reportes</a></li>
-                                        <li role="separator" class="divider"></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("OcasaInventario", "Insumos")'">Stock OCASA</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReporteStockFarmacias", "Reportes")'">Stock de Hospitales</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Presupuestos", "Hospitales")'">Presupuestos Hospitales</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -109,18 +111,20 @@
                                     <ul class="dropdown-menu">
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("Listado", "Pedidos")'">Administrar Pedidos</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">Reclamos</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">Remitos</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Stock</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("ControlStock", "Insumos")'">Control de Stock</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">Stock de Insumos</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Compras")'">Administrar Compras</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("OcasaInventario", "Insumos")'">Stock OCASA</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "AjusteSIAHs")'">Ajustes Stock</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReporteStockFarmacias", "Reportes")'">Stock de Hospitales</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Account")'">Usuarios</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("Index", "Hospitales")'">Hospitales</a></li>
+                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("Presupuestos", "Hospitales")'">Presupuestos Hospitales</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li class="hover-pointer"><a onclick="reporteConsolidado()">Reporte consolidado</a></li>
-                                        <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReporteStockFarmacias", "Reportes")'">Reporte Stock de Hospitales</a></li>
                                         <li class="hover-pointer"><a onclick="location.href='@Url.Action("ReporteBI", "Reportes")'">Reportes BI</a></li>
                                     </ul>
                                 </li>

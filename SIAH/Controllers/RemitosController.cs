@@ -155,7 +155,8 @@ namespace SIAH.Controllers
         {
             Remito remito = db.Remitos.Find(id);
             changeRemitoState(remito, 2);
-            actualizarPresupuestoHospitalEntregaPedido(remito.pedidoId, remito.detallesRemito);
+            var detallesRemito = db.DetallesRemito.Where(dr => dr.remitoId == id).ToList();
+            actualizarPresupuestoHospitalEntregaPedido(remito.pedidoId, detallesRemito);
             return RedirectToAction("ListadoPedidos", "Remitos");
         }
         private void actualizarPresupuestoHospitalEntregaPedido(int pedidoId, ICollection<DetalleRemito> detalleRemitos)
@@ -171,7 +172,7 @@ namespace SIAH.Controllers
 
             foreach (var detalle in detalleRemitos)
             {
-                var precioInsumo = db.Insumos.Include(p => p.precioUnitario).Where(p => p.id == detalle.insumoId).First().precioUnitario;
+                var precioInsumo = db.Insumos.Where(p => p.id == detalle.insumoId).First().precioUnitario;
                 montoEntregado += precioInsumo * detalle.cantidadEntregada;
             }
             var montoAjuste = montoPedidoAutorizado - montoEntregado;
