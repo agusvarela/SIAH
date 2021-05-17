@@ -75,6 +75,7 @@ namespace SIAH.Controllers
 
             compra.id = db.Insumos.ToList().Last().id + 1;
             var nuevoIdCompra = db.Compras.ToList().Last().id + 1;
+            compra.fechaCargaCompra = DateTime.UtcNow;
 
             try
             {
