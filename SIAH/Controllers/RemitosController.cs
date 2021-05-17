@@ -269,9 +269,9 @@ namespace SIAH.Controllers
 
                 agregarHistoricoFisico(i.insumoId, i.cantidadEntregada, insumo.stockFisico, fechaEntregaEfectiva, idPedido);
 
-                if (diff > 0)
+                if (diff != 0)
                 {
-                    agregarHistoricoSIAH(i.insumoId, diff, insumo.stock, fechaEntregaEfectiva, idPedido);
+                    agregarHistoricoSIAH(i.insumoId, -diff, insumo.stock, fechaEntregaEfectiva, idPedido);
                 }
 
                 db.SaveChanges();
