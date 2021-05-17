@@ -13,15 +13,15 @@
         ViewBag.reclamo = false;
     }
 }
-    <div id="loading">
-        <div class="spinner">
-            <div class="double-bounce1"></div>
-            <div class="double-bounce2"></div>
-            <div class="added-html-examlpe">
-                <h4><strong>Estamos generando tu reporte</strong></h4>
-            </div>
+<div id="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+        <div class="added-html-examlpe">
+            <h4><strong>Estamos generando tu reporte</strong></h4>
         </div>
     </div>
+</div>
 <div class="banner-catalog1 jumbotron jumbotron-fluid bg-dark">
     <div class="container">
         <h1 class="display-4">Director de Área</h1>
@@ -31,277 +31,274 @@
 <div class="container" style="padding-bottom: 30px;">
     <div class="row">
         <div class="col-md-12">
-
-            <div class="col-md-12">
-                <div id="alertArea  animated zoomIn">
-                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
-                        <i class="fa fa-arrow-right"></i>
-                        <span class="tituloPanel">Gestión de pedidos</span>
-                    </div>
-                </div>
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Listado", "Pedidos")'">
-                    <div class="card card-project col myhover hover-pointer">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-success">
-                                    <i class="material-icons">send</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a>Administrar Pedidos</a>
-                                </h4>
-                                <p>Controle y autorice pedidos de insumos. <br /> &nbsp; <br /> &nbsp;</p>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">
-                    <div class="card card-project col myhover hover-pointer">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-danger">
-                                    <i class="material-icons">report</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a href="">Reclamos</a>
-                                </h4>
-                                <p>Gestione, asigne y vea el historial de los reclamos realizados sobre pedidos de insumos.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">
-                    <div class="card card-project col myhover hover-pointer">
-
-                        <div class="content text-center">
-                            <div class="info" style="padding-bottom: 33px;">
-                                <div class="icon icon-info">
-                                    <i class="material-icons">assignment</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a href="../Remitos/ListadoPedidos">Remitos</a>
-                                </h4>
-                                <p style="margin-bottom: 28px;">Revise los remitos de envíos de Ocasa para llevar un control de los mismos.</p>
-                            </div>
-                        </div>
-                    </div>
+            <div id="alertArea  animated zoomIn">
+                <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                    <i class="fa fa-arrow-right"></i>
+                    <span class="tituloPanel">Gestión de pedidos</span>
                 </div>
             </div>
-            <div class="col-md-12">
-                <div id="alertArea  animated zoomIn">
-                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
-                        <i class="fa fa-arrow-right tituloPanel"></i>
-                        <span class="tituloPanel">Gestión de inventario</span>
-                    </div>
-                </div>
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ControlStock", "Insumos")'">
-                    <div class="card card-project col myhover hover-pointer">
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Listado", "Pedidos")'">
+                <div class="card card-project col myhover hover-pointer">
 
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-success">
-                                    <i class="material-icons">equalizer</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a>Control de Stock</a>
-                                </h4>
-                                <p>Controle las diferencias entre el stock en OCASA y el stock de SIAH. <br /> &nbsp; </p>
-
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-success">
+                                <i class="material-icons">send</i>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">
-                    <div class="card card-project col myhover hover-pointer">
+                            <h4 class="info-title">
+                                <a>Administrar Pedidos</a>
+                            </h4>
+                            <p>Controle y autorice pedidos de insumos. <br /> &nbsp; <br /> &nbsp;</p>
 
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-info">
-                                    <i class="material-icons">view_module</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a>Stock de Insumos</a>
-                                </h4>
-                                <p>Gestione los insumos disponibles para pedidos con la posibilidad de controlar el stock disponible.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Compras")'">
-                    <div class="card card-project col myhover hover-pointer">
 
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-success">
-                                    <i class="material-icons">work</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a>Administrar compras</a>
-                                </h4>
-                                <p>Cargue remitos de compra de insumos. Requiere un documento de compra en cierto formato.</p>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("OcasaInventario", "Insumos")'">
-                    <div class="card card-project col myhover hover-pointer">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="col-lg-12">
-                                    <img class="pull-center" src="~/Content/img/ocasa.png" style="max-height:100px; max-width:200px; margin-top:20px; margin-bottom:53px" />
-                                </div>
-                                <h4 class="info-title">
-                                    <a>Gestionar Stock OCASA</a>
-                                </h4>
-                                <p>Lleve un control de inventario de los insumos disponibles en OCASA.</p>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "AjusteSIAHs")'">
-                    <div class="card card-project col myhover hover-pointer">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-info">
-                                    <i class="material-icons">sync</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a>Ajustes de Stock</a>
-                                </h4>
-                                <p>Genere ajustes de stock para registrar las inconsistencias que puedan generarse por reclamos u otras situaciones.</p>
-
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-12">
-                <div id="alertArea  animated zoomIn">
-                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
-                        <i class="fa fa-arrow-right"></i>
-                        <span class="tituloPanel">Gestión de usuarios y hospitales</span>
-                    </div>
-                </div>
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Account")'">
-                    <div class="card card-project col myhover hover-pointer">
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">
+                <div class="card card-project col myhover hover-pointer">
 
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-info">
-                                    <i class="material-icons">person</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a href="">Usuarios</a>
-                                </h4>
-                                <p>Gestione los usuarios que tienen acceso al sistema, cada rol tiene los permisos correspondientes.</p>
-
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                                <i class="material-icons">report</i>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Hospitales")'">
-                    <div class="card card-project col myhover hover-pointer">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-danger">
-                                    <i class="material-icons">local_hospital</i>
-                                </div>
-                                <h4 class="info-title">
-                                    <a href="">Hospitales</a>
-                                </h4>
-                                <p>Puede visualizar y editar la información de cada hospital. <br /> &nbsp;   </p>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Presupuestos", "Hospitales")'">
-                    <div class="card card-project col myhover hover-pointer">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-success">
-                                    <i class="material-icons">paid</i>
-                                </div>
-                                <h4 class="info-title">Presupuestos hospitales</h4>
-                                <p>
-                                    Este reporte puede controlar los presupuestos de los hospitales. <br /> &nbsp;
-                                </p>
-                            </div>
+                            <h4 class="info-title">
+                                <a href="">Reclamos</a>
+                            </h4>
+                            <p>Gestione, asigne y vea el historial de los reclamos realizados sobre pedidos de insumos.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-12">
-                <div id="alertArea  animated zoomIn">
-                    <div class="alert alert-info pq-alert  degradado animated zoomIn">
-                        <i class="fa fa-arrow-right"></i>
-                        <span class="tituloPanel">Reportes</span>
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info" style="padding-bottom: 33px;">
+                            <div class="icon icon-info">
+                                <i class="material-icons">assignment</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="../Remitos/ListadoPedidos">Remitos</a>
+                            </h4>
+                            <p style="margin-bottom: 28px;">Revise los remitos de envíos de Ocasa para llevar un control de los mismos.</p>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div id="alertArea  animated zoomIn">
+                <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                    <i class="fa fa-arrow-right tituloPanel"></i>
+                    <span class="tituloPanel">Gestión de inventario</span>
+                </div>
+            </div>
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ControlStock", "Insumos")'">
+                <div class="card card-project col myhover hover-pointer">
 
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="reporteConsolidado()">
-                    <div class="card card-project col myhover hover-pointer">
-
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-danger">
-                                    <i class="material-icons">show_chart</i>
-                                </div>
-                                <h4 class="info-title">Reporte consolidado</h4>
-                                <p>
-                                    Este reporte muestra la cantidad de insumos que han sido autorizados,
-                                    por cada hospital.
-                                </p>
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-success">
+                                <i class="material-icons">equalizer</i>
                             </div>
+                            <h4 class="info-title">
+                                <a>Control de Stock</a>
+                            </h4>
+                            <p>Controle las diferencias entre el stock en OCASA y el stock de SIAH. <br /> &nbsp; </p>
 
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReporteStockFarmacias", "Reportes")'">
-                    <div class="card card-project col myhover hover-pointer">
+            </div>
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("StockInsumos", "Insumos")'">
+                <div class="card card-project col myhover hover-pointer">
 
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-info">
-                                    <i class="material-icons">dashboard</i>
-                                </div>
-                                <h4 class="info-title">Reporte Stock de Hospitales</h4>
-                                <p>
-                                    Este reporte muestra la cantidad de insumos que cada hospital tiene disponibles.
-                                </p>
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-info">
+                                <i class="material-icons">view_module</i>
                             </div>
+                            <h4 class="info-title">
+                                <a>Stock de Insumos</a>
+                            </h4>
+                            <p>Gestione los insumos disponibles para pedidos con la posibilidad de controlar el stock disponible.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Compras")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-success">
+                                <i class="material-icons">work</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a>Administrar compras</a>
+                            </h4>
+                            <p>Cargue remitos de compra de insumos. Requiere un documento de compra en cierto formato.</p>
 
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReporteBI", "Reportes")'">
-                    <div class="card card-project col myhover hover-pointer">
+            </div>
 
-                        <div class="content text-center">
-                            <div class="info">
-                                <div class="icon icon-danger">
-                                    <img src="~/Content/img/power-bi-1.jpg" style="max-height:90px; max-width:90px;" />
-                                </div>
-                                <h4 class="info-title">Reportes BI</h4>
-                                <p>
-                                    Estos reportes muestran información avanzada de Business Intelligence sobre los pedidos.
-                                </p>
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("OcasaInventario", "Insumos")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="col-lg-12">
+                                <img class="pull-center" src="~/Content/img/ocasa.png" style="max-height:100px; max-width:200px; margin-top:20px; margin-bottom:53px" />
                             </div>
+                            <h4 class="info-title">
+                                <a>Gestionar Stock OCASA</a>
+                            </h4>
+                            <p>Lleve un control de inventario de los insumos disponibles en OCASA.</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "AjusteSIAHs")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-info">
+                                <i class="material-icons">sync</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a>Ajustes de Stock</a>
+                            </h4>
+                            <p>Genere ajustes de stock para registrar las inconsistencias que puedan generarse por reclamos u otras situaciones.</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReporteStockFarmacias", "Reportes")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-info">
+                                <i class="material-icons">inventory</i>
+                            </div>
+                            <h4 class="info-title">Stock de Hospitales</h4>
+                            <p>
+                                Este reporte muestra la cantidad de insumos que cada hospital tiene disponibles.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div id="alertArea  animated zoomIn">
+                <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                    <i class="fa fa-arrow-right"></i>
+                    <span class="tituloPanel">Gestión de usuarios y hospitales</span>
+                </div>
+            </div>
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Account")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-info">
+                                <i class="material-icons">person</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="">Usuarios</a>
+                            </h4>
+                            <p>Gestione los usuarios que tienen acceso al sistema, cada rol tiene los permisos correspondientes.</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Hospitales")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                                <i class="material-icons">local_hospital</i>
+                            </div>
+                            <h4 class="info-title">
+                                <a href="">Hospitales</a>
+                            </h4>
+                            <p>Puede visualizar y editar la información de cada hospital. <br /> &nbsp;   </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Presupuestos", "Hospitales")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-success">
+                                <i class="material-icons">paid</i>
+                            </div>
+                            <h4 class="info-title">Presupuestos hospitales</h4>
+                            <p>
+                                Visualice el presupuesto y el disponible de cada hospital <br /> &nbsp;
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div id="alertArea  animated zoomIn">
+                <div class="alert alert-info pq-alert  degradado animated zoomIn">
+                    <i class="fa fa-arrow-right"></i>
+                    <span class="tituloPanel">Reportes</span>
+                </div>
+            </div>
+
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="reporteConsolidado()">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                                <i class="material-icons">show_chart</i>
+                            </div>
+                            <h4 class="info-title">Reporte consolidado</h4>
+                            <p>
+                                Este reporte muestra la cantidad de insumos que han sido autorizados,
+                                por cada hospital.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReporteBI", "Reportes")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                                <img src="~/Content/img/power-bi-1.jpg" style="max-height:90px; max-width:90px;" />
+                            </div>
+                            <h4 class="info-title">Reportes BI</h4>
+                            <p>
+                                Estos reportes muestran información avanzada de Business Intelligence sobre los pedidos.
+                            </p>
                         </div>
                     </div>
                 </div>

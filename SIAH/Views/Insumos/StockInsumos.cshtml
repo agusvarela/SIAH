@@ -16,8 +16,8 @@
         <div class="col-lg-9">
             <h1>Inventario de insumos disponibles</h1>
             <div class="banner-catalog__content">
-                <p>Aquí puede visualizar los insumos disponibles y su correspondiente stock actual en el sistema.</p>
-                <p style="font-style: italic; font-size: x-small;">* El stock real en el depósito de OCASA puede variar respecto al que figura en este listado.</p>
+                <p>Aquí puede visualizar los insumos que pueden ser autorizados y entregados con su correspondiente stock.</p>
+                <p style="font-style: italic; font-size: x-small;">* El stock real en el depósito de OCASA puede variar respecto al stock físico que figura en este listado.</p>
             </div>
         </div>
         <div class="col-lg-3">
@@ -82,6 +82,9 @@
                                                     @Html.Name("Stock SIAH")
                                                 </th>
                                                 <th class="text-center">
+                                                    @Html.Name("Stock Físico")
+                                                </th>
+                                                <th class="text-center">
                                                     @Html.Name("Precio unitario")
                                                 </th>
                                                 <th class="text-center">
@@ -99,30 +102,33 @@
                                         <tbody>
                                             @foreach (var item in Model)
                                             {
-                                                <tr class="text-center  ">
-                                                    <td>
-                                                        <strong>@Html.DisplayFor(modelItem => item.id)</strong>
-                                                    </td>
-                                                    <td>
-                                                        <strong>@Html.DisplayFor(modelItem => item.nombre)</strong>
-                                                    </td>
-                                                    <td>
-                                                        <strong>@Html.DisplayFor(modelItem => item.stock)</strong>
-                                                    </td>
-                                                    <td>
-                                                        <strong>$ @Html.DisplayFor(modelItem => item.precioUnitario)</strong>
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
-                                                    </td>
-                                                    <td>
-                                                        <a type="button" id="edit" class="btn btn-round btn-primary" href="/Insumos/Edit/@item.id.ToString()">Actualizar</a>
-                                                    </td>
-                                                    <td>
-                                                        <a type="button" id="historicoFisico" class="btn btn-round btn-primary" href="/Insumos/HistoricoSIAH?insumoId=@item.id.ToString()">SIAH</a>
-                                                        <a type="button" id="historicoSIAH" class="btn btn-round btn-primary" href="/Insumos/HistoricoFisico?insumoId=@item.id.ToString()" style="margin-top: 8px;">Físico</a>
-                                                    </td>
-                                                </tr>
+                                            <tr class="text-center  ">
+                                                <td>
+                                                    <strong>@Html.DisplayFor(modelItem => item.id)</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>@Html.DisplayFor(modelItem => item.nombre)</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>@Html.DisplayFor(modelItem => item.stock)</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>@Html.DisplayFor(modelItem => item.stockFisico)</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>$ @Html.DisplayFor(modelItem => item.precioUnitario)</strong>
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.tiposInsumo.nombre)
+                                                </td>
+                                                <td>
+                                                    <a type="button" id="edit" class="btn btn-round btn-primary" href="/Insumos/Edit/@item.id.ToString()">Actualizar</a>
+                                                </td>
+                                                <td>
+                                                    <a type="button" id="historicoFisico" class="btn btn-round btn-primary" href="/Insumos/HistoricoSIAH?insumoId=@item.id.ToString()">SIAH</a>
+                                                    <a type="button" id="historicoSIAH" class="btn btn-round btn-primary" href="/Insumos/HistoricoFisico?insumoId=@item.id.ToString()" style="margin-top: 8px;">Físico</a>
+                                                </td>
+                                            </tr>
                                             }
 
                                         </tbody>

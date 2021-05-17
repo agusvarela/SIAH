@@ -8,12 +8,13 @@
         <p class="lead">En este dashboard encontrará sus funcionalidades de Autorización</p>
     </div>
 </div>
-<div class="container col-container" style="padding-bottom: 30px;">
+<div class="container" style="padding-bottom: 30px;">
 
 
-    <div class="row">
-        <div class="col-sm-11" style="margin-left:200px">
-            <div class="col-sm-2 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Listado", "Pedidos")'">
+    <div class="row" style="display:block">
+        <div class="col-sm-12">
+
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Listado", "Pedidos")'">
                 <div class="card card-project col myhover hover-pointer">
                     <div class="content text-center">
                         <div class="info" style="padding-bottom: 9px;">
@@ -28,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-2 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoPedidos", "Remitos")'">
                 <div class="card card-project col myhover hover-pointer">
 
                     <div class="content text-center">
@@ -44,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-2 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ListadoReclamos", "Reclamos")'">
                 <div class="card card-project col myhover hover-pointer">
 
                     <div class="content text-center">
@@ -60,23 +61,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-2 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Index", "Reportes")'">
-                <div class="card card-project col myhover hover-pointer">
 
-                    <div class="content text-center">
-                        <div class="info">
-                            <div class="icon icon-danger">
-                                <i class="material-icons">description</i>
-                            </div>
-                            <h4 class="info-title">Reportes</h4>
-                            <p>Genere reportes que lo ayudarán a la toma de decisiones a la hora de Autorizar.</p>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-2 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("OcasaInventario", "Insumos")'">
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("OcasaInventario", "Insumos")'">
                 <div class="card card-project col myhover hover-pointer">
 
                     <div class="content text-center">
@@ -92,7 +78,44 @@
                 </div>
             </div>
         </div>
+
     </div>
+    <div class="row" style="display:block">
+        <div class="col-sm-12">
+
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("ReporteStockFarmacias", "Reportes")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-warning">
+                                <i class="material-icons">inventory_2</i>
+                            </div>
+                            <h4 class="info-title">Stocks Hospitales</h4>
+                            <p>Visualice los stocks disponibles de farmacias</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 animated zoomIn view overlay zoom " onclick="location.href='@Url.Action("Presupuestos", "Hospitales")'">
+                <div class="card card-project col myhover hover-pointer">
+
+                    <div class="content text-center">
+                        <div class="info">
+                            <div class="icon icon-success">
+                                <i class="material-icons">paid</i>
+                            </div>
+                            <h4 class="info-title">Presupuestos hospitales</h4>
+                            <p>Visualice los presupuestos disponibles de hospitales.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @section Scripts{
