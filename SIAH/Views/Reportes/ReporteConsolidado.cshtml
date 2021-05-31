@@ -127,7 +127,7 @@
                             <div class="form-group">
                                 <div id="contenedor" class="col-md-12">
                                     <div id="table-container">
-                                        <table id="tablaReporte" class="table1 table table-condensed">
+                                        <table id="tablaReporte" class="table1 table table-condensed"  style="width:100%">
 
                                             @foreach (var i in Model)
                                             {
@@ -214,7 +214,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <script type="text/javascript">
-
+        var table;
         $(document).ready(function () {
             document.querySelector('#fin').style.borderBottom = "1px dotted #D2D2D2";
             document.querySelector('#fin').style.backgroundImage = "none";
@@ -272,7 +272,7 @@
                 $('#fin').val('');
                 $("#inicio").datepicker("option", "maxDate", $('#fin').val());
             });
-            var table = $("#tablaReporte")
+            $("#tablaReporte")
                 .on('draw.dt', function () { $("#loading").css("display", "none");})
                 .DataTable({
                 "language": {
@@ -297,7 +297,6 @@
                 });
             });
         });
-
         $(document).on('change', '#inicio', function (event) {
             if ($('#inicio').val() != '') {
                 $("#clearFechaInicio").show();
