@@ -227,7 +227,7 @@ namespace SIAH.Controllers
             HistoricoFarmacia historicoFarmacia = new HistoricoFarmacia();
             historicoFarmacia.insumoId = detalleRemito.insumoId;
             historicoFarmacia.hospitalId = hospitalId;
-            historicoFarmacia.fechaMovimiento = remito.fechaEntregaEfectiva;
+            historicoFarmacia.fechaMovimiento = DateTime.UtcNow;
             historicoFarmacia.descripcion = "Se recibió una entrega del ministerio. Remito número: " + remito.pedidoId;
             historicoFarmacia.saldo = saldo;
             historicoFarmacia.isNegative = false;
@@ -283,7 +283,7 @@ namespace SIAH.Controllers
         {
             HistoricoSIAH historicoSIAH = new HistoricoSIAH();
             historicoSIAH.insumoId = insumoId;
-            historicoSIAH.fechaMovimiento = fechaEntregaEfectiva;
+            historicoSIAH.fechaMovimiento = DateTime.UtcNow;
             historicoSIAH.descripcion = "Ajuste de entrega realizada, Remito número: " + remitoId;
             historicoSIAH.saldo = saldo;
             historicoSIAH.isNegative = false;
@@ -296,7 +296,7 @@ namespace SIAH.Controllers
         {
             HistoricoFisico historicoFisico = new HistoricoFisico();
             historicoFisico.insumoId = insumoId;
-            historicoFisico.fechaMovimiento = fechaEntregaEfectiva;
+            historicoFisico.fechaMovimiento = DateTime.UtcNow;
             historicoFisico.descripcion = "Entrega realizada, Remito número: " + remitoId;
             historicoFisico.saldo = saldo;
             historicoFisico.isNegative = true;
