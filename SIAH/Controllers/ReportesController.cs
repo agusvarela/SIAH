@@ -75,7 +75,7 @@ namespace SIAH.Controllers
                 var fFin = new DateTime(y2, m2, d2);
 
                 IEnumerable<String[]> datos;
-                if (listaTipoInsumo != null)
+                if (listaTipoInsumo != null && listaTipoInsumo != "")
                 {
                     String[] listaString;
                     listaString = listaTipoInsumo.Split(',');
@@ -86,7 +86,7 @@ namespace SIAH.Controllers
                     foreach (var id in listadoTipoInsumo)
                     {
                         String nameInsumo = db.TiposInsumo.Find(id).nombre;
-                        if(flag == false)
+                        if (flag == false)
                         {
                             names += nameInsumo;
                         }
@@ -94,7 +94,7 @@ namespace SIAH.Controllers
                         {
                             names += ", " + nameInsumo;
                         }
-                        flag =true;
+                        flag = true;
                     }
                     ViewBag.nombresInsumo = names;
 
@@ -123,7 +123,7 @@ namespace SIAH.Controllers
                 Join(db.Pedidos, x => x.d.remitoId, p => p.id, (x, p) => new { x, p }).
                 Join(db.Hospitales, t => t.p.hospitalId, h => h.id, (t, h) => new { t, h }).
                 Join(db.Remitos, m => m.t.p.id, a => a.id, (m, r) => new { m, r }).
-                Where(i => listaTipoInsumo.Contains(i.m.t.x.d.insumoId)).
+                Where(i => listaTipoInsumo.Contains(i.m.t.x.s.tipoInsumoId)).
                 //Filtro por fecha
                 Where(k => DbFunctions.TruncateTime(k.m.t.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) && DbFunctions.TruncateTime(k.m.t.p.fechaGeneracion) <= DbFunctions.TruncateTime(fechaFin)).
                // Para mostrar el total
@@ -133,27 +133,34 @@ namespace SIAH.Controllers
                ToList();
 
             //Declaro la cantidad de filas y de columnas
-            var rows = db.Insumos.ToList().Count() + 1;
+            var rows = db.Insumos.ToList().Where(i => listaTipoInsumo.Contains(i.tipoInsumoId)).Count() + 1;
             var columns = db.Hospitales.Join(db.Pedidos, x => x.id, p => p.hospitalId, (x, p) => new { x, p }).
                 Join(db.Remitos, m => m.p.id, a => a.id, (m, r) => new { m, r }).
                 Where(k => DbFunctions.TruncateTime(k.m.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) &&
                 DbFunctions.TruncateTime(k.m.p.fechaGeneracion) <= DbFunctions.TruncateTime(fechaFin)).
                 GroupBy(x => new { hospital = x.m.x.nombre }, (key, g) => new { Hospital = key.hospital }).
-                Count() + 1;
+                Count() + 2;
 
             //Armo el Vector
             String[][] report = new String[rows][]; //columns en segundo argumento
             for (int i = 0; i < rows; i++) { report[i] = new String[columns]; }
-            report[0][0] = "Insumo";
+            report[0][0] = "Id";
+            report[0][1] = "Insumo";
+
             /* var hospitales = db.Hospitales.Select(x => new { x.nombre }).ToList();
              var p = 1;
              foreach( var h in hospitales) { report[0, p] = h.nombre; p++; }*/
 
-            var insumos = db.Insumos.Select(x => new { x.nombre }).ToList();
+            var insumos = db.Insumos.Select(x => new { x.id, x.nombre, x.tipoInsumoId }).Where(x => listaTipoInsumo.Contains(x.tipoInsumoId)).ToList();
             var q = 1;
-            foreach (var s in insumos) { report[q][0] = s.nombre; q++; }
+            foreach (var s in insumos)
+            {
+                report[q][0] = s.id.ToString();
+                report[q][1] = s.nombre;
+                q++;
+            }
 
-            var j = 0;
+            var j = 1;
             foreach (var r in result)
             {
                 if (j < columns)
@@ -164,9 +171,9 @@ namespace SIAH.Controllers
                         report[0][j] = r.Hospital;
                         for (var i = 1; i < rows; i++)
                         {
-                            if (report[i][0] == r.Insumo)
+                            if (report[i][1] == r.Insumo)
                             {
-                                report[i][j] = String.Format("{0:n0}", r.Cantidad);
+                                report[i][j] = r.Cantidad.ToString();
                             }
                             else
                             {
@@ -180,9 +187,9 @@ namespace SIAH.Controllers
                         for (var i = 1; i < rows; i++)
                         {
 
-                            if (report[i][0] == r.Insumo)
+                            if (report[i][1] == r.Insumo)
                             {
-                                report[i][j] = String.Format("{0:n0}", r.Cantidad);
+                                report[i][j] = r.Cantidad.ToString();
                             }
                             else
                             {
@@ -220,21 +227,25 @@ namespace SIAH.Controllers
                 Where(k => DbFunctions.TruncateTime(k.p.fechaGeneracion) >= DbFunctions.TruncateTime(fechaInicio) &&
                 DbFunctions.TruncateTime(k.p.fechaGeneracion) <= DbFunctions.TruncateTime(fechaFin)).
                 GroupBy(x => new { hospital = x.x.nombre }, (key, g) => new { Hospital = key.hospital }).
-                Count() + 1;
+                Count() + 2;
 
             //Armo el Vector
             String[][] report = new String[rows][]; //columns en segundo argumento
             for (int i = 0; i < rows; i++) { report[i] = new String[columns]; }
-            report[0][0] = "Insumo";
+            report[0][0] = "Id";
+            report[0][1] = "Insumo";
             /* var hospitales = db.Hospitales.Select(x => new { x.nombre }).ToList();
              var p = 1;
              foreach( var h in hospitales) { report[0, p] = h.nombre; p++; }*/
 
-            var insumos = db.Insumos.Select(x => new { x.nombre }).ToList();
+            var insumos = db.Insumos.Select(x => new { x.nombre, x.id }).ToList();
             var q = 1;
-            foreach (var s in insumos) { report[q][0] = s.nombre; q++; }
+            foreach (var s in insumos) { 
+                report[q][0] = s.id.ToString();
+                report[q][1] = s.nombre;
+                q++; }
 
-            var j = 0;
+            var j = 1;
             foreach (var r in result)
             {
                 if (j < columns)
@@ -245,7 +256,7 @@ namespace SIAH.Controllers
                         report[0][j] = r.Hospital;
                         for (var i = 1; i < rows; i++)
                         {
-                            if (report[i][0] == r.Insumo)
+                            if (report[i][1] == r.Insumo)
                             {
                                 report[i][j] = r.Cantidad.ToString();
                             }
@@ -261,7 +272,7 @@ namespace SIAH.Controllers
                         for (var i = 1; i < rows; i++)
                         {
 
-                            if (report[i][0] == r.Insumo)
+                            if (report[i][1] == r.Insumo)
                             {
                                 report[i][j] = r.Cantidad.ToString();
                             }

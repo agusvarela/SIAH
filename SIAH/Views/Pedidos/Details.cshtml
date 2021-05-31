@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <hr class="no-margin-bottom"/>
+                <hr class="no-margin-bottom" />
             }
             <div class="row">
                 <div class="col-md-12">
@@ -636,10 +636,10 @@
                                     </table>
 
                                     <div class="col-sm-12">
-                                        <div class="pull-rigth col-sm-4" id="cuadritos1" style="padding-right:10px">
+                                        <div class="pull-rigth col-sm-4" id="cuadritos1" style="padding-right:10px; padding-top:10px;">
                                             <div class="card" style="box-shadow: 1px 1px 9px black; display:flex">
                                                 <div class="col-sm-6 text-center text-" style="display: flex; align-items: center;">
-                                                    @Html.Label("Total Solicitado", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px;" })
+                                                    @Html.Label("Monto Total Solicitado", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px;" })
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <strong>
@@ -651,15 +651,30 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <div class="pull-right col-sm-4" id="cuadritos1" style="padding-right:10px;height: 50px;">
+                                        <div class="pull-right col-sm-4" id="cuadritos1" style="padding-right:10px;">
                                             <div class="card" style="box-shadow: 1px 1px 9px black; display:flex">
                                                 <div class="col-sm-6 text-center text-" style="display: flex; align-items: center;">
-                                                    @Html.Label("Total Autorizado", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px;" })
+                                                    @Html.Label("Monto Total Autorizado", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px;" })
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <strong>
                                                         @Html.TextBox("totalAut", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot", @type = "hidden" })
                                                         <text class="form-control text-center tot" id="totalAutorizadoAMostrar"></text>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="pull-right col-sm-4" id="cuadritos1" style="padding-right:10px;height: 50px;">
+                                            <div class="card" style="box-shadow: 1px 1px 9px black; display:flex">
+                                                <div class="col-sm-6 text-center text-" style="display: flex; align-items: center;">
+                                                    @Html.Label("Monto Total Entregado", null, htmlAttributes: new { @class = "control-label", @style = "size: 18px;" })
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <strong>
+                                                        @Html.TextBox("totalAut", 0, htmlAttributes: new { @readonly = "readonly", @class = "form-control text-center tot", @type = "hidden" })
+                                                        <text class="form-control text-center tot" id="totalEntregadoAMostrar"></text>
                                                     </strong>
                                                 </div>
                                             </div>
@@ -689,7 +704,7 @@
                                 @if (Session["rol"].ToString() == "RespFarmacia" && Model.estadoId == 6)
                                 {
                                     <br />
-                                    <input type="button" id="btn_recibido" value="Recibir Pedido" class="btn pull-right btn-success"/>
+                                    <input type="button" id="btn_recibido" value="Recibir Pedido" class="btn pull-right btn-success" />
                                     <input type="button" id="btn_reclamar1" value="Reclamar Pedido" class="btn pull-left btn-danger" />
                                 }
                             </div>
@@ -803,6 +818,7 @@
             $.get(urlDetalle, null, function (lista) {
                 var total = 0;
                 var totalAutorizado = 0;
+                var totalEntregado = 0;
                 for (var i = 0, len = lista.length; i < len; i++) {
                     var item = lista[i];
                     var $tdInsumo = $('<td class="text-center">').append(item.nombre);
@@ -822,16 +838,19 @@
                     var $subtotalAutorizado = item.precioUnitario * item.cantidadAutorizada;
                     var $subtotalAutAMostrar = new Intl.NumberFormat('de-DE').format($subtotalAutorizado);
                     var $tdSubtotalAutorizado = $('<td class="text-center">').append("$" + $subtotalAutAMostrar);
+                    var $subtotalEntregado = item.precioUnitario * item.cantidadEntregada;
 
                     var $tr = $('<tr>').append($tdInsumo, $tdTipo, $tdCantidad, $tdCantidadAutorizada, $tdCantidadEntregada, $tdPrecioUnitario, $tdSubtotalAutorizado);
                     total += $subtotalCalculado;
                     totalAutorizado += $subtotalAutorizado;
+                    totalEntregado += $subtotalEntregado
 
                     table.row.add($tr);
                     table.draw();
                 }
                 var $totalAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(total).toFixed(2));
                 var $totalAutorizadoAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(totalAutorizado).toFixed(2));
+                var $totalEntregadoAMostrar = new Intl.NumberFormat('de-DE').format(parseFloat(totalEntregado).toFixed(2));
                 $('#total').val("$" + $totalAMostrar);
                 $('#totalText').html("$" + $totalAMostrar);
                 $('#totalAMostrar').html("$" + $totalAMostrar);
@@ -839,6 +858,8 @@
                 $('#totalAutorizado').val("$" + $totalAutorizadoAMostrar);
                 $('#totalAturizadoText').html("$" + $totalAutorizadoAMostrar);
                 $('#totalAutorizadoAMostrar').html("$" + $totalAutorizadoAMostrar);
+                $('#totalEntregadoAMostrar').html("$" + $totalEntregadoAMostrar);
+
 
                 if (parseFloat($('#presupuesto').val().replace("$", "").replaceAll(".", "")) < total) {
                     $('#presuSpan').text("El costo del pedido supera el presupuesto");
