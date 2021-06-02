@@ -66,7 +66,9 @@
                 });
                 var table = $("#tablaReporte").DataTable({
                     columnDefs: [{ width: 300, targets: 0 }],
-                    fixedColumns: true,
+                    fixedColumns: {
+                        leftColumns: 1,
+                    },
                     "language": {
                         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                     },

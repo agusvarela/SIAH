@@ -78,6 +78,7 @@
                                                         @if (item.responsableAsignado != null)
                                                         {
                                                             @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                            @Html.DisplayFor(modelItem => item.responsableAsignado.nombre)
                                                         }
                                                     </td>
                                                     <td class="text-center">
@@ -109,7 +110,7 @@
                                                     <td class="text-center">
                                                         @if (item.responsableAsignado != null)
                                                         {
-                                                            @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                            @Html.Label(string.Format("{0} {1}", item.responsableAsignado.apellido, item.responsableAsignado.nombre))
                                                         }
                                                     </td>
                                                     <td class="text-center">
@@ -142,11 +143,11 @@
                                                     <td class="text-center">
                                                         @if (item.responsableAsignado != null)
                                                         {
-                                                            @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                            @Html.Label(string.Format("{0} {1}", item.responsableAsignado.apellido, item.responsableAsignado.nombre))
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        @Html.DisplayFor(modelItem => item.estadoReclamo.nombreEstado)
+                                                        @Html.Display(item.responsableAsignado.nombre + " " + item.responsableAsignado.apellido)
                                                     </td>
                                                     <td class="text-center">
                                                     </td>
@@ -169,7 +170,7 @@
                                                     <td class="text-center">
                                                         @if (item.responsableAsignado != null)
                                                         {
-                                                            @Html.DisplayFor(modelItem => item.responsableAsignado.apellido)
+                                                            @Html.Label(string.Format("{0} {1}", item.responsableAsignado.apellido, item.responsableAsignado.nombre))
                                                         }
                                                     </td>
                                                     <td class="text-center">
