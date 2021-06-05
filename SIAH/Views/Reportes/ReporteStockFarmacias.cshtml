@@ -90,7 +90,7 @@
                     currentRow.append('<td class="text-center" style="font-weight: bold;">' + data.insumos[i] + '</td>');
                     for (let j = 0; j < 40; j++) {
                         if (data.values[i][j] !== undefined) {
-                            currentRow.append('<td class="text-center">' + data.values[i][j] + '</td>');
+                            currentRow.append('<td class="text-center">' + numberWithCommas(data.values[i][j]) + '</td>');
                         } else {
                             currentRow.append('<td class="text-center">0</td>');
                         }
@@ -102,6 +102,10 @@
                 table.draw();
                 table.on('draw.dt', function () { $("#loading").css("display", "none"); })
             });
+
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
 
         });
 

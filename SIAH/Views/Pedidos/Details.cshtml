@@ -825,9 +825,9 @@
 
                     var $tdTipo = $('<td class="text-center">').append(item.tipo);
 
-                    var $tdCantidad = $('<td class="text-center">').append(item.cantidad);
-                    var $tdCantidadAutorizada = $('<td class="text-center">').append(item.cantidadAutorizada);
-                    var $tdCantidadEntregada = $('<td class="text-center">').append(item.cantidadEntregada);
+                    var $tdCantidad = $('<td class="text-center">').append(numberWithCommas(item.cantidad));
+                    var $tdCantidadAutorizada = $('<td class="text-center">').append(numberWithCommas(item.cantidadAutorizada));
+                    var $tdCantidadEntregada = $('<td class="text-center">').append(numberWithCommas(item.cantidadEntregada));
 
                     var $precioAMostrar = new Intl.NumberFormat('de-DE').format(item.precioUnitario);
                     var $tdPrecioUnitario = $('<td class="text-center">').append("$" + $precioAMostrar);
@@ -875,6 +875,10 @@
 
 
             });
+
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
         });
 
     </script>

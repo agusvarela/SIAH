@@ -593,7 +593,7 @@
 
                         var cantidadNumerica = parseInt($('#cantidad').val());
                         var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesPedido[' + indice + '][cantidad]').attr('id', 'detallesPedido[' + indice + '][cantidad]').val(cantidadNumerica);
-                        var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(cantidadNumerica).append($cantidad);
+                        var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(numberWithCommas(cantidadNumerica)).append($cantidad);
 
                         var $subtotalCalculado = data.precioUnitario * $('#cantidad').val();
                         var $subtotalAMostrar = new Intl.NumberFormat('de-DE').format($subtotalCalculado);
@@ -644,20 +644,20 @@
                     elementoCantidad.setAttribute("value", cantidadNueva);
 
                     var elementoCantidadVisible = document.getElementById('[' + i + ']cantidadVisible');
-                    elementoCantidadVisible.innerHTML = elementoCantidadVisible.innerHTML.replace(cantidadAnterior.toString(), cantidadNueva);
+                    elementoCantidadVisible.innerHTML = elementoCantidadVisible.innerHTML.replace(numberWithCommas(cantidadAnterior.toString()), numberWithCommas(cantidadNueva));
 
                     //Se obtiene los elementos HTML de subtotal
                     var elementoSubTotal = document.getElementById('detallesPedido[' + i + '][subtotal]');
                     //Se obtienen los subtotales a modificar
                     var precioUnitario = parseFloat(document.getElementById('detallesPedido[' + i + '][insumo][precioUnitario]').getAttribute("value").replace(",", "."));
-                    var subTotalAnterior = parseFloat(elementoSubTotal.getAttribute("value").replace(",", "."));
+                    var subTotalAnterior = parseFloat(elementoSubTotal.getAttribute("value").replaceAll(".", "").replace(",", "."));
                     var subTotalASumar = precioUnitario * cantidadIngresada;
                     var nuevoSubTotal = new Intl.NumberFormat('de-DE').format(parseFloat(subTotalASumar + subTotalAnterior).toFixed(2));
                     //Se actualiza los valores de subtotal en la respectiva fila
                     elementoSubTotal.setAttribute("value", nuevoSubTotal.toString().replace(".", ","));
 
                     var elementoSubTotalVisible = document.getElementById('[' + i + ']subTotalVisible');
-                    elementoSubTotalVisible.innerHTML = elementoSubTotalVisible.innerHTML.replace(subTotalAnterior.toString().replace(".", ","), nuevoSubTotal.toString().replace(".", ","));
+                    elementoSubTotalVisible.innerHTML = elementoSubTotalVisible.innerHTML.replace(elementoSubTotalVisible.innerText, nuevoSubTotal.toString());
 
                     //Se actualiza el total del pedido
                     total += subTotalASumar;
@@ -735,6 +735,9 @@
                 }
             }
 
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
         });
     </script>
 }

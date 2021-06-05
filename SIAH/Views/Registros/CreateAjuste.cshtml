@@ -426,7 +426,7 @@
                             cantidadNumerica *= -1;
                         }
                         var $cantidad = $('<input>').attr('type', 'hidden').attr('name', 'detallesRegistro[' + indice + '][cantidad]').attr('id', 'detallesRegistro[' + indice + '][cantidad]').val(cantidadNumerica);
-                        var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(cantidadNumerica).append($cantidad);
+                        var $tdCantidad = $('<td>').addClass('text-center').attr('id', '[' + indice + ']cantidadVisible').html(numberWithCommas(cantidadNumerica)).append($cantidad);
 
                         var $just = $('<input>').attr('type', 'hidden').attr('name', 'detallesRegistro[' + indice + '][info]').attr('id', 'detallesRegistro[' + indice + '][info]').val(justificacion);
                         var $tdJustificacion = $('<td>').addClass('text-center').attr('id', '[' + indice + ']justvisible').html(justificacion).append($just);
@@ -449,6 +449,10 @@
                     }
                 }
             });
+
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
         });
 
         function vaciarTextBox() {
